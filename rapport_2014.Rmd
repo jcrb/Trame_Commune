@@ -3,10 +3,11 @@ title: "Rapport 2014 - version FEDORU"
 author: "JcB"
 date: "28/01/2015"
 output:
-  pdf_document:
-    toc: yes
   html_document:
     keep_md: yes
+    number_sections: yes
+    toc: yes
+  pdf_document:
     toc: yes
 ---
 
@@ -16,24 +17,28 @@ Rapport 2014 respectant les préconisations de la FEDORU
 La proposition ici se fait autour de 4 points (représentant chacun une partie de rapport) :
 
 ```{r prerequis, echo=FALSE}
+library(lubridate)
 
 pathXPS <- "../../Stat Resural/"
-pathMAC <- ""
+pathMAC <- "../../Stat Resural/"
 
-path <- pathXPS
+#path <- pathXPS
+path <- pathMAC
 
-load(paste0(path, "RPU_2014/rpu2014d0112_c.Rda")) # d14 = données 2014 corrigées
-dx <- d14                     # dx est le terme générique pour désigner le dataframe de l'année courante
+file_test <- "RPU_2014/rpu2015d01.Rda" # fichier de test
+file_actif <- "RPU_2014/rpu2014d0112_c.Rda" # données de 2014
 
+load(paste0(path, file_test)) # d14 = données 2014 corrigées
+dx <- d01                     # dx est le terme générique pour désigner le dataframe de l'année courante
+rm(d01)
 anc <- 2014    # année courante
 anp <- anc - 1 # année précédente
 ```
 
-
 le ‘préambule’ 
 ==============
-
-En préalable à des résultats d’activité, cette partie peut donner un panorama de l’offre de soins en local, une description des dispositifs de remontées de données, une présentation d’actualités, mais doit surtout faire un point sur les données utilisées (suivi qualitatif et quantitatif).
+    
+    En préalable à des résultats d’activité, cette partie peut donner un panorama de l’offre de soins en local, une description des dispositifs de remontées de données, une présentation d’actualités, mais doit surtout faire un point sur les données utilisées (suivi qualitatif et quantitatif).
 
 a. Cartographie l’offre de soins (positionner les SU, SMUR) +/- organisation des soins (ex : PDSA)
 
@@ -43,79 +48,174 @@ c. Point sur le fonctionnement du concentrateur régional : organisation, flux d
 
 i. Exhaustivité des données urgences 
 
-    - Nombre de SU transmettant des données / Nombre total de SU
-    - Nombre total de RPU / Nb total de passages SRVA
-    - Nombre total de RPU / Nb total de passages SAE (suivant disponibilité)
-    
+- Nombre de SU transmettant des données / Nombre total de SU
+- Nombre total de RPU / Nb total de passages SRVA
+- Nombre total de RPU / Nb total de passages SAE (suivant disponibilité)
+
 ii. Qualité des données urgences
 
-    - Nombre de logiciel différents utilisés dans la région.
-    - Graphique en araignée du taux de complétude (% donnée manquante) (après correction données aberrantes) des variables RPU, au moins sexe, âge, durée séjour, ccmu, orientation, code diag principal, motif de recours.
-    - Critères de cohérences :
-        - % CCMU 4 et 5 sortie externe.
-        - % Diagnostic hors thésaurus SFMU
-        - % âge > 18 ans dans SU pédiatriques.
-        - % diag féminin chez homme et inverse
-
+- Nombre de logiciel différents utilisés dans la région.
+- Graphique en araignée du taux de complétude (% donnée manquante) (après correction données aberrantes) des variables RPU, au moins sexe, âge, durée séjour, ccmu, orientation, code diag principal, motif de recours.
+- Critères de cohérences :
+    - % CCMU 4 et 5 sortie externe.
+- % Diagnostic hors thésaurus SFMU
+- % âge > 18 ans dans SU pédiatriques.
+- % diag féminin chez homme et inverse
 
 d.      Les travaux de la FEDORU et les travaux nationaux
 
-
 le tableau récapitulatif dénommé “Chiffres clefs”
 =================================================
+    
+Parfois en début de rapport, parfois en fin, c’est une partie courte et synthétique présentant, sous forme de chiffres clefs, les grands déterminants de l'activité. Choix d’un titre commun. 
 
-parfois en début de rapport, parfois en fin, c’est une partie courte et synthétique présentant, sous forme de chiffres clefs, les grands déterminants de l'activité. Choix d’un titre commun. 
+__CORE [C]__ obligatoire __SUPPLEMENTAL [S]__ facultatif
 
-CORE [C] obligatoire SUPPLEMENTAL [S] facultatif
+## Nombre de SU 
+(nombre de SU pédiatriques, nombre de SU polyvalents, nombre SU adultes) [C]
 
-- Nombre de SU (nombre de SU pédiatriques, nombre de SU polyvalents, nombre SU adultes) [C]
-- Nombre de SU publics / privés [C]
+## Nombre de SU publics / privés [C]
 
-- Nombre de passages dans l'année [C]
-- Moyenne quotidienne de passages [C]
-- %(N) d'évolution par rapport à année N-1 [C]
+## Nombre de passages dans l'année [C]
 
-- %(N) public/privé [C]
-- %(N) Femme [C]
-- %(N) Homme [C]
+`r format(nrow(dx), big.mark = " ")`
 
-% (N) < 1 an [C]
-%(N) < 18 ans [C]
-%(N) >= 75 ans [C]
+## Moyenne quotidienne de passages [C]
 
-Age moyen [C], homme et femme [S] (pourquoi 'homme et femme' en SUPP ?)
+`r format(nrow(dx)/365, big.mark = " ")`
 
-- Taux de recours (définition FEDORU) régional aux urgences. [S]
+## %(N) d'évolution par rapport à année N-1 [C]
+
+## %(N) public/privé [C]
+
+```{r sexe, echo=FALSE, comment=""}
+sexe <- summary(as.factor(dx$SEXE))
+p.femme <- sexe[1]*100/(sexe[1] + sexe[3]) # % de femmes
+p.homme <- sexe[3]*100/(sexe[1] + sexe[3]) # % d'hommes
+sex.ratio <- sexe[3] / sexe[1] # sex ratio
+```
+## %(N) Femme [C]
+
+`r round(p.femme, 2)` % (`r sexe[1]`)
+
+## %(N) Homme [C]
+
+`r round(p.homme, 2)` % (`r sexe[3]`)
+
+```{r age, echo=FALSE, comment=""}
+n.inf1an <- sum(dx$AGE < 1, na.rm = TRUE)
+p.inf1an <- mean(dx$AGE < 1, na.rm = TRUE)
+n.inf18an <- sum(dx$AGE < 18, na.rm = TRUE)
+p.inf18an <- mean(dx$AGE < 18, na.rm = TRUE)
+n.supegal75an <- sum(dx$AGE >= 75, na.rm = TRUE)
+p.supegal75an <- mean(dx$AGE >= 75, na.rm = TRUE)
+mean.age <- mean(dx$AGE, na.rm = TRUE)
+mean.age.sexe <- tapply(dx$AGE, dx$SEXE, mean, na.rm = TRUE)
+sd.age.sexe <- tapply(dx$AGE, dx$SEXE, sd, na.rm = TRUE)
+```
+
+## % (N) < 1 an [C]
+`r n.inf1an` (`r round(100 * p.inf1an, 2)` %)
+
+## %(N) < 18 ans [C]
+`r n.inf18an` (`r round(100 * p.inf18an, 2)` %)
+
+## %(N) >= 75 ans [C]
+`r n.supegal75an` (`r round(100 * p.supegal75an, 2)` %)
+
+## Age moyen
+
+- age moyen[C]: `r round(mean.age, 2)` ans.
+
+- age moyen des hommes [S] (pourquoi 'homme et femme' en SUPP ?) `r round(mean.age.sexe[3], 2)` ans.
+- age moyen des femmes [S] `r round(mean.age.sexe[1], 2)` ans.
+
+## Taux de recours (définition FEDORU) régional aux urgences. [S]
 Utilisation des données INSEE qui collent le plus à la période d’étude (projections ou données consolidées)
-- % sur activité les jours de  WE [S]: = ((Nbsam+NbDim/2)-(sommeNbJourSEm/5))/ ((Nbsam+NbDim/2)*100
 
-- % du delta entre mois le plus chargé et le mois le moins chargé [S]
+## % sur activité les jours de  WE [S]
+= ((Nbsam+NbDim/2)-(sommeNbJourSEm/5))/ ((Nbsam+NbDim/2)*100
 
-- % passages nuit (définition FEDORU) [C]
-- % passages nuit profonde (définition FEDORU) [C]
+## % du delta entre mois le plus chargé et le mois le moins chargé [S]
+```{r act.mois, echo=FALSE, comment=""}
+n.rpu.mois <- tapply(as.Date(dx$ENTREE), month(as.Date(dx$ENTREE)), length)
+min.rpu.mois <- min(n.rpu.mois)
+max.rpu.mois <- max(n.rpu.mois)
+p.rpu.min.max <- min.rpu.mois / max.rpu.mois
+```
+`r p.rpu.min.max * 100` %
 
-- %(N) d'arrivée perso [S]
-- %(N) d'arrivée SMUR [S]
-- %(N) d'arrivée VSAB [S]
-- %(N) d'arrivée Ambulance [S]
+```{r passages, echo=FALSE, comment=""}
+passages <- dx[, c("ENTREE", "SORTIE")] # dataframe entrées-sorties
+passages <- passages[complete.cases(passages),] # on ne conserve que les couples complets
+n.passages <- nrow(passages)
+e <- ymd_hms(passages$ENTREE) # vecteur des entrées
+s <- ymd_hms(passages$SORTIE)
+d <- as.numeric((s-e)/60) # vecteur des durées de passage en minutes
+# on ne garde que les durées > 0 et < ou = 48 heures
+d <- d[d > 0 & d < 2 * 24 * 60 + 1]
+s.duree <- summary(d)
 
-- %(N) CCMU 1 et 2 [C]
-- %(N) CCMU 4 et 5 [C]
+```
 
-- %(N) Médico-chir [C]
-- %(N) Traumato [C]
-- %(N) Psy [C]
+## % passages nuit (définition FEDORU) [C]
+nombre de passages dont l’admission s’est effectuée sur la période [20h00 - 7h59] divisé par l’ensemble des passages
 
-- Durée de séjour (hors UHCD): moyenne +/- ET ; médiane (IQR) [C]
-- % (N) passages ayant durée attente > 1 heure [S]
-- %  (N) passages durée séjour > 4h [S]
+## % passages nuit profonde (définition FEDORU) [C]
+nombre de passages dont l’admission s’est effectuée sur la période [00h00 - 7h59] divisé par l’ensemble des passages
 
-- %  (N)Externe [C]
-- %  (N)Hospitalisation [C]
-- %  (N)Transfert [C]
-- %  (N)Sortie non convenue [C]
-- %  (N)Décès [C]
 
+##  %(N) d'arrivée perso [S]
+
+##  %(N) d'arrivée SMUR [S]
+
+##  %(N) d'arrivée VSAB [S]
+
+##  %(N) d'arrivée Ambulance [S]
+
+```{r ccmu, echo=FALSE, comment=""}
+ccmu <- summary(as.factor(dx$GRAVITE))
+s.ccmu <- sum(ccmu[1:7]) # on retire les NA
+n.ccmu12 <- ccmu[1] + ccmu[2] 
+p.ccmu12 <- n.ccmu12 / s.ccmu
+n.ccmu45 <- ccmu[4] + ccmu[5] 
+p.ccmu45 <- n.ccmu45 / s.ccmu
+n.ccmu.d <- ccmu[6]
+p.ccmu.d <- n.ccmu.d / s.ccmu
+n.ccmu.p <- ccmu[7]
+p.ccmu.p <- n.ccmu.p / s.ccmu
+```
+
+##  %(N) CCMU 1 et 2 [C]
+`r round(100 * p.ccmu12, 2)`% (n = `r n.ccmu12`)
+
+##  %(N) CCMU 4 et 5 [C]
+`r round(100 * p.ccmu45, 2)`% (n = `r n.ccmu45`)
+
+##  %(N) Médico-chir [C]
+
+##  %(N) Traumato [C]
+
+##  %(N) Psy [C]
+`r round(100 * p.ccmu.p, 2)`% (n = `r n.ccmu.p`)
+
+## Durée de séjour (hors UHCD): 
+moyenne +/- ET ; médiane (IQR) [C]
+
+##  % (N) passages ayant durée attente > 1 heure [S]
+
+##  %  (N) passages durée séjour > 4h [S]
+
+##  %  (N)Externe [C]
+
+##  %  (N)Hospitalisation [C]
+
+##  %  (N)Transfert [C]
+
+##  %  (N)Sortie non convenue [C]
+
+##  %  (N)Décès [C]
+`r round(100 * p.ccmu.d, 2)`% (n = `r n.ccmu.d`)
 
 les résultats régionaux (page 10)
 =======================
@@ -131,10 +231,10 @@ Volume global d’activité, cumul de passages
 
 Graphe avec 2 axes des abcisses:
 
- - total par année
- - moyenne quotidienne par année
- 
-```{r1, echo=FALSE}
+- total par année
+- moyenne quotidienne par année
+
+```{r c1, echo=FALSE}
 n <- nrow(dx) # nb de RPU = nb passages
 mean.rpu.jour.2014 <- n / 365 # moyenne quotidienne pour 2014
 
@@ -153,7 +253,7 @@ par(new=F)
 
 #### [3] % d’augmentation annuelle sur les années disponibles
 
-```{r3, echo=FALSE}
+```{r C3, echo=FALSE}
 p <- n * 100 / n2013 - 100
 ```
 % de variation 2014/2013 = `r round(p, 2)` %
@@ -161,7 +261,7 @@ p <- n * 100 / n2013 - 100
 croisements :
 
 #### [4][5] nombre de passages et % par type de structures (CH, CHU, privé), année N
-```{r4, echo=FALSE, comment=""}
+```{r C4, echo=FALSE, comment=""}
 pass <- dx[,c("ENTREE", "FINESS")]
 file <- "RPU_Doc/Hopitaux_Alsace2.csv"
 hop <- read.csv(paste0(path, file))
@@ -174,8 +274,6 @@ format(x, big.mark = " ")
 rm(pass, d)
 
 ```
-
-
 #### [6] % CH, CHU, privé sur les années disponibles
 
 Caractéristique des patients : âge
@@ -185,9 +283,9 @@ Caractéristique des patients : âge
 - [9] répartition par tranche âge
 - [10] pyramide des âges des patients accueillis aux urgences année N
 - croisements : 
-  - [11] sexe-moyenne âge femme/homme, année N
-  - [12] proportion des âge extrêmes (moins de 1 an, plus de 90 ans) par mois, année N
-  
+- [11] sexe-moyenne âge femme/homme, année N
+- [12] proportion des âge extrêmes (moins de 1 an, plus de 90 ans) par mois, année N
+
 Caractéristique des patients : sexe
 ------------------------------------
 
@@ -247,43 +345,43 @@ croisements :
 
 Gravité
 -------
-
-- répartition CCMU par regroupement ([1;2] ; 3 ; [4;5]; D; P), année N
+    
+    - répartition CCMU par regroupement ([1;2] ; 3 ; [4;5]; D; P), année N
 
 croisements :
-
-- pourcentage de CCMU 1 et 2? par tranche d'âge, année N
+    
+    - pourcentage de CCMU 1 et 2? par tranche d'âge, année N
 - pourcentage de CCMU 4 et 5 par tranche d'âge, année N
 
 Motif de recours
 ----------------
-
-- Nombre de passages par motif, année N 
+    
+    - Nombre de passages par motif, année N 
 
 Pathologie
 ----------
-
-- répartition par type d’urgences (med/chir, traumato, psy, toxico, autre), année N
+    
+    - répartition par type d’urgences (med/chir, traumato, psy, toxico, autre), année N
 - répartition par entêtes chapitre CIM 10, année N
 - répartition par disciplines, année N
 - répartition par diagnostic principal (top 10), année N
 - répartition par diagnostic principal (top 5) en fonction du type d’urgences (med/chir, traumato, psy, toxico, autre), année N
 
 croisements :
-
-- Type d’urgences (med/chir, traumato, psy, toxico, autre) en fonction de la classe d’âge (pédia, âge moyen, géria), année N
+    
+    - Type d’urgences (med/chir, traumato, psy, toxico, autre) en fonction de la classe d’âge (pédia, âge moyen, géria), année N
 - TOP 10 diagnostic principal en fonction du sexe, année N 
 
 Temps de passage
 ----------------
-
-- Temps de passage moyen +/- ET et médian (IQR), année N
+    
+    - Temps de passage moyen +/- ET et médian (IQR), année N
 - Répartition des passages par durée de passage en classe
 - Pourcentage cumulé des temps de passage, année N
 
 Croisements :
-
-- Temps de passage médian en fonction de la classe d’âge (pédia, âge moyen, géria), année N
+    
+    - Temps de passage médian en fonction de la classe d’âge (pédia, âge moyen, géria), année N
 - Temps de passage médian par type de structure (CH, CHU, privé), année N
 - Temps de passage médian par type de SU (polyvalent / ped/ adulte), année N
 - Temps de passage médian selon catégories de nombre de passage annuel dans les SU, année N
@@ -328,30 +426,50 @@ focus sur une sous déclinaison de l’activité (pathologies traceuses ou trait
 - Répartition par orientation en pourcentage, année N
 - Temps de passage médian, année N
 
-
 Définitions FEDORU
 ====================
 
-- __taux de recours__ (de la région ou département) : nombre de passages dans les services d’urgences (de la région ou département) de patients résidant dans une zone donnée (code postal ou commune) divisé par la population estimée de cette zone sur la pérriode donnée.
+taux de recours (de la région ou département)
+---------------------------------------------
+nombre de passages dans les services d’urgences (de la région ou département) de patients résidant dans une zone donnée (code postal ou commune) divisé par la population estimée de cette zone sur la pérriode donnée.
 
-- pourcentage de __passage nuit__ : nombre de passages dont l’admission s’est effectuée sur la période [20h00 - 7h59] divisé par l’ensemble des passages
+pourcentage de passage nuit
+---------------------------
+nombre de passages dont l’admission s’est effectuée sur la période [20h00 - 7h59] divisé par l’ensemble des passages
 
-- pourcentage de passage __nuit profonde__ : nombre de passages dont l’admission s’est effectuée sur la période [00h00 - 7h59] divisé par l’ensemble des passages
+pourcentage de passage nuit profonde
+------------------------------------
+nombre de passages dont l’admission s’est effectuée sur la période [00h00 - 7h59] divisé par l’ensemble des passages
 
-- __tranche d’âge__ : <28j;[28j-1A[;[1-5[;[5-10[;[10-15[;[15-18[;[18-30[;[30-45[;[45;65[;[65-75[;[75;85[;>85ans                                             
-sexe : M/F/I
+tranche d’âge
+-------------
+```{}
+<28j;[28j-1A[;[1-5[;[5-10[;[10-15[;[15-18[;[18-30[;[30-45[;[45;65[;[65-75[;[75;85[;>85ans
+```
 
-- __« tranche d’heure » d’entrée__ : matinée [8h00-11h59] ; début d’après midi [12h00-15h59] ; fin d’après midi [16h00-19h59] ; soirée [20h00-23h59] ; nuit profonde [00h00;07h59]
+sexe
+-----
+M/F/I
 
-horaire PDS : 
+« tranche d’heure » d’entrée
+----------------------------
+matinée [8h00-11h59] ; début d’après midi [12h00-15h59] ; fin d’après midi [16h00-19h59] ; soirée [20h00-23h59] ; nuit profonde [00h00;07h59]
 
-- __week end PDSA__ : du samedi 12h00 au lundi 07h59
-- __en semaine__ : du lundi au vendredi de [20h00 - 07h59] le lendemain
-- __jour férié__ : de 00h00 à 23h59
-- __pont PDSA__ : de 00h00 à 23h59
+horaire PDS
+------------
+
+- week end PDSA: du samedi 12h00 au lundi 07h59
+- en semaine: du lundi au vendredi de [20h00 - 07h59] le lendemain
+- jour férié: de 00h00 à 23h59
+- pont PDSA: de 00h00 à 23h59
 
 Les ponts PDSA sont ceux qui sont qualifiés comme tel par l’ARS et qui génère à ce titre le mise en place d’une régulation PDSA sur cette période. Si un pont PDSA, ou un jour férié survient un vendredi, le samedi matin suivant sera dès lors intégré à l’activité PDSA.
 
-- __durée de passage en classe__ : 2 types de regroupements :
-  - moins de 4 heures ; 4 heures et plus
-  - moins d’une heure ; entre 1 et 2 heures ; de 2 à 4 heures ; de 4 à 8 heures ; de 8 à 12 heures ; entre 12 et 72 heures ; (bornes supérieures exclues)
+durée de passage en classe
+--------------------------
+2 types de regroupements :
+
+- moins de 4 heures ; 4 heures et plus
+- moins d’une heure ; entre 1 et 2 heures ; de 2 à 4 heures ; de 4 à 8 heures ; de 8 à 12 heures ; entre 12 et 72 heures ; (bornes supérieures exclues)
+
+

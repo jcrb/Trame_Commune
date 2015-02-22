@@ -9,11 +9,10 @@ La proposition ici se fait autour de 4 points (représentant chacun une partie d
 
 
 
-
 le ‘préambule’ 
 ==============
-
-En préalable à des résultats d’activité, cette partie peut donner un panorama de l’offre de soins en local, une description des dispositifs de remontées de données, une présentation d’actualités, mais doit surtout faire un point sur les données utilisées (suivi qualitatif et quantitatif).
+    
+    En préalable à des résultats d’activité, cette partie peut donner un panorama de l’offre de soins en local, une description des dispositifs de remontées de données, une présentation d’actualités, mais doit surtout faire un point sur les données utilisées (suivi qualitatif et quantitatif).
 
 a. Cartographie l’offre de soins (positionner les SU, SMUR) +/- organisation des soins (ex : PDSA)
 
@@ -23,79 +22,132 @@ c. Point sur le fonctionnement du concentrateur régional : organisation, flux d
 
 i. Exhaustivité des données urgences 
 
-    - Nombre de SU transmettant des données / Nombre total de SU
-    - Nombre total de RPU / Nb total de passages SRVA
-    - Nombre total de RPU / Nb total de passages SAE (suivant disponibilité)
-    
+- Nombre de SU transmettant des données / Nombre total de SU
+- Nombre total de RPU / Nb total de passages SRVA
+- Nombre total de RPU / Nb total de passages SAE (suivant disponibilité)
+
 ii. Qualité des données urgences
 
-    - Nombre de logiciel différents utilisés dans la région.
-    - Graphique en araignée du taux de complétude (% donnée manquante) (après correction données aberrantes) des variables RPU, au moins sexe, âge, durée séjour, ccmu, orientation, code diag principal, motif de recours.
-    - Critères de cohérences :
-        - % CCMU 4 et 5 sortie externe.
-        - % Diagnostic hors thésaurus SFMU
-        - % âge > 18 ans dans SU pédiatriques.
-        - % diag féminin chez homme et inverse
-
+- Nombre de logiciel différents utilisés dans la région.
+- Graphique en araignée du taux de complétude (% donnée manquante) (après correction données aberrantes) des variables RPU, au moins sexe, âge, durée séjour, ccmu, orientation, code diag principal, motif de recours.
+- Critères de cohérences :
+    - % CCMU 4 et 5 sortie externe.
+- % Diagnostic hors thésaurus SFMU
+- % âge > 18 ans dans SU pédiatriques.
+- % diag féminin chez homme et inverse
 
 d.      Les travaux de la FEDORU et les travaux nationaux
 
-
 le tableau récapitulatif dénommé “Chiffres clefs”
 =================================================
+    
+Parfois en début de rapport, parfois en fin, c’est une partie courte et synthétique présentant, sous forme de chiffres clefs, les grands déterminants de l'activité. Choix d’un titre commun. 
 
-parfois en début de rapport, parfois en fin, c’est une partie courte et synthétique présentant, sous forme de chiffres clefs, les grands déterminants de l'activité. Choix d’un titre commun. 
+__CORE [C]__ obligatoire __SUPPLEMENTAL [S]__ facultatif
 
-CORE [C] obligatoire SUPPLEMENTAL [S] facultatif
+## Nombre de SU 
+(nombre de SU pédiatriques, nombre de SU polyvalents, nombre SU adultes) [C]
 
-- Nombre de SU (nombre de SU pédiatriques, nombre de SU polyvalents, nombre SU adultes) [C]
-- Nombre de SU publics / privés [C]
+## Nombre de SU publics / privés [C]
 
-- Nombre de passages dans l'année [C]
-- Moyenne quotidienne de passages [C]
-- %(N) d'évolution par rapport à année N-1 [C]
+## Nombre de passages dans l'année [C]
 
-- %(N) public/privé [C]
-- %(N) Femme [C]
-- %(N) Homme [C]
+40 509
 
-% (N) < 1 an [C]
-%(N) < 18 ans [C]
-%(N) >= 75 ans [C]
+## Moyenne quotidienne de passages [C]
 
-Age moyen [C], homme et femme [S] (pourquoi 'homme et femme' en SUPP ?)
+110.9836
 
-- Taux de recours (définition FEDORU) régional aux urgences. [S]
+## %(N) d'évolution par rapport à année N-1 [C]
+
+## %(N) public/privé [C]
+
+
+## %(N) Femme [C]
+
+49.39 % (19997)
+
+## %(N) Homme [C]
+
+50.61 % (20488)
+
+
+
+## % (N) < 1 an [C]
+1991 (4.92 %)
+
+## %(N) < 18 ans [C]
+12769 (31.52 %)
+
+## %(N) >= 75 ans [C]
+5671 (14 %)
+
+## Age moyen
+
+- age moyen[C]: 37.13 ans.
+
+- age moyen des hommes [S] (pourquoi 'homme et femme' en SUPP ?) 35.34 ans.
+- age moyen des femmes [S] 38.99 ans.
+
+## Taux de recours (définition FEDORU) régional aux urgences. [S]
 Utilisation des données INSEE qui collent le plus à la période d’étude (projections ou données consolidées)
-- % sur activité les jours de  WE [S]: = ((Nbsam+NbDim/2)-(sommeNbJourSEm/5))/ ((Nbsam+NbDim/2)*100
 
-- % du delta entre mois le plus chargé et le mois le moins chargé [S]
+## % sur activité les jours de  WE [S]
+= ((Nbsam+NbDim/2)-(sommeNbJourSEm/5))/ ((Nbsam+NbDim/2)*100
 
-- % passages nuit (définition FEDORU) [C]
-- % passages nuit profonde (définition FEDORU) [C]
+## % du delta entre mois le plus chargé et le mois le moins chargé [S]
 
-- %(N) d'arrivée perso [S]
-- %(N) d'arrivée SMUR [S]
-- %(N) d'arrivée VSAB [S]
-- %(N) d'arrivée Ambulance [S]
+100 %
 
-- %(N) CCMU 1 et 2 [C]
-- %(N) CCMU 4 et 5 [C]
 
-- %(N) Médico-chir [C]
-- %(N) Traumato [C]
-- %(N) Psy [C]
 
-- Durée de séjour (hors UHCD): moyenne +/- ET ; médiane (IQR) [C]
-- % (N) passages ayant durée attente > 1 heure [S]
-- %  (N) passages durée séjour > 4h [S]
+## % passages nuit (définition FEDORU) [C]
+nombre de passages dont l’admission s’est effectuée sur la période [20h00 - 7h59] divisé par l’ensemble des passages
 
-- %  (N)Externe [C]
-- %  (N)Hospitalisation [C]
-- %  (N)Transfert [C]
-- %  (N)Sortie non convenue [C]
-- %  (N)Décès [C]
+## % passages nuit profonde (définition FEDORU) [C]
+nombre de passages dont l’admission s’est effectuée sur la période [00h00 - 7h59] divisé par l’ensemble des passages
 
+
+##  %(N) d'arrivée perso [S]
+
+##  %(N) d'arrivée SMUR [S]
+
+##  %(N) d'arrivée VSAB [S]
+
+##  %(N) d'arrivée Ambulance [S]
+
+
+
+##  %(N) CCMU 1 et 2 [C]
+84.16% (n = 26549)
+
+##  %(N) CCMU 4 et 5 [C]
+1.38% (n = 434)
+
+##  %(N) Médico-chir [C]
+
+##  %(N) Traumato [C]
+
+##  %(N) Psy [C]
+0.39% (n = 124)
+
+## Durée de séjour (hors UHCD): 
+moyenne +/- ET ; médiane (IQR) [C]
+
+##  % (N) passages ayant durée attente > 1 heure [S]
+
+##  %  (N) passages durée séjour > 4h [S]
+
+##  %  (N)Externe [C]
+
+##  %  (N)Hospitalisation [C]
+
+##  %  (N)Transfert [C]
+
+##  %  (N)Sortie non convenue [C]
+
+##  %  (N)Décès [C]
+0% (n = 1)
 
 les résultats régionaux (page 10)
 =======================
@@ -111,37 +163,35 @@ Volume global d’activité, cumul de passages
 
 Graphe avec 2 axes des abcisses:
 
- - total par année
- - moyenne quotidienne par année
- 
+- total par année
+- moyenne quotidienne par année
+
 
 ```
 ## Warning in plot.xy(xy.coords(x, y), type = type, ...): "axes" n'est pas un
 ## paramètre graphique
 ```
 
-![](rapport_2014_files/figure-html/1-1.png) 
+![](rapport_2014_files/figure-html/c1-1.png) 
 
-- nombre de passages en 2014: 416733 soit en moyenne 1142 par jour.
+- nombre de passages en 2014: 40 509 soit en moyenne 111 par jour.
 
 #### [3] % d’augmentation annuelle sur les années disponibles
 
 
-% de variation 2014/2013 = 21.12 %
+% de variation 2014/2013 = -88.23 %
 
 croisements :
 
 #### [4][5] nombre de passages et % par type de structures (CH, CHU, privé), année N
 
 ```
-          n      %
-CH   282036  67.68
-CHU   61793  14.83
-PSPH  72867  17.49
-     416696 100.00
+     2014        %          
+CH   "24 746.00" "    61.09"
+CHU  " 9 190.00" "    22.69"
+PSPH " 6 573.00" "    16.23"
+     "40 509.00" "   100.01"
 ```
-
-
 #### [6] % CH, CHU, privé sur les années disponibles
 
 Caractéristique des patients : âge
@@ -151,9 +201,9 @@ Caractéristique des patients : âge
 - [9] répartition par tranche âge
 - [10] pyramide des âges des patients accueillis aux urgences année N
 - croisements : 
-  - [11] sexe-moyenne âge femme/homme, année N
-  - [12] proportion des âge extrêmes (moins de 1 an, plus de 90 ans) par mois, année N
-  
+- [11] sexe-moyenne âge femme/homme, année N
+- [12] proportion des âge extrêmes (moins de 1 an, plus de 90 ans) par mois, année N
+
 Caractéristique des patients : sexe
 ------------------------------------
 
@@ -213,43 +263,43 @@ croisements :
 
 Gravité
 -------
-
-- répartition CCMU par regroupement ([1;2] ; 3 ; [4;5]; D; P), année N
+    
+    - répartition CCMU par regroupement ([1;2] ; 3 ; [4;5]; D; P), année N
 
 croisements :
-
-- pourcentage de CCMU 1 et 2? par tranche d'âge, année N
+    
+    - pourcentage de CCMU 1 et 2? par tranche d'âge, année N
 - pourcentage de CCMU 4 et 5 par tranche d'âge, année N
 
 Motif de recours
 ----------------
-
-- Nombre de passages par motif, année N 
+    
+    - Nombre de passages par motif, année N 
 
 Pathologie
 ----------
-
-- répartition par type d’urgences (med/chir, traumato, psy, toxico, autre), année N
+    
+    - répartition par type d’urgences (med/chir, traumato, psy, toxico, autre), année N
 - répartition par entêtes chapitre CIM 10, année N
 - répartition par disciplines, année N
 - répartition par diagnostic principal (top 10), année N
 - répartition par diagnostic principal (top 5) en fonction du type d’urgences (med/chir, traumato, psy, toxico, autre), année N
 
 croisements :
-
-- Type d’urgences (med/chir, traumato, psy, toxico, autre) en fonction de la classe d’âge (pédia, âge moyen, géria), année N
+    
+    - Type d’urgences (med/chir, traumato, psy, toxico, autre) en fonction de la classe d’âge (pédia, âge moyen, géria), année N
 - TOP 10 diagnostic principal en fonction du sexe, année N 
 
 Temps de passage
 ----------------
-
-- Temps de passage moyen +/- ET et médian (IQR), année N
+    
+    - Temps de passage moyen +/- ET et médian (IQR), année N
 - Répartition des passages par durée de passage en classe
 - Pourcentage cumulé des temps de passage, année N
 
 Croisements :
-
-- Temps de passage médian en fonction de la classe d’âge (pédia, âge moyen, géria), année N
+    
+    - Temps de passage médian en fonction de la classe d’âge (pédia, âge moyen, géria), année N
 - Temps de passage médian par type de structure (CH, CHU, privé), année N
 - Temps de passage médian par type de SU (polyvalent / ped/ adulte), année N
 - Temps de passage médian selon catégories de nombre de passage annuel dans les SU, année N
@@ -279,4 +329,65 @@ les analyses par filière
 ------------------------
 
 focus sur une sous déclinaison de l’activité (pathologies traceuses ou traits caractéristiques de la patientèle)
+
+#### AVC : (définition FEDORU)
+
+- Nombre de passages AVC urgences, année N
+- Nombre de passages AVC urgences, déclinaison par département, établissement, année N
+- Moyenne quotidienne, année N
+- Age moyen, année N
+- Répartition par classe âge en pourcentage, année N
+- Répartition par sexe en pourcentage, année N
+- TOP 5 pourcentage par code CIM 10, année N
+- Répartition we/semaine en pourcentage, année N
+- Répartition par tranche heure en pourcentage, année N
+- Répartition par orientation en pourcentage, année N
+- Temps de passage médian, année N
+
+Définitions FEDORU
+====================
+
+taux de recours (de la région ou département)
+---------------------------------------------
+nombre de passages dans les services d’urgences (de la région ou département) de patients résidant dans une zone donnée (code postal ou commune) divisé par la population estimée de cette zone sur la pérriode donnée.
+
+pourcentage de passage nuit
+---------------------------
+nombre de passages dont l’admission s’est effectuée sur la période [20h00 - 7h59] divisé par l’ensemble des passages
+
+pourcentage de passage nuit profonde
+------------------------------------
+nombre de passages dont l’admission s’est effectuée sur la période [00h00 - 7h59] divisé par l’ensemble des passages
+
+tranche d’âge
+-------------
+```{}
+<28j;[28j-1A[;[1-5[;[5-10[;[10-15[;[15-18[;[18-30[;[30-45[;[45;65[;[65-75[;[75;85[;>85ans
+```
+
+sexe
+-----
+M/F/I
+
+« tranche d’heure » d’entrée
+----------------------------
+matinée [8h00-11h59] ; début d’après midi [12h00-15h59] ; fin d’après midi [16h00-19h59] ; soirée [20h00-23h59] ; nuit profonde [00h00;07h59]
+
+horaire PDS
+------------
+
+- week end PDSA: du samedi 12h00 au lundi 07h59
+- en semaine: du lundi au vendredi de [20h00 - 07h59] le lendemain
+- jour férié: de 00h00 à 23h59
+- pont PDSA: de 00h00 à 23h59
+
+Les ponts PDSA sont ceux qui sont qualifiés comme tel par l’ARS et qui génère à ce titre le mise en place d’une régulation PDSA sur cette période. Si un pont PDSA, ou un jour férié survient un vendredi, le samedi matin suivant sera dès lors intégré à l’activité PDSA.
+
+durée de passage en classe
+--------------------------
+2 types de regroupements :
+
+- moins de 4 heures ; 4 heures et plus
+- moins d’une heure ; entre 1 et 2 heures ; de 2 à 4 heures ; de 4 à 8 heures ; de 8 à 12 heures ; entre 12 et 72 heures ; (bornes supérieures exclues)
+
 
