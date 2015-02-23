@@ -28,9 +28,9 @@ path <- pathMAC
 file_test <- "RPU_2014/rpu2015d01.Rda" # fichier de test
 file_actif <- "RPU_2014/rpu2014d0112_c.Rda" # données de 2014
 
-load(paste0(path, file_test)) # d14 = données 2014 corrigées
-dx <- d01                     # dx est le terme générique pour désigner le dataframe de l'année courante
-rm(d01)
+load(paste0(path, file_actif)) # d14 = données 2014 corrigées
+dx <- d14   # dx est le terme générique pour désigner le dataframe de l'année courante
+rm(d14)
 anc <- 2014    # année courante
 anp <- anc - 1 # année précédente
 ```
@@ -89,18 +89,20 @@ __CORE [C]__ obligatoire __SUPPLEMENTAL [S]__ facultatif
 ## %(N) public/privé [C]
 
 ```{r sexe, echo=FALSE, comment=""}
-sexe <- summary(as.factor(dx$SEXE))
-p.femme <- sexe[1]*100/(sexe[1] + sexe[3]) # % de femmes
-p.homme <- sexe[3]*100/(sexe[1] + sexe[3]) # % d'hommes
-sex.ratio <- sexe[3] / sexe[1] # sex ratio
+sexe <- table(as.factor(dx$SEXE))
+p.femme <- sexe['F']*100/(sexe['F'] + sexe['M']) # % de femmes
+p.homme <- sexe['M']*100/(sexe['F'] + sexe['M']) # % d'hommes
+sex.ratio <- sexe['M'] / sexe['F'] # sex ratio
+n.hommes <- sexe['M']
+n.femmes <- sexe['F']
 ```
 ## %(N) Femme [C]
 
-`r round(p.femme, 2)` % (`r sexe[1]`)
+`r round(p.femme, 2)` % (`r format(sexe['F'], big.mark = " ")`)
 
 ## %(N) Homme [C]
 
-`r round(p.homme, 2)` % (`r sexe[3]`)
+`r round(p.homme, 2)` % (`r format(sexe['M'], big.mark = " ")`)
 
 ```{r age, echo=FALSE, comment=""}
 n.inf1an <- sum(dx$AGE < 1, na.rm = TRUE)
@@ -133,8 +135,19 @@ sd.age.sexe <- tapply(dx$AGE, dx$SEXE, sd, na.rm = TRUE)
 ## Taux de recours (définition FEDORU) régional aux urgences. [S]
 Utilisation des données INSEE qui collent le plus à la période d’étude (projections ou données consolidées)
 
+```{r rpu.semaine.we, echo=FALSE, comment=""}
+n.par.wday <- table(wday(as.Date(dx$ENTREE), label = TRUE)) # nb de RPU par jour de semaine. Utilisable dans un barplot.
+m.rpu.sem <- sum(n.par.wday[2:6])/5 # moyenne des RPU en semaine
+m.rpu.we <- sum(n.par.wday[1], sum(n.par.wday[7]))/2 # moyenne RPU le WE
+p.activite.we <- 100 * (m.rpu.we - m.rpu.sem) / m.rpu.we
+```
+
 ## % sur activité les jours de  WE [S]
 = ((Nbsam+NbDim/2)-(sommeNbJourSEm/5))/ ((Nbsam+NbDim/2)*100
+
+`r round(p.activite.we, 2)` % d'activité supplémentaire le WE.
+
+NB: le calcul ne tient pas compte des jours fériés (à faire).
 
 ## % du delta entre mois le plus chargé et le mois le moins chargé [S]
 ```{r act.mois, echo=FALSE, comment=""}
@@ -154,24 +167,60 @@ s <- ymd_hms(passages$SORTIE)
 d <- as.numeric((s-e)/60) # vecteur des durées de passage en minutes
 # on ne garde que les durées > 0 et < ou = 48 heures
 d <- d[d > 0 & d < 2 * 24 * 60 + 1]
-s.duree <- summary(d)
+n.duree <- length(d) # nb total de durées
+s.duree <- summary(d) # résumé des durées totales de passage
+sd.duree <- sd(d)
+# nb de passages dont la durée est supérieure à 4 heures:
+duree.sup.4h <- d[d > 4 * 60] # vecteur des durées sup 4 h
+n.duree.sup.4h <- length(duree.sup.4h) # nb de passages > 4h
 
+
+# horaires seuls. Li faut isoler les heures de la date
+he <- hms(substr(e, 12, 20))
+# passages de nuit
+nuit <- he[he > hms("19:59:59") | he < hms("08:00:00")]
+n.passages.nuit <- length(nuit) # passages 20:00 - 7:59
+# passages en nuit profonde
+nuit.profonde <- he[he < hms("08:00:00")]
+n.passages.nuit.profonde <- length(nuit.profonde)
 ```
 
 ## % passages nuit (définition FEDORU) [C]
 nombre de passages dont l’admission s’est effectuée sur la période [20h00 - 7h59] divisé par l’ensemble des passages
 
+`r round(n.passages.nuit * 100 / n.passages, 2)` % (N = `r n.passages.nuit`)
+
 ## % passages nuit profonde (définition FEDORU) [C]
 nombre de passages dont l’admission s’est effectuée sur la période [00h00 - 7h59] divisé par l’ensemble des passages
 
+`r round(n.passages.nuit.profonde * 100 / n.passages, 2)` % (N = `r n.passages.nuit.profonde`)
+
+```{r transpport, echo=FALSE, comment=""}
+transport <- table(dx$TRANSPORT)
+n.transport <- sum(transport) # nb de moyens de transport renseignés
+n.transport.perso <- transport['PERSO']
+n.transport.ambu <- transport['AMBU']
+n.transport.fo <- transport['FO']
+n.transport.heli <- transport['HELI']
+n.transport.smur <- transport['SMUR']
+n.transport.vsab <- transport['VSAB']
+```
 
 ##  %(N) d'arrivée perso [S]
 
+`r round(n.transport.perso * 100 / n.transport, 2)` % (N = `r format(n.transport.perso, big.mark = " ")`)
+
 ##  %(N) d'arrivée SMUR [S]
+
+`r round(n.transport.smur * 100 / n.transport, 2)` % (N = `r format(n.transport.smur, big.mark = " ")`)
 
 ##  %(N) d'arrivée VSAB [S]
 
+`r round(n.transport.vsab * 100 / n.transport, 2)` % (N = `r format(n.transport.vsab, big.mark = " ")`)
+
 ##  %(N) d'arrivée Ambulance [S]
+
+`r round(n.transport.ambu * 100 / n.transport, 2)` % (N = `r format(n.transport.ambu, big.mark = " ")`)
 
 ```{r ccmu, echo=FALSE, comment=""}
 ccmu <- summary(as.factor(dx$GRAVITE))
@@ -202,17 +251,47 @@ p.ccmu.p <- n.ccmu.p / s.ccmu
 ## Durée de séjour (hors UHCD): 
 moyenne +/- ET ; médiane (IQR) [C]
 
-##  % (N) passages ayant durée attente > 1 heure [S]
+- moyenne: `r s.duree['Mean']` mn
+- écart-type: `r sd.duree` mn
+- médiane: `r s.duree['Median']` mn
+- IQR: `r s.duree['3rd Qu.'] - s.duree['1st Qu.']` mn
 
-##  %  (N) passages durée séjour > 4h [S]
+###  % (N) passages ayant durée attente > 1 heure [S]
+Pas calculable en Alsace :-(
+
+###  %  (N) passages durée séjour > 4h [S]
+`r round(100 * n.duree.sup.4h / n.duree, 2)`% (n = `r n.duree.sup.4h`)
+
+```{r mode_sortie, echo=FALSE, comment=""}
+mode.sortie <- table(dx$MODE_SORTIE) # mode de sortie par type
+n.mode.sortie <- sum(mode.sortie) # nb de mode de sortie renseigné
+n.externes <- mode.sortie['Domicile'] # nb de sortants
+n.hospitalises <- mode.sortie['Mutation'] # nb d'hospitalisés
+n.transferts <- mode.sortie['Transfert'] # nb de transferts
+n.deces <- mode.sortie['DCD']
+```
 
 ##  %  (N)Externe [C]
 
+`r round(n.externes * 100 / n.mode.sortie, 2)` % (N = `r format(n.externes, big.mark = " ")`)
+
 ##  %  (N)Hospitalisation [C]
+
+`r round(n.hospitalises * 100 / n.mode.sortie, 2)` % (N = `r format(n.hospitalises, big.mark = " ")`)
 
 ##  %  (N)Transfert [C]
 
+`r round(n.transferts * 100 / n.mode.sortie, 2)` % (N = `r format(n.transferts, big.mark = " ")`)
+
 ##  %  (N)Sortie non convenue [C]
+```{r scam, echo=FALSE, comment=""}
+orientation <- table(dx$ORIENTATION)
+n.orientation <- sum(orientation) # nb d'orientations renseignées
+sortie.non.convenue <- orientation[c('FUGUE','PSA','SCAM')] # vecteur des sorties anormales
+n.sortie.non.convenue <- sum(sortie.non.convenue) # nb de sorties anormales
+p.sortie.non.convenue <- round(n.sortie.non.convenue * 100 /n.orientation, 2)
+```
+`r p.sortie.non.convenue` % (N = `r format(n.sortie.non.convenue, big.mark = " ")`)
 
 ##  %  (N)Décès [C]
 `r round(100 * p.ccmu.d, 2)`% (n = `r n.ccmu.d`)

@@ -52,11 +52,11 @@ __CORE [C]__ obligatoire __SUPPLEMENTAL [S]__ facultatif
 
 ## Nombre de passages dans l'année [C]
 
-40 509
+416 733
 
 ## Moyenne quotidienne de passages [C]
 
-110.9836
+1 141.734
 
 ## %(N) d'évolution par rapport à année N-1 [C]
 
@@ -65,89 +65,125 @@ __CORE [C]__ obligatoire __SUPPLEMENTAL [S]__ facultatif
 
 ## %(N) Femme [C]
 
-49.39 % (19997)
+47.78 % (199 110)
 
 ## %(N) Homme [C]
 
-50.61 % (20488)
+52.22 % (217 617)
 
 
 
 ## % (N) < 1 an [C]
-1991 (4.92 %)
+15376 (3.69 %)
 
 ## %(N) < 18 ans [C]
-12769 (31.52 %)
+119213 (28.61 %)
 
 ## %(N) >= 75 ans [C]
-5671 (14 %)
+57271 (13.74 %)
 
 ## Age moyen
 
-- age moyen[C]: 37.13 ans.
+- age moyen[C]: 38.03 ans.
 
-- age moyen des hommes [S] (pourquoi 'homme et femme' en SUPP ?) 35.34 ans.
-- age moyen des femmes [S] 38.99 ans.
+- age moyen des hommes [S] (pourquoi 'homme et femme' en SUPP ?) NA ans.
+- age moyen des femmes [S] 40.31 ans.
 
 ## Taux de recours (définition FEDORU) régional aux urgences. [S]
 Utilisation des données INSEE qui collent le plus à la période d’étude (projections ou données consolidées)
 
+
+
 ## % sur activité les jours de  WE [S]
 = ((Nbsam+NbDim/2)-(sommeNbJourSEm/5))/ ((Nbsam+NbDim/2)*100
 
+4.52 % d'activité supplémentaire le WE.
+
+NB: le calcul ne tient pas compte des jours fériés (à faire).
+
 ## % du delta entre mois le plus chargé et le mois le moins chargé [S]
 
-100 %
+71.4142648 %
 
 
 
 ## % passages nuit (définition FEDORU) [C]
 nombre de passages dont l’admission s’est effectuée sur la période [20h00 - 7h59] divisé par l’ensemble des passages
 
+24.74 % (N = 92610)
+
 ## % passages nuit profonde (définition FEDORU) [C]
 nombre de passages dont l’admission s’est effectuée sur la période [00h00 - 7h59] divisé par l’ensemble des passages
+
+11.09 % (N = 41500)
+
 
 
 ##  %(N) d'arrivée perso [S]
 
+72.16 % (N = 208 771)
+
 ##  %(N) d'arrivée SMUR [S]
+
+0.93 % (N = 2 702)
 
 ##  %(N) d'arrivée VSAB [S]
 
+10.35 % (N = 29 954)
+
 ##  %(N) d'arrivée Ambulance [S]
+
+15.94 % (N = 46 112)
 
 
 
 ##  %(N) CCMU 1 et 2 [C]
-84.16% (n = 26549)
+84.45% (n = 286979)
 
 ##  %(N) CCMU 4 et 5 [C]
-1.38% (n = 434)
+1.28% (n = 4341)
 
 ##  %(N) Médico-chir [C]
 
 ##  %(N) Traumato [C]
 
 ##  %(N) Psy [C]
-0.39% (n = 124)
+0.38% (n = 1307)
 
 ## Durée de séjour (hors UHCD): 
 moyenne +/- ET ; médiane (IQR) [C]
 
-##  % (N) passages ayant durée attente > 1 heure [S]
+- moyenne: 154.9 mn
+- écart-type: 171.5908609 mn
+- médiane: 109 mn
+- IQR: 146 mn
 
-##  %  (N) passages durée séjour > 4h [S]
+###  % (N) passages ayant durée attente > 1 heure [S]
+Pas calculable en Alsace :-(
+
+###  %  (N) passages durée séjour > 4h [S]
+18.69% (n = 69521)
+
+
 
 ##  %  (N)Externe [C]
 
+75.5 % (N = 255 852)
+
 ##  %  (N)Hospitalisation [C]
+
+22.72 % (N = 76 999)
 
 ##  %  (N)Transfert [C]
 
+1.78 % (N = 6 025)
+
 ##  %  (N)Sortie non convenue [C]
 
+5.09 % (N = 4 222)
+
 ##  %  (N)Décès [C]
-0% (n = 1)
+0.01% (n = 26)
 
 les résultats régionaux (page 10)
 =======================
@@ -174,23 +210,23 @@ Graphe avec 2 axes des abcisses:
 
 ![](rapport_2014_files/figure-html/c1-1.png) 
 
-- nombre de passages en 2014: 40 509 soit en moyenne 111 par jour.
+- nombre de passages en 2014: 416 733 soit en moyenne 1142 par jour.
 
 #### [3] % d’augmentation annuelle sur les années disponibles
 
 
-% de variation 2014/2013 = -88.23 %
+% de variation 2014/2013 = 21.12 %
 
 croisements :
 
 #### [4][5] nombre de passages et % par type de structures (CH, CHU, privé), année N
 
 ```
-     2014        %          
-CH   "24 746.00" "    61.09"
-CHU  " 9 190.00" "    22.69"
-PSPH " 6 573.00" "    16.23"
-     "40 509.00" "   100.01"
+     2014         %           
+CH   "282 036.00" "     67.68"
+CHU  " 61 793.00" "     14.83"
+PSPH " 72 867.00" "     17.49"
+     "416 696.00" "    100.00"
 ```
 #### [6] % CH, CHU, privé sur les années disponibles
 
