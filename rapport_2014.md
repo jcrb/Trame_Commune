@@ -202,12 +202,6 @@ Graphe avec 2 axes des abcisses:
 - total par année
 - moyenne quotidienne par année
 
-
-```
-## Warning in plot.xy(xy.coords(x, y), type = type, ...): "axes" n'est pas un
-## paramètre graphique
-```
-
 ![](rapport_2014_files/figure-html/c1-1.png) 
 
 - nombre de passages en 2014: 416 733 soit en moyenne 1142 par jour.
@@ -244,7 +238,7 @@ Caractéristique des patients : sexe
 ------------------------------------
 
 - [13] répartition en fonction du sexe année N 
--[14] sex ratio, année N
+- [14] sex ratio, année N
 - croisements :
 - [15] sex ratio H/F par classe d’âge, année N
 - [16] taux de masculinité
