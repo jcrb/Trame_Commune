@@ -45,6 +45,9 @@ Parfois en début de rapport, parfois en fin, c’est une partie courte et synth
 
 __CORE [C]__ obligatoire __SUPPLEMENTAL [S]__ facultatif
 
+
+
+
 ## Nombre de SU 
 (nombre de SU pédiatriques, nombre de SU polyvalents, nombre SU adultes) [C]
 

@@ -31,8 +31,7 @@ file_actif <- "RPU_2014/rpu2014d0112_c.Rda" # données de 2014
 load(paste0(path, file_actif)) # d14 = données 2014 corrigées
 dx <- d14   # dx est le terme générique pour désigner le dataframe de l'année courante
 rm(d14)
-anc <- 2014    # année courante
-anp <- anc - 1 # année précédente
+
 ```
 
 le ‘préambule’ 
@@ -71,23 +70,57 @@ Parfois en début de rapport, parfois en fin, c’est une partie courte et synth
 
 __CORE [C]__ obligatoire __SUPPLEMENTAL [S]__ facultatif
 
+```{r chiffres, echo=FALSE, comment=""}
+anc <- 2014    # année courante
+anp <- anc - 1 # année précédente
+publics <- c("Wis", "Hag", "Sav", "Hus", "Sel", "Geb", "Col", "Tan", "Alk", "Mul", "3Fr")
+prives <- c("Odi", "Ane", "Dts", "Ros", "Dia")
+n.su <- 16 # nombre de SU
+n.su.ped <- 1 # nombre de SU pediatriques
+n.su.adultes <- 2 # nombre de SU adultes
+n.su.polyvalents <- 13
+n.su.publics <- NA
+n.su.prives <- NA
+n.rpu <- nrow(dx) # nb de passages dans l'année
+mean.rpu.quot <- n.rpu / 365 # Moyenne quotidienne de passages
+
+chiffres2014 <- c(anc, n.su.ped, n.su.adultes, n.su.polyvalents, n.su.publics, n.su.prives, n.rpu, mean.rpu.quot)
+```
+
+
 ## Nombre de SU 
 (nombre de SU pédiatriques, nombre de SU polyvalents, nombre SU adultes) [C]
 
-## Nombre de SU publics / privés [C]
+- Nombre de SU: `r n.su`
+
+### Nombre de SU publics / privés [C]
+
+- nombre de SU dans le secteur public: `r n.pub`
+- nombre de SU dans le secteur privé: `r n.prv`
 
 ## Nombre de passages dans l'année [C]
 
-`r format(nrow(dx), big.mark = " ")`
+`r format(n.rpu, big.mark = " ")`
 
 ## Moyenne quotidienne de passages [C]
 
-`r format(nrow(dx)/365, big.mark = " ")`
+`r format(mean.rpu.quot, big.mark = " ")`
 
 ## %(N) d'évolution par rapport à année N-1 [C]
 
 ## %(N) public/privé [C]
+```{r public_prive, echo=FALSE, comment=""}
+pub <- dx[dx$FINESS %in% publics, "ENTREE"]
+prv <- dx[dx$FINESS %in% prives, "ENTREE"]
+n.pub <- length(pub) # nb de RPU publics
+n.prv <- length(prv) # nb de RPU privés
+p.pub <- n.pub / n.rpu
+p.prv <- n.pub / n.rpu
+```
+- nombre de RPU publics: `r n.pub` (`r round(p.pub * 100, 2)` %)
+- nombre de RPU privés: `r n.prv` (`r round(p.prv * 100, 2)` %)
 
+## SEXE
 ```{r sexe, echo=FALSE, comment=""}
 sexe <- table(as.factor(dx$SEXE))
 p.femme <- sexe['F']*100/(sexe['F'] + sexe['M']) # % de femmes
@@ -96,14 +129,15 @@ sex.ratio <- sexe['M'] / sexe['F'] # sex ratio
 n.hommes <- sexe['M']
 n.femmes <- sexe['F']
 ```
-## %(N) Femme [C]
+### %(N) Femme [C]
 
 `r round(p.femme, 2)` % (`r format(sexe['F'], big.mark = " ")`)
 
-## %(N) Homme [C]
+### %(N) Homme [C]
 
 `r round(p.homme, 2)` % (`r format(sexe['M'], big.mark = " ")`)
 
+## AGE
 ```{r age, echo=FALSE, comment=""}
 n.inf1an <- sum(dx$AGE < 1, na.rm = TRUE)
 p.inf1an <- mean(dx$AGE < 1, na.rm = TRUE)
@@ -116,16 +150,16 @@ mean.age.sexe <- tapply(dx$AGE, dx$SEXE, mean, na.rm = TRUE)
 sd.age.sexe <- tapply(dx$AGE, dx$SEXE, sd, na.rm = TRUE)
 ```
 
-## % (N) < 1 an [C]
+### % (N) < 1 an [C]
 `r n.inf1an` (`r round(100 * p.inf1an, 2)` %)
 
-## %(N) < 18 ans [C]
+### %(N) < 18 ans [C]
 `r n.inf18an` (`r round(100 * p.inf18an, 2)` %)
 
-## %(N) >= 75 ans [C]
+### %(N) >= 75 ans [C]
 `r n.supegal75an` (`r round(100 * p.supegal75an, 2)` %)
 
-## Age moyen
+### Age moyen
 
 - age moyen[C]: `r round(mean.age, 2)` ans.
 
@@ -403,8 +437,35 @@ Arrivée aux urgences
 --------------------
 
 - Moyenne quotidienne du nombre de passages par mois (basée sur la date d’admission) année N
+```{r mean_month}
+# On procède en 2 temps:
+# 1. on calcule le total des RPU par jour de l'année. On obtient un vecteur de 365 valeurs. Chaque valeur est repérée par la date du jour.
+rpu.jour <- tapply(as.Date(dx$ENTREE), as.Date(dx$ENTREE), length)
+# 2. on redécoupe ce vecteur en mois sur la base de la date du jour. Pour chaque mois on calcule la moyenne et l'écart-type.
+mean.rpu.jour <- tapply(rpu.jour, month(as.Date(names(rpu.jour))), mean)
+sd.rpu.jour <- tapply(rpu.jour, month(as.Date(names(rpu.jour))), sd)
+plot(mean.rpu.jour, type = "b", ylim = c(900,1400), ylab = "nombre moyen de RPU", xlab = "Mois", main = "Moyenne quotidienne du nombre de passages par mois", xlim = c(1, 12))
+
+```
+
 - Nombre de passages par semaine (basée sur la date d’admission) année N (positionner les vacances scolaires de la zone concernée)
+```{r rpu_semaine, echo=FALSE}
+plot(rpu.semaine[1:52], type = "l", ylab = "RPU", xlab = "semaines", main = "Nombre de passages par semaine", col = "blue", lwd = 3)
+
+```
+
 - Moyenne quotidienne du nombre de passages par jour de semaine (basée sur la date d’admission), année N
+```{r rpu_jour_semaine, echo=FALSE, comment=""}
+# on forme une matrice de 53 lignes (semaines) et 7 colonnes (jour de la semaine) avec le nobre de passages par type de jour et par semaine
+rpu.jour.semaine <- tapply(as.Date(dx$ENTREE), list(week(as.Date(dx$ENTREE)), wday(as.Date(dx$ENTREE), label = TRUE)), length)
+# puis on calcule la moyenne par type de jour
+mean.rpu.jour.semaine <- apply(rpu.jour.semaine, 2, mean, na.rm = TRUE)
+mean.rpu.jour.semaine <- c(mean.rpu.jour.semaine[2:7], mean.rpu.jour.semaine[1]) # pour que la semaine commence un lundi
+sd.rpu.jour.semaine <- apply(rpu.jour.semaine, 2, sd, na.rm = TRUE)
+sd.rpu.jour.semaine <- c(sd.rpu.jour.semaine[2:7], sd.rpu.jour.semaine[1])
+
+```
+
 - Répartition semaine/week-end (basée sur la date d’admission), année N
 - Moyenne quotidienne du nombre de passages par « tranche d’heure » d’entrée , année N
 - Pourcentage du nombre de passages par heure d’entrée et de sortie, année N
@@ -436,11 +497,11 @@ croisements :
 Gravité
 -------
     
-    - répartition CCMU par regroupement ([1;2] ; 3 ; [4;5]; D; P), année N
+- répartition CCMU par regroupement ([1;2] ; 3 ; [4;5]; D; P), année N
 
 croisements :
     
-    - pourcentage de CCMU 1 et 2? par tranche d'âge, année N
+- pourcentage de CCMU 1 et 2 par tranche d'âge, année N
 - pourcentage de CCMU 4 et 5 par tranche d'âge, année N
 
 Motif de recours
