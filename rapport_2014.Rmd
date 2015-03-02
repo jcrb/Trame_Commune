@@ -140,6 +140,7 @@ n.femmes <- sexe['F']
 ## AGE
 ```{r age, echo=FALSE, comment=""}
 n.inf1an <- sum(dx$AGE < 1, na.rm = TRUE)
+n.supegal90 <- sum(dx$AGE > 89, na.rm = TRUE)
 p.inf1an <- mean(dx$AGE < 1, na.rm = TRUE)
 n.inf18an <- sum(dx$AGE < 18, na.rm = TRUE)
 p.inf18an <- mean(dx$AGE < 18, na.rm = TRUE)
@@ -348,15 +349,17 @@ Graphe avec 2 axes des abcisses:
 - moyenne quotidienne par année
 
 ```{r c1, echo=FALSE}
-n <- nrow(dx) # nb de RPU = nb passages
-mean.rpu.jour.2014 <- n / 365 # moyenne quotidienne pour 2014
+#solution fournie par Chrpentier pour superposer barplot et lines avec des échelles différentes. Le principe est de créer 2 graphes indépendants grace à l'instruction par(new = TRUE). L'astuce est de conserver l'abcisse des points via xlim() commun aux 2 GRAPHES. Le caclul de xlim() repose sur une formule assez mystérieuse. L'abcisse des points est fournies par x = barplot() où x récupère le vecteur des abcisses du milieu de chaque barre.
 
-n2014 <- n
-n2013 <- 344073
+n2014 <- nrow(dx) # nb de RPU = nb passages
+mean.rpu.jour.2014 <- n2014 / 365 # moyenne quotidienne pour 2014
+
+# n2014 <- n
+n2013 <- 344073 # nb de RPU pour 2013
 mean.rpu.jour.2013 <- n2013 / 365 # moyenne quotidienne pour 2013
 
-par(mar = c(2,4,4,3))
-annee <- c("2013","2014")
+par(mar = c(2,4,4,3)) # on fait de la place à droite pour le 2eme axe
+annee <- c("2013","2014") # vecteur des noms des années
 freq <- length(annee) # nb de colonnes (années) à représenter
 lim <- c(0, 1.2 * freq + .5) # formule de Charpentier
 x <- barplot(c(n2013, n2014), names.arg = annee, ylab = "nombre de RPU", main = "Evolution du nombre deRPU en Alsace", xlim = lim, col="light green", axes=FALSE) # x = abcisse du centre des barres verticales
@@ -365,12 +368,12 @@ axis(2, cex.axis = .7, las = 2)
 
 par(new=TRUE) # voir http://cran.r-project.org/doc/contrib/Lemon-kickstart/kr_addat.html 
 
-xx <- cbind(x,c(mean.rpu.jour.2013, mean.rpu.jour.2014))
+xx <- cbind(x, c(mean.rpu.jour.2013, mean.rpu.jour.2014)) # matrice des coordonnées x et y des points formant la droite des moyennes des RPU.
 plot(xx, type = "b", col = "red", lwd = 3, axes = FALSE, ylim = c(0, 1200), xlim = lim, ylab = "", xlab = "")
 axis(4, col = "red")
-mtext("Nombre moyen de RPU quotidiens", 4, line=-2, cex=1, col="red")
+mtext("Nombre moyen de RPU quotidiens", 4, line=-2, cex=1, col="red") # titre de l'ordonnée à droite
 
-par(new=F)
+par(new=FALSE)
 ```
 
 - nombre de passages en `r anc`: `r format(n, big.mark = " ")` soit en moyenne `r round(mean.rpu.jour.2014, 0)` par jour.
@@ -385,6 +388,24 @@ p <- n * 100 / n2013 - 100
 croisements :
 
 #### [4][5] nombre de passages et % par type de structures (CH, CHU, privé), année N
+
+On  utilise le fichier __Hopitaux_Alsace2.csv__ qui comporte les informations suivantes:
+
+- nom de la structure
+- aabréviation pour lesRPU
+- FINESS géographique
+- FINESS juridique
+- Groupe juridique (ex. GHSV)
+- Territoire de santé
+- Zone de proximité
+- type
+- statut
+- nombre total de lits
+- nombre de lits de chirurgie
+- nombre de lits de médecine
+
+Le calcul se fait après un merging de dx et de hop.
+
 ```{r C4, echo=FALSE, comment=""}
 pass <- dx[,c("ENTREE", "FINESS")]
 file <- "RPU_Doc/Hopitaux_Alsace2.csv"
@@ -404,11 +425,51 @@ Caractéristique des patients : âge
 -----------------------------------
 
 - [7][8] moyenne âge +/- écart type année N
+
+moyenne d'age: `r mean.age` ans, ecart-type: TODO
+
 - [9] répartition par tranche âge
+```{r tranche, echo = FALSE, comment=""}
+print("ToDo")
+# par tranche d'age de 5 ans, borne sup exclue: [0-5[ ans
+a <- cut(dx$AGE, seq(from = 0,to = 120, by = 5), include.lowest = TRUE, right = FALSE)
+table(a)
+barplot(table(a), las = 2, main = "Répartition des ages de consultants", ylab = "Fréquence", col = "light blue")
+
+```
+
 - [10] pyramide des âges des patients accueillis aux urgences année N
+
 - croisements : 
+
 - [11] sexe-moyenne âge femme/homme, année N
+```{r sexe_age2, echo=FALSE}
+tapply(dx$AGE, dx$SEXE, mean, na.rm = TRUE)
+```
+
 - [12] proportion des âge extrêmes (moins de 1 an, plus de 90 ans) par mois, année N
+```{r age_extreme, echo=FALSE}
+# passages mensuels (tous ages
+n.d <- tapply(as.Date(dx$ENTREE), month(as.Date(dx$ENTREE)), length)
+# moins de 1 an
+d.1an <- dx[dx$AGE < 1,]
+n.d.1an <- tapply(as.Date(d.1an$ENTREE), month(as.Date(d.1an$ENTREE)), length)
+plot(n.d.1an, type = "l", xlab = "mois", ylab = "Fréquence")
+p.1an <- round(n.d.1an * 100/n.d, 2)
+plot(p.1an, type = "b", main = "Proportion de moins d'un an par mois", xlab = "Mois", ylab = "Fréquence")
+
+# plus de 90 ans
+d.90an <- dx[dx$AGE > 89,]
+n.d.90an <- tapply(as.Date(d.90an$ENTREE), month(as.Date(d.90an$ENTREE)), length)
+plot(n.d.90an, type = "b", xlab = "mois", ylab = "Fréquence", main = "Passages patients de 90 ans et plus")
+p.90an <- round(n.d.90an * 100/n.d, 2)
+plot(p.90an, type = "b", main = "Proportion de 90 ans et plus par mois", xlab = "Mois", ylab = "Fréquence")
+
+
+
+
+```
+
 
 Caractéristique des patients : sexe
 ------------------------------------

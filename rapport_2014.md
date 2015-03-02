@@ -51,7 +51,12 @@ __CORE [C]__ obligatoire __SUPPLEMENTAL [S]__ facultatif
 ## Nombre de SU 
 (nombre de SU pédiatriques, nombre de SU polyvalents, nombre SU adultes) [C]
 
-## Nombre de SU publics / privés [C]
+- Nombre de SU: 16
+
+### Nombre de SU publics / privés [C]
+
+- nombre de SU dans le secteur public: 343829
+- nombre de SU dans le secteur privé: 72867
 
 ## Nombre de passages dans l'année [C]
 
@@ -65,27 +70,32 @@ __CORE [C]__ obligatoire __SUPPLEMENTAL [S]__ facultatif
 
 ## %(N) public/privé [C]
 
+- nombre de RPU publics: 343829 (82.51 %)
+- nombre de RPU privés: 72867 (82.51 %)
 
-## %(N) Femme [C]
+## SEXE
+
+### %(N) Femme [C]
 
 47.78 % (199 110)
 
-## %(N) Homme [C]
+### %(N) Homme [C]
 
 52.22 % (217 617)
 
+## AGE
 
 
-## % (N) < 1 an [C]
+### % (N) < 1 an [C]
 15376 (3.69 %)
 
-## %(N) < 18 ans [C]
+### %(N) < 18 ans [C]
 119213 (28.61 %)
 
-## %(N) >= 75 ans [C]
+### %(N) >= 75 ans [C]
 57271 (13.74 %)
 
-## Age moyen
+### Age moyen
 
 - age moyen[C]: 38.03 ans.
 
@@ -207,16 +217,34 @@ Graphe avec 2 axes des abcisses:
 
 ![](rapport_2014_files/figure-html/c1-1.png) 
 
-- nombre de passages en 2014: 416 733 soit en moyenne 1142 par jour.
+- nombre de passages en 2014:    301.5148,    568.4359,  1 942.8428,  2 793.4470,  6 486.8173, 10 807.6485,  3 420.4062,    110.0200 soit en moyenne 1142 par jour.
 
 #### [3] % d’augmentation annuelle sur les années disponibles
 
 
-% de variation 2014/2013 = 21.12 %
+% de variation 2014/2013 = -99.91, -99.83, -99.44, -99.19, -98.11, -96.86, -99.01, -99.97 %
 
 croisements :
 
 #### [4][5] nombre de passages et % par type de structures (CH, CHU, privé), année N
+
+On  utilise le fichier __Hopitaux_Alsace2.csv__ qui comporte les informations suivantes:
+
+- nom de la structure
+- aabréviation pour lesRPU
+- FINESS géographique
+- FINESS juridique
+- Groupe juridique (ex. GHSV)
+- Territoire de santé
+- Zone de proximité
+- type
+- statut
+- nombre total de lits
+- nombre de lits de chirurgie
+- nombre de lits de médecine
+
+Le calcul se fait après un merging de dx et de hop.
+
 
 ```
      2014         %           
@@ -231,11 +259,43 @@ Caractéristique des patients : âge
 -----------------------------------
 
 - [7][8] moyenne âge +/- écart type année N
+
+moyenne d'age: 38.0267632 ans, ecart-type: TODO
+
 - [9] répartition par tranche âge
+
+```
+[1] "ToDo"
+```
+
+```
+a
+    [0,5)    [5,10)   [10,15)   [15,20)   [20,25)   [25,30)   [30,35) 
+    51663     24738     27012     26631     28086     26827     24574 
+  [35,40)   [40,45)   [45,50)   [50,55)   [55,60)   [60,65)   [65,70) 
+    21374     22952     21162     20022     18720     17290     14635 
+  [70,75)   [75,80)   [80,85)   [85,90)   [90,95)  [95,100) [100,105) 
+    13772     15707     17692     14385      8076      1147       232 
+[105,110) [110,115) [115,120] 
+       16        15         1 
+```
+
+![](rapport_2014_files/figure-html/tranche-1.png) 
+
 - [10] pyramide des âges des patients accueillis aux urgences année N
+
 - croisements : 
+
 - [11] sexe-moyenne âge femme/homme, année N
+
+```
+##        F        M                 I 
+## 40.31331 35.93496       NA 26.00000
+```
+
 - [12] proportion des âge extrêmes (moins de 1 an, plus de 90 ans) par mois, année N
+![](rapport_2014_files/figure-html/age_extreme-1.png) ![](rapport_2014_files/figure-html/age_extreme-2.png) ![](rapport_2014_files/figure-html/age_extreme-3.png) ![](rapport_2014_files/figure-html/age_extreme-4.png) 
+
 
 Caractéristique des patients : sexe
 ------------------------------------
@@ -264,8 +324,25 @@ Arrivée aux urgences
 --------------------
 
 - Moyenne quotidienne du nombre de passages par mois (basée sur la date d’admission) année N
+
+```r
+# On procède en 2 temps:
+# 1. on calcule le total des RPU par jour de l'année. On obtient un vecteur de 365 valeurs. Chaque valeur est repérée par la date du jour.
+rpu.jour <- tapply(as.Date(dx$ENTREE), as.Date(dx$ENTREE), length)
+# 2. on redécoupe ce vecteur en mois sur la base de la date du jour. Pour chaque mois on calcule la moyenne et l'écart-type.
+mean.rpu.jour <- tapply(rpu.jour, month(as.Date(names(rpu.jour))), mean)
+sd.rpu.jour <- tapply(rpu.jour, month(as.Date(names(rpu.jour))), sd)
+plot(mean.rpu.jour, type = "b", ylim = c(900,1400), ylab = "nombre moyen de RPU", xlab = "Mois", main = "Moyenne quotidienne du nombre de passages par mois", xlim = c(1, 12))
+```
+
+![](rapport_2014_files/figure-html/mean_month-1.png) 
+
 - Nombre de passages par semaine (basée sur la date d’admission) année N (positionner les vacances scolaires de la zone concernée)
+![](rapport_2014_files/figure-html/rpu_semaine-1.png) 
+
 - Moyenne quotidienne du nombre de passages par jour de semaine (basée sur la date d’admission), année N
+
+
 - Répartition semaine/week-end (basée sur la date d’admission), année N
 - Moyenne quotidienne du nombre de passages par « tranche d’heure » d’entrée , année N
 - Pourcentage du nombre de passages par heure d’entrée et de sortie, année N
@@ -297,11 +374,11 @@ croisements :
 Gravité
 -------
     
-    - répartition CCMU par regroupement ([1;2] ; 3 ; [4;5]; D; P), année N
+- répartition CCMU par regroupement ([1;2] ; 3 ; [4;5]; D; P), année N
 
 croisements :
     
-    - pourcentage de CCMU 1 et 2? par tranche d'âge, année N
+- pourcentage de CCMU 1 et 2 par tranche d'âge, année N
 - pourcentage de CCMU 4 et 5 par tranche d'âge, année N
 
 Motif de recours
