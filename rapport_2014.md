@@ -23,18 +23,41 @@ c. Point sur le fonctionnement du concentrateur régional : organisation, flux d
 i. Exhaustivité des données urgences 
 
 - Nombre de SU transmettant des données / Nombre total de SU
-- Nombre total de RPU / Nb total de passages SRVA
-- Nombre total de RPU / Nb total de passages SAE (suivant disponibilité)
+
+#### nombre de SU transmettants des RPU: 15
+#### nombre de SU ne transmettant pas: 1
+#### taux d'exhaustivité: 94 %
+
+- Nombre total de RPU / Nb total de passages SRVA (Serveur de veille et d'alerte)
+
+- Nombre total de RPU / Nb total de passages SAE (Statistique annuelle des établissements de santé) (suivant disponibilité)
 
 ii. Qualité des données urgences
 
 - Nombre de logiciel différents utilisés dans la région.
+
 - Graphique en araignée du taux de complétude (% donnée manquante) (après correction données aberrantes) des variables RPU, au moins sexe, âge, durée séjour, ccmu, orientation, code diag principal, motif de recours.
+
+
+```
+##    PROVENANCE            DP         MOTIF TRANSPORT_PEC     TRANSPORT 
+##         57.38         59.60         65.02         67.95         69.42 
+##   MODE_SORTIE       GRAVITE   ORIENTATION        SORTIE   MODE_ENTREE 
+##         81.32         81.55         87.80         89.83         93.91 
+##   DESTINATION   CODE_POSTAL       COMMUNE        ENTREE        FINESS 
+##         99.53        100.00        100.00        100.00        100.00 
+##     NAISSANCE          SEXE           AGE 
+##        100.00        100.00        100.00
+```
+
+![](rapport_2014_files/figure-html/completude-1.png) ![](rapport_2014_files/figure-html/completude-2.png) 
+
+
 - Critères de cohérences :
     - % CCMU 4 et 5 sortie externe.
-- % Diagnostic hors thésaurus SFMU
-- % âge > 18 ans dans SU pédiatriques.
-- % diag féminin chez homme et inverse
+    - % Diagnostic hors thésaurus SFMU
+    - % âge > 18 ans dans SU pédiatriques.
+    - % diag féminin chez homme et inverse
 
 d.      Les travaux de la FEDORU et les travaux nationaux
 
@@ -294,6 +317,7 @@ a
 ```
 
 - [12] proportion des âge extrêmes (moins de 1 an, plus de 90 ans) par mois, année N
+
 ![](rapport_2014_files/figure-html/age_extreme-1.png) ![](rapport_2014_files/figure-html/age_extreme-2.png) ![](rapport_2014_files/figure-html/age_extreme-3.png) ![](rapport_2014_files/figure-html/age_extreme-4.png) 
 
 
@@ -301,6 +325,7 @@ Caractéristique des patients : sexe
 ------------------------------------
 
 - [13] répartition en fonction du sexe année N 
+
 - [14] sex ratio, année N
 - croisements :
 - [15] sex ratio H/F par classe d’âge, année N

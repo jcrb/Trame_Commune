@@ -18,6 +18,8 @@ La proposition ici se fait autour de 4 points (représentant chacun une partie d
 
 ```{r prerequis, echo=FALSE}
 library(lubridate)
+library(plotrix) # radialplot
+
 
 pathXPS <- "../../Stat Resural/"
 pathMAC <- "../../Stat Resural/"
@@ -48,18 +50,48 @@ c. Point sur le fonctionnement du concentrateur régional : organisation, flux d
 i. Exhaustivité des données urgences 
 
 - Nombre de SU transmettant des données / Nombre total de SU
-- Nombre total de RPU / Nb total de passages SRVA
-- Nombre total de RPU / Nb total de passages SAE (suivant disponibilité)
+
+#### nombre de SU transmettants des RPU: 15
+#### nombre de SU ne transmettant pas: 1
+#### taux d'exhaustivité: `r round(15 * 100/16, 0)` %
+
+- Nombre total de RPU / Nb total de passages SRVA (Serveur de veille et d'alerte)
+
+- Nombre total de RPU / Nb total de passages SAE (Statistique annuelle des établissements de santé) (suivant disponibilité)
 
 ii. Qualité des données urgences
 
 - Nombre de logiciel différents utilisés dans la région.
+
 - Graphique en araignée du taux de complétude (% donnée manquante) (après correction données aberrantes) des variables RPU, au moins sexe, âge, durée séjour, ccmu, orientation, code diag principal, motif de recours.
+
+```{r completude, echo = FALSE}
+# complétude brute. Des corrections sont nécessaires pour DESTINATION
+completude <- apply(dx, 2, function(x){round(100 * mean(!is.na(x)),2)})
+# correction pour Destination et Orientation
+hosp <- dx[dx$MODE_SORTIE %in% c("Mutation","Transfert"), c("DESTINATION", "ORIENTATION")]
+completude.hosp <- apply(hosp, 2, function(x){round(100 * mean(!is.na(x)),2)})
+completude['ORIENTATION'] <- completude.hosp['ORIENTATION']
+completude['DESTINATION'] <- completude.hosp['DESTINATION']
+# on retire les colonnes sans intérêt: id, EXTRACT
+completude <- completude[-c(1,7)]
+sort(completude)
+
+# barplot
+barplot(sort(completude), horiz = TRUE, las = 1, cex.names = 0.8, xlab = "% de complétude", main = "Complétude des champs RPU", col = "light green")
+abline(v = 90, lty = 2, col = "red")
+
+# diagramme en étoile
+radial.plot(completude, rp.type="p", radial.lim=c(0,100), start = 1.57, clockwise = TRUE, line.col = "red", labels = names(completude), cex.axis = 0.6)
+
+```
+
+
 - Critères de cohérences :
     - % CCMU 4 et 5 sortie externe.
-- % Diagnostic hors thésaurus SFMU
-- % âge > 18 ans dans SU pédiatriques.
-- % diag féminin chez homme et inverse
+    - % Diagnostic hors thésaurus SFMU
+    - % âge > 18 ans dans SU pédiatriques.
+    - % diag féminin chez homme et inverse
 
 d.      Les travaux de la FEDORU et les travaux nationaux
 
@@ -448,6 +480,7 @@ tapply(dx$AGE, dx$SEXE, mean, na.rm = TRUE)
 ```
 
 - [12] proportion des âge extrêmes (moins de 1 an, plus de 90 ans) par mois, année N
+
 ```{r age_extreme, echo=FALSE}
 # passages mensuels (tous ages
 n.d <- tapply(as.Date(dx$ENTREE), month(as.Date(dx$ENTREE)), length)
@@ -465,9 +498,6 @@ plot(n.d.90an, type = "b", xlab = "mois", ylab = "Fréquence", main = "Passages 
 p.90an <- round(n.d.90an * 100/n.d, 2)
 plot(p.90an, type = "b", main = "Proportion de 90 ans et plus par mois", xlab = "Mois", ylab = "Fréquence")
 
-
-
-
 ```
 
 
@@ -475,6 +505,7 @@ Caractéristique des patients : sexe
 ------------------------------------
 
 - [13] répartition en fonction du sexe année N 
+
 - [14] sex ratio, année N
 - croisements :
 - [15] sex ratio H/F par classe d’âge, année N
