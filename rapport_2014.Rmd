@@ -88,10 +88,21 @@ radial.plot(completude, rp.type="p", radial.lim=c(0,100), start = 1.57, clockwis
 
 
 - Critères de cohérences :
+
     - % CCMU 4 et 5 sortie externe.
+```{r ccmu45, echo=FALSE}
+ext <- table(factor(dx$MODE_SORTIE), factor(dx$GRAVITE))
+# somme des lignes
+ext <- addmargins(ext, 2)
+p.45.domicile <- sum(ext['Domicile','4':'5']) * 100 / ext['Domicile','Sum']
+```
+#### `r round(p.45.domicile, 2)
+
     - % Diagnostic hors thésaurus SFMU
     - % âge > 18 ans dans SU pédiatriques.
     - % diag féminin chez homme et inverse
+
+
 
 d.      Les travaux de la FEDORU et les travaux nationaux
 
