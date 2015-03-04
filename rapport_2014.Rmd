@@ -3,11 +3,11 @@ title: "Rapport 2014 - version FEDORU"
 author: "JcB"
 date: "28/01/2015"
 output:
+  pdf_document:
+    toc: yes
   html_document:
     keep_md: yes
     number_sections: yes
-    toc: yes
-  pdf_document:
     toc: yes
 ---
 
@@ -18,7 +18,7 @@ La proposition ici se fait autour de 4 points (représentant chacun une partie d
 
 ```{r prerequis, echo=FALSE}
 library(lubridate)
-library(plotrix) # radialplot
+library(plotrix) # radialplot et pyramid.plot
 
 
 pathXPS <- "../../Stat Resural/"
@@ -138,8 +138,8 @@ chiffres2014 <- c(anc, n.su.ped, n.su.adultes, n.su.polyvalents, n.su.publics, n
 
 ### Nombre de SU publics / privés [C]
 
-- nombre de SU dans le secteur public: `r n.pub`
-- nombre de SU dans le secteur privé: `r n.prv`
+- nombre de SU dans le secteur public: `r n.su.publics`
+- nombre de SU dans le secteur privé: `r n.su.prives`
 
 ## Nombre de passages dans l'année [C]
 
@@ -158,7 +158,7 @@ prv <- dx[dx$FINESS %in% prives, "ENTREE"]
 n.pub <- length(pub) # nb de RPU publics
 n.prv <- length(prv) # nb de RPU privés
 p.pub <- n.pub / n.rpu
-p.prv <- n.pub / n.rpu
+p.prv <- n.prv / n.rpu
 ```
 - nombre de RPU publics: `r n.pub` (`r round(p.pub * 100, 2)` %)
 - nombre de RPU privés: `r n.prv` (`r round(p.prv * 100, 2)` %)
@@ -190,6 +190,9 @@ p.inf18an <- mean(dx$AGE < 18, na.rm = TRUE)
 n.supegal75an <- sum(dx$AGE >= 75, na.rm = TRUE)
 p.supegal75an <- mean(dx$AGE >= 75, na.rm = TRUE)
 mean.age <- mean(dx$AGE, na.rm = TRUE)
+sd.age <- sd(dx$AGE, na.rm = TRUE)
+median.age <- median(dx$AGE, na.rm = TRUE)
+
 mean.age.sexe <- tapply(dx$AGE, dx$SEXE, mean, na.rm = TRUE)
 sd.age.sexe <- tapply(dx$AGE, dx$SEXE, sd, na.rm = TRUE)
 ```
@@ -215,13 +218,13 @@ Utilisation des données INSEE qui collent le plus à la période d’étude (pr
 
 ```{r rpu.semaine.we, echo=FALSE, comment=""}
 n.par.wday <- table(wday(as.Date(dx$ENTREE), label = TRUE)) # nb de RPU par jour de semaine. Utilisable dans un barplot.
-m.rpu.sem <- sum(n.par.wday[2:6])/5 # moyenne des RPU en semaine
+m.rpu.jour.ouvrable <- sum(n.par.wday[2:6])/5 # moyenne des RPU en semaine
 m.rpu.we <- sum(n.par.wday[1], sum(n.par.wday[7]))/2 # moyenne RPU le WE
-p.activite.we <- 100 * (m.rpu.we - m.rpu.sem) / m.rpu.we
+p.activite.we <- 100 * (m.rpu.we - m.rpu.jour.ouvrable) / m.rpu.we
 ```
 
 ## % sur activité les jours de  WE [S]
-= ((Nbsam+NbDim/2)-(sommeNbJourSEm/5))/ ((Nbsam+NbDim/2)*100
+= ((Nbsam+NbDim/2)-(sommeNbJourSEm/5))/ ((Nbsam+NbDim/2)*100 [Limousin]
 
 `r round(p.activite.we, 2)` % d'activité supplémentaire le WE.
 
@@ -236,6 +239,8 @@ p.rpu.min.max <- min.rpu.mois / max.rpu.mois
 ```
 `r p.rpu.min.max * 100` %
 
+Durées de passage
+-----------------
 ```{r passages, echo=FALSE, comment=""}
 passages <- dx[, c("ENTREE", "SORTIE")] # dataframe entrées-sorties
 passages <- passages[complete.cases(passages),] # on ne conserve que les couples complets
@@ -247,31 +252,45 @@ d <- as.numeric((s-e)/60) # vecteur des durées de passage en minutes
 d <- d[d > 0 & d < 2 * 24 * 60 + 1]
 n.duree <- length(d) # nb total de durées
 s.duree <- summary(d) # résumé des durées totales de passage
+mean.duree <- s.duree['Mean']
+median.duree <- s.duree['Median']
 sd.duree <- sd(d)
 # nb de passages dont la durée est supérieure à 4 heures:
 duree.sup.4h <- d[d > 4 * 60] # vecteur des durées sup 4 h
 n.duree.sup.4h <- length(duree.sup.4h) # nb de passages > 4h
+p.duree.sup.4h <- n.duree.sup.4h / n.duree
+iqr.duree <- s.duree['3rd Qu.'] - s.duree['1st Qu.']
+```
 
+- durée moyenne de passage `r mean.duree` mn.
+- écart-type: `r sd.duree` mn.
+- médiane: `r median.duree` mn.
+- nombre de passages > 4 heures: `r n.duree.sup.4h` (`r round(p.duree.sup.4h * 100, 2)` %).
 
-# horaires seuls. Li faut isoler les heures de la date
+```{r horaires}
+# horaires seuls. Il faut isoler les heures de la date
 he <- hms(substr(e, 12, 20))
 # passages de nuit
 nuit <- he[he > hms("19:59:59") | he < hms("08:00:00")]
 n.passages.nuit <- length(nuit) # passages 20:00 - 7:59
+p.passages.nuit <- n.passages.nuit / n.passages
+
 # passages en nuit profonde
 nuit.profonde <- he[he < hms("08:00:00")]
 n.passages.nuit.profonde <- length(nuit.profonde)
+p.passages.nuit.profonde <- n.passages.nuit.profonde / n.passages
+
 ```
 
 ## % passages nuit (définition FEDORU) [C]
 nombre de passages dont l’admission s’est effectuée sur la période [20h00 - 7h59] divisé par l’ensemble des passages
 
-`r round(n.passages.nuit * 100 / n.passages, 2)` % (N = `r n.passages.nuit`)
+`r round(p.passages.nuit * 100, 2)` % (N = `r n.passages.nuit`)
 
 ## % passages nuit profonde (définition FEDORU) [C]
 nombre de passages dont l’admission s’est effectuée sur la période [00h00 - 7h59] divisé par l’ensemble des passages
 
-`r round(n.passages.nuit.profonde * 100 / n.passages, 2)` % (N = `r n.passages.nuit.profonde`)
+`r round(p.passages.nuit.profonde * 100, 2)` % (N = `r n.passages.nuit.profonde`)
 
 ```{r transpport, echo=FALSE, comment=""}
 transport <- table(dx$TRANSPORT)
@@ -282,6 +301,13 @@ n.transport.fo <- transport['FO']
 n.transport.heli <- transport['HELI']
 n.transport.smur <- transport['SMUR']
 n.transport.vsab <- transport['VSAB']
+
+p.transport.perso <- transport['PERSO'] / n.transport
+p.transport.ambu <- transport['AMBU'] / n.transport
+p.transport.fo <- transport['FO'] / n.transport
+p.transport.heli <- transport['HELI'] / n.transport
+p.transport.smur <- transport['SMUR'] / n.transport
+p.transport.vsab <- transport['VSAB'] / n.transport
 ```
 
 ##  %(N) d'arrivée perso [S]
@@ -347,6 +373,11 @@ n.externes <- mode.sortie['Domicile'] # nb de sortants
 n.hospitalises <- mode.sortie['Mutation'] # nb d'hospitalisés
 n.transferts <- mode.sortie['Transfert'] # nb de transferts
 n.deces <- mode.sortie['DCD']
+
+p.externes <- mode.sortie['Domicile'] / n.mode.sortie
+p.hospitalises <- mode.sortie['Mutation'] / n.mode.sortie
+p.transferts <- mode.sortie['Transfert'] / n.mode.sortie
+p.deces <- mode.sortie['DCD']
 ```
 
 ##  %  (N)Externe [C]
@@ -469,7 +500,7 @@ Caractéristique des patients : âge
 
 - [7][8] moyenne âge +/- écart type année N
 
-moyenne d'age: `r mean.age` ans, ecart-type: TODO
+moyenne d'age: `r mean.age` ans, ecart-type: `r round(sd.age, 2)``ans.
 
 - [9] répartition par tranche âge
 ```{r tranche, echo = FALSE, comment=""}
@@ -477,11 +508,19 @@ print("ToDo")
 # par tranche d'age de 5 ans, borne sup exclue: [0-5[ ans
 a <- cut(dx$AGE, seq(from = 0,to = 120, by = 5), include.lowest = TRUE, right = FALSE)
 table(a)
+
 barplot(table(a), las = 2, main = "Répartition des ages de consultants", ylab = "Fréquence", col = "light blue")
 
 ```
 
 - [10] pyramide des âges des patients accueillis aux urgences année N
+
+```{r pyramide}
+h <- as.vector(100 * table(a[dx$SEXE == "M"])/n.rpu)
+f <- as.vector(100 * table(a[dx$SEXE == "F"])/n.rpu)
+pyramid.plot(h,f, labels = names(table(a)), top.labels = c("Hommes", "Age", "Femmes"), main = "Pyramide des ages", lxcol = "light green", rxcol = "khaki1")
+
+```
 
 - croisements : 
 
