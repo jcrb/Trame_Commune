@@ -592,6 +592,8 @@ plot(mean.rpu.jour, type = "b", ylim = c(900,1400), ylab = "nombre moyen de RPU"
 
 - Nombre de passages par semaine (basée sur la date d’admission) année N (positionner les vacances scolaires de la zone concernée)
 ```{r rpu_semaine, echo=FALSE}
+rpu.semaine <- tapply(as.Date(dx$ENTREE), week(as.Date(dx$ENTREE)), length)
+
 plot(rpu.semaine[1:52], type = "l", ylab = "RPU", xlab = "semaines", main = "Nombre de passages par semaine", col = "blue", lwd = 3)
 
 ```
@@ -654,7 +656,7 @@ Motif de recours
 Pathologie
 ----------
     
-    - répartition par type d’urgences (med/chir, traumato, psy, toxico, autre), année N
+- répartition par type d’urgences (med/chir, traumato, psy, toxico, autre), année N
 - répartition par entêtes chapitre CIM 10, année N
 - répartition par disciplines, année N
 - répartition par diagnostic principal (top 10), année N
@@ -690,6 +692,19 @@ Orientation
 -----------
 
 - Moyenne quotidienne du nombre de passages en fonction de l’orientation, année N 
+
+```{r moyenne-orientation}
+# on crée un objet orient (en éliminant les orientation nulles)
+orient <- dx[!is.na(dx$ORIENTATION),]
+
+# on crée un dataframe de 365 jours et 13 colonnes comptant le nb de RPU pour chaque orientation. Pourrait se transformer en xts pour tracer une ligne par orientation.
+t <- tapply(as.Date(orient$ENTREE), list(as.Date(orient$ENTREE), factor(orient$ORIENTATION)), length)
+
+# on calcule les 13 moyennes
+m <- apply(t, 2, mean, na.rm = TRUE)
+m
+```
+
 
 croisements :
 
