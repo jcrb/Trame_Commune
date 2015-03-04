@@ -84,8 +84,8 @@ __CORE [C]__ obligatoire __SUPPLEMENTAL [S]__ facultatif
 
 ### Nombre de SU publics / privés [C]
 
-- nombre de SU dans le secteur public: 343829
-- nombre de SU dans le secteur privé: 72867
+- nombre de SU dans le secteur public: NA
+- nombre de SU dans le secteur privé: NA
 
 ## Nombre de passages dans l'année [C]
 
@@ -100,7 +100,7 @@ __CORE [C]__ obligatoire __SUPPLEMENTAL [S]__ facultatif
 ## %(N) public/privé [C]
 
 - nombre de RPU publics: 343829 (82.51 %)
-- nombre de RPU privés: 72867 (82.51 %)
+- nombre de RPU privés: 72867 (17.49 %)
 
 ## SEXE
 
@@ -137,7 +137,7 @@ Utilisation des données INSEE qui collent le plus à la période d’étude (pr
 
 
 ## % sur activité les jours de  WE [S]
-= ((Nbsam+NbDim/2)-(sommeNbJourSEm/5))/ ((Nbsam+NbDim/2)*100
+= ((Nbsam+NbDim/2)-(sommeNbJourSEm/5))/ ((Nbsam+NbDim/2)*100 [Limousin]
 
 4.52 % d'activité supplémentaire le WE.
 
@@ -147,7 +147,29 @@ NB: le calcul ne tient pas compte des jours fériés (à faire).
 
 71.4142648 %
 
+Durées de passage
+-----------------
 
+
+- durée moyenne de passage 154.9 mn.
+- écart-type: 171.5908609 mn.
+- médiane: 109 mn.
+- nombre de passages > 4 heures: 69521 (18.69 %).
+
+
+```r
+# horaires seuls. Il faut isoler les heures de la date
+he <- hms(substr(e, 12, 20))
+# passages de nuit
+nuit <- he[he > hms("19:59:59") | he < hms("08:00:00")]
+n.passages.nuit <- length(nuit) # passages 20:00 - 7:59
+p.passages.nuit <- n.passages.nuit / n.passages
+
+# passages en nuit profonde
+nuit.profonde <- he[he < hms("08:00:00")]
+n.passages.nuit.profonde <- length(nuit.profonde)
+p.passages.nuit.profonde <- n.passages.nuit.profonde / n.passages
+```
 
 ## % passages nuit (définition FEDORU) [C]
 nombre de passages dont l’admission s’est effectuée sur la période [20h00 - 7h59] divisé par l’ensemble des passages
@@ -289,7 +311,7 @@ Caractéristique des patients : âge
 
 - [7][8] moyenne âge +/- écart type année N
 
-moyenne d'age: 38.0267632 ans, ecart-type: TODO
+moyenne d'age: 38.0267632 ans, ecart-type: 27.1`ans.
 
 - [9] répartition par tranche âge
 
@@ -312,6 +334,19 @@ a
 ![](rapport_2014_files/figure-html/tranche-1.png) 
 
 - [10] pyramide des âges des patients accueillis aux urgences année N
+
+
+```r
+h <- as.vector(100 * table(a[dx$SEXE == "M"])/n.rpu)
+f <- as.vector(100 * table(a[dx$SEXE == "F"])/n.rpu)
+pyramid.plot(h,f, labels = names(table(a)), top.labels = c("Hommes", "Age", "Femmes"), main = "Pyramide des ages", lxcol = "light green", rxcol = "khaki1")
+```
+
+![](rapport_2014_files/figure-html/pyramide-1.png) 
+
+```
+## [1] 5.1 4.1 4.1 2.1
+```
 
 - croisements : 
 
