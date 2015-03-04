@@ -138,8 +138,8 @@ chiffres2014 <- c(anc, n.su.ped, n.su.adultes, n.su.polyvalents, n.su.publics, n
 
 ### Nombre de SU publics / privés [C]
 
-- nombre de SU dans le secteur public: `r n.pub`
-- nombre de SU dans le secteur privé: `r n.prv`
+- nombre de SU dans le secteur public: `r n.su.publics`
+- nombre de SU dans le secteur privé: `r n.su.prives`
 
 ## Nombre de passages dans l'année [C]
 
@@ -158,7 +158,7 @@ prv <- dx[dx$FINESS %in% prives, "ENTREE"]
 n.pub <- length(pub) # nb de RPU publics
 n.prv <- length(prv) # nb de RPU privés
 p.pub <- n.pub / n.rpu
-p.prv <- n.pub / n.rpu
+p.prv <- n.prv / n.rpu
 ```
 - nombre de RPU publics: `r n.pub` (`r round(p.pub * 100, 2)` %)
 - nombre de RPU privés: `r n.prv` (`r round(p.prv * 100, 2)` %)

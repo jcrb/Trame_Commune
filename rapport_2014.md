@@ -54,10 +54,16 @@ ii. Qualité des données urgences
 
 
 - Critères de cohérences :
+
     - % CCMU 4 et 5 sortie externe.
+
+#### `r round(p.45.domicile, 2)
+
     - % Diagnostic hors thésaurus SFMU
     - % âge > 18 ans dans SU pédiatriques.
     - % diag féminin chez homme et inverse
+
+
 
 d.      Les travaux de la FEDORU et les travaux nationaux
 
