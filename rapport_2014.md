@@ -50,7 +50,24 @@ ii. Qualité des données urgences
 ##        100.00        100.00        100.00
 ```
 
-![](rapport_2014_files/figure-html/completude-1.png) ![](rapport_2014_files/figure-html/completude-2.png) 
+![](rapport_2014_files/figure-html/completude-1.png) 
+
+```
+## Warning in rep(point.symbols, length.out = nsets): 'x' is NULL so the
+## result will be NULL
+```
+
+```
+## Warning in rep(point.col, length.out = nsets): 'x' is NULL so the result
+## will be NULL
+```
+
+```
+## Warning in rep(poly.col, length.out = nsets): 'x' is NULL so the result
+## will be NULL
+```
+
+![](rapport_2014_files/figure-html/completude-2.png) 
 
 
 - Critères de cohérences :
@@ -131,12 +148,12 @@ __CORE [C]__ obligatoire __SUPPLEMENTAL [S]__ facultatif
 - age moyen des hommes [S] (pourquoi 'homme et femme' en SUPP ?) NA ans.
 - age moyen des femmes [S] 40.31 ans.
 
-## Taux de recours (définition FEDORU) régional aux urgences. [S]
+### Taux de recours (définition FEDORU) régional aux urgences. [S]
 Utilisation des données INSEE qui collent le plus à la période d’étude (projections ou données consolidées)
 
 
 
-## % sur activité les jours de  WE [S]
+### % sur activité les jours de  WE [S]
 = ((Nbsam+NbDim/2)-(sommeNbJourSEm/5))/ ((Nbsam+NbDim/2)*100 [Limousin]
 
 4.52 % d'activité supplémentaire le WE.
@@ -171,50 +188,59 @@ n.passages.nuit.profonde <- length(nuit.profonde)
 p.passages.nuit.profonde <- n.passages.nuit.profonde / n.passages
 ```
 
-## % passages nuit (définition FEDORU) [C]
+### % passages nuit (définition FEDORU) [C]
 nombre de passages dont l’admission s’est effectuée sur la période [20h00 - 7h59] divisé par l’ensemble des passages
 
 24.74 % (N = 92610)
 
-## % passages nuit profonde (définition FEDORU) [C]
+### % passages nuit profonde (définition FEDORU) [C]
 nombre de passages dont l’admission s’est effectuée sur la période [00h00 - 7h59] divisé par l’ensemble des passages
 
 11.09 % (N = 41500)
 
+Mode de transport
+-----------------
 
 
-##  %(N) d'arrivée perso [S]
+
+###  %(N) d'arrivée perso [S]
 
 72.16 % (N = 208 771)
 
-##  %(N) d'arrivée SMUR [S]
+###  %(N) d'arrivée SMUR [S]
 
 0.93 % (N = 2 702)
 
-##  %(N) d'arrivée VSAB [S]
+###  %(N) d'arrivée VSAB [S]
 
 10.35 % (N = 29 954)
 
-##  %(N) d'arrivée Ambulance [S]
+###  %(N) d'arrivée Ambulance [S]
 
 15.94 % (N = 46 112)
 
+Gravité (CCMU)
+--------------
 
 
-##  %(N) CCMU 1 et 2 [C]
+
+###  %(N) CCMU 1 et 2 [C]
 84.45% (n = 286979)
 
-##  %(N) CCMU 4 et 5 [C]
+###  %(N) CCMU 4 et 5 [C]
 1.28% (n = 4341)
 
-##  %(N) Médico-chir [C]
+###  %(N) Médico-chir [C]
 
-##  %(N) Traumato [C]
+###  %(N) Traumato [C]
 
-##  %(N) Psy [C]
+###  %(N) Psy [C]
 0.38% (n = 1307)
 
-## Durée de séjour (hors UHCD): 
+Durée de présence
+-----------------
+
+### Durée de séjour (hors UHCD): 
 moyenne +/- ET ; médiane (IQR) [C]
 
 - moyenne: 154.9 mn
@@ -228,29 +254,33 @@ Pas calculable en Alsace :-(
 ###  %  (N) passages durée séjour > 4h [S]
 18.69% (n = 69521)
 
+Mode de sortie
+--------------
 
 
-##  %  (N)Externe [C]
+
+###  %  (N)Externe [C]
 
 75.5 % (N = 255 852)
 
-##  %  (N)Hospitalisation [C]
+###  %  (N)Hospitalisation [C]
 
 22.72 % (N = 76 999)
 
-##  %  (N)Transfert [C]
+###  %  (N)Transfert [C]
 
 1.78 % (N = 6 025)
 
-##  %  (N)Sortie non convenue [C]
+###  %  (N)Sortie non convenue [C]
 
 5.09 % (N = 4 222)
 
-##  %  (N)Décès [C]
+###  %  (N)Décès [C]
 0.01% (n = 26)
 
-les résultats régionaux (page 10)
-=======================
+
+les résultats régionaux
+========================
 
 partie centrale du rapport dans laquelle tous les résultats d’activité sont présentés dans le déroulement d’une trame. Le principe est de passer en revue les variables du RPU (communes à tous normalement), d’en proposer une exploitation si elles présentent un intérêt, puis de proposer quelques croisements associés à chaque variable s’ils semblent pertinents (présence d’un bloc ‘croisement’ spécifique dans chaque partie ci dessous).
 
@@ -268,12 +298,12 @@ Graphe avec 2 axes des abcisses:
 
 ![](rapport_2014_files/figure-html/c1-1.png) 
 
-- nombre de passages en 2014:    301.5148,    568.4359,  1 942.8428,  2 793.4470,  6 486.8173, 10 807.6485,  3 420.4062,    110.0200 soit en moyenne 1142 par jour.
+- nombre de passages en 2014: 416 733 soit en moyenne 1142 par jour.
 
 #### [3] % d’augmentation annuelle sur les années disponibles
 
 
-% de variation 2014/2013 = -99.91, -99.83, -99.44, -99.19, -98.11, -96.86, -99.01, -99.97 %
+% de variation 2014/2013 = 21.12 %
 
 croisements :
 
@@ -566,4 +596,13 @@ durée de passage en classe
 - moins de 4 heures ; 4 heures et plus
 - moins d’une heure ; entre 1 et 2 heures ; de 2 à 4 heures ; de 4 à 8 heures ; de 8 à 12 heures ; entre 12 et 72 heures ; (bornes supérieures exclues)
 
+
+```r
+proc.time() - ptm
+```
+
+```
+##    user  system elapsed 
+##  18.352   1.305  19.674
+```
 
