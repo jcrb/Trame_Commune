@@ -25,7 +25,7 @@ pathXPS <- "../../Stat Resural/"
 pathMAC <- "../../Stat Resural/"
 
 #path <- pathXPS
-path <- pathMAC
+path <- pathXPS
 
 file_test <- "RPU_2014/rpu2015d01.Rda" # fichier de test
 file_actif <- "RPU_2014/rpu2014d0112_c.Rda" # données de 2014
