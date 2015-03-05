@@ -99,7 +99,7 @@ ext <- table(factor(dx$MODE_SORTIE), factor(dx$GRAVITE))
 ext <- addmargins(ext, 2)
 p.45.domicile <- sum(ext['Domicile','4':'5']) * 100 / ext['Domicile','Sum']
 ```
-#### `r round(p.45.domicile, 2)
+#### `r round(p.45.domicile, 2)`
 
     - % Diagnostic hors thésaurus SFMU
     - % âge > 18 ans dans SU pédiatriques.
@@ -710,7 +710,7 @@ Orientation
 
 croisements :
 
-- Moyenne quotidienne dunombre d’hospitalisations en fonction de la classe d’âge (pédia, âge moyen, géria), année N
+- Moyenne quotidienne du nombre d’hospitalisations en fonction de la classe d’âge (pédia, âge moyen, géria), année N
 - Taux d’hospitalisation en fonction de jour/nuit et âge, année N
 - Top 5 des disciplines pathologiques pour lesquelles le taux d’hospitalisation est le plus fort, année N
 - Top 5 des disciplines pathologiques pour lesquelles le taux de retour à domicile est le plus fort, année N
@@ -735,6 +735,7 @@ focus sur une sous déclinaison de l’activité (pathologies traceuses ou trait
 - Répartition par tranche heure en pourcentage, année N
 - Répartition par orientation en pourcentage, année N
 - Temps de passage médian, année N
+
 
 Définitions FEDORU
 ====================
