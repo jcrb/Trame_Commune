@@ -50,24 +50,7 @@ ii. Qualité des données urgences
 ##        100.00        100.00        100.00
 ```
 
-![](rapport_2014_files/figure-html/completude-1.png) 
-
-```
-## Warning in rep(point.symbols, length.out = nsets): 'x' is NULL so the
-## result will be NULL
-```
-
-```
-## Warning in rep(point.col, length.out = nsets): 'x' is NULL so the result
-## will be NULL
-```
-
-```
-## Warning in rep(poly.col, length.out = nsets): 'x' is NULL so the result
-## will be NULL
-```
-
-![](rapport_2014_files/figure-html/completude-2.png) 
+![](rapport_2014_files/figure-html/completude-1.png) ![](rapport_2014_files/figure-html/completude-2.png) 
 
 
 - Critères de cohérences :
@@ -298,12 +281,12 @@ Graphe avec 2 axes des abcisses:
 
 ![](rapport_2014_files/figure-html/c1-1.png) 
 
-- nombre de passages en 2014: 416 733 soit en moyenne 1142 par jour.
+- nombre de passages en 2014:    301.5148,    568.4359,  1 942.8428,  2 793.4470,  6 486.8173, 10 807.6485,  3 420.4062,    110.0200 soit en moyenne 1142 par jour.
 
 #### [3] % d’augmentation annuelle sur les années disponibles
 
 
-% de variation 2014/2013 = 21.12 %
+% de variation 2014/2013 = -99.91, -99.83, -99.44, -99.19, -98.11, -96.86, -99.01, -99.97 %
 
 croisements :
 
@@ -485,7 +468,7 @@ Motif de recours
 Pathologie
 ----------
     
-    - répartition par type d’urgences (med/chir, traumato, psy, toxico, autre), année N
+- répartition par type d’urgences (med/chir, traumato, psy, toxico, autre), année N
 - répartition par entêtes chapitre CIM 10, année N
 - répartition par disciplines, année N
 - répartition par diagnostic principal (top 10), année N
@@ -522,9 +505,30 @@ Orientation
 
 - Moyenne quotidienne du nombre de passages en fonction de l’orientation, année N 
 
+
+```r
+# on crée un objet orient (en éliminant les orientation nulles)
+orient <- dx[!is.na(dx$ORIENTATION),]
+
+# on crée un dataframe de 365 jours et 13 colonnes comptant le nb de RPU pour chaque orientation. Pourrait se transformer en xts pour tracer une ligne par orientation.
+t <- tapply(as.Date(orient$ENTREE), list(as.Date(orient$ENTREE), factor(orient$ORIENTATION)), length)
+
+# on calcule les 13 moyennes
+m <- apply(t, 2, mean, na.rm = TRUE)
+m
+```
+
+```
+##      CHIR     FUGUE       HDT        HO       MED      OBST       PSA 
+## 30.501370  1.611702  1.153061  1.096774 66.684932  1.271845  9.321429 
+##       REA       REO        SC      SCAM        SI      UHCD 
+##  3.823864  4.608451  5.600551  1.940959  8.235616 95.643836
+```
+
+
 croisements :
 
-- Moyenne quotidienne dunombre d’hospitalisations en fonction de la classe d’âge (pédia, âge moyen, géria), année N
+- Moyenne quotidienne du nombre d’hospitalisations en fonction de la classe d’âge (pédia, âge moyen, géria), année N
 - Taux d’hospitalisation en fonction de jour/nuit et âge, année N
 - Top 5 des disciplines pathologiques pour lesquelles le taux d’hospitalisation est le plus fort, année N
 - Top 5 des disciplines pathologiques pour lesquelles le taux de retour à domicile est le plus fort, année N
@@ -603,6 +607,6 @@ proc.time() - ptm
 
 ```
 ##    user  system elapsed 
-##  18.352   1.305  19.674
+##  74.358   1.976  76.905
 ```
 
