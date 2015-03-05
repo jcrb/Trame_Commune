@@ -131,12 +131,12 @@ __CORE [C]__ obligatoire __SUPPLEMENTAL [S]__ facultatif
 - age moyen des hommes [S] (pourquoi 'homme et femme' en SUPP ?) NA ans.
 - age moyen des femmes [S] 40.31 ans.
 
-## Taux de recours (définition FEDORU) régional aux urgences. [S]
+### Taux de recours (définition FEDORU) régional aux urgences. [S]
 Utilisation des données INSEE qui collent le plus à la période d’étude (projections ou données consolidées)
 
 
 
-## % sur activité les jours de  WE [S]
+### % sur activité les jours de  WE [S]
 = ((Nbsam+NbDim/2)-(sommeNbJourSEm/5))/ ((Nbsam+NbDim/2)*100 [Limousin]
 
 4.52 % d'activité supplémentaire le WE.
@@ -171,50 +171,59 @@ n.passages.nuit.profonde <- length(nuit.profonde)
 p.passages.nuit.profonde <- n.passages.nuit.profonde / n.passages
 ```
 
-## % passages nuit (définition FEDORU) [C]
+### % passages nuit (définition FEDORU) [C]
 nombre de passages dont l’admission s’est effectuée sur la période [20h00 - 7h59] divisé par l’ensemble des passages
 
 24.74 % (N = 92610)
 
-## % passages nuit profonde (définition FEDORU) [C]
+### % passages nuit profonde (définition FEDORU) [C]
 nombre de passages dont l’admission s’est effectuée sur la période [00h00 - 7h59] divisé par l’ensemble des passages
 
 11.09 % (N = 41500)
 
+Mode de transport
+-----------------
 
 
-##  %(N) d'arrivée perso [S]
+
+###  %(N) d'arrivée perso [S]
 
 72.16 % (N = 208 771)
 
-##  %(N) d'arrivée SMUR [S]
+###  %(N) d'arrivée SMUR [S]
 
 0.93 % (N = 2 702)
 
-##  %(N) d'arrivée VSAB [S]
+###  %(N) d'arrivée VSAB [S]
 
 10.35 % (N = 29 954)
 
-##  %(N) d'arrivée Ambulance [S]
+###  %(N) d'arrivée Ambulance [S]
 
 15.94 % (N = 46 112)
 
+Gravité (CCMU)
+--------------
 
 
-##  %(N) CCMU 1 et 2 [C]
+
+###  %(N) CCMU 1 et 2 [C]
 84.45% (n = 286979)
 
-##  %(N) CCMU 4 et 5 [C]
+###  %(N) CCMU 4 et 5 [C]
 1.28% (n = 4341)
 
-##  %(N) Médico-chir [C]
+###  %(N) Médico-chir [C]
 
-##  %(N) Traumato [C]
+###  %(N) Traumato [C]
 
-##  %(N) Psy [C]
+###  %(N) Psy [C]
 0.38% (n = 1307)
 
-## Durée de séjour (hors UHCD): 
+Durée de présence
+-----------------
+
+### Durée de séjour (hors UHCD): 
 moyenne +/- ET ; médiane (IQR) [C]
 
 - moyenne: 154.9 mn
@@ -228,29 +237,33 @@ Pas calculable en Alsace :-(
 ###  %  (N) passages durée séjour > 4h [S]
 18.69% (n = 69521)
 
+Mode de sortie
+--------------
 
 
-##  %  (N)Externe [C]
+
+###  %  (N)Externe [C]
 
 75.5 % (N = 255 852)
 
-##  %  (N)Hospitalisation [C]
+###  %  (N)Hospitalisation [C]
 
 22.72 % (N = 76 999)
 
-##  %  (N)Transfert [C]
+###  %  (N)Transfert [C]
 
 1.78 % (N = 6 025)
 
-##  %  (N)Sortie non convenue [C]
+###  %  (N)Sortie non convenue [C]
 
 5.09 % (N = 4 222)
 
-##  %  (N)Décès [C]
+###  %  (N)Décès [C]
 0.01% (n = 26)
 
-les résultats régionaux (page 10)
-=======================
+
+les résultats régionaux
+========================
 
 partie centrale du rapport dans laquelle tous les résultats d’activité sont présentés dans le déroulement d’une trame. Le principe est de passer en revue les variables du RPU (communes à tous normalement), d’en proposer une exploitation si elles présentent un intérêt, puis de proposer quelques croisements associés à chaque variable s’ils semblent pertinents (présence d’un bloc ‘croisement’ spécifique dans chaque partie ci dessous).
 
@@ -455,7 +468,7 @@ Motif de recours
 Pathologie
 ----------
     
-    - répartition par type d’urgences (med/chir, traumato, psy, toxico, autre), année N
+- répartition par type d’urgences (med/chir, traumato, psy, toxico, autre), année N
 - répartition par entêtes chapitre CIM 10, année N
 - répartition par disciplines, année N
 - répartition par diagnostic principal (top 10), année N
@@ -492,9 +505,30 @@ Orientation
 
 - Moyenne quotidienne du nombre de passages en fonction de l’orientation, année N 
 
+
+```r
+# on crée un objet orient (en éliminant les orientation nulles)
+orient <- dx[!is.na(dx$ORIENTATION),]
+
+# on crée un dataframe de 365 jours et 13 colonnes comptant le nb de RPU pour chaque orientation. Pourrait se transformer en xts pour tracer une ligne par orientation.
+t <- tapply(as.Date(orient$ENTREE), list(as.Date(orient$ENTREE), factor(orient$ORIENTATION)), length)
+
+# on calcule les 13 moyennes
+m <- apply(t, 2, mean, na.rm = TRUE)
+m
+```
+
+```
+##      CHIR     FUGUE       HDT        HO       MED      OBST       PSA 
+## 30.501370  1.611702  1.153061  1.096774 66.684932  1.271845  9.321429 
+##       REA       REO        SC      SCAM        SI      UHCD 
+##  3.823864  4.608451  5.600551  1.940959  8.235616 95.643836
+```
+
+
 croisements :
 
-- Moyenne quotidienne dunombre d’hospitalisations en fonction de la classe d’âge (pédia, âge moyen, géria), année N
+- Moyenne quotidienne du nombre d’hospitalisations en fonction de la classe d’âge (pédia, âge moyen, géria), année N
 - Taux d’hospitalisation en fonction de jour/nuit et âge, année N
 - Top 5 des disciplines pathologiques pour lesquelles le taux d’hospitalisation est le plus fort, année N
 - Top 5 des disciplines pathologiques pour lesquelles le taux de retour à domicile est le plus fort, année N
@@ -566,4 +600,13 @@ durée de passage en classe
 - moins de 4 heures ; 4 heures et plus
 - moins d’une heure ; entre 1 et 2 heures ; de 2 à 4 heures ; de 4 à 8 heures ; de 8 à 12 heures ; entre 12 et 72 heures ; (bornes supérieures exclues)
 
+
+```r
+proc.time() - ptm
+```
+
+```
+##    user  system elapsed 
+##  74.358   1.976  76.905
+```
 

@@ -3,11 +3,13 @@ title: "Rapport 2014 - version FEDORU"
 author: "JcB"
 date: "28/01/2015"
 output:
-  pdf_document:
-    toc: yes
   html_document:
+    highlight: tango
     keep_md: yes
     number_sections: yes
+    theme: cosmo
+    toc: yes
+  pdf_document:
     toc: yes
 ---
 
@@ -17,6 +19,7 @@ Rapport 2014 respectant les préconisations de la FEDORU
 La proposition ici se fait autour de 4 points (représentant chacun une partie de rapport) :
 
 ```{r prerequis, echo=FALSE}
+ptm <- proc.time()
 library(lubridate)
 library(plotrix) # radialplot et pyramid.plot
 
@@ -25,7 +28,7 @@ pathXPS <- "../../Stat Resural/"
 pathMAC <- "../../Stat Resural/"
 
 #path <- pathXPS
-path <- pathMAC
+path <- pathXPS
 
 file_test <- "RPU_2014/rpu2015d01.Rda" # fichier de test
 file_actif <- "RPU_2014/rpu2014d0112_c.Rda" # données de 2014
@@ -213,7 +216,7 @@ sd.age.sexe <- tapply(dx$AGE, dx$SEXE, sd, na.rm = TRUE)
 - age moyen des hommes [S] (pourquoi 'homme et femme' en SUPP ?) `r round(mean.age.sexe[3], 2)` ans.
 - age moyen des femmes [S] `r round(mean.age.sexe[1], 2)` ans.
 
-## Taux de recours (définition FEDORU) régional aux urgences. [S]
+### Taux de recours (définition FEDORU) régional aux urgences. [S]
 Utilisation des données INSEE qui collent le plus à la période d’étude (projections ou données consolidées)
 
 ```{r rpu.semaine.we, echo=FALSE, comment=""}
@@ -223,7 +226,7 @@ m.rpu.we <- sum(n.par.wday[1], sum(n.par.wday[7]))/2 # moyenne RPU le WE
 p.activite.we <- 100 * (m.rpu.we - m.rpu.jour.ouvrable) / m.rpu.we
 ```
 
-## % sur activité les jours de  WE [S]
+### % sur activité les jours de  WE [S]
 = ((Nbsam+NbDim/2)-(sommeNbJourSEm/5))/ ((Nbsam+NbDim/2)*100 [Limousin]
 
 `r round(p.activite.we, 2)` % d'activité supplémentaire le WE.
@@ -282,15 +285,18 @@ p.passages.nuit.profonde <- n.passages.nuit.profonde / n.passages
 
 ```
 
-## % passages nuit (définition FEDORU) [C]
+### % passages nuit (définition FEDORU) [C]
 nombre de passages dont l’admission s’est effectuée sur la période [20h00 - 7h59] divisé par l’ensemble des passages
 
 `r round(p.passages.nuit * 100, 2)` % (N = `r n.passages.nuit`)
 
-## % passages nuit profonde (définition FEDORU) [C]
+### % passages nuit profonde (définition FEDORU) [C]
 nombre de passages dont l’admission s’est effectuée sur la période [00h00 - 7h59] divisé par l’ensemble des passages
 
 `r round(p.passages.nuit.profonde * 100, 2)` % (N = `r n.passages.nuit.profonde`)
+
+Mode de transport
+-----------------
 
 ```{r transpport, echo=FALSE, comment=""}
 transport <- table(dx$TRANSPORT)
@@ -310,21 +316,24 @@ p.transport.smur <- transport['SMUR'] / n.transport
 p.transport.vsab <- transport['VSAB'] / n.transport
 ```
 
-##  %(N) d'arrivée perso [S]
+###  %(N) d'arrivée perso [S]
 
 `r round(n.transport.perso * 100 / n.transport, 2)` % (N = `r format(n.transport.perso, big.mark = " ")`)
 
-##  %(N) d'arrivée SMUR [S]
+###  %(N) d'arrivée SMUR [S]
 
 `r round(n.transport.smur * 100 / n.transport, 2)` % (N = `r format(n.transport.smur, big.mark = " ")`)
 
-##  %(N) d'arrivée VSAB [S]
+###  %(N) d'arrivée VSAB [S]
 
 `r round(n.transport.vsab * 100 / n.transport, 2)` % (N = `r format(n.transport.vsab, big.mark = " ")`)
 
-##  %(N) d'arrivée Ambulance [S]
+###  %(N) d'arrivée Ambulance [S]
 
 `r round(n.transport.ambu * 100 / n.transport, 2)` % (N = `r format(n.transport.ambu, big.mark = " ")`)
+
+Gravité (CCMU)
+--------------
 
 ```{r ccmu, echo=FALSE, comment=""}
 ccmu <- summary(as.factor(dx$GRAVITE))
@@ -339,20 +348,23 @@ n.ccmu.p <- ccmu[7]
 p.ccmu.p <- n.ccmu.p / s.ccmu
 ```
 
-##  %(N) CCMU 1 et 2 [C]
+###  %(N) CCMU 1 et 2 [C]
 `r round(100 * p.ccmu12, 2)`% (n = `r n.ccmu12`)
 
-##  %(N) CCMU 4 et 5 [C]
+###  %(N) CCMU 4 et 5 [C]
 `r round(100 * p.ccmu45, 2)`% (n = `r n.ccmu45`)
 
-##  %(N) Médico-chir [C]
+###  %(N) Médico-chir [C]
 
-##  %(N) Traumato [C]
+###  %(N) Traumato [C]
 
-##  %(N) Psy [C]
+###  %(N) Psy [C]
 `r round(100 * p.ccmu.p, 2)`% (n = `r n.ccmu.p`)
 
-## Durée de séjour (hors UHCD): 
+Durée de présence
+-----------------
+
+### Durée de séjour (hors UHCD): 
 moyenne +/- ET ; médiane (IQR) [C]
 
 - moyenne: `r s.duree['Mean']` mn
@@ -365,6 +377,9 @@ Pas calculable en Alsace :-(
 
 ###  %  (N) passages durée séjour > 4h [S]
 `r round(100 * n.duree.sup.4h / n.duree, 2)`% (n = `r n.duree.sup.4h`)
+
+Mode de sortie
+--------------
 
 ```{r mode_sortie, echo=FALSE, comment=""}
 mode.sortie <- table(dx$MODE_SORTIE) # mode de sortie par type
@@ -380,19 +395,19 @@ p.transferts <- mode.sortie['Transfert'] / n.mode.sortie
 p.deces <- mode.sortie['DCD']
 ```
 
-##  %  (N)Externe [C]
+###  %  (N)Externe [C]
 
 `r round(n.externes * 100 / n.mode.sortie, 2)` % (N = `r format(n.externes, big.mark = " ")`)
 
-##  %  (N)Hospitalisation [C]
+###  %  (N)Hospitalisation [C]
 
 `r round(n.hospitalises * 100 / n.mode.sortie, 2)` % (N = `r format(n.hospitalises, big.mark = " ")`)
 
-##  %  (N)Transfert [C]
+###  %  (N)Transfert [C]
 
 `r round(n.transferts * 100 / n.mode.sortie, 2)` % (N = `r format(n.transferts, big.mark = " ")`)
 
-##  %  (N)Sortie non convenue [C]
+###  %  (N)Sortie non convenue [C]
 ```{r scam, echo=FALSE, comment=""}
 orientation <- table(dx$ORIENTATION)
 n.orientation <- sum(orientation) # nb d'orientations renseignées
@@ -402,11 +417,12 @@ p.sortie.non.convenue <- round(n.sortie.non.convenue * 100 /n.orientation, 2)
 ```
 `r p.sortie.non.convenue` % (N = `r format(n.sortie.non.convenue, big.mark = " ")`)
 
-##  %  (N)Décès [C]
+###  %  (N)Décès [C]
 `r round(100 * p.ccmu.d, 2)`% (n = `r n.ccmu.d`)
 
-les résultats régionaux (page 10)
-=======================
+
+les résultats régionaux
+========================
 
 partie centrale du rapport dans laquelle tous les résultats d’activité sont présentés dans le déroulement d’une trame. Le principe est de passer en revue les variables du RPU (communes à tous normalement), d’en proposer une exploitation si elles présentent un intérêt, puis de proposer quelques croisements associés à chaque variable s’ils semblent pertinents (présence d’un bloc ‘croisement’ spécifique dans chaque partie ci dessous).
 
@@ -593,7 +609,6 @@ plot(mean.rpu.jour, type = "b", ylim = c(900,1400), ylab = "nombre moyen de RPU"
 - Nombre de passages par semaine (basée sur la date d’admission) année N (positionner les vacances scolaires de la zone concernée)
 ```{r rpu_semaine, echo=FALSE}
 rpu.semaine <- tapply(as.Date(dx$ENTREE), week(as.Date(dx$ENTREE)), length)
-
 plot(rpu.semaine[1:52], type = "l", ylab = "RPU", xlab = "semaines", main = "Nombre de passages par semaine", col = "blue", lwd = 3)
 
 ```
@@ -703,12 +718,25 @@ t <- tapply(as.Date(orient$ENTREE), list(as.Date(orient$ENTREE), factor(orient$O
 # on calcule les 13 moyennes
 m <- apply(t, 2, mean, na.rm = TRUE)
 m
+
+# pour contrôler les sommes:
+apply(t, 2, sum, na.rm = TRUE)
+
+# graphiques
+xts <- xts(t, order.by = as.Date(rownames(t)))
+plot(rollmean(xts[,"UHCD"], 7), ylim = c(0,170), minor.ticks = FALSE, main = "Orientation", col = "green")
+lines(rollmean(xts[, "CHIR"], 7), col = "red")
+lines(rollmean(xts[, "MED"], 7), col = "blue")
+legend("topleft", legend = c("UHCD", "MED", "CHIR"), col = c("green","blue","red"), lty = 1, bty = "n")
+
+
+
 ```
 
 
 croisements :
 
-- Moyenne quotidienne dunombre d’hospitalisations en fonction de la classe d’âge (pédia, âge moyen, géria), année N
+- Moyenne quotidienne du nombre d’hospitalisations en fonction de la classe d’âge (pédia, âge moyen, géria), année N
 - Taux d’hospitalisation en fonction de jour/nuit et âge, année N
 - Top 5 des disciplines pathologiques pour lesquelles le taux d’hospitalisation est le plus fort, année N
 - Top 5 des disciplines pathologiques pour lesquelles le taux de retour à domicile est le plus fort, année N
@@ -780,4 +808,7 @@ durée de passage en classe
 - moins de 4 heures ; 4 heures et plus
 - moins d’une heure ; entre 1 et 2 heures ; de 2 à 4 heures ; de 4 à 8 heures ; de 8 à 12 heures ; entre 12 et 72 heures ; (bornes supérieures exclues)
 
+```{r end}
+proc.time() - ptm
+```
 
