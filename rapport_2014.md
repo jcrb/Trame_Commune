@@ -53,11 +53,11 @@ ii. Qualité des données urgences
 ![](rapport_2014_files/figure-html/completude-1.png) ![](rapport_2014_files/figure-html/completude-2.png) 
 
 
-- Critères de cohérences :
+- Critères de cohérence :
 
     - % CCMU 4 et 5 sortie externe.
 
-#### `r round(p.45.domicile, 2)
+#### % de CCMU 4 et 5 renvoyé à domicile: 0.09
 
     - % Diagnostic hors thésaurus SFMU
     - % âge > 18 ans dans SU pédiatriques.
@@ -281,12 +281,12 @@ Graphe avec 2 axes des abcisses:
 
 ![](rapport_2014_files/figure-html/c1-1.png) 
 
-- nombre de passages en 2014:    301.5148,    568.4359,  1 942.8428,  2 793.4470,  6 486.8173, 10 807.6485,  3 420.4062,    110.0200 soit en moyenne 1142 par jour.
+- nombre de passages en 2014: 416 733 soit en moyenne 1142 par jour.
 
 #### [3] % d’augmentation annuelle sur les années disponibles
 
 
-% de variation 2014/2013 = -99.91, -99.83, -99.44, -99.19, -98.11, -96.86, -99.01, -99.97 %
+% de variation 2014/2013 = 21.12 % 
 
 croisements :
 
@@ -525,6 +525,29 @@ m
 ##  3.823864  4.608451  5.600551  1.940959  8.235616 95.643836
 ```
 
+```r
+# pour contrôler les sommes:
+apply(t, 2, sum, na.rm = TRUE)
+```
+
+```
+##  CHIR FUGUE   HDT    HO   MED  OBST   PSA   REA   REO    SC  SCAM    SI 
+## 11133   303   113    34 24340   131  3393  1346  1636  2033   526  3006 
+##  UHCD 
+## 34910
+```
+
+```r
+# graphiques
+xts <- xts(t, order.by = as.Date(rownames(t)))
+plot(rollmean(xts[,"UHCD"], 7), ylim = c(0,170), minor.ticks = FALSE, main = "Orientation", col = "green")
+lines(rollmean(xts[, "CHIR"], 7), col = "red")
+lines(rollmean(xts[, "MED"], 7), col = "blue")
+legend("topleft", legend = c("UHCD", "MED", "CHIR"), col = c("green","blue","red"), lty = 1, bty = "n")
+```
+
+![](rapport_2014_files/figure-html/moyenne-orientation-1.png) 
+
 
 croisements :
 
@@ -607,6 +630,6 @@ proc.time() - ptm
 
 ```
 ##    user  system elapsed 
-##  74.358   1.976  76.905
+##  75.288   1.703  77.546
 ```
 

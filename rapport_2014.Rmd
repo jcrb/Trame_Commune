@@ -18,10 +18,11 @@ Rapport 2014 respectant les préconisations de la FEDORU
 
 La proposition ici se fait autour de 4 points (représentant chacun une partie de rapport) :
 
-```{r prerequis, echo=FALSE}
+```{r prerequis, echo=FALSE, comment="", message=FALSE}
 ptm <- proc.time()
 library(lubridate)
 library(plotrix) # radialplot et pyramid.plot
+library(xts)
 
 
 pathXPS <- "../../Stat Resural/"
@@ -90,7 +91,7 @@ radial.plot(completude, rp.type="p", radial.lim=c(0,100), start = 1.57, clockwis
 ```
 
 
-- Critères de cohérences :
+- Critères de cohérence :
 
     - % CCMU 4 et 5 sortie externe.
 ```{r ccmu45, echo=FALSE}
@@ -99,7 +100,7 @@ ext <- table(factor(dx$MODE_SORTIE), factor(dx$GRAVITE))
 ext <- addmargins(ext, 2)
 p.45.domicile <- sum(ext['Domicile','4':'5']) * 100 / ext['Domicile','Sum']
 ```
-#### `r round(p.45.domicile, 2)
+#### % de CCMU 4 et 5 renvoyé à domicile: `r round(p.45.domicile, 2)` %
 
     - % Diagnostic hors thésaurus SFMU
     - % âge > 18 ans dans SU pédiatriques.
@@ -441,24 +442,24 @@ Graphe avec 2 axes des abcisses:
 ```{r c1, echo=FALSE}
 #solution fournie par Chrpentier pour superposer barplot et lines avec des échelles différentes. Le principe est de créer 2 graphes indépendants grace à l'instruction par(new = TRUE). L'astuce est de conserver l'abcisse des points via xlim() commun aux 2 GRAPHES. Le caclul de xlim() repose sur une formule assez mystérieuse. L'abcisse des points est fournies par x = barplot() où x récupère le vecteur des abcisses du milieu de chaque barre.
 
-n2014 <- nrow(dx) # nb de RPU = nb passages
-mean.rpu.jour.2014 <- n2014 / 365 # moyenne quotidienne pour 2014
+n.anc <- nrow(dx) # nb de RPU = nb passages
+mean.rpu.jour.anc <- n.anc / 365 # moyenne quotidienne pour 2014
 
 # n2014 <- n
-n2013 <- 344073 # nb de RPU pour 2013
-mean.rpu.jour.2013 <- n2013 / 365 # moyenne quotidienne pour 2013
+n.anp <- 344073 # nb de RPU pour 2013
+mean.rpu.jour.anp <- n.anp / 365 # moyenne quotidienne pour 2013
 
 par(mar = c(2,4,4,3)) # on fait de la place à droite pour le 2eme axe
 annee <- c("2013","2014") # vecteur des noms des années
 freq <- length(annee) # nb de colonnes (années) à représenter
 lim <- c(0, 1.2 * freq + .5) # formule de Charpentier
-x <- barplot(c(n2013, n2014), names.arg = annee, ylab = "nombre de RPU", main = "Evolution du nombre deRPU en Alsace", xlim = lim, col="light green", axes=FALSE) # x = abcisse du centre des barres verticales
-text(x[2,1], n2014 * 0.1, "+ 21%")
+x <- barplot(c(n.anp, n.anc), names.arg = annee, ylab = "nombre de RPU", main = "Evolution du nombre deRPU en Alsace", xlim = lim, col="light green", axes=FALSE) # x = abcisse du centre des barres verticales
+text(x[2,1], n.anc * 0.1, "+ 21%")
 axis(2, cex.axis = .7, las = 2)
 
 par(new=TRUE) # voir http://cran.r-project.org/doc/contrib/Lemon-kickstart/kr_addat.html 
 
-xx <- cbind(x, c(mean.rpu.jour.2013, mean.rpu.jour.2014)) # matrice des coordonnées x et y des points formant la droite des moyennes des RPU.
+xx <- cbind(x, c(mean.rpu.jour.2013, mean.rpu.jour.anc)) # matrice des coordonnées x et y des points formant la droite des moyennes des RPU.
 plot(xx, type = "b", col = "red", lwd = 3, axes = FALSE, ylim = c(0, 1200), xlim = lim, ylab = "", xlab = "")
 axis(4, col = "red")
 mtext("Nombre moyen de RPU quotidiens", 4, line=-2, cex=1, col="red") # titre de l'ordonnée à droite
@@ -466,14 +467,14 @@ mtext("Nombre moyen de RPU quotidiens", 4, line=-2, cex=1, col="red") # titre de
 par(new=FALSE)
 ```
 
-- nombre de passages en `r anc`: `r format(n, big.mark = " ")` soit en moyenne `r round(mean.rpu.jour.2014, 0)` par jour.
+- nombre de passages en `r anc`: `r format(n.rpu, big.mark = " ")` soit en moyenne `r round(mean.rpu.jour.anc, 0)` par jour.
 
 #### [3] % d’augmentation annuelle sur les années disponibles
 
 ```{r C3, echo=FALSE}
-p <- n * 100 / n2013 - 100
+p <- n.rpu * 100 / n.anp - 100
 ```
-% de variation 2014/2013 = `r round(p, 2)` %
+% de variation `r paste(anc, anp, sep = "/")` = `r round(p, 2)` % 
 
 croisements :
 
@@ -807,6 +808,9 @@ durée de passage en classe
 
 - moins de 4 heures ; 4 heures et plus
 - moins d’une heure ; entre 1 et 2 heures ; de 2 à 4 heures ; de 4 à 8 heures ; de 8 à 12 heures ; entre 12 et 72 heures ; (bornes supérieures exclues)
+
+Temps de calcul
+===============
 
 ```{r end}
 proc.time() - ptm
