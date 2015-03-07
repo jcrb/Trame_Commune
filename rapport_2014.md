@@ -50,14 +50,35 @@ ii. Qualité des données urgences
 ##        100.00        100.00        100.00
 ```
 
-![](rapport_2014_files/figure-html/completude-1.png) ![](rapport_2014_files/figure-html/completude-2.png) 
+![](rapport_2014_files/figure-html/completude-1.png) 
+
+```
+## Warning in rep(point.symbols, length.out = nsets): 'x' is NULL so the
+## result will be NULL
+```
+
+```
+## Warning in rep(point.col, length.out = nsets): 'x' is NULL so the result
+## will be NULL
+```
+
+```
+## Warning in rep(poly.col, length.out = nsets): 'x' is NULL so the result
+## will be NULL
+```
+
+![](rapport_2014_files/figure-html/completude-2.png) 
 
 
 - Critères de cohérence :
 
     - % CCMU 4 et 5 sortie externe.
 
-#### % de CCMU 4 et 5 renvoyé à domicile: 0.09
+<<<<<<< HEAD
+#### 0.09
+=======
+#### % de CCMU 4 et 5 renvoyé à domicile: 0.09 %
+>>>>>>> 5c571323fae3f9fb101543ded6d60971285e161c
 
     - % Diagnostic hors thésaurus SFMU
     - % âge > 18 ans dans SU pédiatriques.
@@ -577,6 +598,7 @@ focus sur une sous déclinaison de l’activité (pathologies traceuses ou trait
 - Répartition par orientation en pourcentage, année N
 - Temps de passage médian, année N
 
+
 Définitions FEDORU
 ====================
 
@@ -623,6 +645,9 @@ durée de passage en classe
 - moins de 4 heures ; 4 heures et plus
 - moins d’une heure ; entre 1 et 2 heures ; de 2 à 4 heures ; de 4 à 8 heures ; de 8 à 12 heures ; entre 12 et 72 heures ; (bornes supérieures exclues)
 
+Temps de calcul
+===============
+
 
 ```r
 proc.time() - ptm
@@ -630,6 +655,6 @@ proc.time() - ptm
 
 ```
 ##    user  system elapsed 
-##  75.288   1.703  77.546
+##  18.962   1.464  20.694
 ```
 
