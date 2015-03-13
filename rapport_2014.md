@@ -38,47 +38,18 @@ ii. Qualité des données urgences
 
 - Graphique en araignée du taux de complétude (% donnée manquante) (après correction données aberrantes) des variables RPU, au moins sexe, âge, durée séjour, ccmu, orientation, code diag principal, motif de recours.
 
-
-```
-##    PROVENANCE            DP         MOTIF TRANSPORT_PEC     TRANSPORT 
-##         57.38         59.60         65.02         67.95         69.42 
-##   MODE_SORTIE       GRAVITE   ORIENTATION        SORTIE   MODE_ENTREE 
-##         81.32         81.55         87.80         89.83         93.91 
-##   DESTINATION   CODE_POSTAL       COMMUNE        ENTREE        FINESS 
-##         99.53        100.00        100.00        100.00        100.00 
-##     NAISSANCE          SEXE           AGE 
-##        100.00        100.00        100.00
-```
-
-![](rapport_2014_files/figure-html/completude-1.png) 
-
-```
-## Warning in rep(point.symbols, length.out = nsets): 'x' is NULL so the
-## result will be NULL
-```
-
-```
-## Warning in rep(point.col, length.out = nsets): 'x' is NULL so the result
-## will be NULL
-```
-
-```
-## Warning in rep(poly.col, length.out = nsets): 'x' is NULL so the result
-## will be NULL
-```
-
-![](rapport_2014_files/figure-html/completude-2.png) 
+![](rapport_2014_files/figure-html/completude-1.png) ![](rapport_2014_files/figure-html/completude-2.png) 
 
 
 - Critères de cohérence :
 
-    - % CCMU 4 et 5 sortie externe.
+- % CCMU 4 et 5 sortie externe.
 
-<<<<<<< HEAD
-#### 0.09
-=======
-#### % de CCMU 4 et 5 renvoyé à domicile: 0.09 %
->>>>>>> 5c571323fae3f9fb101543ded6d60971285e161c
+
+
+#### 0.12
+
+#### % de CCMU 4 et 5 renvoyé à domicile: 0.12 %
 
     - % Diagnostic hors thésaurus SFMU
     - % âge > 18 ans dans SU pédiatriques.
@@ -110,47 +81,47 @@ __CORE [C]__ obligatoire __SUPPLEMENTAL [S]__ facultatif
 
 ## Nombre de passages dans l'année [C]
 
-416 733
+40 509
 
 ## Moyenne quotidienne de passages [C]
 
-1 141.734
+110.9836
 
 ## %(N) d'évolution par rapport à année N-1 [C]
 
 ## %(N) public/privé [C]
 
-- nombre de RPU publics: 343829 (82.51 %)
-- nombre de RPU privés: 72867 (17.49 %)
+- nombre de RPU publics: 33936 (83.77 %)
+- nombre de RPU privés: 6573 (16.23 %)
 
 ## SEXE
 
 ### %(N) Femme [C]
 
-47.78 % (199 110)
+49.39 % (19 997)
 
 ### %(N) Homme [C]
 
-52.22 % (217 617)
+50.61 % (20 488)
 
 ## AGE
 
 
 ### % (N) < 1 an [C]
-15376 (3.69 %)
+1991 (4.92 %)
 
 ### %(N) < 18 ans [C]
-119213 (28.61 %)
+12769 (31.52 %)
 
 ### %(N) >= 75 ans [C]
-57271 (13.74 %)
+5671 (14 %)
 
 ### Age moyen
 
-- age moyen[C]: 38.03 ans.
+- age moyen[C]: 37.13 ans.
 
-- age moyen des hommes [S] (pourquoi 'homme et femme' en SUPP ?) NA ans.
-- age moyen des femmes [S] 40.31 ans.
+- age moyen des hommes [S] (pourquoi 'homme et femme' en SUPP ?) 35.34 ans.
+- age moyen des femmes [S] 38.99 ans.
 
 ### Taux de recours (définition FEDORU) régional aux urgences. [S]
 Utilisation des données INSEE qui collent le plus à la période d’étude (projections ou données consolidées)
@@ -160,22 +131,22 @@ Utilisation des données INSEE qui collent le plus à la période d’étude (pr
 ### % sur activité les jours de  WE [S]
 = ((Nbsam+NbDim/2)-(sommeNbJourSEm/5))/ ((Nbsam+NbDim/2)*100 [Limousin]
 
-4.52 % d'activité supplémentaire le WE.
+6.35 % d'activité supplémentaire le WE.
 
 NB: le calcul ne tient pas compte des jours fériés (à faire).
 
 ## % du delta entre mois le plus chargé et le mois le moins chargé [S]
 
-71.4142648 %
+100 %
 
 Durées de passage
 -----------------
 
 
-- durée moyenne de passage 154.9 mn.
-- écart-type: 171.5908609 mn.
-- médiane: 109 mn.
-- nombre de passages > 4 heures: 69521 (18.69 %).
+- durée moyenne de passage 174.2 mn.
+- écart-type: 173.5035961 mn.
+- médiane: 123 mn.
+- nombre de passages > 4 heures: 8465 (23.61 %).
 
 
 ```r
@@ -195,12 +166,12 @@ p.passages.nuit.profonde <- n.passages.nuit.profonde / n.passages
 ### % passages nuit (définition FEDORU) [C]
 nombre de passages dont l’admission s’est effectuée sur la période [20h00 - 7h59] divisé par l’ensemble des passages
 
-24.74 % (N = 92610)
+23.61 % (N = 8561)
 
 ### % passages nuit profonde (définition FEDORU) [C]
 nombre de passages dont l’admission s’est effectuée sur la période [00h00 - 7h59] divisé par l’ensemble des passages
 
-11.09 % (N = 41500)
+11.27 % (N = 4088)
 
 Mode de transport
 -----------------
@@ -209,19 +180,19 @@ Mode de transport
 
 ###  %(N) d'arrivée perso [S]
 
-72.16 % (N = 208 771)
+68.91 % (N = 19 913)
 
 ###  %(N) d'arrivée SMUR [S]
 
-0.93 % (N = 2 702)
+1.06 % (N = 305)
 
 ###  %(N) d'arrivée VSAB [S]
 
-10.35 % (N = 29 954)
+10.3 % (N = 2 977)
 
 ###  %(N) d'arrivée Ambulance [S]
 
-15.94 % (N = 46 112)
+19.13 % (N = 5 527)
 
 Gravité (CCMU)
 --------------
@@ -229,17 +200,17 @@ Gravité (CCMU)
 
 
 ###  %(N) CCMU 1 et 2 [C]
-84.45% (n = 286979)
+84.16% (n = 26549)
 
 ###  %(N) CCMU 4 et 5 [C]
-1.28% (n = 4341)
+1.38% (n = 434)
 
 ###  %(N) Médico-chir [C]
 
 ###  %(N) Traumato [C]
 
 ###  %(N) Psy [C]
-0.38% (n = 1307)
+0.39% (n = 124)
 
 Durée de présence
 -----------------
@@ -247,16 +218,16 @@ Durée de présence
 ### Durée de séjour (hors UHCD): 
 moyenne +/- ET ; médiane (IQR) [C]
 
-- moyenne: 154.9 mn
-- écart-type: 171.5908609 mn
-- médiane: 109 mn
-- IQR: 146 mn
+- moyenne: 174.2 mn
+- écart-type: 173.5035961 mn
+- médiane: 123 mn
+- IQR: 169 mn
 
 ###  % (N) passages ayant durée attente > 1 heure [S]
 Pas calculable en Alsace :-(
 
 ###  %  (N) passages durée séjour > 4h [S]
-18.69% (n = 69521)
+23.61% (n = 8465)
 
 Mode de sortie
 --------------
@@ -265,22 +236,22 @@ Mode de sortie
 
 ###  %  (N)Externe [C]
 
-75.5 % (N = 255 852)
+75.36 % (N = 21 497)
 
 ###  %  (N)Hospitalisation [C]
 
-22.72 % (N = 76 999)
+23.1 % (N = 6 590)
 
 ###  %  (N)Transfert [C]
 
-1.78 % (N = 6 025)
+1.54 % (N = 439)
 
 ###  %  (N)Sortie non convenue [C]
 
-5.09 % (N = 4 222)
+4.58 % (N = 336)
 
 ###  %  (N)Décès [C]
-0.01% (n = 26)
+0% (n = 1)
 
 
 les résultats régionaux
@@ -302,12 +273,12 @@ Graphe avec 2 axes des abcisses:
 
 ![](rapport_2014_files/figure-html/c1-1.png) 
 
-- nombre de passages en 2014: 416 733 soit en moyenne 1142 par jour.
+- nombre de passages en 2014: 40 509 soit en moyenne 111 par jour.
 
 #### [3] % d’augmentation annuelle sur les années disponibles
 
 
-% de variation 2014/2013 = 21.12 % 
+% de variation 2014/2013 = -88.23 % 
 
 croisements :
 
@@ -332,11 +303,11 @@ Le calcul se fait après un merging de dx et de hop.
 
 
 ```
-     2014         %           
-CH   "282 036.00" "     67.68"
-CHU  " 61 793.00" "     14.83"
-PSPH " 72 867.00" "     17.49"
-     "416 696.00" "    100.00"
+     2014        %          
+CH   "24 746.00" "    61.09"
+CHU  " 9 190.00" "    22.69"
+PSPH " 6 573.00" "    16.23"
+     "40 509.00" "   100.01"
 ```
 #### [6] % CH, CHU, privé sur les années disponibles
 
@@ -345,7 +316,7 @@ Caractéristique des patients : âge
 
 - [7][8] moyenne âge +/- écart type année N
 
-moyenne d'age: 38.0267632 ans, ecart-type: 27.1`ans.
+moyenne d'age: 37.129925 ans, ecart-type: 27.8`ans.
 
 - [9] répartition par tranche âge
 
@@ -356,13 +327,13 @@ moyenne d'age: 38.0267632 ans, ecart-type: 27.1`ans.
 ```
 a
     [0,5)    [5,10)   [10,15)   [15,20)   [20,25)   [25,30)   [30,35) 
-    51663     24738     27012     26631     28086     26827     24574 
+     5965      2460      2759      2617      2515      2490      2211 
   [35,40)   [40,45)   [45,50)   [50,55)   [55,60)   [60,65)   [65,70) 
-    21374     22952     21162     20022     18720     17290     14635 
+     1929      2003      1924      1869      1736      1584      1440 
   [70,75)   [75,80)   [80,85)   [85,90)   [90,95)  [95,100) [100,105) 
-    13772     15707     17692     14385      8076      1147       232 
+     1335      1482      1763      1456       809       138        20 
 [105,110) [110,115) [115,120] 
-       16        15         1 
+        0         3         0 
 ```
 
 ![](rapport_2014_files/figure-html/tranche-1.png) 
@@ -387,8 +358,8 @@ pyramid.plot(h,f, labels = names(table(a)), top.labels = c("Hommes", "Age", "Fem
 - [11] sexe-moyenne âge femme/homme, année N
 
 ```
-##        F        M                 I 
-## 40.31331 35.93496       NA 26.00000
+##        F        I        M 
+## 38.99030 16.41667 35.33831
 ```
 
 - [12] proportion des âge extrêmes (moins de 1 an, plus de 90 ans) par mois, année N
@@ -401,10 +372,66 @@ Caractéristique des patients : sexe
 
 - [13] répartition en fonction du sexe année N 
 
+```r
+sexe
+```
+
+```
+## 
+##     F     I     M 
+## 19997    24 20488
+```
+
 - [14] sex ratio, année N
+
+sex-ratio = 1.0245537
+
 - croisements :
+
 - [15] sex ratio H/F par classe d’âge, année N
+
+
+```r
+# ventilation par age et sexe sur 3 colonnes (H,f,I). L'AGE EST EXPRIMÉ EN TRANCHES D'AGE. Le rapport r est le sex ratio par tranches d'age.
+age.s <- tapply(dx$AGE, list(dx$SEXE, a), length)
+r <- age.s['M',]/age.s['F',]
+r
+```
+
+```
+##      [0,5)     [5,10)    [10,15)    [15,20)    [20,25)    [25,30) 
+## 1.27588842 1.13194444 0.99927484 0.88544669 0.91539634 1.02276423 
+##    [30,35)    [35,40)    [40,45)    [45,50)    [50,55)    [55,60) 
+## 1.16568627 1.11868132 1.16774892 1.19134396 1.00000000 1.18090452 
+##    [60,65)    [65,70)    [70,75)    [75,80)    [80,85)    [85,90) 
+## 1.15217391 1.16216216 1.25126476 0.97600000 0.68546845 0.56620022 
+##    [90,95)   [95,100)  [100,105)  [105,110)  [110,115)  [115,120] 
+## 0.34162521 0.21052632 0.05263158         NA 2.00000000         NA
+```
+
+```r
+plot(r, type = "l", ylab = "Sex ratio", xlab = "age")
+abline(h = 1, lty = 2, col = "red")
+
+x <- barplot(r, las = 2, plot = FALSE)
+points(x,r, pch = 16, add = TRUE)
+```
+
+```
+## Warning in plot.xy(xy.coords(x, y), type = type, ...): "add" n'est pas un
+## paramètre graphique
+```
+
+![](rapport_2014_files/figure-html/ratio_classe_age-1.png) 
+
+```r
+# pb: comment conserver le nom des graduations x ?
+```
+
+
 - [16] taux de masculinité
+
+0.51
 
 Provenance géographique des patients
 ------------------------------------
@@ -541,9 +568,9 @@ m
 
 ```
 ##      CHIR     FUGUE       HDT        HO       MED      OBST       PSA 
-## 30.501370  1.611702  1.153061  1.096774 66.684932  1.271845  9.321429 
+## 41.516129  1.250000  1.153846  1.000000 83.387097  1.363636  9.322581 
 ##       REA       REO        SC      SCAM        SI      UHCD 
-##  3.823864  4.608451  5.600551  1.940959  8.235616 95.643836
+##  5.516129  4.333333  7.387097  1.684211 12.290323 70.354839
 ```
 
 ```r
@@ -553,9 +580,9 @@ apply(t, 2, sum, na.rm = TRUE)
 
 ```
 ##  CHIR FUGUE   HDT    HO   MED  OBST   PSA   REA   REO    SC  SCAM    SI 
-## 11133   303   113    34 24340   131  3393  1346  1636  2033   526  3006 
+##  1287    15    15     3  2585    15   289   171   130   229    32   381 
 ##  UHCD 
-## 34910
+##  2181
 ```
 
 ```r
@@ -655,6 +682,6 @@ proc.time() - ptm
 
 ```
 ##    user  system elapsed 
-##  18.962   1.464  20.694
+##  17.410   0.700  18.436
 ```
 

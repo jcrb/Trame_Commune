@@ -1,0 +1,105 @@
+---
+title: "Reunion FEDOU 2015-03-11"
+author: "jcb"
+date: "11 mars 2015"
+output: html_document
+---
+
+- Gilles Faugeras: V1 pour tout de suite (présentation en novembre), le reste pour V2
+- mot du président de la Fedoru
+
+Titre
+=====
+
+- Activité des structures d'urgence en Alsace: Panorama régional  
+
+Préambule
+==========
+
+Description de l'offre de soins
+--------------------------------
+
+Ventilée par région, département, territoire de proximité ?
+- nb de SAMU
+- nbde SMUR dt ped et hélismur
+- nb SU dt privé et HIA
+- nb habitants dt plus de 75 ANS et moins de 15
+- superficie
+- densitté pop
+- nb de Smur par bassin de pop
+- nb de SU par bassin de pop
+- cartographie qui positionne les structures:
+    - su, CHU, CHR
+    - samu
+    - smur et helismur
+- Expliquer comment les données sont récupérées (schéma) 
+
+Qualité des données
+-------------------
+
+- proposer la méthode pour calculer l'exhaustivité réelle des orientations POUR FEDORU.
+
+- graphe en étoile de l'exhaustivité régionale des données
+
+Les chiffres clés
+=================
+
+- origine des chiffres: RPU, SAE, SRVA
+- comparer RPU, SAE par région (éventuellement par département). Expliquer les différences. Evolution en % pour les 2 colonnes. Pour la SAE remonter 5 ans en arrière.
+
+- taux de (recours) de passage: si pas de chiffres complet, une méthode d'extrapolation sera proposée par aquitaine.
+
+- nd deRPU transmis
+- exhaustivité du recueil: nb de RPU transmis / nb de passages déclarés
+
+- Age: moins de 1, moins de 15, plus de 74 ans.
+
+CCMU 1 et 4_5
+
+- diag: recueil = tesaurus SFMU et outils de regroupement pour l'analyse.
+    - medico-chir
+    - traumato
+    - psy
+    - toxico
+    - autres recours
+
+SAMU-SMUR
+=========
+
+Données du serveur de veille
+Appli samu ne sait pas faire la différence entre les VSAV déclenchés et VSAV régulés.
+
+Fiches type
+===========
+Pédiatrie
+---------
+- age < 18 ans
+- % < 1 an
+- nb de passages dans l'année et évolution année précédente (utiliser les données SAE si nécessaire)
+- moyenne de passage quotidienne
+- sex ratio par classes d'age
+- par classe d'age
+    - sex ratio
+    - nb de passages
+    - moyenne quotidienne de passage
+    - % hospitalisationx
+    
+% passage la nuit
+% passages en horaire PDS
+% CCMU 1 et  4-5
+Pathologie
+- digestif
+- orl
+- digetif
+- respiratoire
+
+- tranches d'age Fedoru
+-
+
+AVC
+===
+Voir avec neuro quel est le découpage en classe le plus pertinent.
+
+- orientation de ce type de patient (notamment SI et transfert)
+
+

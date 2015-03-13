@@ -24,6 +24,7 @@ library(lubridate)
 library(plotrix) # radialplot et pyramid.plot
 library(xts)
 
+source('rapport_2014.R') # routines pour le rapport d'activité
 
 pathXPS <- "../../Stat Resural/"
 pathMAC <- "../../Stat Resural/"
@@ -34,9 +35,9 @@ path <- pathXPS
 file_test <- "RPU_2014/rpu2015d01.Rda" # fichier de test
 file_actif <- "RPU_2014/rpu2014d0112_c.Rda" # données de 2014
 
-load(paste0(path, file_actif)) # d14 = données 2014 corrigées
-dx <- d14   # dx est le terme générique pour désigner le dataframe de l'année courante
-rm(d14)
+load(paste0(path, file_test)) # d14 = données 2014 corrigées
+dx <- d01   # dx est le terme générique pour désigner le dataframe de l'année courante
+rm(d01)
 
 ```
 
@@ -70,41 +71,34 @@ ii. Qualité des données urgences
 - Graphique en araignée du taux de complétude (% donnée manquante) (après correction données aberrantes) des variables RPU, au moins sexe, âge, durée séjour, ccmu, orientation, code diag principal, motif de recours.
 
 ```{r completude, echo = FALSE}
-# complétude brute. Des corrections sont nécessaires pour DESTINATION
-completude <- apply(dx, 2, function(x){round(100 * mean(!is.na(x)),2)})
-# correction pour Destination et Orientation
-hosp <- dx[dx$MODE_SORTIE %in% c("Mutation","Transfert"), c("DESTINATION", "ORIENTATION")]
-completude.hosp <- apply(hosp, 2, function(x){round(100 * mean(!is.na(x)),2)})
-completude['ORIENTATION'] <- completude.hosp['ORIENTATION']
-completude['DESTINATION'] <- completude.hosp['DESTINATION']
-# on retire les colonnes sans intérêt: id, EXTRACT
-completude <- completude[-c(1,7)]
-sort(completude)
+# calcul de la complétude. La complétude brute est corrigée pour les rubriques orientation et detination.
+comp <- completude(dx)
 
 # barplot
-barplot(sort(completude), horiz = TRUE, las = 1, cex.names = 0.8, xlab = "% de complétude", main = "Complétude des champs RPU", col = "light green")
+par(mar = c(4,6,3,1))
+barplot(sort(comp), horiz = TRUE, las = 1, cex.names = 0.8, xlab = "% de complétude", main = "Complétude des champs RPU", col = "light green")
 abline(v = 90, lty = 2, col = "red")
 
-# diagramme en étoile
-radial.plot(completude, rp.type="p", radial.lim=c(0,100), start = 1.57, clockwise = TRUE, line.col = "red", labels = names(completude), cex.axis = 0.6)
-
+# Tracé du diagrame en étoile
+par(mar =c (1,1,3,1))
+radar.completude(completude(dx))
 ```
 
 
 - Critères de cohérence :
 
-    - % CCMU 4 et 5 sortie externe.
+- % CCMU 4 et 5 sortie externe.
+
 ```{r ccmu45, echo=FALSE}
 ext <- table(factor(dx$MODE_SORTIE), factor(dx$GRAVITE))
 # somme des lignes
 ext <- addmargins(ext, 2)
 p.45.domicile <- sum(ext['Domicile','4':'5']) * 100 / ext['Domicile','Sum']
 ```
-<<<<<<< HEAD
+
 #### `r round(p.45.domicile, 2)`
-=======
+
 #### % de CCMU 4 et 5 renvoyé à domicile: `r round(p.45.domicile, 2)` %
->>>>>>> 5c571323fae3f9fb101543ded6d60971285e161c
 
     - % Diagnostic hors thésaurus SFMU
     - % âge > 18 ans dans SU pédiatriques.
@@ -179,6 +173,7 @@ p.homme <- sexe['M']*100/(sexe['F'] + sexe['M']) # % d'hommes
 sex.ratio <- sexe['M'] / sexe['F'] # sex ratio
 n.hommes <- sexe['M']
 n.femmes <- sexe['F']
+tx.masculinite <- n.hommes / (n.hommes + n.femmes)
 ```
 ### %(N) Femme [C]
 
@@ -226,7 +221,10 @@ Utilisation des données INSEE qui collent le plus à la période d’étude (pr
 
 ```{r rpu.semaine.we, echo=FALSE, comment=""}
 n.par.wday <- table(wday(as.Date(dx$ENTREE), label = TRUE)) # nb de RPU par jour de semaine. Utilisable dans un barplot.
-m.rpu.jour.ouvrable <- sum(n.par.wday[2:6])/5 # moyenne des RPU en semaine
+n.jour.ouvrable <- sum(n.par.wday[2:6]) # nb de RPU en jour ouvrable
+n.we <- sum(n.par.wday[1], n.par.wday[7]) # nb de RPU le WE
+
+m.rpu.jour.ouvrable <- sum(n.par.wday[2:6])/5 # moyenne des RPU jour ouvrable
 m.rpu.we <- sum(n.par.wday[1], sum(n.par.wday[7]))/2 # moyenne RPU le WE
 p.activite.we <- 100 * (m.rpu.we - m.rpu.jour.ouvrable) / m.rpu.we
 ```
@@ -576,11 +574,35 @@ Caractéristique des patients : sexe
 ------------------------------------
 
 - [13] répartition en fonction du sexe année N 
+```{r sexe2}
+sexe
+```
 
 - [14] sex ratio, année N
+
+sex-ratio = `r sex.ratio`
+
 - croisements :
+
 - [15] sex ratio H/F par classe d’âge, année N
+
+```{r ratio_classe_age}
+# ventilation par age et sexe sur 3 colonnes (H,f,I). L'AGE EST EXPRIMÉ EN TRANCHES D'AGE. Le rapport r est le sex ratio par tranches d'age.
+age.s <- tapply(dx$AGE, list(dx$SEXE, a), length)
+r <- age.s['M',]/age.s['F',]
+r
+plot(r, type = "l", ylab = "Sex ratio", xlab = "age")
+abline(h = 1, lty = 2, col = "red")
+
+x <- barplot(r, las = 2, plot = FALSE)
+points(x,r, pch = 16, add = TRUE)
+# pb: comment conserver le nom des graduations x ?
+```
+
+
 - [16] taux de masculinité
+
+`r round(tx.masculinite, 2)`
 
 Provenance géographique des patients
 ------------------------------------
