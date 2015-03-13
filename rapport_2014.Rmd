@@ -70,9 +70,9 @@ ii. Qualité des données urgences
 
 - Graphique en araignée du taux de complétude (% donnée manquante) (après correction données aberrantes) des variables RPU, au moins sexe, âge, durée séjour, ccmu, orientation, code diag principal, motif de recours.
 
-```{r completude, echo = FALSE}
+```{r completude, echo = FALSE, fig.width=10}
 # calcul de la complétude. La complétude brute est corrigée pour les rubriques orientation et detination.
-comp <- completude(dx)
+comp <- completude(dx[, -c(1,7)]) # on retire les colonnes sans intérêt: id, EXTRACT
 
 # barplot
 par(mar = c(4,6,3,1))
@@ -80,7 +80,7 @@ barplot(sort(comp), horiz = TRUE, las = 1, cex.names = 0.8, xlab = "% de complé
 abline(v = 90, lty = 2, col = "red")
 
 # Tracé du diagrame en étoile
-par(mar =c (1,1,3,1))
+par(mar =c (0,0,0,0))
 radar.completude(completude(dx))
 ```
 

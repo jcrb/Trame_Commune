@@ -1,0 +1,22 @@
+digraph G {
+    node[shape = box];
+    Q1[label = "MODE_SORTIE"]
+    Q2[label = "DOMICILE"]
+    Q3[label = "DECES"]
+    Q4[label = "MUTATION"]
+    Q5[label = "TRANSFERT"]
+    Q6[label = "hospitalisation"]
+    Q7[label = "ORIENTATION"]
+    Q8[label = "DESTINATION"]
+
+    Q1 -> Q2
+    Q1 -> Q3
+    Q1 -> Q4
+    Q1 -> Q5
+    
+    Q4 -> Q6
+    Q5 -> Q6
+
+    Q6 -> Q7
+    Q6 -> Q8
+}
