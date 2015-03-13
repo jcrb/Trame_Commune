@@ -38,7 +38,29 @@ ii. Qualité des données urgences
 
 - Graphique en araignée du taux de complétude (% donnée manquante) (après correction données aberrantes) des variables RPU, au moins sexe, âge, durée séjour, ccmu, orientation, code diag principal, motif de recours.
 
-![](rapport_2014_files/figure-html/completude-1.png) ![](rapport_2014_files/figure-html/completude-2.png) 
+![](rapport_2014_files/figure-html/completude-1.png) 
+
+```
+## Please visit openintro.org for free statistics materials
+## 
+## Attaching package: 'openintro'
+## 
+## The following object is masked from 'package:datasets':
+## 
+##     cars
+```
+
+```
+## Warning in rep(point.symbols, length.out = nsets): 'x' is NULL so the
+## result will be NULL
+```
+
+```
+## Warning in rep(point.col, length.out = nsets): 'x' is NULL so the result
+## will be NULL
+```
+
+![](rapport_2014_files/figure-html/completude-2.png) 
 
 
 - Critères de cohérence :
@@ -682,6 +704,6 @@ proc.time() - ptm
 
 ```
 ##    user  system elapsed 
-##  17.410   0.700  18.436
+##   6.251   0.176   6.428
 ```
 
