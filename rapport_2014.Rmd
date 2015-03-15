@@ -125,6 +125,9 @@ __CORE [C]__ obligatoire __SUPPLEMENTAL [S]__ facultatif
 ```{r chiffres, echo=FALSE, comment=""}
 anc <- 2014    # année courante
 anp <- anc - 1 # année précédente
+periode.debut <- min(as.Date(dx$ENTREE))
+periode.fin <- max(as.Date(dx$ENTREE))
+n.jours <- length(unique(as.Date(dx$ENTREE))) # nb de jours pour la période
 publics <- c("Wis", "Hag", "Sav", "Hus", "Sel", "Geb", "Col", "Tan", "Alk", "Mul", "3Fr")
 prives <- c("Odi", "Ane", "Dts", "Ros", "Dia")
 n.su <- 16 # nombre de SU
@@ -134,11 +137,15 @@ n.su.polyvalents <- 13
 n.su.publics <- NA
 n.su.prives <- NA
 n.rpu <- nrow(dx) # nb de passages dans l'année
-mean.rpu.quot <- n.rpu / 365 # Moyenne quotidienne de passages
+mean.rpu.quot <- n.rpu / n.jours # Moyenne quotidienne de passages
 
-chiffres2014 <- c(anc, n.su.ped, n.su.adultes, n.su.polyvalents, n.su.publics, n.su.prives, n.rpu, mean.rpu.quot)
+chiffres <- c(anc, periode.debut, periode.fin, n.jours, n.su.ped, n.su.adultes, n.su.polyvalents, n.su.publics, n.su.prives, n.rpu, mean.rpu.quot)
 ```
+Analyse sur la période:
 
+- du `r periode.debut`
+- au `r periode.fin`
+- soit `r n.jours` jours
 
 ## Nombre de SU 
 (nombre de SU pédiatriques, nombre de SU polyvalents, nombre SU adultes) [C]
@@ -152,11 +159,11 @@ chiffres2014 <- c(anc, n.su.ped, n.su.adultes, n.su.polyvalents, n.su.publics, n
 
 ## Nombre de passages dans l'année [C]
 
-`r format(n.rpu, big.mark = " ")`
+`r format.n(n.rpu)`
 
 ## Moyenne quotidienne de passages [C]
 
-`r format(mean.rpu.quot, big.mark = " ")`
+`r format.n(mean.rpu.quot)`
 
 ## %(N) d'évolution par rapport à année N-1 [C]
 
@@ -168,6 +175,8 @@ n.pub <- length(pub) # nb de RPU publics
 n.prv <- length(prv) # nb de RPU privés
 p.pub <- n.pub / n.rpu
 p.prv <- n.prv / n.rpu
+
+chiffres <- c(chiffres, n.pub, n.prv, p.pub, p.prv)
 ```
 - nombre de RPU publics: `r n.pub` (`r round(p.pub * 100, 2)` %)
 - nombre de RPU privés: `r n.prv` (`r round(p.prv * 100, 2)` %)
@@ -181,6 +190,8 @@ sex.ratio <- sexe['M'] / sexe['F'] # sex ratio
 n.hommes <- sexe['M']
 n.femmes <- sexe['F']
 tx.masculinite <- n.hommes / (n.hommes + n.femmes)
+
+chiffres <- c(chiffres, p.femme, p.homme, n.femmes, n.hommes, tx.masculinite)
 ```
 ### %(N) Femme [C]
 
@@ -204,7 +215,12 @@ sd.age <- sd(dx$AGE, na.rm = TRUE)
 median.age <- median(dx$AGE, na.rm = TRUE)
 
 mean.age.sexe <- tapply(dx$AGE, dx$SEXE, mean, na.rm = TRUE)
+mean.age.h <- mean.age.sexe['M'] # age moyen des hommes
+mean.age.f <- mean.age.sexe['F'] # age moyen des femmes
+
 sd.age.sexe <- tapply(dx$AGE, dx$SEXE, sd, na.rm = TRUE)
+
+chiffres <- c(chiffres, n.inf1an, n.supegal90, p.inf1an, n.inf18an, p.inf18an, n.supegal75an, p.supegal75an, mean.age, sd.age, median.age, mean.age.h, mean.age.f)
 ```
 
 ### % (N) < 1 an [C]
@@ -220,8 +236,8 @@ sd.age.sexe <- tapply(dx$AGE, dx$SEXE, sd, na.rm = TRUE)
 
 - age moyen[C]: `r round(mean.age, 2)` ans.
 
-- age moyen des hommes [S] (pourquoi 'homme et femme' en SUPP ?) `r round(mean.age.sexe[3], 2)` ans.
-- age moyen des femmes [S] `r round(mean.age.sexe[1], 2)` ans.
+- age moyen des hommes [S] (pourquoi 'homme et femme' en SUPP ?) `r round(mean.age.sexe['M'], 2)` ans.
+- age moyen des femmes [S] `r round(mean.age.sexe['F'], 2)` ans.
 
 ### Taux de recours (définition FEDORU) régional aux urgences. [S]
 Utilisation des données INSEE qui collent le plus à la période d’étude (projections ou données consolidées)
@@ -615,10 +631,55 @@ points(x,r, pch = 16, add = TRUE)
 
 Provenance géographique des patients
 ------------------------------------
+- population régionale (INSEE)
+```{r}
+# pop.légales millésimées 2007 entrent en vigueur le 1er janvier 2010
+pop.municip.2007.als <- 1827248
+pop.municip.2007.67 <- 1084840
+pop.municip.2007.68 <- 742408
+
+# pop.légales millésimées 2010 en vigueur du 1er janvier au 31 décembre 2013
+pop.municip.2007.als <- 1845687
+pop.municip.2007.67 <- 1095905
+pop.municip.2007.68 <- 749782
+
+# pop.légales millésimées 2011 en vigueur du 1er janvier au 31 décembre 2014
+pop.municip.2007.als <- 1852325
+pop.municip.2007.67 <- 1099269
+pop.municip.2007.68 <- 753056
+
+# pop.légales millésimées 2012 entrent en vigueur le 1er janvier 2015
+pop.municip.2012.als <- 1859869
+pop.municip.2012.67 <- 1104667
+pop.municip.2012.68 <- 755202
+
+# populations courantes
+pop.municip.als <- pop.municip.2012.als
+pop.municip.67 <- pop.municip.2012.67
+pop.municip.68 <- pop.municip.2012.68
+```
 
 - provenance région / hors région / étranger, année N
+```{r provenance}
+
+rpu.region <- factor(dx[substr(dx$CODE_POSTAL, 1, 2) %in% c(67, 68), "CODE_POSTAL"]) # codes postaux et nb de RPU par code
+n.rpu.67 <- length(factor(dx[substr(dx$CODE_POSTAL, 1, 2) == 67, "CODE_POSTAL"]))
+n.rpu.68 <- length(factor(dx[substr(dx$CODE_POSTAL, 1, 2) == 68, "CODE_POSTAL"]))
+
+tx.recours.67 <- n.rpu.67 * 100 / pop.municip.67
+tx.recours.68 <- n.rpu.68 * 100 / pop.municip.68
+
+n.region <- length(rpu.region)
+p.region <- n.region / n.rpu
+
+n.hors.region <- n.rpu - n.region
+p.hors.region <- n.hors.region / n.rpu
+```
+
 - cartographie des pourcentages d’activité que représentent les passages de patients provenant des départements limitrophes, année N
+
 - cartographie du nombre de passages régional en fonction du lieu de résidence du patient (code postal) année N
+
 - pourcentage de patient ne résidant pas dans une zone postale où est installée une structure d’urgence, année N
 
 croisements :

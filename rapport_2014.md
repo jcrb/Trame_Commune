@@ -41,7 +41,23 @@ ii. Qualité des données urgences
 
 - Graphique en araignée du taux de complétude (% donnée manquante) (après correction données aberrantes) des variables RPU, au moins sexe, âge, durée séjour, ccmu, orientation, code diag principal, motif de recours.
 
+<<<<<<< HEAD
 ![](rapport_2014_files/figure-html/completude-1.png) ![](rapport_2014_files/figure-html/completude-2.png) 
+=======
+![](rapport_2014_files/figure-html/completude-1.png) 
+
+```
+## Please visit openintro.org for free statistics materials
+## 
+## Attaching package: 'openintro'
+## 
+## The following object is masked from 'package:datasets':
+## 
+##     cars
+```
+
+![](rapport_2014_files/figure-html/completude-2.png) 
+>>>>>>> 70b544dd37643931b9e1e754c4fe8f994b9cadbd
 
 
 - Critères de cohérence :
@@ -70,7 +86,11 @@ Parfois en début de rapport, parfois en fin, c’est une partie courte et synth
 __CORE [C]__ obligatoire __SUPPLEMENTAL [S]__ facultatif
 
 
+Analyse sur la période:
 
+- du 2015-01-01
+- au 2015-01-31
+- soit 31 jours
 
 ## Nombre de SU 
 (nombre de SU pédiatriques, nombre de SU polyvalents, nombre SU adultes) [C]
@@ -88,7 +108,7 @@ __CORE [C]__ obligatoire __SUPPLEMENTAL [S]__ facultatif
 
 ## Moyenne quotidienne de passages [C]
 
-110.9836
+1 306,742
 
 ## %(N) d'évolution par rapport à année N-1 [C]
 
@@ -390,10 +410,56 @@ sex-ratio = 1.0245537
 
 Provenance géographique des patients
 ------------------------------------
+- population régionale (INSEE)
+
+```r
+# pop.légales millésimées 2007 entrent en vigueur le 1er janvier 2010
+pop.municip.2007.als <- 1827248
+pop.municip.2007.67 <- 1084840
+pop.municip.2007.68 <- 742408
+
+# pop.légales millésimées 2010 en vigueur du 1er janvier au 31 décembre 2013
+pop.municip.2007.als <- 1845687
+pop.municip.2007.67 <- 1095905
+pop.municip.2007.68 <- 749782
+
+# pop.légales millésimées 2011 en vigueur du 1er janvier au 31 décembre 2014
+pop.municip.2007.als <- 1852325
+pop.municip.2007.67 <- 1099269
+pop.municip.2007.68 <- 753056
+
+# pop.légales millésimées 2012 entrent en vigueur le 1er janvier 2015
+pop.municip.2012.als <- 1859869
+pop.municip.2012.67 <- 1104667
+pop.municip.2012.68 <- 755202
+
+# populations courantes
+pop.municip.als <- pop.municip.2012.als
+pop.municip.67 <- pop.municip.2012.67
+pop.municip.68 <- pop.municip.2012.68
+```
 
 - provenance région / hors région / étranger, année N
+
+```r
+rpu.region <- factor(dx[substr(dx$CODE_POSTAL, 1, 2) %in% c(67, 68), "CODE_POSTAL"]) # codes postaux et nb de RPU par code
+n.rpu.67 <- length(factor(dx[substr(dx$CODE_POSTAL, 1, 2) == 67, "CODE_POSTAL"]))
+n.rpu.68 <- length(factor(dx[substr(dx$CODE_POSTAL, 1, 2) == 68, "CODE_POSTAL"]))
+
+tx.recours.67 <- n.rpu.67 * 100 / pop.municip.67
+tx.recours.68 <- n.rpu.68 * 100 / pop.municip.68
+
+n.region <- length(rpu.region)
+p.region <- n.region / n.rpu
+
+n.hors.region <- n.rpu - n.region
+p.hors.region <- n.hors.region / n.rpu
+```
+
 - cartographie des pourcentages d’activité que représentent les passages de patients provenant des départements limitrophes, année N
+
 - cartographie du nombre de passages régional en fonction du lieu de résidence du patient (code postal) année N
+
 - pourcentage de patient ne résidant pas dans une zone postale où est installée une structure d’urgence, année N
 
 croisements :
@@ -596,6 +662,10 @@ Temps de calcul
 
 ```
 ##    user  system elapsed 
+<<<<<<< HEAD
 ##   3.543   0.196   3.741
+=======
+##  13.828   0.445  14.588
+>>>>>>> 70b544dd37643931b9e1e754c4fe8f994b9cadbd
 ```
 
