@@ -16,6 +16,13 @@ output:
 Rapport 2014 respectant les préconisations de la FEDORU
 =======================================================
 
+```{r Declarations, echo=FALSE, include=FALSE}
+library(knitr)
+# set global chunk options
+opts_chunk$set(echo = FALSE, cache=TRUE, warning=FALSE, tidy=FALSE, fig.width=8, fig.height=6)
+```
+
+
 La proposition ici se fait autour de 4 points (représentant chacun une partie de rapport) :
 
 ```{r prerequis, echo=FALSE, comment="", message=FALSE}
@@ -247,6 +254,7 @@ p.rpu.min.max <- min.rpu.mois / max.rpu.mois
 
 Durées de passage
 -----------------
+
 ```{r passages, echo=FALSE, comment=""}
 passages <- dx[, c("ENTREE", "SORTIE")] # dataframe entrées-sorties
 passages <- passages[complete.cases(passages),] # on ne conserve que les couples complets
@@ -275,7 +283,8 @@ iqr.duree <- s.duree['3rd Qu.'] - s.duree['1st Qu.']
 
 ```{r horaires}
 # horaires seuls. Il faut isoler les heures de la date
-he <- hms(substr(e, 12, 20))
+he <- hms(substr(e, 12, 20)) # heures d'entrée
+
 # passages de nuit
 nuit <- he[he > hms("19:59:59") | he < hms("08:00:00")]
 n.passages.nuit <- length(nuit) # passages 20:00 - 7:59

@@ -5,6 +5,9 @@ JcB
 Rapport 2014 respectant les préconisations de la FEDORU
 =======================================================
 
+
+
+
 La proposition ici se fait autour de 4 points (représentant chacun une partie de rapport) :
 
 
@@ -38,29 +41,7 @@ ii. Qualité des données urgences
 
 - Graphique en araignée du taux de complétude (% donnée manquante) (après correction données aberrantes) des variables RPU, au moins sexe, âge, durée séjour, ccmu, orientation, code diag principal, motif de recours.
 
-![](rapport_2014_files/figure-html/completude-1.png) 
-
-```
-## Please visit openintro.org for free statistics materials
-## 
-## Attaching package: 'openintro'
-## 
-## The following object is masked from 'package:datasets':
-## 
-##     cars
-```
-
-```
-## Warning in rep(point.symbols, length.out = nsets): 'x' is NULL so the
-## result will be NULL
-```
-
-```
-## Warning in rep(point.col, length.out = nsets): 'x' is NULL so the result
-## will be NULL
-```
-
-![](rapport_2014_files/figure-html/completude-2.png) 
+![](rapport_2014_files/figure-html/completude-1.png) ![](rapport_2014_files/figure-html/completude-2.png) 
 
 
 - Critères de cohérence :
@@ -171,19 +152,6 @@ Durées de passage
 - nombre de passages > 4 heures: 8465 (23.61 %).
 
 
-```r
-# horaires seuls. Il faut isoler les heures de la date
-he <- hms(substr(e, 12, 20))
-# passages de nuit
-nuit <- he[he > hms("19:59:59") | he < hms("08:00:00")]
-n.passages.nuit <- length(nuit) # passages 20:00 - 7:59
-p.passages.nuit <- n.passages.nuit / n.passages
-
-# passages en nuit profonde
-nuit.profonde <- he[he < hms("08:00:00")]
-n.passages.nuit.profonde <- length(nuit.profonde)
-p.passages.nuit.profonde <- n.passages.nuit.profonde / n.passages
-```
 
 ### % passages nuit (définition FEDORU) [C]
 nombre de passages dont l’admission s’est effectuée sur la période [20h00 - 7h59] divisé par l’ensemble des passages
@@ -362,13 +330,6 @@ a
 
 - [10] pyramide des âges des patients accueillis aux urgences année N
 
-
-```r
-h <- as.vector(100 * table(a[dx$SEXE == "M"])/n.rpu)
-f <- as.vector(100 * table(a[dx$SEXE == "F"])/n.rpu)
-pyramid.plot(h,f, labels = names(table(a)), top.labels = c("Hommes", "Age", "Femmes"), main = "Pyramide des ages", lxcol = "light green", rxcol = "khaki1")
-```
-
 ![](rapport_2014_files/figure-html/pyramide-1.png) 
 
 ```
@@ -394,10 +355,6 @@ Caractéristique des patients : sexe
 
 - [13] répartition en fonction du sexe année N 
 
-```r
-sexe
-```
-
 ```
 ## 
 ##     F     I     M 
@@ -413,13 +370,6 @@ sex-ratio = 1.0245537
 - [15] sex ratio H/F par classe d’âge, année N
 
 
-```r
-# ventilation par age et sexe sur 3 colonnes (H,f,I). L'AGE EST EXPRIMÉ EN TRANCHES D'AGE. Le rapport r est le sex ratio par tranches d'age.
-age.s <- tapply(dx$AGE, list(dx$SEXE, a), length)
-r <- age.s['M',]/age.s['F',]
-r
-```
-
 ```
 ##      [0,5)     [5,10)    [10,15)    [15,20)    [20,25)    [25,30) 
 ## 1.27588842 1.13194444 0.99927484 0.88544669 0.91539634 1.02276423 
@@ -431,24 +381,7 @@ r
 ## 0.34162521 0.21052632 0.05263158         NA 2.00000000         NA
 ```
 
-```r
-plot(r, type = "l", ylab = "Sex ratio", xlab = "age")
-abline(h = 1, lty = 2, col = "red")
-
-x <- barplot(r, las = 2, plot = FALSE)
-points(x,r, pch = 16, add = TRUE)
-```
-
-```
-## Warning in plot.xy(xy.coords(x, y), type = type, ...): "add" n'est pas un
-## paramètre graphique
-```
-
 ![](rapport_2014_files/figure-html/ratio_classe_age-1.png) 
-
-```r
-# pb: comment conserver le nom des graduations x ?
-```
 
 
 - [16] taux de masculinité
@@ -473,17 +406,6 @@ Arrivée aux urgences
 --------------------
 
 - Moyenne quotidienne du nombre de passages par mois (basée sur la date d’admission) année N
-
-```r
-# On procède en 2 temps:
-# 1. on calcule le total des RPU par jour de l'année. On obtient un vecteur de 365 valeurs. Chaque valeur est repérée par la date du jour.
-rpu.jour <- tapply(as.Date(dx$ENTREE), as.Date(dx$ENTREE), length)
-# 2. on redécoupe ce vecteur en mois sur la base de la date du jour. Pour chaque mois on calcule la moyenne et l'écart-type.
-mean.rpu.jour <- tapply(rpu.jour, month(as.Date(names(rpu.jour))), mean)
-sd.rpu.jour <- tapply(rpu.jour, month(as.Date(names(rpu.jour))), sd)
-plot(mean.rpu.jour, type = "b", ylim = c(900,1400), ylab = "nombre moyen de RPU", xlab = "Mois", main = "Moyenne quotidienne du nombre de passages par mois", xlim = c(1, 12))
-```
-
 ![](rapport_2014_files/figure-html/mean_month-1.png) 
 
 - Nombre de passages par semaine (basée sur la date d’admission) année N (positionner les vacances scolaires de la zone concernée)
@@ -576,18 +498,6 @@ Orientation
 - Moyenne quotidienne du nombre de passages en fonction de l’orientation, année N 
 
 
-```r
-# on crée un objet orient (en éliminant les orientation nulles)
-orient <- dx[!is.na(dx$ORIENTATION),]
-
-# on crée un dataframe de 365 jours et 13 colonnes comptant le nb de RPU pour chaque orientation. Pourrait se transformer en xts pour tracer une ligne par orientation.
-t <- tapply(as.Date(orient$ENTREE), list(as.Date(orient$ENTREE), factor(orient$ORIENTATION)), length)
-
-# on calcule les 13 moyennes
-m <- apply(t, 2, mean, na.rm = TRUE)
-m
-```
-
 ```
 ##      CHIR     FUGUE       HDT        HO       MED      OBST       PSA 
 ## 41.516129  1.250000  1.153846  1.000000 83.387097  1.363636  9.322581 
@@ -595,25 +505,11 @@ m
 ##  5.516129  4.333333  7.387097  1.684211 12.290323 70.354839
 ```
 
-```r
-# pour contrôler les sommes:
-apply(t, 2, sum, na.rm = TRUE)
-```
-
 ```
 ##  CHIR FUGUE   HDT    HO   MED  OBST   PSA   REA   REO    SC  SCAM    SI 
 ##  1287    15    15     3  2585    15   289   171   130   229    32   381 
 ##  UHCD 
 ##  2181
-```
-
-```r
-# graphiques
-xts <- xts(t, order.by = as.Date(rownames(t)))
-plot(rollmean(xts[,"UHCD"], 7), ylim = c(0,170), minor.ticks = FALSE, main = "Orientation", col = "green")
-lines(rollmean(xts[, "CHIR"], 7), col = "red")
-lines(rollmean(xts[, "MED"], 7), col = "blue")
-legend("topleft", legend = c("UHCD", "MED", "CHIR"), col = c("green","blue","red"), lty = 1, bty = "n")
 ```
 
 ![](rapport_2014_files/figure-html/moyenne-orientation-1.png) 
@@ -698,12 +594,8 @@ Temps de calcul
 ===============
 
 
-```r
-proc.time() - ptm
-```
-
 ```
 ##    user  system elapsed 
-##   6.251   0.176   6.428
+##   3.543   0.196   3.741
 ```
 

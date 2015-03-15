@@ -15,6 +15,7 @@ Radar de complétude
 ===================
 
 Ce fichier est créé pour illustrer la méthode utilisée pour construire un radar de complétude.
+Transmis à Gilles Faugeras pour le rapport FEDORU.
 
 Les rubriques
 -------------
