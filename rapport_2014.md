@@ -41,9 +41,6 @@ ii. Qualité des données urgences
 
 - Graphique en araignée du taux de complétude (% donnée manquante) (après correction données aberrantes) des variables RPU, au moins sexe, âge, durée séjour, ccmu, orientation, code diag principal, motif de recours.
 
-<<<<<<< HEAD
-![](rapport_2014_files/figure-html/completude-1.png) ![](rapport_2014_files/figure-html/completude-2.png) 
-=======
 ![](rapport_2014_files/figure-html/completude-1.png) 
 
 ```
@@ -57,7 +54,6 @@ ii. Qualité des données urgences
 ```
 
 ![](rapport_2014_files/figure-html/completude-2.png) 
->>>>>>> 70b544dd37643931b9e1e754c4fe8f994b9cadbd
 
 
 - Critères de cohérence :
@@ -166,12 +162,41 @@ Durées de passage
 -----------------
 
 
+
 - durée moyenne de passage 174.2 mn.
 - écart-type: 173.5035961 mn.
 - médiane: 123 mn.
 - nombre de passages > 4 heures: 8465 (23.61 %).
 
+![](rapport_2014_files/figure-html/horaires-1.png) 
 
+```
+##       [,1]
+##  [1,]  0.7
+##  [2,]  1.9
+##  [3,]  3.1
+##  [4,]  4.3
+##  [5,]  5.5
+##  [6,]  6.7
+##  [7,]  7.9
+##  [8,]  9.1
+##  [9,] 10.3
+## [10,] 11.5
+## [11,] 12.7
+## [12,] 13.9
+## [13,] 15.1
+## [14,] 16.3
+## [15,] 17.5
+## [16,] 18.7
+## [17,] 19.9
+## [18,] 21.1
+## [19,] 22.3
+## [20,] 23.5
+## [21,] 24.7
+## [22,] 25.9
+## [23,] 27.1
+## [24,] 28.3
+```
 
 ### % passages nuit (définition FEDORU) [C]
 nombre de passages dont l’admission s’est effectuée sur la période [20h00 - 7h59] divisé par l’ensemble des passages
@@ -412,49 +437,9 @@ Provenance géographique des patients
 ------------------------------------
 - population régionale (INSEE)
 
-```r
-# pop.légales millésimées 2007 entrent en vigueur le 1er janvier 2010
-pop.municip.2007.als <- 1827248
-pop.municip.2007.67 <- 1084840
-pop.municip.2007.68 <- 742408
-
-# pop.légales millésimées 2010 en vigueur du 1er janvier au 31 décembre 2013
-pop.municip.2007.als <- 1845687
-pop.municip.2007.67 <- 1095905
-pop.municip.2007.68 <- 749782
-
-# pop.légales millésimées 2011 en vigueur du 1er janvier au 31 décembre 2014
-pop.municip.2007.als <- 1852325
-pop.municip.2007.67 <- 1099269
-pop.municip.2007.68 <- 753056
-
-# pop.légales millésimées 2012 entrent en vigueur le 1er janvier 2015
-pop.municip.2012.als <- 1859869
-pop.municip.2012.67 <- 1104667
-pop.municip.2012.68 <- 755202
-
-# populations courantes
-pop.municip.als <- pop.municip.2012.als
-pop.municip.67 <- pop.municip.2012.67
-pop.municip.68 <- pop.municip.2012.68
-```
 
 - provenance région / hors région / étranger, année N
 
-```r
-rpu.region <- factor(dx[substr(dx$CODE_POSTAL, 1, 2) %in% c(67, 68), "CODE_POSTAL"]) # codes postaux et nb de RPU par code
-n.rpu.67 <- length(factor(dx[substr(dx$CODE_POSTAL, 1, 2) == 67, "CODE_POSTAL"]))
-n.rpu.68 <- length(factor(dx[substr(dx$CODE_POSTAL, 1, 2) == 68, "CODE_POSTAL"]))
-
-tx.recours.67 <- n.rpu.67 * 100 / pop.municip.67
-tx.recours.68 <- n.rpu.68 * 100 / pop.municip.68
-
-n.region <- length(rpu.region)
-p.region <- n.region / n.rpu
-
-n.hors.region <- n.rpu - n.region
-p.hors.region <- n.hors.region / n.rpu
-```
 
 - cartographie des pourcentages d’activité que représentent les passages de patients provenant des départements limitrophes, année N
 
@@ -540,7 +525,7 @@ croisements :
 Temps de passage
 ----------------
     
-    - Temps de passage moyen +/- ET et médian (IQR), année N
+- Temps de passage moyen +/- ET et médian (IQR), année N
 - Répartition des passages par durée de passage en classe
 - Pourcentage cumulé des temps de passage, année N
 
@@ -615,7 +600,7 @@ Définitions FEDORU
 
 taux de recours (de la région ou département)
 ---------------------------------------------
-nombre de passages dans les services d’urgences (de la région ou département) de patients résidant dans une zone donnée (code postal ou commune) divisé par la population estimée de cette zone sur la pérriode donnée.
+nombre de passages dans les services d’urgences (de la région ou département) de patients résidant dans une zone donnée (code postal ou commune) divisé par la population estimée de cette zone sur la période donnée.
 
 pourcentage de passage nuit
 ---------------------------
@@ -638,6 +623,8 @@ M/F/I
 « tranche d’heure » d’entrée
 ----------------------------
 matinée [8h00-11h59] ; début d’après midi [12h00-15h59] ; fin d’après midi [16h00-19h59] ; soirée [20h00-23h59] ; nuit profonde [00h00;07h59]
+![](rapport_2014_files/figure-html/tranches_heure_entree-1.png) 
+
 
 horaire PDS
 ------------
@@ -655,6 +642,8 @@ durée de passage en classe
 
 - moins de 4 heures ; 4 heures et plus
 - moins d’une heure ; entre 1 et 2 heures ; de 2 à 4 heures ; de 4 à 8 heures ; de 8 à 12 heures ; entre 12 et 72 heures ; (bornes supérieures exclues)
+![](rapport_2014_files/figure-html/duree_tranches_horaires-1.png) 
+
 
 Temps de calcul
 ===============
@@ -662,10 +651,23 @@ Temps de calcul
 
 ```
 ##    user  system elapsed 
-<<<<<<< HEAD
-##   3.543   0.196   3.741
-=======
-##  13.828   0.445  14.588
->>>>>>> 70b544dd37643931b9e1e754c4fe8f994b9cadbd
+##   0.830   0.047   0.887
+```
+
+```
+##                                                                            
+## "2,014000e+03" "1,643600e+04" "1,646600e+04" "3,100000e+01" "1,000000e+00" 
+##                                                                            
+## "2,000000e+00" "1,300000e+01" "          NA" "          NA" "4,050900e+04" 
+##                                                                            
+## "1,306742e+03" "3,393600e+04" "6,573000e+03" "8,377398e-01" "1,622602e-01" 
+##              F              M              F              M              M 
+## "4,939360e+01" "5,060640e+01" "1,999700e+04" "2,048800e+04" "5,060640e-01" 
+##                                                                            
+## "1,991000e+03" "9,700000e+02" "4,915079e-02" "1,276900e+04" "3,152217e-01" 
+##                                                                            
+## "5,671000e+03" "1,399970e-01" "3,712992e+01" "2,780361e+01" "3,300000e+01" 
+##              M              F 
+## "3,533831e+01" "3,899030e+01"
 ```
 

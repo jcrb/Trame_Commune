@@ -300,6 +300,12 @@ iqr.duree <- s.duree['3rd Qu.'] - s.duree['1st Qu.']
 ```{r horaires}
 # horaires seuls. Il faut isoler les heures de la date
 he <- hms(substr(e, 12, 20)) # heures d'entrée
+hs <- hms(substr(e, 12, 20)) # heures de sortie
+# graphique des entrées
+x <- barplot(table(hour(he)), main = "Heures d'entrée", ylab = "Fréquence", xlab = "Heures")
+x
+
+
 
 # passages de nuit
 nuit <- he[he > hms("19:59:59") | he < hms("08:00:00")]
@@ -782,7 +788,7 @@ croisements :
 Temps de passage
 ----------------
     
-    - Temps de passage moyen +/- ET et médian (IQR), année N
+- Temps de passage moyen +/- ET et médian (IQR), année N
 - Répartition des passages par durée de passage en classe
 - Pourcentage cumulé des temps de passage, année N
 
@@ -865,7 +871,7 @@ Définitions FEDORU
 
 taux de recours (de la région ou département)
 ---------------------------------------------
-nombre de passages dans les services d’urgences (de la région ou département) de patients résidant dans une zone donnée (code postal ou commune) divisé par la population estimée de cette zone sur la pérriode donnée.
+nombre de passages dans les services d’urgences (de la région ou département) de patients résidant dans une zone donnée (code postal ou commune) divisé par la population estimée de cette zone sur la période donnée.
 
 pourcentage de passage nuit
 ---------------------------
@@ -888,6 +894,12 @@ M/F/I
 « tranche d’heure » d’entrée
 ----------------------------
 matinée [8h00-11h59] ; début d’après midi [12h00-15h59] ; fin d’après midi [16h00-19h59] ; soirée [20h00-23h59] ; nuit profonde [00h00;07h59]
+```{r tranches_heure_entree}
+c.he <- c(0, 8, 12, 16, 20, 24)
+a <- cut(hour(he), c.he, right = FALSE)
+barplot(table(a), main = "Tranches horaires de passage")
+```
+
 
 horaire PDS
 ------------
@@ -905,11 +917,26 @@ durée de passage en classe
 
 - moins de 4 heures ; 4 heures et plus
 - moins d’une heure ; entre 1 et 2 heures ; de 2 à 4 heures ; de 4 à 8 heures ; de 8 à 12 heures ; entre 12 et 72 heures ; (bornes supérieures exclues)
+```{r duree_tranches_horaires}
+duree.c <- c(0, 1, 2, 4, 8, 12, 73)
+a <- cut(d/60, duree.c, right = FALSE) # il faut transformer les durées en heures.
+x <- barplot(table(a), xlab = "Tranches horaires", ylab = "Fréquence", main = "Durées de passage par tranches horaires")
+t <- paste(round(prop.table(table(a))*100, 2), "%")
+text(x, 2000, t)
+# Comparaison des données globales et locales:
+# - calculer a pour les 2 ensembles
+# - b <- rbind(table(a1), table(a2))
+# - barplot(b, beside = TRUE)
+
+```
+
 
 Temps de calcul
 ===============
 
 ```{r end}
 proc.time() - ptm
+
+format.n(chiffres)
 ```
 

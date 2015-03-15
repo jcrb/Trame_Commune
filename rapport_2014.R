@@ -1,6 +1,4 @@
-<<<<<<< HEAD
 
-=======
 # routines
 
 # format.n()
@@ -29,7 +27,6 @@ completude['DESTINATION'] <- completude.hosp['DESTINATION']
 # on retire les colonnes sans intérêt: id, EXTRACT
 completude <- completude[-c(1,7)]
 sort(completude)
->>>>>>> 70b544dd37643931b9e1e754c4fe8f994b9cadbd
 
 #===============================================
 # Taux complétude RPU
