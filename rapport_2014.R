@@ -39,12 +39,13 @@ sort(completude)
 #'@keywords complétude
 #'@family RPU
 #'@param dx Un dataframe
+#'@param tri si tri = TRUE (defaut) les colonnes sont triées par ordre croissant.
 #'@return vecteur des taux de complétude
 #'@example todo
 #'@export
 
 
-completude <- function(dx){
+completude <- function(dx, tri = FALSE){
     #' complétude brute. Des corrections sont nécessaires pour DESTINATION
     completude <- apply(dx, 2, function(x){round(100 * mean(!is.na(x)),2)})
     #' correction pour Destination et Orientation
@@ -58,9 +59,12 @@ completude <- function(dx){
     completude.hosp <- apply(hosp, 2, function(x){round(100 * mean(!is.na(x)),2)})
     completude['ORIENTATION'] <- completude.hosp['ORIENTATION']
     completude['DESTINATION'] <- completude.hosp['DESTINATION']
-    
+    # réorganise les données dans l'ordre de la FEDORU
+    completude <- reorder.vector.fedoru(completude)
     #' completude <- completude[-c(1,7)]
-    return(sort(completude)) # tableau trié
+    if (tri == TRUE)
+        completude <- sort(completude) # tableau trié
+    return(completude) 
 }
 
 #===============================================
@@ -99,3 +103,30 @@ radar.completude <- function(completude){
 
 # Durée de passage
 # Différence entre la date-heure d'entrée et de sortie
+
+#===============================================
+# Ordonner les colonnes du dataframe
+#===============================================
+reorder.dataframe.fedoru <- function(dx){
+    dx <- dx[, c("FINESS","id","EXTRACT","CODE_POSTAL","COMMUNE","NAISSANCE",
+                 "SEXE","ENTREE","MODE_ENTREE","PROVENANCE","TRANSPORT","TRANSPORT_PEC",
+                 "SORTIE","MODE_SORTIE","DESTINATION","ORIENTATION","MOTIF",
+                 "GRAVITE","DP")]
+        return(dx)
+}
+
+#===============================================
+# Ordonner les variable d'un vecteur
+#===============================================
+#' On part d'un vecteur contenant les intitulés du RPU et on le réordonne pour que
+#' les intitulés doient mis dans l'ordre du rapport FEDORU (proposition de GillesFaugeras)
+#' 
+reorder.vector.fedoru <- function(dx){
+    dx <- dx[c("FINESS","id","EXTRACT","CODE_POSTAL","COMMUNE","NAISSANCE",
+                 "SEXE","ENTREE","MODE_ENTREE","PROVENANCE","TRANSPORT","TRANSPORT_PEC",
+                 "SORTIE","MODE_SORTIE","DESTINATION","ORIENTATION","MOTIF",
+                 "GRAVITE","DP")]
+    return(dx)
+}
+
+              
