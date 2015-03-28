@@ -6,6 +6,7 @@ Radar de complétude
 ===================
 
 Ce fichier est créé pour illustrer la méthode utilisée pour construire un radar de complétude.
+Transmis à Gilles Faugeras pour le rapport FEDORU.
 
 Les rubriques
 -------------
@@ -36,11 +37,48 @@ Le RPU comporte une rubrique factorielle MODE_SORTIE avec quatre issues possible
 Pour les patients hospitalisés (MUTATION et TRANSFERT), le mode de sortie peut être affiné par le rubriques DESTINATION et ORIENTATION.
 Ces deux rubrique ne peuvent pas être complétée si on a coché DOMICILE ou DECES; elle sont donc laissée vides, ce qui induit une ambiguité lorsqu'on veut établir la complétude des champs DESTINATION et ORIENTATION. Ceci entraine une sous estimation importante du taux de complétude pour ces deux rubriques. Il convient donc pour calculer la complétude de ces champs, d'isoler les RPU correspondant à une hospitalisation.
 
-Le graphe
----------
+Les modes de sortie
+-------------------
 
 
 ![graphe](mode_sortie.png)
+
+Ordonner les items
+------------------
+
+#### 3 Données d'identification
+
+- FINESS
+- ID
+- Extract
+
+#### 4 Données caractéristiques patient:
+
+- Code postal
+- Commune
+- Date de naissance
+- Age]: redondant avec la date de naissance
+- Sexe
+
+#### 9 Données administratives:
+
+- Date et heure d'entrée
+- Mode d'entrée
+- Provenance
+- Mode de transport
+- PEC durant le transport
+- Date et heure de sortie
+- Mode de sortie
+- Destination
+- Orientation
+
+#### 3 Données médicales:
+
+- Motif de recours
+- CCMU
+- DP
+
+ 
 
 Résultat
 --------

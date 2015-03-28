@@ -48,6 +48,7 @@ sort(completude)
 completude <- function(dx, tri = FALSE){
     #' complétude brute. Des corrections sont nécessaires pour DESTINATION
     completude <- apply(dx, 2, function(x){round(100 * mean(!is.na(x)),2)})
+    
     #' correction pour Destination et Orientation
     #' Les items DESTINATION et ORIENTATION ne s'appliquent qu'aux patients hspitalisés. 
     #' On appelle hospitalisation les RPU pour lequels la rubrique MODE_SORTIE = MUTATION ou TRANSFERT. 
@@ -59,6 +60,7 @@ completude <- function(dx, tri = FALSE){
     completude.hosp <- apply(hosp, 2, function(x){round(100 * mean(!is.na(x)),2)})
     completude['ORIENTATION'] <- completude.hosp['ORIENTATION']
     completude['DESTINATION'] <- completude.hosp['DESTINATION']
+    
     # réorganise les données dans l'ordre de la FEDORU
     completude <- reorder.vector.fedoru(completude)
     #' completude <- completude[-c(1,7)]
@@ -83,22 +85,31 @@ completude <- function(dx, tri = FALSE){
 radar.completude <- function(completude){
     library("openintro")
     library("plotrix")
-    par(cex.axis = 0.8, cex.lab = 0.8, oma=c(0,0,0,0)) #' taille des caractères
+    par(cex.axis = 0.8, cex.lab = 0.8) #' taille des caractères
     #' diagramme en étoile
+    prop <- rep(1.24, length(completude))
+    prop[1] <- 1.1
+    prop[2] <- 1.1
+    prop[10] <- 1.27
+    prop[19] <- 1.1
     radial.plot(completude, rp.type="p", 
-    radial.lim=c(0,100), 
-    radial.labels=c("0","20%","40%","60%","80%",""),
-    poly.col = fadeColor("khaki",fade = "A0"),  #' line.col="khaki",
-    start = 1.57, 
-    clockwise = TRUE, 
-    line.col = "red", 
-    labels = names(completude), 
-    cex.axis = 0.6,
-    label.prop = 1.25, 
-    show.grid.labels = 1, #' N = 4
-   
+        radial.lim=c(0,100), 
+        radial.labels=c("0","20%","40%","60%","80%",""),
+        poly.col = fadeColor("khaki",fade = "A0"),  #' line.col="khaki",
+        start = 1.57, 
+        clockwise = TRUE, 
+        line.col = "red",
+        #line.col = c(rep("yellow",3), rep("green", 4), rep("red", 9),rep("blue", 3))
+        labels = names(completude), 
+        cex.axis = 0.6,
+        label.prop = prop, # positionne individuellement chaque label
+        mar = c(3,0,3,0),
+        show.grid.labels = 1, #' N = 4
+        main = "Radar de complétude (%)",
+        boxed.labels = FALSE,
+        boxed.radial = FALSE
     )
-    par(cex.axis = 1, cex.lab = 1)
+    par()
 }
 
 # Durée de passage
@@ -112,7 +123,7 @@ reorder.dataframe.fedoru <- function(dx){
                  "SEXE","ENTREE","MODE_ENTREE","PROVENANCE","TRANSPORT","TRANSPORT_PEC",
                  "SORTIE","MODE_SORTIE","DESTINATION","ORIENTATION","MOTIF",
                  "GRAVITE","DP")]
-        return(dx)
+    return(dx)
 }
 
 #===============================================
@@ -126,6 +137,11 @@ reorder.vector.fedoru <- function(dx){
                  "SEXE","ENTREE","MODE_ENTREE","PROVENANCE","TRANSPORT","TRANSPORT_PEC",
                  "SORTIE","MODE_SORTIE","DESTINATION","ORIENTATION","MOTIF",
                  "GRAVITE","DP")]
+    # Changer l'intitulé des colonnes
+    names(dx) <- c("FINESS","ID","EXTRACT","CODE POSTAL","COMMUNE","NAISSANCE",
+    "SEXE","DATE D'ENTREE","MODE D'ENTREE","PROVENANCE","TRANSPORT","TRANSPORT PEC",
+    "DATE DE SORTIE","MODE DE SORTIE","DESTINATION","ORIENTATION","MOTIF DE RECOURS",
+    "CCMU","DP")
     return(dx)
 }
 
