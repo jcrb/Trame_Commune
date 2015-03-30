@@ -1,6 +1,6 @@
 # Diagramme de complétude des RPU
 JcB - FEDORU  
-13/03/2015  
+13/03/2015 (MAJ le 28/03/2015)  
 
 Radar de complétude
 ===================
@@ -45,6 +45,7 @@ Les modes de sortie
 
 Ordonner les items
 ------------------
+Les items peuvent être rangés en 4 groupes:
 
 #### 3 Données d'identification
 
@@ -57,7 +58,7 @@ Ordonner les items
 - Code postal
 - Commune
 - Date de naissance
-- Age]: redondant avec la date de naissance
+- Age: redondant avec la date de naissance. Pas représenté sur le graphe
 - Sexe
 
 #### 9 Données administratives:
@@ -78,6 +79,7 @@ Ordonner les items
 - CCMU
 - DP
 
+La présentation en radar regroupe les items en 4 classes de façon à standardiser la présentation.
  
 
 Résultat

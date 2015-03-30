@@ -86,7 +86,9 @@ radar.completude <- function(completude){
     library("openintro")
     library("plotrix")
     par(cex.axis = 0.8, cex.lab = 0.8) #' taille des caractères
-    #' diagramme en étoile
+    #' diagramme en étoile: réglage de la distance de la légende 
+    #' par rapport à l'extrémité du trait. Toutes des distances sont fixées à 1.24 puis
+    #' certaines sont augmentées ou diminuée en fonction de leur taille.
     prop <- rep(1.24, length(completude))
     prop[1] <- 1.1
     prop[2] <- 1.1
@@ -109,7 +111,7 @@ radar.completude <- function(completude){
         boxed.labels = FALSE,
         boxed.radial = FALSE
     )
-    par()
+    # par()
 }
 
 # Durée de passage
