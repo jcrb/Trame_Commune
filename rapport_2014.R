@@ -16,17 +16,17 @@ format.n <- function(x){
     return(format(x, big.mark = " ", decimal.mark = ","))
 }
 
-# complétude brute. Des corrections sont nécessaires pour DESTINATION
-completude <- apply(dx, 2, function(x){round(100 * mean(!is.na(x)),2)})
-# correction pour Destination et Orientation
-# Les items DESTINATION et ORIENTATION ne s'appliquent qu'aux patients hspitalisés. On appelle hospitalisation les RPU pour lequels la rubrique MODE_SORTIE = MUTATION ou TRANSFERT. Pour les sorties à domicile, ces rubriques nepeuvent pas être complétées ce qui entraine une sous estimation importante du taux de complétude pour ces deux rubriques. On ne retient donc que le sous ensemble des patients hospitalisés pour lesquels les rubriques DESTINATION et ORIENTATION doivent ^tre renseignées.
-hosp <- dx[dx$MODE_SORTIE %in% c("Mutation","Transfert"), c("DESTINATION", "ORIENTATION")]
-completude.hosp <- apply(hosp, 2, function(x){round(100 * mean(!is.na(x)),2)})
-completude['ORIENTATION'] <- completude.hosp['ORIENTATION']
-completude['DESTINATION'] <- completude.hosp['DESTINATION']
-# on retire les colonnes sans intérêt: id, EXTRACT
-completude <- completude[-c(1,7)]
-sort(completude)
+# # complétude brute. Des corrections sont nécessaires pour DESTINATION
+# completude <- apply(dx, 2, function(x){round(100 * mean(!is.na(x)),2)})
+# # correction pour Destination et Orientation
+# # Les items DESTINATION et ORIENTATION ne s'appliquent qu'aux patients hspitalisés. On appelle hospitalisation les RPU pour lequels la rubrique MODE_SORTIE = MUTATION ou TRANSFERT. Pour les sorties à domicile, ces rubriques nepeuvent pas être complétées ce qui entraine une sous estimation importante du taux de complétude pour ces deux rubriques. On ne retient donc que le sous ensemble des patients hospitalisés pour lesquels les rubriques DESTINATION et ORIENTATION doivent ^tre renseignées.
+# hosp <- dx[dx$MODE_SORTIE %in% c("Mutation","Transfert"), c("DESTINATION", "ORIENTATION")]
+# completude.hosp <- apply(hosp, 2, function(x){round(100 * mean(!is.na(x)),2)})
+# completude['ORIENTATION'] <- completude.hosp['ORIENTATION']
+# completude['DESTINATION'] <- completude.hosp['DESTINATION']
+# # on retire les colonnes sans intérêt: id, EXTRACT
+# completude <- completude[-c(1,7)]
+# sort(completude)
 
 #===============================================
 # Taux complétude RPU
