@@ -98,9 +98,15 @@ radar.completude <- function(completude, finess = NULL){
     prop[19] <- 1.1
     
     if(is.null(finess))
+<<<<<<< HEAD
       main = "Radar de complétude (%)"
     else
       main = paste0(finess, " - Radar de complétude (%)")
+=======
+        main = "Radar de complétude (%)"
+    else
+        main = paste0(finess, " - Radar de complétude (%)")
+>>>>>>> 06db744972fb4aa708f07f8bb29a5e0f8ced5423
     
     radial.plot(completude, rp.type="p", 
         radial.lim=c(0,100), 
@@ -116,7 +122,10 @@ radar.completude <- function(completude, finess = NULL){
         mar = c(3,0,3,0),
         show.grid.labels = 1, #' N = 4
         main = main,
+<<<<<<< HEAD
         #boxed.labels = FALSE,
+=======
+>>>>>>> 06db744972fb4aa708f07f8bb29a5e0f8ced5423
         boxed.radial = FALSE
     )
     # par()
@@ -155,4 +164,19 @@ reorder.vector.fedoru <- function(dx){
     return(dx)
 }
 
-              
+#===============================================
+# count.CIM10
+#===============================================
+#' 
+#' examine un vecteur de caractères et compte le nombre de mots compatibles avec un code CIM10
+#' NA n'est pas compté comme un code CIM10
+#' @author JcB
+#' @param vx un vecteur de character
+#' @return n nombre de codes CIM1
+#' @example count.CIM10(dx[dx$FINESS == "Col", "MOTIF"])
+#'
+count.CIM10 <- function(vx){
+    Encoding(vx) <- "latin1" # suprime les caractères bloquants pour grep. Il s'agit de Colmar avec des caractères window du type \x9
+    n <- grep("^[A-Z][0-9][0-9]", vx, value = TRUE) # n contient les codes compatibles CIM10
+    return(length(n))
+}              
