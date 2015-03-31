@@ -16,17 +16,17 @@ format.n <- function(x){
     return(format(x, big.mark = " ", decimal.mark = ","))
 }
 
-# complétude brute. Des corrections sont nécessaires pour DESTINATION
-completude <- apply(dx, 2, function(x){round(100 * mean(!is.na(x)),2)})
-# correction pour Destination et Orientation
-# Les items DESTINATION et ORIENTATION ne s'appliquent qu'aux patients hspitalisés. On appelle hospitalisation les RPU pour lequels la rubrique MODE_SORTIE = MUTATION ou TRANSFERT. Pour les sorties à domicile, ces rubriques nepeuvent pas être complétées ce qui entraine une sous estimation importante du taux de complétude pour ces deux rubriques. On ne retient donc que le sous ensemble des patients hospitalisés pour lesquels les rubriques DESTINATION et ORIENTATION doivent ^tre renseignées.
-hosp <- dx[dx$MODE_SORTIE %in% c("Mutation","Transfert"), c("DESTINATION", "ORIENTATION")]
-completude.hosp <- apply(hosp, 2, function(x){round(100 * mean(!is.na(x)),2)})
-completude['ORIENTATION'] <- completude.hosp['ORIENTATION']
-completude['DESTINATION'] <- completude.hosp['DESTINATION']
-# on retire les colonnes sans intérêt: id, EXTRACT
-completude <- completude[-c(1,7)]
-sort(completude)
+# # complétude brute. Des corrections sont nécessaires pour DESTINATION
+# completude <- apply(dx, 2, function(x){round(100 * mean(!is.na(x)),2)})
+# # correction pour Destination et Orientation
+# # Les items DESTINATION et ORIENTATION ne s'appliquent qu'aux patients hspitalisés. On appelle hospitalisation les RPU pour lequels la rubrique MODE_SORTIE = MUTATION ou TRANSFERT. Pour les sorties à domicile, ces rubriques nepeuvent pas être complétées ce qui entraine une sous estimation importante du taux de complétude pour ces deux rubriques. On ne retient donc que le sous ensemble des patients hospitalisés pour lesquels les rubriques DESTINATION et ORIENTATION doivent ^tre renseignées.
+# hosp <- dx[dx$MODE_SORTIE %in% c("Mutation","Transfert"), c("DESTINATION", "ORIENTATION")]
+# completude.hosp <- apply(hosp, 2, function(x){round(100 * mean(!is.na(x)),2)})
+# completude['ORIENTATION'] <- completude.hosp['ORIENTATION']
+# completude['DESTINATION'] <- completude.hosp['DESTINATION']
+# # on retire les colonnes sans intérêt: id, EXTRACT
+# completude <- completude[-c(1,7)]
+# sort(completude)
 
 #===============================================
 # Taux complétude RPU
@@ -78,11 +78,13 @@ completude <- function(dx, tri = FALSE){
 #'@keywords spider, diagramme étoile
 #'@family RPU
 #'@param completude taux de completude global calculé par la fonction completude
+#'@param finess character: nom de l'établissement. NULL (defaut) => tout le datafame
 #'@return diagramme en étoile
 #'@exemple radar.completude(completude(dx))
+#'#'@exemple radar.completude(completude(dwis), "Wissembourg")
 #'@export
 
-radar.completude <- function(completude){
+radar.completude <- function(completude, finess = NULL){
     library("openintro")
     library("plotrix")
     par(cex.axis = 0.8, cex.lab = 0.8) #' taille des caractères
@@ -94,6 +96,12 @@ radar.completude <- function(completude){
     prop[2] <- 1.1
     prop[10] <- 1.27
     prop[19] <- 1.1
+    
+    if(is.null(finess))
+      main = "Radar de complétude (%)"
+    else
+      main = paste0(finess, " - Radar de complétude (%)")
+    
     radial.plot(completude, rp.type="p", 
         radial.lim=c(0,100), 
         radial.labels=c("0","20%","40%","60%","80%",""),
@@ -107,8 +115,8 @@ radar.completude <- function(completude){
         label.prop = prop, # positionne individuellement chaque label
         mar = c(3,0,3,0),
         show.grid.labels = 1, #' N = 4
-        main = "Radar de complétude (%)",
-        boxed.labels = FALSE,
+        main = main,
+        #boxed.labels = FALSE,
         boxed.radial = FALSE
     )
     # par()
