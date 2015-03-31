@@ -98,15 +98,9 @@ radar.completude <- function(completude, finess = NULL){
     prop[19] <- 1.1
     
     if(is.null(finess))
-<<<<<<< HEAD
       main = "Radar de complétude (%)"
     else
       main = paste0(finess, " - Radar de complétude (%)")
-=======
-        main = "Radar de complétude (%)"
-    else
-        main = paste0(finess, " - Radar de complétude (%)")
->>>>>>> 06db744972fb4aa708f07f8bb29a5e0f8ced5423
     
     radial.plot(completude, rp.type="p", 
         radial.lim=c(0,100), 
@@ -122,10 +116,7 @@ radar.completude <- function(completude, finess = NULL){
         mar = c(3,0,3,0),
         show.grid.labels = 1, #' N = 4
         main = main,
-<<<<<<< HEAD
         #boxed.labels = FALSE,
-=======
->>>>>>> 06db744972fb4aa708f07f8bb29a5e0f8ced5423
         boxed.radial = FALSE
     )
     # par()
