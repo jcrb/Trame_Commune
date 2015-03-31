@@ -10,6 +10,8 @@ output:
     theme: cosmo
     toc: yes
   pdf_document:
+    keep_tex: yes
+    number_sections: yes
     toc: yes
 ---
 
@@ -19,7 +21,7 @@ Rapport 2014 respectant les préconisations de la FEDORU
 ```{r Declarations, echo=FALSE, include=FALSE}
 library(knitr)
 # set global chunk options
-opts_chunk$set(echo = FALSE, cache=TRUE, warning=FALSE, tidy=FALSE, fig.width=8, fig.height=6)
+opts_chunk$set(echo = FALSE, cache=FALSE, warning=FALSE, message = FALSE, tidy=FALSE, fig.width=8, fig.height=6)
 ```
 
 
@@ -79,7 +81,12 @@ ii. Qualité des données urgences
 
 ```{r completude, echo = FALSE, fig.width=10}
 # calcul de la complétude. La complétude brute est corrigée pour les rubriques orientation et detination.
-comp <- completude(dx[, -c(1,7)]) # on retire les colonnes sans intérêt: id, EXTRACT
+# comp <- completude(dx[, -c(1,7)]) # on retire les colonnes sans intérêt: id, EXTRACT
+# on réordonne les colonnes (ordre FEDORU)
+dx2 <- dx[, c("FINESS","id","EXTRACT","CODE_POSTAL","COMMUNE","NAISSANCE","SEXE","ENTREE","MODE_ENTREE","PROVENANCE","TRANSPORT","TRANSPORT_PEC","SORTIE","MODE_SORTIE","DESTINATION","ORIENTATION","MOTIF","GRAVITE","DP")]
+
+comp <- completude(dx2)
+rm(dx2)
 
 # barplot
 par(mar = c(4,6,3,1))
@@ -279,14 +286,14 @@ e <- ymd_hms(passages$ENTREE) # vecteur des entrées
 s <- ymd_hms(passages$SORTIE)
 d <- as.numeric((s-e)/60) # vecteur des durées de passage en minutes
 # on ne garde que les durées > 0 et < ou = 48 heures
-d <- d[d > 0 & d < 2 * 24 * 60 + 1]
-n.duree <- length(d) # nb total de durées
-s.duree <- summary(d) # résumé des durées totales de passage
+duree <- d[d > 0 & d < 2 * 24 * 60 + 1]
+n.duree <- length(duree) # nb total de durées
+s.duree <- summary(duree) # résumé des durées totales de passage
 mean.duree <- s.duree['Mean']
 median.duree <- s.duree['Median']
-sd.duree <- sd(d)
+sd.duree <- sd(duree)
 # nb de passages dont la durée est supérieure à 4 heures:
-duree.sup.4h <- d[d > 4 * 60] # vecteur des durées sup 4 h
+duree.sup.4h <- duree[duree > 4 * 60] # vecteur des durées sup 4 h
 n.duree.sup.4h <- length(duree.sup.4h) # nb de passages > 4h
 p.duree.sup.4h <- n.duree.sup.4h / n.duree
 iqr.duree <- s.duree['3rd Qu.'] - s.duree['1st Qu.']
@@ -919,7 +926,7 @@ durée de passage en classe
 - moins d’une heure ; entre 1 et 2 heures ; de 2 à 4 heures ; de 4 à 8 heures ; de 8 à 12 heures ; entre 12 et 72 heures ; (bornes supérieures exclues)
 ```{r duree_tranches_horaires}
 duree.c <- c(0, 1, 2, 4, 8, 12, 73)
-a <- cut(d/60, duree.c, right = FALSE) # il faut transformer les durées en heures.
+a <- cut(duree/60, duree.c, right = FALSE) # il faut transformer les durées en heures.
 x <- barplot(table(a), xlab = "Tranches horaires", ylab = "Fréquence", main = "Durées de passage par tranches horaires")
 t <- paste(round(prop.table(table(a))*100, 2), "%")
 text(x, 2000, t)

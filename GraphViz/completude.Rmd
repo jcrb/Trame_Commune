@@ -1,12 +1,13 @@
 ---
 title: "Diagramme de complétude des RPU"
 author: "JcB - FEDORU"
-date: "13/03/2015"
+date: "13/03/2015 (MAJ le 28/03/2015)"
+version: "2.0"
 output:
-  pdf_document: default
   html_document:
     keep_md: yes
     number_sections: yes
+  pdf_document: default
   word_document:
     fig_caption: yes
 ---
@@ -46,13 +47,52 @@ Le RPU comporte une rubrique factorielle MODE_SORTIE avec quatre issues possible
 Pour les patients hospitalisés (MUTATION et TRANSFERT), le mode de sortie peut être affiné par le rubriques DESTINATION et ORIENTATION.
 Ces deux rubrique ne peuvent pas être complétée si on a coché DOMICILE ou DECES; elle sont donc laissée vides, ce qui induit une ambiguité lorsqu'on veut établir la complétude des champs DESTINATION et ORIENTATION. Ceci entraine une sous estimation importante du taux de complétude pour ces deux rubriques. Il convient donc pour calculer la complétude de ces champs, d'isoler les RPU correspondant à une hospitalisation.
 
-Le graphe
----------
+Les modes de sortie
+-------------------
 
 ```{r graphe, echo=FALSE}
 system("dot -Tpng graphe.gv -o mode_sortie.png") # png
 ```
 ![graphe](mode_sortie.png)
+
+Ordonner les items
+------------------
+Les items peuvent être rangés en 4 groupes:
+
+#### 3 Données d'identification
+
+- FINESS
+- ID
+- Extract
+
+#### 4 Données caractéristiques patient:
+
+- Code postal
+- Commune
+- Date de naissance
+- Age: redondant avec la date de naissance. Pas représenté sur le graphe
+- Sexe
+
+#### 9 Données administratives:
+
+- Date et heure d'entrée
+- Mode d'entrée
+- Provenance
+- Mode de transport
+- PEC durant le transport
+- Date et heure de sortie
+- Mode de sortie
+- Destination
+- Orientation
+
+#### 3 Données médicales:
+
+- Motif de recours
+- CCMU
+- DP
+
+La présentation en radar regroupe les items en 4 classes de façon à standardiser la présentation.
+ 
 
 Résultat
 --------
