@@ -21,7 +21,7 @@ Rapport 2014 respectant les préconisations de la FEDORU
 ```{r Declarations, echo=FALSE, include=FALSE}
 library(knitr)
 # set global chunk options
-opts_chunk$set(echo = FALSE, cache=FALSE, warning=FALSE, message = FALSE, tidy=FALSE, fig.width=8, fig.height=6)
+opts_chunk$set(echo = FALSE, cache=FALSE, warning=FALSE, message = FALSE, tidy=FALSE, fig.width=8, fig.height=6, scipen= 1, digits = 2)
 ```
 
 
@@ -490,7 +490,8 @@ n.anp <- 344073 # nb de RPU pour 2013
 mean.rpu.jour.anp <- n.anp / 365 # moyenne quotidienne pour 2013
 
 par(mar = c(2,4,4,3)) # on fait de la place à droite pour le 2eme axe
-annee <- c("2013","2014") # vecteur des noms des années
+# annee <- c("2013","2014") # vecteur des noms des années
+annee <- c(anp, anc) # vecteur des noms des années
 freq <- length(annee) # nb de colonnes (années) à représenter
 lim <- c(0, 1.2 * freq + .5) # formule de Charpentier
 x <- barplot(c(n.anp, n.anc), names.arg = annee, ylab = "nombre de RPU", main = "Evolution du nombre deRPU en Alsace", xlim = lim, col="light green", axes=FALSE) # x = abcisse du centre des barres verticales
@@ -499,7 +500,7 @@ axis(2, cex.axis = .7, las = 2)
 
 par(new=TRUE) # voir http://cran.r-project.org/doc/contrib/Lemon-kickstart/kr_addat.html 
 
-xx <- cbind(x, c(mean.rpu.jour.2013, mean.rpu.jour.anc)) # matrice des coordonnées x et y des points formant la droite des moyennes des RPU.
+xx <- cbind(x, c(mean.rpu.jour.anp, mean.rpu.jour.anc)) # matrice des coordonnées x et y des points formant la droite des moyennes des RPU.
 plot(xx, type = "b", col = "red", lwd = 3, axes = FALSE, ylim = c(0, 1200), xlim = lim, ylab = "", xlab = "")
 axis(4, col = "red")
 mtext("Nombre moyen de RPU quotidiens", 4, line=-2, cex=1, col="red") # titre de l'ordonnée à droite

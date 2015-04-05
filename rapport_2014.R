@@ -11,6 +11,7 @@
 #===============================================
 #'@author JcB - 2015-03-12
 #'@description formate un nombre en ajoutant un espace pour les milliers
+#'                                           une virgule décimale
 #'@usage format.n(7890.14) -> "7 890,14"
 format.n <- function(x){
     return(format(x, big.mark = " ", decimal.mark = ","))

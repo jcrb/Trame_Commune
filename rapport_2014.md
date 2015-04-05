@@ -639,7 +639,7 @@ Temps de calcul
 
 ```
 ##    user  system elapsed 
-##  17.203   0.507  17.894
+##  17.196   0.555  18.176
 ```
 
 ```
