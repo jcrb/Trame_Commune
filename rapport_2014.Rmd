@@ -18,6 +18,12 @@ output:
 Rapport 2014 respectant les préconisations de la FEDORU
 =======================================================
 
+[Trame commune](https://docs.google.com/document/d/101LYVqVLeHZnrujfMm3aqBYfbOwx3CPEB3Y-Lbud2Ls/edit)
+
+Le document de référence pour le rapport est: __V1 trame commune 2014 rapport inter région__
+
+Titre: __Activité des structures d’urgences : panorama 2014 de la région Alsace__
+
 ```{r Declarations, echo=FALSE, include=FALSE}
 library(knitr)
 # set global chunk options
@@ -147,6 +153,7 @@ n.rpu <- nrow(dx) # nb de passages dans l'année
 mean.rpu.quot <- n.rpu / n.jours # Moyenne quotidienne de passages
 
 chiffres <- c(anc, periode.debut, periode.fin, n.jours, n.su.ped, n.su.adultes, n.su.polyvalents, n.su.publics, n.su.prives, n.rpu, mean.rpu.quot)
+names(chiffres) <- c("anc", "periode.debut", "periode.fin", "n.jours", "n.su.ped", "n.su.adultes", "n.su.polyvalents", "n.su.publics", "n.su.prives", "n.rpu", "mean.rpu.quot")
 ```
 Analyse sur la période:
 
@@ -164,17 +171,28 @@ Analyse sur la période:
 - nombre de SU dans le secteur public: `r n.su.publics`
 - nombre de SU dans le secteur privé: `r n.su.prives`
 
-## Nombre de passages dans l'année [C]
+## Recueil des données
 
-`r format.n(n.rpu)`
+sur 2 colonnes : 
 
-## Moyenne quotidienne de passages [C]
+- à partir des RPU transmis si exhaustif sinon à partir des données SRVA
+- à partir des données SAE
 
-`r format.n(mean.rpu.quot)`
 
-## %(N) d'évolution par rapport à année N-1 [C]
+- Nombre de passages dans l'année [C]: `r format.n(n.rpu)` RPU
+- Moyenne quotidienne de passages [C]: `r format.n(mean.rpu.quot)` RPU
+- %(N) d'évolution par rapport à année N-1 [C]:
+- % d’évolution moyenne sur les 5 dernières années (méthode calcul : moyenne des évolutions constatées entre chaque année)
+- Données renseignées (données à partir desquelles tout le reste de l’analyse sera effectuée)
+    - Nombre de RPU transmis: `r format.n(n.rpu)` RPU
+    - Exhaustivité du recueil : Nb RPU transmis / Nb de passages déclarés
+
+
 
 ## %(N) public/privé [C]
+
+Possiblement polémique. Pour l'instant on décide de ne pas le mettre.
+
 ```{r public_prive, echo=FALSE, comment=""}
 pub <- dx[dx$FINESS %in% publics, "ENTREE"]
 prv <- dx[dx$FINESS %in% prives, "ENTREE"]
@@ -183,7 +201,10 @@ n.prv <- length(prv) # nb de RPU privés
 p.pub <- n.pub / n.rpu
 p.prv <- n.prv / n.rpu
 
-chiffres <- c(chiffres, n.pub, n.prv, p.pub, p.prv)
+# archivage
+val <- c(n.pub, n.prv, p.pub, p.prv)
+names(val) <- c("n.pub", "n.prv", "p.pub", "p.prv")
+chiffres <- c(chiffres, val)
 ```
 - nombre de RPU publics: `r n.pub` (`r round(p.pub * 100, 2)` %)
 - nombre de RPU privés: `r n.prv` (`r round(p.prv * 100, 2)` %)
@@ -198,7 +219,10 @@ n.hommes <- sexe['M']
 n.femmes <- sexe['F']
 tx.masculinite <- n.hommes / (n.hommes + n.femmes)
 
-chiffres <- c(chiffres, p.femme, p.homme, n.femmes, n.hommes, tx.masculinite)
+# archivage
+val <- c(p.femme, p.homme, n.femmes, n.hommes, tx.masculinite)
+names(val) <- c("p.femme", "p.homme", "n.femmes", "n.hommes", "tx.masculinite")
+chiffres <- c(chiffres, val)
 ```
 ### %(N) Femme [C]
 
@@ -227,7 +251,10 @@ mean.age.f <- mean.age.sexe['F'] # age moyen des femmes
 
 sd.age.sexe <- tapply(dx$AGE, dx$SEXE, sd, na.rm = TRUE)
 
-chiffres <- c(chiffres, n.inf1an, n.supegal90, p.inf1an, n.inf18an, p.inf18an, n.supegal75an, p.supegal75an, mean.age, sd.age, median.age, mean.age.h, mean.age.f)
+# archivage
+val <- c(n.inf1an, n.supegal90, p.inf1an, n.inf18an, p.inf18an, n.supegal75an, p.supegal75an, mean.age, sd.age, median.age, mean.age.h, mean.age.f)
+names(val) <- c("n.inf1an", "n.supegal90", "p.inf1an", "n.inf18an", "p.inf18an", "n.supegal75an", "p.supegal75an", "mean.age", "sd.age", "median.age", "mean.age.h", "mean.age.f")
+chiffres <- c(chiffres, val)
 ```
 
 ### % (N) < 1 an [C]
@@ -938,6 +965,15 @@ text(x, 2000, t)
 
 ```
 
+Résumé des chiffres clé
+=======================
+
+```{r chiffres_cles, echo=FALSE, comment=""}
+# format.n(chiffres)
+options(scipen = 6, digits = 2)
+chiffres
+```
+
 
 Temps de calcul
 ===============
@@ -945,6 +981,5 @@ Temps de calcul
 ```{r end}
 proc.time() - ptm
 
-format.n(chiffres)
 ```
 
