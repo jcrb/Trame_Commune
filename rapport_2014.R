@@ -30,7 +30,9 @@ format.n <- function(x){
 # sort(completude)
 
 #===============================================
+#
 # Taux complétude RPU
+#
 #===============================================
 
 #'@title taux de complétude global. 
@@ -71,7 +73,9 @@ completude <- function(dx, tri = FALSE){
 }
 
 #===============================================
+#
 # diagramme en étoile de la complétude
+#
 #===============================================
 
 #'@description dessine un graphe en étoile à partir des données retournées par "completude"
@@ -85,7 +89,7 @@ completude <- function(dx, tri = FALSE){
 #'#'@exemple radar.completude(completude(dwis), "Wissembourg")
 #'@export
 
-radar.completude <- function(completude, finess = NULL){
+radar.completude <- function(completude, finess = NULL, titre = NULL){
     library("openintro")
     library("plotrix")
     par(cex.axis = 0.8, cex.lab = 0.8) #' taille des caractères
@@ -127,8 +131,12 @@ radar.completude <- function(completude, finess = NULL){
 # Différence entre la date-heure d'entrée et de sortie
 
 #===============================================
+#
 # Ordonner les colonnes du dataframe
+#
 #===============================================
+# Réordonne les colonnes du dataframe RPU dans l'ordre défini par la FEDORU.
+# Permet une meilleure cohérence du diagramme en étoile
 reorder.dataframe.fedoru <- function(dx){
     dx <- dx[, c("FINESS","id","EXTRACT","CODE_POSTAL","COMMUNE","NAISSANCE",
                  "SEXE","ENTREE","MODE_ENTREE","PROVENANCE","TRANSPORT","TRANSPORT_PEC",
@@ -138,7 +146,9 @@ reorder.dataframe.fedoru <- function(dx){
 }
 
 #===============================================
+#
 # Ordonner les variable d'un vecteur
+#
 #===============================================
 #' On part d'un vecteur contenant les intitulés du RPU et on le réordonne pour que
 #' les intitulés doient mis dans l'ordre du rapport FEDORU (proposition de GillesFaugeras)
@@ -157,7 +167,27 @@ reorder.vector.fedoru <- function(dx){
 }
 
 #===============================================
+#
+# teste.radar
+#
+#===============================================
+# data pour créer automatiquement un radar RPU et faire des test
+teste.radar <- function(){
+  n <- c("FINESS","id","EXTRACT","CODE_POSTAL","COMMUNE","NAISSANCE", "SEXE","ENTREE","MODE_ENTREE","PROVENANCE","TRANSPORT",
+         "TRANSPORT_PEC","SORTIE","MODE_SORTIE","DESTINATION","ORIENTATION","MOTIF","GRAVITE","DP")
+  a <- rep(80, length(n))
+  names(a) <- n
+  a <- reorder.vector.fedoru(a)
+  radar.completude(a, finess = "Test - 1er trimestre 2015")
+  legend(-150, -120, legend = c("complétude régionale"), lty = 1, lwd = 3, col = "blue", bty = "n", cex = 0.8)
+  legend(90, -120, legend = c("complétude locale"), lty = 1, lwd = 3, col = "red", bty = "n", cex = 0.8)
+
+}
+
+#===============================================
+#
 # count.CIM10
+#
 #===============================================
 #' 
 #' examine un vecteur de caractères et compte le nombre de mots compatibles avec un code CIM10
