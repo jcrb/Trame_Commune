@@ -1,0 +1,42 @@
+---
+title: "Calcul du TARRU"
+author: "JcB"
+date: "25/04/2015"
+output: html_document
+---
+
+calcul du taux annuel régional  de recours aux urgences (TARRU)
+===============================================================
+
+```{r init, echo=FALSE}
+pathXPS <- "../../../Stat Resural/"
+pathMAC <- "../../../"
+path <- pathXPS
+file_actif <- "RPU_2014/rpu2014d0112_c.Rda" # données de 2014
+file <- file_actif
+load(paste0(path, file)) # d14 = données 2014 corrigées
+dx <- d14
+rm(d14)
+
+source(paste0(path, "RPU_Doc/mes_constantes.R")) # is.cpals (cp alsacien ?)
+
+```
+
+
+Définition: le taux annuel de recours aux urgences est défini par le rapport entre le nombre de passages de résidents ayant consulté aux urgences dans l’année et le nombre d’habitants de la région.
+
+```{r}
+anc <- 2014
+cp.null <- sum(is.na(dx$CODE_POSTAL))
+n.cp <- nrow(dx)
+
+# pop.als.tot.2014 <- 1868773 # chiffre insee au 1/1/2014 (http://www.insee.fr/fr/themes/tableau.asp?reg_id=15&ref_id=poptc02104)
+pop.als.tot <- population("Alsace", anc)
+residents <- sum(sapply(dx$CODE_POSTAL, is.cpals))
+tarru <- residents * 100 / pop.als.tot
+```
+
+- nombre de codes postaux enregstrés en `r anc`: `r n.cp`
+- nombre de CP nuls: `r cp.null`
+- nombre de CP alsaciens `r residents`
+- TARRU: `r round(tarru, 2)`

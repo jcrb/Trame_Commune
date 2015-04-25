@@ -24,6 +24,8 @@ Le document de référence pour le rapport est: __V1 trame commune 2014 rapport 
 
 Titre: __Activité des structures d’urgences : panorama 2014 de la région Alsace__
 
+___NOTE__: certaines informations utiles sont dans __RPU_Doc__.
+
 ```{r Declarations, echo=FALSE, include=FALSE}
 library(knitr)
 # set global chunk options
@@ -50,10 +52,14 @@ path <- pathXPS
 file_test <- "RPU_2014/rpu2015d01.Rda" # fichier de test
 file_actif <- "RPU_2014/rpu2014d0112_c.Rda" # données de 2014
 
-load(paste0(path, file_test)) # d14 = données 2014 corrigées
+file <- file_actif
+
+load(paste0(path, file)) # d14 = données 2014 corrigées
 dx <- d01   # dx est le terme générique pour désigner le dataframe de l'année courante
 rm(d01)
 
+dx <- d14 # si file actif
+rm(d14)
 ```
 
 le ‘préambule’ 
