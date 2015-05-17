@@ -4,10 +4,10 @@ author: "JcB"
 date: "28/01/2015"
 output:
   html_document:
-    highlight: tango
+    highlight: pygments
     keep_md: yes
     number_sections: yes
-    theme: cosmo
+    theme: cerulean
     toc: yes
   pdf_document:
     keep_tex: yes
@@ -40,26 +40,32 @@ ptm <- proc.time()
 library(lubridate)
 library(plotrix) # radialplot et pyramid.plot
 library(xts)
+library(R.utils)
 
-source('rapport_2014.R') # routines pour le rapport d'activité
+# Quelle est la machine active ?
+host <- System$getHostname()
+if(host == "MacBook-Air-de-JCB.local"){
+    path <- "../../Stat Resural/"
+}else{ #XPS
+    path <- "../../Stat Resural/"
+}
 
-pathXPS <- "../../Stat Resural/"
-pathMAC <- "../../Stat Resural/"
+source('Rapport/rapport_2014.R') # routines pour le rapport d'activité
 
-#path <- pathXPS
-path <- pathXPS
+test <- 1 # TRUE = Janvier 2015
 
-file_test <- "RPU_2014/rpu2015d01.Rda" # fichier de test
-file_actif <- "RPU_2014/rpu2014d0112_c.Rda" # données de 2014
+if(test == 0){
+    file <- "RPU_2014/rpu2014d0112_c2.Rda" # données de 2014
+    load(paste0(path, file))
+    dx <- d14 # si file actif
+    rm(d14)
+}else{
+    file <- "RPU_2014/rpu2015d01.Rda" # fichier de test
+    load(paste0(path, file))
+    dx <- d01 
+    rm(d01)
+}
 
-file <- file_actif
-
-load(paste0(path, file)) # d14 = données 2014 corrigées
-dx <- d01   # dx est le terme générique pour désigner le dataframe de l'année courante
-rm(d01)
-
-dx <- d14 # si file actif
-rm(d14)
 ```
 
 le ‘préambule’ 
@@ -153,8 +159,8 @@ n.su <- 16 # nombre de SU
 n.su.ped <- 1 # nombre de SU pediatriques
 n.su.adultes <- 2 # nombre de SU adultes
 n.su.polyvalents <- 13
-n.su.publics <- NA
-n.su.prives <- NA
+n.su.publics <- 12
+n.su.prives <- 4
 n.rpu <- nrow(dx) # nb de passages dans l'année
 mean.rpu.quot <- n.rpu / n.jours # Moyenne quotidienne de passages
 
