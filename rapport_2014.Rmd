@@ -52,7 +52,7 @@ if(host == "MacBook-Air-de-JCB.local"){
 
 source('Rapport/rapport_2014.R') # routines pour le rapport d'activité
 
-test <- 1 # TRUE = Janvier 2015
+test <- 0 # TRUE = Janvier 2015
 
 if(test == 0){
     file <- "RPU_2014/rpu2014d0112_c2.Rda" # données de 2014
@@ -66,6 +66,9 @@ if(test == 0){
     rm(d01)
 }
 
+source(paste0(path, "RPU_Doc/mes_constantes.R"))
+
+n.rpu <- nrow(dx) # nb de passages dans l'année
 ```
 
 le ‘préambule’ 
@@ -89,7 +92,9 @@ i. Exhaustivité des données urgences
 
 - Nombre total de RPU / Nb total de passages SRVA (Serveur de veille et d'alerte)
 
-- Nombre total de RPU / Nb total de passages SAE (Statistique annuelle des établissements de santé) (suivant disponibilité)
+#### Nombre total de RPU / Nb total de passages SAE (Statistique annuelle des établissements de santé) (suivant disponibilité): `r format.n(n.rpu * 100 / passages.2013.SAE)` % (NOTE le nombre de passages déclarés est celui indiqué par les données SAE 2013)
+
+#### Exhaustivité quantitative régionale (NB de RPU/Nb de passages x Nb SU transmettant des RPU/Nb total SU): `r format((n.rpu * 100 / passages.2013.SAE) * (15 * 100/16)/100)` %.
 
 ii. Qualité des données urgences
 
@@ -193,11 +198,11 @@ sur 2 colonnes :
 
 - Nombre de passages dans l'année [C]: `r format.n(n.rpu)` RPU
 - Moyenne quotidienne de passages [C]: `r format.n(mean.rpu.quot)` RPU
-- %(N) d'évolution par rapport à année N-1 [C]:
+- %(N) d'évolution par rapport à année N-1 [C]: `r format(n.rpu * 100 / n.rpu.2013)` %.
 - % d’évolution moyenne sur les 5 dernières années (méthode calcul : moyenne des évolutions constatées entre chaque année)
 - Données renseignées (données à partir desquelles tout le reste de l’analyse sera effectuée)
     - Nombre de RPU transmis: `r format.n(n.rpu)` RPU
-    - Exhaustivité du recueil : Nb RPU transmis / Nb de passages déclarés
+    - Exhaustivité du recueil : Nb RPU transmis / Nb de passages déclarés `r format.n(n.rpu * 100 / passages.2013.SAE)` % (NOTE le nombre de passages déclarés est celui indiqué par les données SAE 2013)
 
 
 
@@ -579,7 +584,7 @@ Le calcul se fait après un merging de dx et de hop.
 
 ```{r C4, echo=FALSE, comment=""}
 pass <- dx[,c("ENTREE", "FINESS")]
-file <- "RPU_Doc/Hopitaux_Alsace2.csv"
+file <- "RPU_Doc/Carto/Hopitaux_Alsace.csv"
 hop <- read.csv(paste0(path, file))
 d <- merge(pass, hop, by.x = "FINESS", by.y = "RPU_NAME", all.x = TRUE)
 t <- tapply(as.Date(d$ENTREE), d$TYPE, length)
