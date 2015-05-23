@@ -28,7 +28,7 @@ ___NOTE__: certaines informations utiles sont dans __RPU_Doc__.
 
 ```{r Declarations, echo=FALSE, include=FALSE}
 library(knitr)
-options(scipen = 6, digits = 3)
+options(scipen = 6, digits = 2)
 
 # set global chunk options
 opts_chunk$set(echo = FALSE, cache=FALSE, warning=FALSE, message = FALSE, tidy=FALSE, fig.width=8, fig.height=6, scipen= 1, digits = 2)
@@ -922,6 +922,9 @@ focus sur une sous déclinaison de l’activité (pathologies traceuses ou trait
 Les chiffres clés de l’activité gériatrique des services d’urgences (plus de 75 ans)
 ====================================================================================
 ```{r pop75, echo=FALSE}
+n.jours <- length(unique(as.Date(dx$ENTREE))) # nb de jours pour la période
+n.rpu <- nrow(dx)
+
 pop75 <- dx[dx$AGE > 75,]
 # crée une nouvelle colonne age à 2 classes: mois de 85 ans = 1, 85 ans et plus = 2
 pop75$age2 <- ifelse(pop75$AGE < 85, 1, 2)
@@ -956,16 +959,33 @@ n.rpu2.jour <- tapply(as.Date(pop75$ENTREE), list(as.Date(pop75$ENTREE), pop75$a
 mean.rpu.jour <- apply(n.rpu2.jour, 2, mean)
 median.rpu2.jour <- apply(n.rpu2.jour, 2, median)
 sd.rpu2.jour <- apply(n.rpu2.jour, 2, sd)
+
 boxplot(n.rpu2.jour, names = c("75-84 ans","85 ans et plus"), ylab = "Fréquence", main = "Passages gériatriques")
+
+# sex-ratio
+n.sexe2 <- tapply(pop75$SEXE, list(pop75$age2, pop75$SEXE), length)
+sr1 <- n.sexe2[1,3]/n.sexe2[1,1]
+sr2 <- n.sexe2[2,3]/n.sexe2[2,1]
+
+# tableau desynthèse
+a <- data.frame(n.rpu2,mean.rpu.jour, median.rpu2.jour, c(sr1,sr2) )
+rownames(a) <- c("75-84 ans","85 ans et plus")
+colnames(a) <- c("effectif","moyenne.j","médiane.j","sex-ratio")
 
 ```
 
 - Sex ratio: `r sex.ratio75`
 - Pyramide des âges (âge par année, borne supérieure toujours exclue)
-- Par sous classe d’âge (GT1:2 classes, moins de 85 et 85 ans et plus)
+- Par sous classe d’âge (GT1:2 classes, moins de 85 et 85 ans et plus):
+
     ￼- Nombre de passages
     ￼- Moyenne quotidienne de passage
     ￼- Sex ratio
+    
+    
+```{r sous_classe_age, echo=FALSE}
+kable(a)
+```
 
 ARRIVÉE
 -------

@@ -43,7 +43,7 @@ i. Exhaustivité des données urgences
 
 #### Nombre total de RPU / Nb total de passages SAE (Statistique annuelle des établissements de santé) (suivant disponibilité): 84 % (NOTE le nombre de passages déclarés est celui indiqué par les données SAE 2013)
 
-#### Exhaustivité quantitative régionale (NB de RPU/Nb de passages x Nb SU transmettant des RPU/Nb total SU): 79.2 %.
+#### Exhaustivité quantitative régionale (NB de RPU/Nb de passages x Nb SU transmettant des RPU/Nb total SU): 79 %.
 
 ii. Qualité des données urgences
 
@@ -165,7 +165,7 @@ NB: le calcul ne tient pas compte des jours fériés (à faire).
 
 ## % du delta entre mois le plus chargé et le mois le moins chargé [S]
 
-71.414 %
+71.41 %
 
 Durées de passage
 -----------------
@@ -173,7 +173,7 @@ Durées de passage
 
 
 - durée moyenne de passage 155 mn.
-- écart-type: 171.591 mn.
+- écart-type: 171.59 mn.
 - médiane: 109 mn.
 - nombre de passages > 4 heures: 69521 (18.69 %).
 
@@ -263,7 +263,7 @@ Durée de présence
 moyenne +/- ET ; médiane (IQR) [C]
 
 - moyenne: 155 mn
-- écart-type: 171.591 mn
+- écart-type: 171.59 mn
 - médiane: 109 mn
 - IQR: 146 mn
 
@@ -347,11 +347,11 @@ Le calcul se fait après un merging de dx et de hop.
 
 
 ```
-     2014        %          
-CH   "349 414.0" "     57.5"
-CHU  "185 379.0" "     30.5"
-PSPH " 72 904.0" "     12.0"
-     "607 697.0" "    100.0"
+     2014      %        
+CH   "349 414" "     58"
+CHU  "185 379" "     31"
+PSPH " 72 904" "     12"
+     "607 697" "    100"
 ```
 #### [6] % CH, CHU, privé sur les années disponibles
 
@@ -360,7 +360,7 @@ Caractéristique des patients : âge
 
 - [7][8] moyenne âge +/- écart type année N
 
-moyenne d'age: 38.027 ans, ecart-type: 27.1`ans.
+moyenne d'age: 38.03 ans, ecart-type: 27.1`ans.
 
 - [9] répartition par tranche âge
 
@@ -395,8 +395,8 @@ a
 - [11] sexe-moyenne âge femme/homme, année N
 
 ```
-##    F    M         I 
-## 40.3 35.9   NA 26.0
+##  F  M     I 
+## 40 36 NA 26
 ```
 
 - [12] proportion des âge extrêmes (moins de 1 an, plus de 90 ans) par mois, année N
@@ -417,7 +417,7 @@ Caractéristique des patients : sexe
 
 - [14] sex ratio, année N
 
-sex-ratio = 1.093
+sex-ratio = 1.09
 
 - croisements :
 
@@ -426,13 +426,13 @@ sex-ratio = 1.093
 
 ```
 ##     [0,5)    [5,10)   [10,15)   [15,20)   [20,25)   [25,30)   [30,35) 
-##     1.268     1.242     1.187     1.122     1.094     1.145     1.279 
+##      1.27      1.24      1.19      1.12      1.09      1.14      1.28 
 ##   [35,40)   [40,45)   [45,50)   [50,55)   [55,60)   [60,65)   [65,70) 
-##     1.258     1.245     1.221     1.091     1.077     1.151     1.200 
+##      1.26      1.25      1.22      1.09      1.08      1.15      1.20 
 ##   [70,75)   [75,80)   [80,85)   [85,90)   [90,95)  [95,100) [100,105) 
-##     1.090     0.956     0.720     0.542     0.365     0.369     0.215 
+##      1.09      0.96      0.72      0.54      0.37      0.37      0.21 
 ## [105,110) [110,115) [115,120] 
-##     0.600     2.750        NA
+##      0.60      2.75        NA
 ```
 
 ![](rapport_2014_files/figure-html/ratio_classe_age-1.png) 
@@ -560,9 +560,9 @@ Orientation
 
 ```
 ##  CHIR FUGUE   HDT    HO   MED  OBST   PSA   REA   REO    SC  SCAM    SI 
-## 30.50  1.61  1.15  1.10 66.68  1.27  9.32  3.82  4.61  5.60  1.94  8.24 
+##  30.5   1.6   1.2   1.1  66.7   1.3   9.3   3.8   4.6   5.6   1.9   8.2 
 ##  UHCD 
-## 95.64
+##  95.6
 ```
 
 ```
@@ -609,20 +609,28 @@ Les chiffres clés de l’activité gériatrique des services d’urgences (plus
 RECUEIL DES DONNÉES
 -------------------
 - Nombre de passages dans l'année: 54314
-- Moyenne quotidienne de passage: 148.805 passages/j
-- Taux d'urgences gériatriques (Nb RPU Géria/ Nb RPU global)*100: 13.033 %
+- Moyenne quotidienne de passage: 148.81 passages/j
+- Taux d'urgences gériatriques (Nb RPU Géria/ Nb RPU global)*100: 13.03 %
 - TODO: % d'évolution par rapport à l'année N-1(données SAE pour ceux qui n’ont pas d’historique RPU fiable et permettant la comparaison, préciser l’origine des données)
 
 PATIENTS
 --------
 ![](rapport_2014_files/figure-html/sexe75-1.png) 
 
-- Sex ratio: 0.638
+- Sex ratio: 0.64
 - Pyramide des âges (âge par année, borne supérieure toujours exclue)
-- Par sous classe d’âge (GT1:2 classes, moins de 85 et 85 ans et plus)
+- Par sous classe d’âge (GT1:2 classes, moins de 85 et 85 ans et plus):
+
     ￼- Nombre de passages
     ￼- Moyenne quotidienne de passage
     ￼- Sex ratio
+    
+    
+
+                  effectif   moyenne.j   médiane.j   sex-ratio
+---------------  ---------  ----------  ----------  ----------
+75-84 ans            30438          83          83          NA
+85 ans et plus       23872          65          66          NA
 
 ARRIVÉE
 -------
@@ -711,6 +719,6 @@ Temps de calcul
 
 ```
 ##    user  system elapsed 
-##    94.9     2.2    97.4
+##    23.9     1.8    25.7
 ```
 
