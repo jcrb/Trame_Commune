@@ -43,7 +43,7 @@ i. Exhaustivité des données urgences
 
 #### Nombre total de RPU / Nb total de passages SAE (Statistique annuelle des établissements de santé) (suivant disponibilité): 84 % (NOTE le nombre de passages déclarés est celui indiqué par les données SAE 2013)
 
-#### Exhaustivité quantitative régionale (NB de RPU/Nb de passages x Nb SU transmettant des RPU/Nb total SU): 79.19533 %.
+#### Exhaustivité quantitative régionale (NB de RPU/Nb de passages x Nb SU transmettant des RPU/Nb total SU): 79.2 %.
 
 ii. Qualité des données urgences
 
@@ -106,7 +106,7 @@ sur 2 colonnes :
 
 - Nombre de passages dans l'année [C]: 416 733 RPU
 - Moyenne quotidienne de passages [C]: 1 142 RPU
-- %(N) d'évolution par rapport à année N-1 [C]: 122.4468 %.
+- %(N) d'évolution par rapport à année N-1 [C]: 122 %.
 - % d’évolution moyenne sur les 5 dernières années (méthode calcul : moyenne des évolutions constatées entre chaque année)
 - Données renseignées (données à partir desquelles tout le reste de l’analyse sera effectuée)
     - Nombre de RPU transmis: 416 733 RPU
@@ -165,15 +165,15 @@ NB: le calcul ne tient pas compte des jours fériés (à faire).
 
 ## % du delta entre mois le plus chargé et le mois le moins chargé [S]
 
-71.4142648 %
+71.414 %
 
 Durées de passage
 -----------------
 
 
 
-- durée moyenne de passage 154.9 mn.
-- écart-type: 171.5908609 mn.
+- durée moyenne de passage 155 mn.
+- écart-type: 171.591 mn.
 - médiane: 109 mn.
 - nombre de passages > 4 heures: 69521 (18.69 %).
 
@@ -262,8 +262,8 @@ Durée de présence
 ### Durée de séjour (hors UHCD): 
 moyenne +/- ET ; médiane (IQR) [C]
 
-- moyenne: 154.9 mn
-- écart-type: 171.5908609 mn
+- moyenne: 155 mn
+- écart-type: 171.591 mn
 - médiane: 109 mn
 - IQR: 146 mn
 
@@ -347,11 +347,11 @@ Le calcul se fait après un merging de dx et de hop.
 
 
 ```
-     2014         %           
-CH   "349 414.00" "     57.50"
-CHU  "185 379.00" "     30.51"
-PSPH " 72 904.00" "     12.00"
-     "607 697.00" "    100.01"
+     2014        %          
+CH   "349 414.0" "     57.5"
+CHU  "185 379.0" "     30.5"
+PSPH " 72 904.0" "     12.0"
+     "607 697.0" "    100.0"
 ```
 #### [6] % CH, CHU, privé sur les années disponibles
 
@@ -360,7 +360,7 @@ Caractéristique des patients : âge
 
 - [7][8] moyenne âge +/- écart type année N
 
-moyenne d'age: 38.0267632 ans, ecart-type: 27.1`ans.
+moyenne d'age: 38.027 ans, ecart-type: 27.1`ans.
 
 - [9] répartition par tranche âge
 
@@ -395,8 +395,8 @@ a
 - [11] sexe-moyenne âge femme/homme, année N
 
 ```
-##        F        M                 I 
-## 40.31331 35.93496       NA 26.00000
+##    F    M         I 
+## 40.3 35.9   NA 26.0
 ```
 
 - [12] proportion des âge extrêmes (moins de 1 an, plus de 90 ans) par mois, année N
@@ -417,7 +417,7 @@ Caractéristique des patients : sexe
 
 - [14] sex ratio, année N
 
-sex-ratio = 1.0929486
+sex-ratio = 1.093
 
 - croisements :
 
@@ -426,13 +426,13 @@ sex-ratio = 1.0929486
 
 ```
 ##     [0,5)    [5,10)   [10,15)   [15,20)   [20,25)   [25,30)   [30,35) 
-## 1.2675358 1.2417762 1.1873836 1.1223303 1.0937826 1.1447873 1.2793804 
+##     1.268     1.242     1.187     1.122     1.094     1.145     1.279 
 ##   [35,40)   [40,45)   [45,50)   [50,55)   [55,60)   [60,65)   [65,70) 
-## 1.2577374 1.2453532 1.2205666 1.0906338 1.0774609 1.1506406 1.1997595 
+##     1.258     1.245     1.221     1.091     1.077     1.151     1.200 
 ##   [70,75)   [75,80)   [80,85)   [85,90)   [90,95)  [95,100) [100,105) 
-## 1.0901503 0.9555528 0.7200778 0.5419659 0.3653423 0.3687351 0.2146597 
+##     1.090     0.956     0.720     0.542     0.365     0.369     0.215 
 ## [105,110) [110,115) [115,120] 
-## 0.6000000 2.7500000        NA
+##     0.600     2.750        NA
 ```
 
 ![](rapport_2014_files/figure-html/ratio_classe_age-1.png) 
@@ -559,10 +559,10 @@ Orientation
 
 
 ```
-##      CHIR     FUGUE       HDT        HO       MED      OBST       PSA 
-## 30.501370  1.611702  1.153061  1.096774 66.684932  1.271845  9.321429 
-##       REA       REO        SC      SCAM        SI      UHCD 
-##  3.823864  4.608451  5.600551  1.940959  8.235616 95.643836
+##  CHIR FUGUE   HDT    HO   MED  OBST   PSA   REA   REO    SC  SCAM    SI 
+## 30.50  1.61  1.15  1.10 66.68  1.27  9.32  3.82  4.61  5.60  1.94  8.24 
+##  UHCD 
+## 95.64
 ```
 
 ```
@@ -602,6 +602,34 @@ focus sur une sous déclinaison de l’activité (pathologies traceuses ou trait
 - Répartition par tranche heure en pourcentage, année N
 - Répartition par orientation en pourcentage, année N
 - Temps de passage médian, année N
+
+Les chiffres clés de l’activité gériatrique des services d’urgences (plus de 75 ans)
+====================================================================================
+
+RECUEIL DES DONNÉES
+-------------------
+- Nombre de passages dans l'année: 54314
+- Moyenne quotidienne de passage: 148.805 passages/j
+- Taux d'urgences gériatriques (Nb RPU Géria/ Nb RPU global)*100: 13.033 %
+- TODO: % d'évolution par rapport à l'année N-1(données SAE pour ceux qui n’ont pas d’historique RPU fiable et permettant la comparaison, préciser l’origine des données)
+
+PATIENTS
+--------
+![](rapport_2014_files/figure-html/sexe75-1.png) 
+
+- Sex ratio: 0.638
+- Pyramide des âges (âge par année, borne supérieure toujours exclue)
+- Par sous classe d’âge (GT1:2 classes, moins de 85 et 85 ans et plus)
+    ￼- Nombre de passages
+    ￼- Moyenne quotidienne de passage
+    ￼- Sex ratio
+
+ARRIVÉE
+-------
+NB : commentaire possible pour expliquer que la somme des 4 pourcentages ci dessus ne fait pas 100 %
+TRAME COMMUNE INTER-RÉGIONALE POUR LA RÉDACTION DU PANORAMA DE L'ACTIVITÉ ANNUELLE RÉGIONALE DES ORU
+- 9 -
+FEDORU
 
 
 Définitions FEDORU
@@ -683,6 +711,6 @@ Temps de calcul
 
 ```
 ##    user  system elapsed 
-##    23.9     1.8    25.8
+##    94.9     2.2    97.4
 ```
 

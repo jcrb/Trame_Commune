@@ -28,6 +28,8 @@ ___NOTE__: certaines informations utiles sont dans __RPU_Doc__.
 
 ```{r Declarations, echo=FALSE, include=FALSE}
 library(knitr)
+options(scipen = 6, digits = 3)
+
 # set global chunk options
 opts_chunk$set(echo = FALSE, cache=FALSE, warning=FALSE, message = FALSE, tidy=FALSE, fig.width=8, fig.height=6, scipen= 1, digits = 2)
 ```
@@ -916,6 +918,61 @@ focus sur une sous déclinaison de l’activité (pathologies traceuses ou trait
 - Répartition par tranche heure en pourcentage, année N
 - Répartition par orientation en pourcentage, année N
 - Temps de passage médian, année N
+
+Les chiffres clés de l’activité gériatrique des services d’urgences (plus de 75 ans)
+====================================================================================
+```{r pop75, echo=FALSE}
+pop75 <- dx[dx$AGE > 75,]
+# crée une nouvelle colonne age à 2 classes: mois de 85 ans = 1, 85 ans et plus = 2
+pop75$age2 <- ifelse(pop75$AGE < 85, 1, 2)
+# nombre
+n.rpu75 <- nrow(pop75)
+mean.rpu75 <- n.rpu75 / n.jours # Moyenne quotidienne de passages
+p.rpu75 <- n.rpu75 * 100 / n.rpu # Taux d'urgences gériatriques
+```
+RECUEIL DES DONNÉES
+-------------------
+- Nombre de passages dans l'année: `r n.rpu75`
+- Moyenne quotidienne de passage: `r mean.rpu75` passages/j
+- Taux d'urgences gériatriques (Nb RPU Géria/ Nb RPU global)*100: `r p.rpu75` %
+- TODO: % d'évolution par rapport à l'année N-1(données SAE pour ceux qui n’ont pas d’historique RPU fiable et permettant la comparaison, préciser l’origine des données)
+
+PATIENTS
+--------
+```{r sexe75, echo=FALSE, comment=""}
+sexe <- table(as.factor(pop75$SEXE))
+p.femme75 <- sexe['F']*100/(sexe['F'] + sexe['M']) # % de femmes
+p.homme75 <- sexe['M']*100/(sexe['F'] + sexe['M']) # % d'hommes
+sex.ratio75 <- sexe['M'] / sexe['F'] # sex ratio
+n.hommes75 <- sexe['M']
+n.femmes75 <- sexe['F']
+tx.masculinite75 <- n.hommes75 / (n.hommes75 + n.femmes75)
+
+# Par sous classe d’âge (GT1:2 classes, moins de 85 et 85 ans et plus)
+n.rpu2 <- tapply(pop75$age2, pop75$age2, length) # effectif de chaque classe
+# nb de passages par jour et par sous classe d'age. On applique successivement tapply pour former 2 groupes d'age puis apply pour calculer moyenne, médiane, sd sur chacune des 2 colonnes (groupes d'age).
+n.rpu2.jour <- tapply(as.Date(pop75$ENTREE), list(as.Date(pop75$ENTREE), pop75$age2), length)
+# calcul des paramètres par sous classe d'age
+mean.rpu.jour <- apply(n.rpu2.jour, 2, mean)
+median.rpu2.jour <- apply(n.rpu2.jour, 2, median)
+sd.rpu2.jour <- apply(n.rpu2.jour, 2, sd)
+boxplot(n.rpu2.jour, names = c("75-84 ans","85 ans et plus"), ylab = "Fréquence", main = "Passages gériatriques")
+
+```
+
+- Sex ratio: `r sex.ratio75`
+- Pyramide des âges (âge par année, borne supérieure toujours exclue)
+- Par sous classe d’âge (GT1:2 classes, moins de 85 et 85 ans et plus)
+    ￼- Nombre de passages
+    ￼- Moyenne quotidienne de passage
+    ￼- Sex ratio
+
+ARRIVÉE
+-------
+NB : commentaire possible pour expliquer que la somme des 4 pourcentages ci dessus ne fait pas 100 %
+TRAME COMMUNE INTER-RÉGIONALE POUR LA RÉDACTION DU PANORAMA DE L'ACTIVITÉ ANNUELLE RÉGIONALE DES ORU
+- 9 -
+FEDORU
 
 
 Définitions FEDORU
