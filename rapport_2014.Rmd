@@ -925,7 +925,7 @@ Les chiffres clés de l’activité gériatrique des services d’urgences (plus
 n.jours <- length(unique(as.Date(dx$ENTREE))) # nb de jours pour la période
 n.rpu <- nrow(dx)
 
-pop75 <- dx[dx$AGE > 75,]
+pop75 <- dx[!is.na(dx$AGE) & dx$AGE > 75,]
 # crée une nouvelle colonne age à 2 classes: mois de 85 ans = 1, 85 ans et plus = 2
 pop75$age2 <- ifelse(pop75$AGE < 85, 1, 2)
 # nombre
@@ -998,11 +998,18 @@ he <- horaire(e)
 nuit <- passage(he, "nuit")
 nuit.profonde <- passage(he, "nuit profonde")
 jour <- passage(he, "jour")
-
+```
+```{r pds75, echo=FALSE, cache=TRUE}
+# TRES LONG: il faut appliquer à chaque entrée la précédure pds (rapport_2014.R)
+pop75$pds <- sapply(pop75$ENTREE, pds)
+s.pds <- summary(pop75$pds)
+n.pds <- s.pds["PDSS"]+ s.pds["PDSWE"]# nb RPU en PDS = PDS semaine + pds WE
+p.pds <- n.pds * 100 / n.rpu75
 ```
 
+
 - %  passages la nuit: `r nuit[2]*100` % (N = `r nuit[1]`)
-- %  passages en horaire de PDS: `r jour[2]*100` % (N = `r jour[1]`)
+- %  passages en horaire de PDS: `r p.pds` % (N = `r n.pds`)
 - %  d’arrivées Moyen perso
 - %  d'arrivées SMUR
 - %  d'arrivées VSAV

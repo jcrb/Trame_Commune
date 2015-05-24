@@ -209,11 +209,19 @@ count.CIM10 <- function(vx){
     return(length(n))
 }              
 
-#'@name passages de nuit (20h-8h)
+#===============================================
+#
+# passage
+#
+#===============================================
+#'
+#'@title Horaires de passages
+#'@name passage
 #'@param he vecteur time de type hms
 #'@param horaire = 'nuit', 'nuit profonde', 'jour'
 #'@note necessite lubridate
-#'@return un vecteur avec 2 éléments: le nombre de passages de nuit et le pourcentage
+#'@return un vecteur avec 2 éléments: le nombre de passages et le pourcentage en
+#'        fonction de la période (jour, nuit)
 #'@seealso horaire
 #'@usage e <- datetime(dx$ENTREE); he <- horaire(e); nuit <- passsage.nuit(he, "nuit")
 #'
@@ -230,6 +238,12 @@ passage <- function(he, horaire = "nuit"){
     return(c(n.passages, p.passages))
 }
 
+#===============================================
+#
+# horaire
+#
+#===============================================
+#'
 #'@title extrait l'heure d'une date AAAA-MM-DD HH:MM:SS
 #'@name horaire
 #'@param date une date ou un vecteur au format DATE
@@ -240,6 +254,12 @@ horaire <- function(date){
     return(hms(substr(date, 12, 20)))
 }
 
+#===============================================
+#
+# datetime
+#
+#===============================================
+#'
 #'@title met une string date au format YYYY-MM-DD HH:MM:SS
 #'@name datetime
 #'@param date une chaine de caractère de type Date
@@ -251,4 +271,37 @@ horaire <- function(date){
 #'
 datetime <- function(date){
     return(ymd_hms(date))
+}
+
+#===============================================
+#
+# pds
+#
+#===============================================
+#' Détermine si on est en horaire de PDS de WE (PDSWE) ou de semaine (PDSS)
+#' @title
+#' @name
+#' @param date date/heure au format YYYY-MM-DD HH:MM:SS
+#' @return
+#' @usage x <- "2009-09-02 12:23:33"; pds(x) # PDSS
+#' @usage x <- c("2015-05-23 02:23:33", "2015-05-24 02:23:33", "2015-05-25 02:23:33", 
+#'               "2015-05-26 02:23:33", "2015-05-25 12:23:33", "2015-05-25 22:23:33")
+#'        sapply(x, pds)
+#' # 2015-05-23 02:23:33 2015-05-24 02:23:33 2015-05-25 02:23:33 2015-05-26 02:23:33 
+#' "PDSS"             "PDSWE"             "PDSWE"              "PDSS" 
+#'2015-05-25 12:23:33 2015-05-25 22:23:33 
+#'NA              "PDSS"
+#' 
+pds <- function(date){
+    jour <- wday(as.Date(date), abbr = TRUE, label = TRUE)
+    h <- horaire(date)
+    if(jour == "Sun" |
+       jour == "Sat" & (h > hms("11:59:59") & h <= hms("23:59:59")) |
+       jour == "Mon" & h < hms("08:00:00")
+       ) pds = "PDSWE"
+    else if(jour %in% c("Mon","Tues","Wed","Thurs","Fri") &
+            h > hms("19:59:59") | h < hms("08:00:00")
+        ) pds = "PDSS"
+    else pds = NA
+    return(pds)
 }
