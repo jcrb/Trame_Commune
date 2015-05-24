@@ -7,7 +7,7 @@ Rapport 2014 respectant les préconisations de la FEDORU
 
 [Trame commune](https://docs.google.com/document/d/101LYVqVLeHZnrujfMm3aqBYfbOwx3CPEB3Y-Lbud2Ls/edit)
 
-Le document de référence pour le rapport est: __V1 trame commune 2014 rapport inter région__
+Le document de référence pour le rapport est: __V4 trame commune 2014 rapport inter région__ (xps: /home/jcb/Documents/Resural/FEDORU/Trame_Commune/DOC/Trame commune 2014 rapport inter région (V4).docx)
 
 Titre: __Activité des structures d’urgences : panorama 2014 de la région Alsace__
 
@@ -17,8 +17,6 @@ ___NOTE__: certaines informations utiles sont dans __RPU_Doc__.
 
 
 La proposition ici se fait autour de 4 points (représentant chacun une partie de rapport) :
-
-
 
 le ‘préambule’ 
 ==============
@@ -629,16 +627,51 @@ PATIENTS
 
                   effectif   moyenne.j   médiane.j   sex-ratio
 ---------------  ---------  ----------  ----------  ----------
-75-84 ans            30438          83          83          NA
-85 ans et plus       23872          65          66          NA
+75-84 ans            30438          83          83        0.80
+85 ans et plus       23872          65          66        0.47
 
 ARRIVÉE
 -------
-NB : commentaire possible pour expliquer que la somme des 4 pourcentages ci dessus ne fait pas 100 %
-TRAME COMMUNE INTER-RÉGIONALE POUR LA RÉDACTION DU PANORAMA DE L'ACTIVITÉ ANNUELLE RÉGIONALE DES ORU
-- 9 -
-FEDORU
 
+
+- %  passages la nuit: 22.36 % (N = 12144)
+- %  passages en horaire de PDS: 77.65 % (N = 42174)
+- %  d’arrivées Moyen perso
+- %  d'arrivées SMUR
+- %  d'arrivées VSAV
+- %  d'arrivées ambulance privée
+NB : commentaire possible pour expliquer que la somme des 4 pourcentages ci dessus ne fait pas 100 % 
+- %  CCMU 1
+- %  CCMU 4 et 5
+
+DIAGNOSTIC PRINCIPAL
+---------------------
+
+- % Médico-chirurgical, dont :
+    - % cardio vasculaire
+    - % neuro
+    - % digestif
+    - % respiratoire
+- %  Traumatologique
+- %  Psychiatrique
+- %  Toxicologique
+- %  Autres recours
+
+DURÉE
+------
+
+- Durée de passage (HORS UHCD) : moyenne et médiane
+- %  de passages de moins de 4h :
+- lors d’une hospitalisation post-urgences (hospitalisation = mutation + transfert)
+- lors d’un retour au domicile
+
+ MODE DE SORTIE
+----------------
+
+- %  d’hospitalisation
+- % de mutation
+- % de transfert
+- %  de retour à domicile
 
 Définitions FEDORU
 ====================
@@ -719,6 +752,6 @@ Temps de calcul
 
 ```
 ##    user  system elapsed 
-##    23.9     1.8    25.7
+##      25       2      27
 ```
 

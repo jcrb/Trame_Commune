@@ -7,7 +7,9 @@
     
     
 #===============================================
+#
 # Formate un nombre à imprimer
+#
 #===============================================
 #'@author JcB - 2015-03-12
 #'@description formate un nombre en ajoutant un espace pour les milliers
@@ -206,3 +208,47 @@ count.CIM10 <- function(vx){
     n <- grep("^[A-Z][0-9][0-9]", vx, value = TRUE) # n contient les codes compatibles CIM10
     return(length(n))
 }              
+
+#'@name passages de nuit (20h-8h)
+#'@param he vecteur time de type hms
+#'@param horaire = 'nuit', 'nuit profonde', 'jour'
+#'@note necessite lubridate
+#'@return un vecteur avec 2 éléments: le nombre de passages de nuit et le pourcentage
+#'@seealso horaire
+#'@usage e <- datetime(dx$ENTREE); he <- horaire(e); nuit <- passsage.nuit(he, "nuit")
+#'
+passage <- function(he, horaire = "nuit"){
+    if(horaire == "nuit")
+        nuit <- he[he > hms("19:59:59") | he < hms("08:00:00")]
+    else if(horaire == "nuit profonde")
+        nuit <- he[he < hms("08:00:00")]
+    else if(horaire == "jour")
+        nuit <- he[he > hms("07:59:59") & he < hms("20:00:00")]
+    
+    n.passages <- length(nuit) # passages 20:00 - 7:59
+    p.passages <- n.passages / length(he)
+    return(c(n.passages, p.passages))
+}
+
+#'@title extrait l'heure d'une date AAAA-MM-DD HH:MM:SS
+#'@name horaire
+#'@param date une date ou un vecteur au format DATE
+#'@return un vecteur d'heures au format HH:MM:SS
+#'@usage e <- datetime(dx$ENTREE); he <- horaire(e)
+#'
+horaire <- function(date){
+    return(hms(substr(date, 12, 20)))
+}
+
+#'@title met une string date au format YYYY-MM-DD HH:MM:SS
+#'@name datetime
+#'@param date une chaine de caractère de type Date
+#'@return un vecteur date time (lubridate)
+#'@note nécessite lubridate
+#'@usage Transforme des rubriques ENTREE et SORTIE en objet datetime
+#'@usage e <- datetime(dx$ENTREE)
+#'@seealso horaire, passage.nuit
+#'
+datetime <- function(date){
+    return(ymd_hms(date))
+}
