@@ -34,7 +34,6 @@ library(lubridate)
 library(plotrix) # radialplot et pyramid.plot
 library(xts)
 library(R.utils)
-library(epicalc)
 
 # set global chunk options
 opts_chunk$set(echo = FALSE, cache=FALSE, warning=FALSE, message = FALSE, tidy=FALSE, fig.width=8, fig.height=6, scipen= 1, digits = 2)
@@ -44,32 +43,28 @@ opts_chunk$set(echo = FALSE, cache=FALSE, warning=FALSE, message = FALSE, tidy=F
 # Quelle est la machine active ?
 host <- System$getHostname()
 if(host == "MacBook-Air-de-JCB.local"){
-    path <- "../../Stat Resural/RPU_2014/"
-}else if(host == "XPS"){#XPS
-    path <- "../../Stat Resural/RPU_2014/"
-    source("../../Stat Resural/RPU_Doc/mes_constantes.R")
-}else if(host == "P171I16"){# HUS
-    path <- "../RPU_2014-master/"
+    path <- "../../Stat Resural/"
+}else{ #XPS
+    path <- "../../Stat Resural/"
 }
-
 
 source('Rapport/rapport_2014.R') # routines pour le rapport d'activité
 
-test <- 1 # TRUE = Janvier 2015
+test <- 0 # TRUE = Janvier 2015
 
 if(test == 0){
-    file <- "rpu2014d0112_c2.Rda" # données de 2014
+    file <- "RPU_2014/rpu2014d0112_c2.Rda" # données de 2014
     load(paste0(path, file))
     dx <- d14 # si file actif
     rm(d14)
 }else{
-    file <- "rpu2015d01.Rda" # fichier de test
+    file <- "RPU_2014/rpu2015d01.Rda" # fichier de test
     load(paste0(path, file))
     dx <- d01 
     rm(d01)
 }
 
-#source(paste0(path, "RPU_Doc/mes_constantes.R"))
+source(paste0(path, "RPU_Doc/mes_constantes.R"))
 
 n.rpu <- nrow(dx) # nb de passages dans l'année
 ```
@@ -591,8 +586,8 @@ Le calcul se fait après un merging de dx et de hop.
 
 ```{r C4, echo=FALSE, comment=""}
 pass <- dx[,c("ENTREE", "FINESS")]
-file <- "../../Stat Resural/RPU_Doc/Carto/Hopitaux_Alsace.csv"
-hop <- read.csv( file)
+file <- "RPU_Doc/Carto/Hopitaux_Alsace.csv"
+hop <- read.csv(paste0(path, file))
 d <- merge(pass, hop, by.x = "FINESS", by.y = "RPU_NAME", all.x = TRUE)
 t <- tapply(as.Date(d$ENTREE), d$TYPE, length)
 x <- cbind(t, round(t*100/sum(t), 2))
@@ -1005,52 +1000,24 @@ nuit.profonde <- passage(he, "nuit profonde")
 jour <- passage(he, "jour")
 ```
 ```{r pds75, echo=FALSE, cache=TRUE}
-# TRES LONG: il faut appliquer à chaque entrée la précédure pds(rapport_2014.R)
-# pop75$pds <- sapply(pop75$ENTREE, pds)
+# TRES LONG: il faut appliquer à chaque entrée la précédure pds (rapport_2014.R)
 # Résultat sauvegardé pour tout 2014 dans horaires_pds.R
-
-pop75$pds <- NA
-    
+pop75$pds <- sapply(pop75$ENTREE, pds)
 s.pds <- summary(as.factor(pop75$pds))
 n.pds <- s.pds["PDSS"]+ s.pds["PDSWE"]# nb RPU en PDS = PDS semaine + pds WE
 p.pds <- n.pds * 100 / n.rpu75
-```
-```{r moyen_transport, echo=FALSE}
-# moyen de transport utilisé pour se rendre aux urgences
-moy <- summary(as.factor(pop75$TRANSPORT))
-n.moy.perso.75 <- as.integer(moy["PERSO"])
-p.moy.perso.75 <- n.moy.perso.75 * 100 / n.rpu75 # ne tient pas compte des NA
-n.moy.smur.75 <- as.integer(moy["SMUR"])
-p.moy.smur.75 <- n.moy.smur.75 * 100 / n.rpu75 # ne tient pas compte des NA
-n.moy.vsab.75 <- as.integer(moy["VSAB"])
-p.moy.vsab.75 <- n.moy.vsab.75 * 100 / n.rpu75 # ne tient pas compte des NA
-n.moy.ambu.75 <- as.integer(moy["AMBU"])
-p.moy.ambu.75 <- n.moy.ambu.75 * 100 / n.rpu75 # ne tient pas compte des NA
-n.moy.na.75 <- as.integer(moy["NA's"])
-p.moy.na.75 <- n.moy.na.75 * 100 / n.rpu75 # ne tient pas compte des NA
 ```
 
 
 - %  passages la nuit: `r nuit[2]*100` % (N = `r nuit[1]`)
 - %  passages en horaire de PDS: `r p.pds` % (N = `r n.pds`)
-- %  d’arrivées Moyen perso: `r p.moy.perso.75` % (N = `r n.moy.perso.75`)
-- %  d'arrivées SMUR: `r p.moy.smur.75` % (N = `r n.moy.smur.75`)
-- %  d'arrivées VSAV: `r p.moy.vsab.75` % (N = `r n.moy.vsab.75`)
-- %  d'arrivées ambulance privée: `r p.moy.ambu.75` % (N = `r n.moy.ambu.75`)
-- % réponses manquantes: 
-
+- %  d’arrivées Moyen perso
+- %  d'arrivées SMUR
+- %  d'arrivées VSAV
+- %  d'arrivées ambulance privée
 NB : commentaire possible pour expliquer que la somme des 4 pourcentages ci dessus ne fait pas 100 % 
-
-```{r gravite75, echo=FALSE}
-ccmu75 <- summary(as.factor(dx$GRAVITE))
-n.ccmu75.1 <- ccmu75["1"]
-n.ccmu75.45 <- sum(ccmu75[4:5])
-p.ccmu75.1 <- n.ccmu75.1 * 100 / n.rpu75
-p.ccmu75.45 <- n.ccmu75.45 * 100 / n.rpu75
-```
-
-- %  CCMU 1: `r p.ccmu75.1` % (N = `r n.ccmu75.1`)
-- %  CCMU 4 et 5: `r p.ccmu75.45` % (N = `r n.ccmu75.45`)
+- %  CCMU 1
+- %  CCMU 4 et 5
 
 DIAGNOSTIC PRINCIPAL
 ---------------------
@@ -1067,81 +1034,19 @@ DIAGNOSTIC PRINCIPAL
 
 DURÉE
 ------
-```{r duree_passage_75, echo=FALSE}
-# a mutualiser avec le paragraphe ligne 331
-passages75 <- pop75[, c("ENTREE", "SORTIE","MODE_SORTIE")] # dataframe entrées-sorties
-passages75 <- passages75[complete.cases(passages75),] # on ne conserve que les couples complets
-n.passages75 <- nrow(passages75)
-e <- ymd_hms(passages75$ENTREE) # vecteur des entrées
-s <- ymd_hms(passages75$SORTIE)
-d <- as.numeric((s-e)/60) # vecteur des durées de passage en minutes
-# on ne garde que les durées > 0 et < ou = 48 heures
-duree75 <- d[d > 0 & d < 2 * 24 * 60 + 1]
-n.duree75 <- length(duree75) # nb total de durées
-s.duree75 <- summary(duree75) # résumé des durées totales de passage
-mean.duree75 <- s.duree75['Mean']
-median.duree75 <- s.duree75['Median']
-sd.duree75 <- sd(duree75)
-# nb de passages dont la durée est supérieure à 4 heures:
-duree75.sup.4h <- duree75[duree75 > 4 * 60] # vecteur des durées sup 4 h
-n.duree75.sup.4h <- length(duree75.sup.4h) # nb de passages > 4h
-p.duree75.sup.4h <- n.duree75.sup.4h / n.duree75
-# nb de passages dont la durée est inférieure à 4 heures:
-n.duree75.inf.4h <- n.duree75 - n.duree75.sup.4h
-p.duree75.inf.4h <- n.duree75.inf.4h / n.duree75
 
-iqr.duree75 <- s.duree75['3rd Qu.'] - s.duree75['1st Qu.']
-
-#durée de passage selon le devenir
-e <- ymd_hms(passages75$ENTREE) # vecteur des entrées
-s <- ymd_hms(passages75$SORTIE)
-passages75$duree <- as.numeric((s-e)/60) # vecteur des durées de passage en minutes
-# on ne garde que les durées > 0 et < ou = 48 heures
-passages75 <- passages75[passages75$duree > 0 & passages75$duree < 2 * 24 * 60 + 1,]
-tapply(passages75$duree, passages75$MODE_SORTIE, mean)
-tapply(passages75$duree, passages75$MODE_SORTIE, median)
-# on regroupe mutation et trabsfert
-passages75$DEVENIR <- passages75$MODE_SORTIE
-passages75$DEVENIR[passages75$DEVENIR %in% c("Mutation","Transfert")] <-  "Hosp"
-median.devenir75 <- tapply(passages75$duree, passages75$DEVENIR, median)
-mean.devenir75 <- tapply(passages75$duree, passages75$DEVENIR, mean)
-
-t.test(passages75$duree ~ passages75$DEVENIR)
-boxplot(passages75$duree ~ passages75$DEVENIR, outline = FALSE, ylab = "Durée de passage (mn)", main = "Durée de passage selon le devenir (age > 75 ans)")
-text(1.5,500,"p < 0.001", cex = 0.8, col = "red")
-
-```
-
-- Durée moyenne de passage (HORS UHCD) : `r mean.duree75` minutes
-- Durée médiane de passage (HORS UHCD) : `r median.duree75` minutes
-- %  de passages de moins de 4h : `r p.duree75.inf.4h * 100` %
-- lors d’une hospitalisation post-urgences (hospitalisation = mutation + transfert): `r mean.devenir75["Hosp"]` minutes.
-- lors d’un retour au domicile: `r mean.devenir75["Domicile"]` minutes.
+- Durée de passage (HORS UHCD) : moyenne et médiane
+- %  de passages de moins de 4h :
+- lors d’une hospitalisation post-urgences (hospitalisation = mutation + transfert)
+- lors d’un retour au domicile
 
  MODE DE SORTIE
 ----------------
-```{r sortie75, echo=FALSE}
-sortie75 <- summary(as.factor(pop75$MODE_SORTIE))
 
-n.hosp.75 <- sum(sortie75["Mutation"],sortie75["Transfert"])
-n.mut.75 <- as.integer(sortie75["Mutation"])
-n.trans.75 <- as.integer(sortie75["Transfert"])
-n.na.sortie.75 <- as.integer(sortie75["NA's"])
-n.dom.75 <- as.integer(sortie75["Domicile"])
-
-p.hosp.75 <- n.hosp.75 * 100 / n.rpu75
-p.mut.75 <- n.mut.75 * 100 / n.rpu75
-p.trans.75 <- n.trans.75 * 100 / n.rpu75
-p.dom.75 <- n.dom.75 * 100 / n.rpu75
-
-tab1(pop75$MODE_SORTIE, sort.group = "decreasing", cex = 0.6, cex.names = 0.8, main = "Mode de sortie et Age sup.ou égal à 75 ans")
-
-```
-
-- %  d’hospitalisation: `r p.hosp.75` % (N = `r n.hosp.75`)
-- % de mutation:`r p.mut.75` % (N = `r n.mut.75`)
-- % de transfert:`r p.trans.75` % (N = `r n.trans.75`)
-- %  de retour à domicile:`r p.dom.75` % (N = `r n.dom.75`)
+- %  d’hospitalisation
+- % de mutation
+- % de transfert
+- %  de retour à domicile
 
 Définitions FEDORU
 ====================
