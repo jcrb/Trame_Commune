@@ -606,8 +606,8 @@ Les chiffres clés de l’activité gériatrique des services d’urgences (plus
 
 RECUEIL DES DONNÉES
 -------------------
-- Nombre de passages dans l'année: 54314
-- Moyenne quotidienne de passage: 148.81 passages/j
+- Nombre de passages dans l'année: 54310
+- Moyenne quotidienne de passage: 148.79 passages/j
 - Taux d'urgences gériatriques (Nb RPU Géria/ Nb RPU global)*100: 13.03 %
 - TODO: % d'évolution par rapport à l'année N-1(données SAE pour ceux qui n’ont pas d’historique RPU fiable et permettant la comparaison, préciser l’origine des données)
 
@@ -634,8 +634,10 @@ ARRIVÉE
 -------
 
 
-- %  passages la nuit: 22.36 % (N = 12144)
-- %  passages en horaire de PDS: 77.65 % (N = 42174)
+
+
+- %  passages la nuit: 22.35 % (N = 12140)
+- %  passages en horaire de PDS: 38.09 % (N = 20688)
 - %  d’arrivées Moyen perso
 - %  d'arrivées SMUR
 - %  d'arrivées VSAV
@@ -752,6 +754,6 @@ Temps de calcul
 
 ```
 ##    user  system elapsed 
-##      25       2      27
+##  1249.5     4.3  1255.3
 ```
 

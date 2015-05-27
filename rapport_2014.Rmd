@@ -1001,8 +1001,10 @@ jour <- passage(he, "jour")
 ```
 ```{r pds75, echo=FALSE, cache=TRUE}
 # TRES LONG: il faut appliquer à chaque entrée la précédure pds (rapport_2014.R)
+pop75$psd <- NA
 pop75$pds <- sapply(pop75$ENTREE, pds)
-s.pds <- summary(pop75$pds)
+s.pds <- summary(as.factor(pop75$pds))
+
 n.pds <- s.pds["PDSS"]+ s.pds["PDSWE"]# nb RPU en PDS = PDS semaine + pds WE
 p.pds <- n.pds * 100 / n.rpu75
 ```
