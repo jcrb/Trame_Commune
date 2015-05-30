@@ -45,6 +45,7 @@ opts_chunk$set(echo = FALSE, cache=FALSE, warning=FALSE, message = FALSE, tidy=F
 host <- System$getHostname()
 if(host == "MacBook-Air-de-JCB.local"){
     path <- "../../Stat Resural/RPU_2014/"
+    source("../../Stat Resural/RPU_Doc/mes_constantes.R")
 }else if(host == "XPS"){#XPS
     path <- "../../Stat Resural/RPU_2014/"
     source("../../Stat Resural/RPU_Doc/mes_constantes.R")
@@ -55,13 +56,16 @@ if(host == "MacBook-Air-de-JCB.local"){
 
 source('Rapport/rapport_2014.R') # routines pour le rapport d'activité
 
-test <- 1 # TRUE = Janvier 2015
+test <- 0 # TRUE = Janvier 2015
 
 if(test == 0){
     file <- "rpu2014d0112_c2.Rda" # données de 2014
     load(paste0(path, file))
     dx <- d14 # si file actif
     rm(d14)
+    load("horaires_pds.Rda") # h.pds 
+    # puis d'en faire une colonne supplémentaire: 
+    dx$HPDS <- h.pds
 }else{
     file <- "rpu2015d01.Rda" # fichier de test
     load(paste0(path, file))
@@ -73,6 +77,7 @@ if(test == 0){
 
 n.rpu <- nrow(dx) # nb de passages dans l'année
 ```
+
 La proposition ici se fait autour de 4 points (représentant chacun une partie de rapport) :
 
 le ‘préambule’ 
@@ -89,16 +94,16 @@ c. Point sur le fonctionnement du concentrateur régional : organisation, flux d
 i. Exhaustivité des données urgences 
 
 - Nombre de SU transmettant des données / Nombre total de SU
+    - nombre de SU transmettants des RPU: 15
+    - nombre de SU ne transmettant pas: 1
+    - taux d'exhaustivité: `r round(15 * 100/16, 0)` %
 
-#### nombre de SU transmettants des RPU: 15
-#### nombre de SU ne transmettant pas: 1
-#### taux d'exhaustivité: `r round(15 * 100/16, 0)` %
+- Nombre total de RPU / Nb total de passages SRVA (Serveur de veille et d'alerte): NA
 
-- Nombre total de RPU / Nb total de passages SRVA (Serveur de veille et d'alerte)
+- Nombre total de RPU / Nb total de passages SAE (Statistique annuelle des établissements de santé) (suivant disponibilité): `r format.n(n.rpu * 100 / passages.2013.SAE)` % (NOTE le nombre de passages déclarés est celui indiqué par les données SAE 2013)
 
-#### Nombre total de RPU / Nb total de passages SAE (Statistique annuelle des établissements de santé) (suivant disponibilité): `r format.n(n.rpu * 100 / passages.2013.SAE)` % (NOTE le nombre de passages déclarés est celui indiqué par les données SAE 2013)
-
-#### Exhaustivité quantitative régionale (NB de RPU/Nb de passages x Nb SU transmettant des RPU/Nb total SU): `r format((n.rpu * 100 / passages.2013.SAE) * (15 * 100/16)/100)` %.
+- Exhaustivité quantitative régionale (NB de RPU/Nb de passages x Nb SU transmettant des RPU/Nb total SU): 
+`r format((n.rpu * 100 / passages.2013.SAE) * (15 * 100/16)/100)` %.
 
 ii. Qualité des données urgences
 
@@ -1005,21 +1010,14 @@ nuit.profonde <- passage(he, "nuit profonde")
 jour <- passage(he, "jour")
 ```
 ```{r pds75, echo=FALSE, cache=TRUE}
-<<<<<<< HEAD
+
 # TRES LONG: il faut appliquer à chaque entrée la précédure pds (rapport_2014.R)
-pop75$psd <- NA
-pop75$pds <- sapply(pop75$ENTREE, pds)
-s.pds <- summary(as.factor(pop75$pds))
-
-=======
-# TRES LONG: il faut appliquer à chaque entrée la précédure pds(rapport_2014.R)
+# pop75$psd <- NA
 # pop75$pds <- sapply(pop75$ENTREE, pds)
-# Résultat sauvegardé pour tout 2014 dans horaires_pds.R
+# Résultat sauvegardé pour tout 2014 dans horaires_pds.Rda; on peut récupérer avec load("horaires_pds.Rda") sous le nom de h.pds puis d'en faire une colonne supplémentaire: dx$HPDS <- h.pds
 
-pop75$pds <- NA
-    
-s.pds <- summary(as.factor(pop75$pds))
->>>>>>> 6f0a785f794c432e0072d3c7031e72a9ca0734b8
+
+s.pds <- summary(as.factor(pop75$HPDS))
 n.pds <- s.pds["PDSS"]+ s.pds["PDSWE"]# nb RPU en PDS = PDS semaine + pds WE
 p.pds <- n.pds * 100 / n.rpu75
 ```
@@ -1083,6 +1081,7 @@ n.passages75 <- nrow(passages75)
 e <- ymd_hms(passages75$ENTREE) # vecteur des entrées
 s <- ymd_hms(passages75$SORTIE)
 d <- as.numeric((s-e)/60) # vecteur des durées de passage en minutes
+
 # on ne garde que les durées > 0 et < ou = 48 heures
 duree75 <- d[d > 0 & d < 2 * 24 * 60 + 1]
 n.duree75 <- length(duree75) # nb total de durées
@@ -1090,10 +1089,12 @@ s.duree75 <- summary(duree75) # résumé des durées totales de passage
 mean.duree75 <- s.duree75['Mean']
 median.duree75 <- s.duree75['Median']
 sd.duree75 <- sd(duree75)
+
 # nb de passages dont la durée est supérieure à 4 heures:
 duree75.sup.4h <- duree75[duree75 > 4 * 60] # vecteur des durées sup 4 h
 n.duree75.sup.4h <- length(duree75.sup.4h) # nb de passages > 4h
 p.duree75.sup.4h <- n.duree75.sup.4h / n.duree75
+
 # nb de passages dont la durée est inférieure à 4 heures:
 n.duree75.inf.4h <- n.duree75 - n.duree75.sup.4h
 p.duree75.inf.4h <- n.duree75.inf.4h / n.duree75
@@ -1104,17 +1105,22 @@ iqr.duree75 <- s.duree75['3rd Qu.'] - s.duree75['1st Qu.']
 e <- ymd_hms(passages75$ENTREE) # vecteur des entrées
 s <- ymd_hms(passages75$SORTIE)
 passages75$duree <- as.numeric((s-e)/60) # vecteur des durées de passage en minutes
+
 # on ne garde que les durées > 0 et < ou = 48 heures
 passages75 <- passages75[passages75$duree > 0 & passages75$duree < 2 * 24 * 60 + 1,]
 tapply(passages75$duree, passages75$MODE_SORTIE, mean)
 tapply(passages75$duree, passages75$MODE_SORTIE, median)
-# on regroupe mutation et trabsfert
-passages75$DEVENIR <- passages75$MODE_SORTIE
+
+# on regroupe mutation et transfert
+passages75$DEVENIR <- as.character(passages75$MODE_SORTIE)
 passages75$DEVENIR[passages75$DEVENIR %in% c("Mutation","Transfert")] <-  "Hosp"
 median.devenir75 <- tapply(passages75$duree, passages75$DEVENIR, median)
 mean.devenir75 <- tapply(passages75$duree, passages75$DEVENIR, mean)
 
-t.test(passages75$duree ~ passages75$DEVENIR)
+t <- t.test(passages75$duree ~ passages75$DEVENIR)
+t
+t$p.value
+
 boxplot(passages75$duree ~ passages75$DEVENIR, outline = FALSE, ylab = "Durée de passage (mn)", main = "Durée de passage selon le devenir (age > 75 ans)")
 text(1.5,500,"p < 0.001", cex = 0.8, col = "red")
 

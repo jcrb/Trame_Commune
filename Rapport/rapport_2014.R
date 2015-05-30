@@ -279,6 +279,7 @@ datetime <- function(date){
 #
 #===============================================
 #' Détermine si on est en horaire de PDS de WE (PDSWE) ou de semaine (PDSS)
+#' à partir d'une date.
 #' @title
 #' @name
 #' @param date date/heure au format YYYY-MM-DD HH:MM:SS
