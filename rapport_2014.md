@@ -2,9 +2,11 @@
 JcB  
 28/01/2015  
 
-Rapport 2014 respectant les préconisations de la FEDORU
-=======================================================
 
+Activité des structures d’urgences : panorama 2014 de la région ALSACE
+=========================================================================
+
+Rapport 2014 respectant les préconisations de la FEDORU. Source:
 [Trame commune](https://docs.google.com/document/d/101LYVqVLeHZnrujfMm3aqBYfbOwx3CPEB3Y-Lbud2Ls/edit)
 
 Le document de référence pour le rapport est: __V4 trame commune 2014 rapport inter région__ (xps: /home/jcb/Documents/Resural/FEDORU/Trame_Commune/DOC/Trame commune 2014 rapport inter région (V4).docx)
@@ -16,6 +18,38 @@ ___NOTE__: certaines informations utiles sont dans __RPU_Doc__.
 
 
 
+
+LE MOT DU PRÉSIDENT DE LA FEDORU
+================================
+
+#/Users/jcb/Documents/RESURAL/Trame_Commune
+
+
+La publication du panorama des urgences de la région __ALSACE__constitue une excellente occasion pour présenter la fédération des observatoires régionaux des urgences (FEDORU) qui compte __RESURAL__ parmi ses membres actifs.
+
+La FEDORU a été créée au mois d'octobre 2013. Ses membres sont chargés dans leur région respective du traitement des données d'urgences ; ce point commun est le trait d'origine de la FEDORU et donne son empreinte à l'objet de notre association que je cite ici :
+
+- promouvoir les observatoires régionaux des urgences et les structures ayant une activité similaire ;
+- promouvoir toutes les actions visant à améliorer la connaissance sur les soins de premier recours ;
+- partager les expertises dans le domaine du recueil, de l’analyse et de l’évaluation de la qualité des données relatives à l’activité des urgences.
+
+Les premières publications de la FEDORU (disponibles sur le site : http://www.fedoru.fr) abordent les thèmes techniques suivants :
+
+- Recommandations pour la création d’un ORU
+- Collecte et usage des RPU
+- Hôpital en tension - Synthèse FEDORU
+
+Ces documents constituent le socle indispensable à la conduite de travaux inter-régionaux. Nous pourrons ainsi comparer nos résultats, harmoniser les indicateurs retenus dans nos publications respectives, travailler sur des échantillons de données plus importants(inter-région ou national), mais aussi évaluer l'impact de différentes organisations.
+
+La recherche de consensus et d’échanges entre les différents acteurs régionaux représentés au sein de la FEDORU s’illustre parfaitement dans cette publication qui prend le parti de respecter les premières recommandations sur le traitement des RPU. Le “panorama des urgences en région ….”, intègre le format d’analyse commun 2015 proposé de manière collégiale par nos groupes experts et validé par notre conseil d’administration. Ce socle d’analyse produit par “la structure concernée” sera rapproché des résultats des autres régions et donnera lieu à une publication commune au cours de l’année 2015.
+J’adresse au nom de la FEDORU toutes mes félicitations à l’ensemble de l’équipe de __RESURAL__ pour la qualité de leurs travaux mais aussi et surtout à tous les professionnels des services d’urgences de l'__ALSACE__ pour le fastidieux mais si précieux travail de collecte sur le terrain.
+
+__Dr G. VIUDES__
+
+_Président de la FEDORU_
+
+Description de l’offre de soins
+===============================
 
 La proposition ici se fait autour de 4 points (représentant chacun une partie de rapport) :
 
@@ -39,10 +73,10 @@ i. Exhaustivité des données urgences
 
 - Nombre total de RPU / Nb total de passages SRVA (Serveur de veille et d'alerte): NA
 
-- Nombre total de RPU / Nb total de passages SAE (Statistique annuelle des établissements de santé) (suivant disponibilité): 84 % (NOTE le nombre de passages déclarés est celui indiqué par les données SAE 2013)
+- Nombre total de RPU / Nb total de passages SAE (Statistique annuelle des établissements de santé) (suivant disponibilité): 8,2 % (NOTE le nombre de passages déclarés est celui indiqué par les données SAE 2013)
 
 - Exhaustivité quantitative régionale (NB de RPU/Nb de passages x Nb SU transmettant des RPU/Nb total SU): 
-79 %.
+7.7 %.
 
 ii. Qualité des données urgences
 
@@ -59,9 +93,9 @@ ii. Qualité des données urgences
 
 
 
-#### 0.09
+#### 0.12
 
-#### % de CCMU 4 et 5 renvoyé à domicile: 0.09 %
+#### % de CCMU 4 et 5 renvoyé à domicile: 0.12 %
 
     - % Diagnostic hors thésaurus SFMU
     - % âge > 18 ans dans SU pédiatriques.
@@ -81,9 +115,9 @@ __CORE [C]__ obligatoire __SUPPLEMENTAL [S]__ facultatif
 
 Analyse sur la période:
 
-- du 2014-01-01
-- au 2014-12-31
-- soit 365 jours
+- du 2015-01-01
+- au 2015-01-31
+- soit 31 jours
 
 ## Nombre de SU 
 (nombre de SU pédiatriques, nombre de SU polyvalents, nombre SU adultes) [C]
@@ -95,7 +129,11 @@ Analyse sur la période:
 - nombre de SU dans le secteur public: 12
 - nombre de SU dans le secteur privé: 4
 
-## Recueil des données
+Les chiffres clés de l’activité des services d’urgences
+=======================================================
+
+Recueil des données
+--------------------
 
 sur 2 colonnes : 
 
@@ -103,13 +141,13 @@ sur 2 colonnes :
 - à partir des données SAE
 
 
-- Nombre de passages dans l'année [C]: 416 733 RPU
-- Moyenne quotidienne de passages [C]: 1 142 RPU
-- %(N) d'évolution par rapport à année N-1 [C]: 122 %.
+- Nombre de passages dans l'année [C]: 40 509 RPU
+- Moyenne quotidienne de passages [C]: 1 307 RPU
+- %(N) d'évolution par rapport à année N-1 [C]: 12 %.
 - % d’évolution moyenne sur les 5 dernières années (méthode calcul : moyenne des évolutions constatées entre chaque année)
 - Données renseignées (données à partir desquelles tout le reste de l’analyse sera effectuée)
-    - Nombre de RPU transmis: 416 733 RPU
-    - Exhaustivité du recueil : Nb RPU transmis / Nb de passages déclarés 84 % (NOTE le nombre de passages déclarés est celui indiqué par les données SAE 2013)
+    - Nombre de RPU transmis: 40 509 RPU
+    - Exhaustivité du recueil : Nb RPU transmis / Nb de passages déclarés 8,2 % (NOTE le nombre de passages déclarés est celui indiqué par les données SAE 2013)
 
 
 
@@ -118,63 +156,69 @@ sur 2 colonnes :
 Possiblement polémique. Pour l'instant on décide de ne pas le mettre.
 
 
-- nombre de RPU publics: 343829 (82.51 %)
-- nombre de RPU privés: 72904 (17.49 %)
+- nombre de RPU publics: 33936 (83.77 %)
+- nombre de RPU privés: 6573 (16.23 %)
 
+Patients
+--------
 ## SEXE
 
 ### %(N) Femme [C]
 
-47.78 % (199 110)
+49.39 % (19 997)
 
 ### %(N) Homme [C]
 
-52.22 % (217 617)
+50.61 % (20 488)
 
 ## AGE
 
 
 ### % (N) < 1 an [C]
-15376 (3.69 %)
+1991 (4.92 %)
 
 ### %(N) < 18 ans [C]
-119213 (28.61 %)
+12769 (31.52 %)
 
 ### %(N) >= 75 ans [C]
-57271 (13.74 %)
+5671 (14 %)
 
 ### Age moyen
 
-- age moyen[C]: 38.03 ans.
+- age moyen[C]: 37.13 ans.
 
-- age moyen des hommes [S] (pourquoi 'homme et femme' en SUPP ?) 35.93 ans.
-- age moyen des femmes [S] 40.31 ans.
+- age moyen des hommes [S] (pourquoi 'homme et femme' en SUPP ?) 35.34 ans.
+- age moyen des femmes [S] 38.99 ans.
 
 ### Taux de recours (définition FEDORU) régional aux urgences. [S]
 Utilisation des données INSEE qui collent le plus à la période d’étude (projections ou données consolidées)
 
+### %  de patients ne venant pas de la région (étranger compris)
+
+ARRIVÉE
+--------
 
 
 ### % sur activité les jours de  WE [S]
 = ((Nbsam+NbDim/2)-(sommeNbJourSEm/5))/ ((Nbsam+NbDim/2)*100 [Limousin]
 
-4.52 % d'activité supplémentaire le WE.
+6.35 % d'activité supplémentaire le WE.
 
 NB: le calcul ne tient pas compte des jours fériés (à faire).
 
 ## % du delta entre mois le plus chargé et le mois le moins chargé [S]
 
-71.41 %
+100 %
 
 Durées de passage
 -----------------
 
 
 
-- durée moyenne de passage 155 mn.
-- écart-type: 171.59 mn.
-- médiane: 109 mn.
-- nombre de passages > 4 heures: 69521 (18.69 %).
+- durée moyenne de passage 174 mn.
+- écart-type: 173.5 mn.
+- médiane: 123 mn.
+- nombre de passages > 4 heures: 8465 (23.61 %).
 
 ![](rapport_2014_files/figure-html/horaires-1.png) 
 
@@ -209,12 +253,12 @@ Durées de passage
 ### % passages nuit (définition FEDORU) [C]
 nombre de passages dont l’admission s’est effectuée sur la période [20h00 - 7h59] divisé par l’ensemble des passages
 
-24.74 % (N = 92610)
+23.61 % (N = 8561)
 
 ### % passages nuit profonde (définition FEDORU) [C]
 nombre de passages dont l’admission s’est effectuée sur la période [00h00 - 7h59] divisé par l’ensemble des passages
 
-11.09 % (N = 41500)
+11.27 % (N = 4088)
 
 Mode de transport
 -----------------
@@ -223,19 +267,19 @@ Mode de transport
 
 ###  %(N) d'arrivée perso [S]
 
-72.16 % (N = 208 771)
+68.91 % (N = 19 913)
 
 ###  %(N) d'arrivée SMUR [S]
 
-0.93 % (N = 2 702)
+1.06 % (N = 305)
 
 ###  %(N) d'arrivée VSAB [S]
 
-10.35 % (N = 29 954)
+10.3 % (N = 2 977)
 
 ###  %(N) d'arrivée Ambulance [S]
 
-15.94 % (N = 46 112)
+19.13 % (N = 5 527)
 
 Gravité (CCMU)
 --------------
@@ -243,17 +287,17 @@ Gravité (CCMU)
 
 
 ###  %(N) CCMU 1 et 2 [C]
-84.45% (n = 286979)
+84.16% (n = 26549)
 
 ###  %(N) CCMU 4 et 5 [C]
-1.28% (n = 4341)
+1.38% (n = 434)
 
 ###  %(N) Médico-chir [C]
 
 ###  %(N) Traumato [C]
 
 ###  %(N) Psy [C]
-0.38% (n = 1307)
+0.39% (n = 124)
 
 Durée de présence
 -----------------
@@ -261,16 +305,16 @@ Durée de présence
 ### Durée de séjour (hors UHCD): 
 moyenne +/- ET ; médiane (IQR) [C]
 
-- moyenne: 155 mn
-- écart-type: 171.59 mn
-- médiane: 109 mn
-- IQR: 146 mn
+- moyenne: 174 mn
+- écart-type: 173.5 mn
+- médiane: 123 mn
+- IQR: 169 mn
 
 ###  % (N) passages ayant durée attente > 1 heure [S]
 Pas calculable en Alsace :-(
 
 ###  %  (N) passages durée séjour > 4h [S]
-18.69% (n = 69521)
+23.61% (n = 8465)
 
 Mode de sortie
 --------------
@@ -279,22 +323,22 @@ Mode de sortie
 
 ###  %  (N)Externe [C]
 
-75.5 % (N = 255 852)
+75.36 % (N = 21 497)
 
 ###  %  (N)Hospitalisation [C]
 
-22.72 % (N = 76 999)
+23.1 % (N = 6 590)
 
 ###  %  (N)Transfert [C]
 
-1.78 % (N = 6 025)
+1.54 % (N = 439)
 
 ###  %  (N)Sortie non convenue [C]
 
-5.09 % (N = 4 222)
+4.58 % (N = 336)
 
 ###  %  (N)Décès [C]
-0.01% (n = 26)
+0% (n = 1)
 
 
 les résultats régionaux
@@ -316,12 +360,12 @@ Graphe avec 2 axes des abcisses:
 
 ![](rapport_2014_files/figure-html/c1-1.png) 
 
-- nombre de passages en 2014: 416 733 soit en moyenne 1142 par jour.
+- nombre de passages en 2014: 40 509 soit en moyenne 111 par jour.
 
 #### [3] % d’augmentation annuelle sur les années disponibles
 
 
-% de variation 2014/2013 = 21.12 % 
+% de variation 2014/2013 = -88.23 % 
 
 croisements :
 
@@ -346,11 +390,11 @@ Le calcul se fait après un merging de dx et de hop.
 
 
 ```
-     2014      %        
-CH   "349 414" "     58"
-CHU  "185 379" "     31"
-PSPH " 72 904" "     12"
-     "607 697" "    100"
+     2014     %       
+CH   "30 403" "    47"
+CHU  "27 570" "    43"
+PSPH " 6 573" "    10"
+     "64 546" "   100"
 ```
 #### [6] % CH, CHU, privé sur les années disponibles
 
@@ -359,7 +403,7 @@ Caractéristique des patients : âge
 
 - [7][8] moyenne âge +/- écart type année N
 
-moyenne d'age: 38.03 ans, ecart-type: 27.1`ans.
+moyenne d'age: 37.13 ans, ecart-type: 27.8`ans.
 
 - [9] répartition par tranche âge
 
@@ -370,13 +414,13 @@ moyenne d'age: 38.03 ans, ecart-type: 27.1`ans.
 ```
 a
     [0,5)    [5,10)   [10,15)   [15,20)   [20,25)   [25,30)   [30,35) 
-    51663     24738     27012     26631     28086     26827     24574 
+     5965      2460      2759      2617      2515      2490      2211 
   [35,40)   [40,45)   [45,50)   [50,55)   [55,60)   [60,65)   [65,70) 
-    21374     22952     21162     20022     18720     17290     14635 
+     1929      2003      1924      1869      1736      1584      1440 
   [70,75)   [75,80)   [80,85)   [85,90)   [90,95)  [95,100) [100,105) 
-    13772     15707     17692     14385      8076      1147       232 
+     1335      1482      1763      1456       809       138        20 
 [105,110) [110,115) [115,120] 
-       16        15         1 
+        0         3         0 
 ```
 
 ![](rapport_2014_files/figure-html/tranche-1.png) 
@@ -394,8 +438,8 @@ a
 - [11] sexe-moyenne âge femme/homme, année N
 
 ```
-##  F  M     I 
-## 40 36 NA 26
+##  F  I  M 
+## 39 16 35
 ```
 
 - [12] proportion des âge extrêmes (moins de 1 an, plus de 90 ans) par mois, année N
@@ -410,13 +454,13 @@ Caractéristique des patients : sexe
 
 ```
 ## 
-##      F      M             I 
-## 199110 217617      0      6
+##     F     I     M 
+## 19997    24 20488
 ```
 
 - [14] sex ratio, année N
 
-sex-ratio = 1.09
+sex-ratio = 1.02
 
 - croisements :
 
@@ -425,13 +469,13 @@ sex-ratio = 1.09
 
 ```
 ##     [0,5)    [5,10)   [10,15)   [15,20)   [20,25)   [25,30)   [30,35) 
-##      1.27      1.24      1.19      1.12      1.09      1.14      1.28 
+##     1.276     1.132     0.999     0.885     0.915     1.023     1.166 
 ##   [35,40)   [40,45)   [45,50)   [50,55)   [55,60)   [60,65)   [65,70) 
-##      1.26      1.25      1.22      1.09      1.08      1.15      1.20 
+##     1.119     1.168     1.191     1.000     1.181     1.152     1.162 
 ##   [70,75)   [75,80)   [80,85)   [85,90)   [90,95)  [95,100) [100,105) 
-##      1.09      0.96      0.72      0.54      0.37      0.37      0.21 
+##     1.251     0.976     0.685     0.566     0.342     0.211     0.053 
 ## [105,110) [110,115) [115,120] 
-##      0.60      2.75        NA
+##        NA     2.000        NA
 ```
 
 ![](rapport_2014_files/figure-html/ratio_classe_age-1.png) 
@@ -439,7 +483,7 @@ sex-ratio = 1.09
 
 - [16] taux de masculinité
 
-0.52
+0.51
 
 Provenance géographique des patients
 ------------------------------------
@@ -559,16 +603,16 @@ Orientation
 
 ```
 ##  CHIR FUGUE   HDT    HO   MED  OBST   PSA   REA   REO    SC  SCAM    SI 
-##  30.5   1.6   1.2   1.1  66.7   1.3   9.3   3.8   4.6   5.6   1.9   8.2 
+##  41.5   1.2   1.2   1.0  83.4   1.4   9.3   5.5   4.3   7.4   1.7  12.3 
 ##  UHCD 
-##  95.6
+##  70.4
 ```
 
 ```
 ##  CHIR FUGUE   HDT    HO   MED  OBST   PSA   REA   REO    SC  SCAM    SI 
-## 11133   303   113    34 24340   131  3393  1346  1636  2033   526  3006 
+##  1287    15    15     3  2585    15   289   171   130   229    32   381 
 ##  UHCD 
-## 34910
+##  2181
 ```
 
 ![](rapport_2014_files/figure-html/moyenne-orientation-1.png) 
@@ -607,19 +651,18 @@ Les chiffres clés de l’activité gériatrique des services d’urgences (plus
 
 RECUEIL DES DONNÉES
 -------------------
-- Nombre de passages dans l'année: 54310
-- Moyenne quotidienne de passage: 148.79 passages/j
-- Taux d'urgences gériatriques (Nb RPU Géria/ Nb RPU global)*100: 13.03 %
+- Nombre de passages dans l'année: 5393
+- Moyenne quotidienne de passage: 173.97 passages/j
+- Taux d'urgences gériatriques (Nb RPU Géria/ Nb RPU global)*100: 13.31 %
 - TODO: % d'évolution par rapport à l'année N-1(données SAE pour ceux qui n’ont pas d’historique RPU fiable et permettant la comparaison, préciser l’origine des données)
 
 PATIENTS
 --------
 ![](rapport_2014_files/figure-html/sexe75-1.png) 
 
-- Sex ratio: 0.64
+- Sex ratio: 0.62
 - Pyramide des âges (âge par année, borne supérieure toujours exclue)
 - Par sous classe d’âge (GT1:2 classes, moins de 85 et 85 ans et plus):
-
     ￼- Nombre de passages
     ￼- Moyenne quotidienne de passage
     ￼- Sex ratio
@@ -628,8 +671,8 @@ PATIENTS
 
                   effectif   moyenne.j   médiane.j   sex-ratio
 ---------------  ---------  ----------  ----------  ----------
-75-84 ans            30438          83          83        0.80
-85 ans et plus       23872          65          66        0.47
+75-84 ans             2967          96          92        0.78
+85 ans et plus        2426          78          78        0.46
 
 ARRIVÉE
 -------
@@ -638,20 +681,20 @@ ARRIVÉE
 
 
 
-- %  passages la nuit: 22.35 % (N = 12140)
+- %  passages la nuit: 19.08 % (N = 1029)
 - %  passages en horaire de PDS: 38.09 % (N = 20688)
-- %  d’arrivées Moyen perso: 20.17 % (N = 10953)
-- %  d'arrivées SMUR: 1.2 % (N = 654)
-- %  d'arrivées VSAV: 11.98 % (N = 6505)
-- %  d'arrivées ambulance privée: 37.91 % (N = 20587)
+- %  d’arrivées Moyen perso: 20.8 % (N = 1122)
+- %  d'arrivées SMUR: 1.78 % (N = 96)
+- %  d'arrivées VSAV: 13.26 % (N = 715)
+- %  d'arrivées ambulance privée: 47.91 % (N = 2584)
 - % réponses manquantes: 
 
 NB : commentaire possible pour expliquer que la somme des 4 pourcentages ci dessus ne fait pas 100 % 
 
 
 
-- %  CCMU 1: 95.16 % (N = 51682)
-- %  CCMU 4 et 5: 7.99 % (N = 4341)
+- %  CCMU 1: 104.38 % (N = 5629)
+- %  CCMU 4 et 5: 8.05 % (N = 434)
 
 DIAGNOSTIC PRINCIPAL
 ---------------------
@@ -670,13 +713,13 @@ DURÉE
 ------
 
 ```
-##        NA  Mutation Transfert  Domicile     Décès           
-##        NA       219       318       216        NA        NA
+##  Domicile  Mutation Transfert 
+##       246       324       339
 ```
 
 ```
-##        NA  Mutation Transfert  Domicile     Décès           
-##        NA       200       250       176        NA        NA
+##  Domicile  Mutation Transfert 
+##       214       298       282
 ```
 
 ```
@@ -684,26 +727,26 @@ DURÉE
 ## 	Welch Two Sample t-test
 ## 
 ## data:  passages75$duree by passages75$DEVENIR
-## t = -4.1, df = 38419, p-value = 0.00003634
+## t = -13, df = 3520, p-value < 2.2e-16
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  -11.7  -4.2
+##  -91 -67
 ## sample estimates:
 ## mean in group Domicile     mean in group Hosp 
-##                    216                    224
+##                    246                    325
 ```
 
 ```
-## [1] 0.000036
+## [1] 7.7e-37
 ```
 
 ![](rapport_2014_files/figure-html/duree_passage_75-1.png) 
 
-- Durée moyenne de passage (HORS UHCD) : 221 minutes
-- Durée médiane de passage (HORS UHCD) : 191 minutes
-- %  de passages de moins de 4h : 60.92 %
-- lors d’une hospitalisation post-urgences (hospitalisation = mutation + transfert): 224.04 minutes.
-- lors d’un retour au domicile: 216.09 minutes.
+- Durée moyenne de passage (HORS UHCD) : 294 minutes
+- Durée médiane de passage (HORS UHCD) : 266 minutes
+- %  de passages de moins de 4h : 44.58 %
+- lors d’une hospitalisation post-urgences (hospitalisation = mutation + transfert): 324.59 minutes.
+- lors d’un retour au domicile: 245.82 minutes.
 
  MODE DE SORTIE
 ----------------
@@ -712,20 +755,17 @@ DURÉE
 ```
 ## pop75$MODE_SORTIE : 
 ##           Frequency   %(NA+)   %(NA-)
-## Mutation      26032     47.9     58.6
-## Domicile      16945     31.2     38.2
-## NA's           9896     18.2      0.0
-## Transfert      1437      2.6      3.2
-## NA                0      0.0      0.0
-## Décès             0      0.0      0.0
-##                   0      0.0      0.0
-##   Total       54310    100.0    100.0
+## Mutation       2335     43.3     58.2
+## Domicile       1572     29.1     39.2
+## <NA>           1383     25.6      0.0
+## Transfert       103      1.9      2.6
+##   Total        5393    100.0    100.0
 ```
 
-- %  d’hospitalisation: 50.58 % (N = 27469)
-- % de mutation:47.93 % (N = 26032)
-- % de transfert:2.65 % (N = 1437)
-- %  de retour à domicile:31.2 % (N = 16945)
+- %  d’hospitalisation: 45.21 % (N = 2438)
+- % de mutation:43.3 % (N = 2335)
+- % de transfert:1.91 % (N = 103)
+- %  de retour à domicile:29.15 % (N = 1572)
 
 Définitions FEDORU
 ====================
@@ -782,21 +822,21 @@ Résumé des chiffres clé
 
 ```
              anc    periode.debut      periode.fin          n.jours 
-        2014.000        16071.000        16435.000          365.000 
+        2014.000        16436.000        16466.000           31.000 
         n.su.ped     n.su.adultes n.su.polyvalents     n.su.publics 
            1.000            2.000           13.000           12.000 
      n.su.prives            n.rpu    mean.rpu.quot            n.pub 
-           4.000       416733.000         1141.734       343829.000 
+           4.000        40509.000         1306.742        33936.000 
            n.prv            p.pub            p.prv          p.femme 
-       72904.000            0.825            0.175           47.779 
+        6573.000            0.838            0.162           49.394 
          p.homme         n.femmes         n.hommes   tx.masculinite 
-          52.221       199110.000       217617.000            0.522 
+          50.606        19997.000        20488.000            0.506 
         n.inf1an      n.supegal90         p.inf1an        n.inf18an 
-       15376.000         9487.000            0.037       119213.000 
+        1991.000          970.000            0.049        12769.000 
        p.inf18an    n.supegal75an    p.supegal75an         mean.age 
-           0.286        57271.000            0.137           38.027 
+           0.315         5671.000            0.140           37.130 
           sd.age       median.age       mean.age.h       mean.age.f 
-          27.103           34.000           35.935           40.313 
+          27.804           33.000           35.338           38.990 
 ```
 
 
@@ -806,6 +846,6 @@ Temps de calcul
 
 ```
 ##    user  system elapsed 
-##   102.1     3.1   106.3
+##   14.74    0.58   15.50
 ```
 

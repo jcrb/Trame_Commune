@@ -14,17 +14,21 @@ output:
     number_sections: yes
     toc: yes
 ---
+```{r titre, echo=FALSE}
+anc <- 2014 # année courante
+```
 
-Rapport 2014 respectant les préconisations de la FEDORU
-=======================================================
+Activité des structures d’urgences : panorama `r anc` de la région ALSACE
+=========================================================================
 
+Rapport 2014 respectant les préconisations de la FEDORU. Source:
 [Trame commune](https://docs.google.com/document/d/101LYVqVLeHZnrujfMm3aqBYfbOwx3CPEB3Y-Lbud2Ls/edit)
 
 Le document de référence pour le rapport est: __V4 trame commune 2014 rapport inter région__ (xps: /home/jcb/Documents/Resural/FEDORU/Trame_Commune/DOC/Trame commune 2014 rapport inter région (V4).docx)
 
 Titre: __Activité des structures d’urgences : panorama 2014 de la région Alsace__
 
-___NOTE__: certaines informations utiles sont dans __RPU_Doc__.
+__NOTE__: certaines informations utiles sont dans __RPU_Doc__.
 
 ```{r Declarations, echo=FALSE, include=FALSE}
 library(knitr)
@@ -56,7 +60,7 @@ if(host == "MacBook-Air-de-JCB.local"){
 
 source('Rapport/rapport_2014.R') # routines pour le rapport d'activité
 
-test <- 0 # TRUE = Janvier 2015
+test <- 1 # TRUE = Janvier 2015
 
 if(test == 0){
     file <- "rpu2014d0112_c2.Rda" # données de 2014
@@ -77,6 +81,17 @@ if(test == 0){
 
 n.rpu <- nrow(dx) # nb de passages dans l'année
 ```
+
+LE MOT DU PRÉSIDENT DE LA FEDORU
+================================
+
+#`r getwd()`
+
+```{r test, child = 'mot_du_president_2014.Rmd'}
+```
+
+Description de l’offre de soins
+===============================
 
 La proposition ici se fait autour de 4 points (représentant chacun une partie de rapport) :
 
@@ -200,7 +215,11 @@ Analyse sur la période:
 - nombre de SU dans le secteur public: `r n.su.publics`
 - nombre de SU dans le secteur privé: `r n.su.prives`
 
-## Recueil des données
+Les chiffres clés de l’activité des services d’urgences
+=======================================================
+
+Recueil des données
+--------------------
 
 sur 2 colonnes : 
 
@@ -238,6 +257,8 @@ chiffres <- c(chiffres, val)
 - nombre de RPU publics: `r n.pub` (`r round(p.pub * 100, 2)` %)
 - nombre de RPU privés: `r n.prv` (`r round(p.prv * 100, 2)` %)
 
+Patients
+--------
 ## SEXE
 ```{r sexe, echo=FALSE, comment=""}
 sexe <- table(as.factor(dx$SEXE))
@@ -305,6 +326,10 @@ chiffres <- c(chiffres, val)
 ### Taux de recours (définition FEDORU) régional aux urgences. [S]
 Utilisation des données INSEE qui collent le plus à la période d’étude (projections ou données consolidées)
 
+### %  de patients ne venant pas de la région (étranger compris)
+
+ARRIVÉE
+--------
 ```{r rpu.semaine.we, echo=FALSE, comment=""}
 n.par.wday <- table(wday(as.Date(dx$ENTREE), label = TRUE)) # nb de RPU par jour de semaine. Utilisable dans un barplot.
 n.jour.ouvrable <- sum(n.par.wday[2:6]) # nb de RPU en jour ouvrable
@@ -489,7 +514,8 @@ n.deces <- mode.sortie['DCD']
 p.externes <- mode.sortie['Domicile'] / n.mode.sortie
 p.hospitalises <- mode.sortie['Mutation'] / n.mode.sortie
 p.transferts <- mode.sortie['Transfert'] / n.mode.sortie
-p.deces <- mode.sortie['DCD']
+p.deces <- mode.sortie['DCD'] / n.mode.sortie
+
 ```
 
 ###  %  (N)Externe [C]
@@ -987,14 +1013,13 @@ colnames(a) <- c("effectif","moyenne.j","médiane.j","sex-ratio")
 - Sex ratio: `r sex.ratio75`
 - Pyramide des âges (âge par année, borne supérieure toujours exclue)
 - Par sous classe d’âge (GT1:2 classes, moins de 85 et 85 ans et plus):
-
     ￼- Nombre de passages
     ￼- Moyenne quotidienne de passage
     ￼- Sex ratio
     
     
 ```{r sous_classe_age, echo=FALSE}
-kable(a)
+ kable(a)
 ```
 
 ARRIVÉE

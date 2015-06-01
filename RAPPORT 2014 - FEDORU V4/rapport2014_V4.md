@@ -1,0 +1,80 @@
+# Rapport 2014 - version FEDORU
+JcB  
+28/01/2015  
+
+
+
+
+
+
+Activité des structures d’urgences : panorama 2014 de la région ALSACE
+=========================================================================
+Rapport 2014 respectant les préconisations de la FEDORU. Source:
+[Trame commune](https://docs.google.com/document/d/101LYVqVLeHZnrujfMm3aqBYfbOwx3CPEB3Y-Lbud2Ls/edit)
+
+Le document de référence pour le rapport est: __V4 trame commune 2014 rapport inter région__ (xps: /home/jcb/Documents/Resural/FEDORU/Trame_Commune/DOC/Trame commune 2014 rapport inter région (V4).docx)
+
+__NOTE__: certaines informations utiles sont dans __RPU_Doc__.
+
+LE MOT DU PRÉSIDENT DE LA FEDORU
+================================
+
+
+La publication du panorama des urgences de la région __ALSACE__constitue une excellente occasion pour présenter la fédération des observatoires régionaux des urgences (FEDORU) qui compte __RESURAL__ parmi ses membres actifs.
+
+La FEDORU a été créée au mois d'octobre 2013. Ses membres sont chargés dans leur région respective du traitement des données d'urgences ; ce point commun est le trait d'origine de la FEDORU et donne son empreinte à l'objet de notre association que je cite ici :
+
+- promouvoir les observatoires régionaux des urgences et les structures ayant une activité similaire ;
+- promouvoir toutes les actions visant à améliorer la connaissance sur les soins de premier recours ;
+- partager les expertises dans le domaine du recueil, de l’analyse et de l’évaluation de la qualité des données relatives à l’activité des urgences.
+
+Les premières publications de la FEDORU (disponibles sur le site : http://www.fedoru.fr) abordent les thèmes techniques suivants :
+
+- Recommandations pour la création d’un ORU
+- Collecte et usage des RPU
+- Hôpital en tension - Synthèse FEDORU
+
+Ces documents constituent le socle indispensable à la conduite de travaux inter-régionaux. Nous pourrons ainsi comparer nos résultats, harmoniser les indicateurs retenus dans nos publications respectives, travailler sur des échantillons de données plus importants(inter-région ou national), mais aussi évaluer l'impact de différentes organisations.
+
+La recherche de consensus et d’échanges entre les différents acteurs régionaux représentés au sein de la FEDORU s’illustre parfaitement dans cette publication qui prend le parti de respecter les premières recommandations sur le traitement des RPU. Le “panorama des urgences en région ….”, intègre le format d’analyse commun 2015 proposé de manière collégiale par nos groupes experts et validé par notre conseil d’administration. Ce socle d’analyse produit par “la structure concernée” sera rapproché des résultats des autres régions et donnera lieu à une publication commune au cours de l’année 2015.
+J’adresse au nom de la FEDORU toutes mes félicitations à l’ensemble de l’équipe de __RESURAL__ pour la qualité de leurs travaux mais aussi et surtout à tous les professionnels des services d’urgences de l'__ALSACE__ pour le fastidieux mais si précieux travail de collecte sur le terrain.
+
+__Dr G. VIUDES__
+
+_Président de la FEDORU_
+
+Description de l’offre de soins
+===============================
+
+Les chiffres clés de l’activité des services d’urgences
+=======================================================
+
+Les chiffres clés de l’activité des SAMU
+========================================
+ (à partir des données SRVA "officielles")
+
+- Nombre de dossiers de régulation médicale (DRM)
+- Nombre de SMUR :
+    - dont primaires
+- Nombre d’ambulances privées à la demande du SAMU
+
+Les chiffres clés de l’activité pédiatrique des services d’urgences (moins de 18 ans)
+=====================================================================================
+
+Les chiffres clés de l’activité gériatrique des services d’urgences (plus de 75 ans)
+====================================================================================
+
+Les chiffres clés de l’activité AVC des services d’urgences
+===========================================================
+
+ANNEXES
+=======
+
+ANNEXE 1 : Définitions
+----------------------
+
+ANNEXE 2 : Diagramme de complétude des RPU
+------------------------------------------
+
+ANNEXE 3 : Calcul du TARRU
+--------------------------
