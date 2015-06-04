@@ -60,7 +60,7 @@ if(host == "MacBook-Air-de-JCB.local"){
 
 source('Rapport/rapport_2014.R') # routines pour le rapport d'activité
 
-test <- 1 # TRUE = Janvier 2015
+test <- 0 # TRUE = Janvier 2015
 
 if(test == 0){
     file <- "rpu2014d0112_c2.Rda" # données de 2014
@@ -227,13 +227,13 @@ sur 2 colonnes :
 - à partir des données SAE
 
 
-- Nombre de passages dans l'année [C]: `r format.n(n.rpu)` RPU
-- Moyenne quotidienne de passages [C]: `r format.n(mean.rpu.quot)` RPU
-- %(N) d'évolution par rapport à année N-1 [C]: `r format(n.rpu * 100 / n.rpu.2013)` %.
+- Nombre de passages dans l'année [C]: __`r format.n(n.rpu)` RPU__
+- Moyenne quotidienne de passages [C]: __`r format.n(mean.rpu.quot)` RPU__
+- %(N) d'évolution par rapport à année N-1 [C]: __`r format((n.rpu / n.rpu.2013 - 1)*100)` %__.
 - % d’évolution moyenne sur les 5 dernières années (méthode calcul : moyenne des évolutions constatées entre chaque année)
 - Données renseignées (données à partir desquelles tout le reste de l’analyse sera effectuée)
-    - Nombre de RPU transmis: `r format.n(n.rpu)` RPU
-    - Exhaustivité du recueil : Nb RPU transmis / Nb de passages déclarés `r format.n(n.rpu * 100 / passages.2013.SAE)` % (NOTE le nombre de passages déclarés est celui indiqué par les données SAE 2013)
+    - Nombre de RPU transmis: __`r format.n(n.rpu)` RPU__
+    - Exhaustivité du recueil : Nb RPU transmis / Nb de passages déclarés __`r format.n(n.rpu * 100 / passages.2013.SAE)` %__ (NOTE le nombre de passages déclarés est celui indiqué par les données SAE 2013)
 
 
 
@@ -274,13 +274,8 @@ val <- c(p.femme, p.homme, n.femmes, n.hommes, tx.masculinite)
 names(val) <- c("p.femme", "p.homme", "n.femmes", "n.hommes", "tx.masculinite")
 chiffres <- c(chiffres, val)
 ```
-### %(N) Femme [C]
-
-`r round(p.femme, 2)` % (`r format(sexe['F'], big.mark = " ")`)
-
-### %(N) Homme [C]
-
-`r round(p.homme, 2)` % (`r format(sexe['M'], big.mark = " ")`)
+- %(N) Femme [C] __`r round(p.femme, 2)` %__ (`r format(sexe['F'], big.mark = " ")`)
+- %(N) Homme [C] __`r round(p.homme, 2)` %__ (`r format(sexe['M'], big.mark = " ")`)
 
 ## AGE
 ```{r age, echo=FALSE, comment=""}
@@ -307,20 +302,11 @@ names(val) <- c("n.inf1an", "n.supegal90", "p.inf1an", "n.inf18an", "p.inf18an",
 chiffres <- c(chiffres, val)
 ```
 
-### % (N) < 1 an [C]
-`r n.inf1an` (`r round(100 * p.inf1an, 2)` %)
-
-### %(N) < 18 ans [C]
-`r n.inf18an` (`r round(100 * p.inf18an, 2)` %)
-
-### %(N) >= 75 ans [C]
-`r n.supegal75an` (`r round(100 * p.supegal75an, 2)` %)
-
-### Age moyen
-
-- age moyen[C]: `r round(mean.age, 2)` ans.
-
-- age moyen des hommes [S] (pourquoi 'homme et femme' en SUPP ?) `r round(mean.age.sexe['M'], 2)` ans.
+- % (N) < 1 an [C] __`r round(100 * p.inf1an, 2)` %__ (`r n.inf1an`)
+- %(N) < 18 ans [C] __`r round(100 * p.inf18an, 2)` %__ (`r n.inf18an`)
+- %(N) >= 75 ans [C] __`r round(100 * p.supegal75an, 2)` %__ (`r n.supegal75an`)
+- Age moyen[C]: __`r round(mean.age, 2)` ans__.
+- age moyen des hommes [S] `r round(mean.age.sexe['M'], 2)` ans.
 - age moyen des femmes [S] `r round(mean.age.sexe['F'], 2)` ans.
 
 ### Taux de recours (définition FEDORU) régional aux urgences. [S]
@@ -1045,6 +1031,7 @@ jour <- passage(he, "jour")
 s.pds <- summary(as.factor(pop75$HPDS))
 n.pds <- s.pds["PDSS"]+ s.pds["PDSWE"]# nb RPU en PDS = PDS semaine + pds WE
 p.pds <- n.pds * 100 / n.rpu75
+
 ```
 ```{r moyen_transport, echo=FALSE}
 # moyen de transport utilisé pour se rendre aux urgences
@@ -1073,8 +1060,8 @@ p.moy.na.75 <- n.moy.na.75 * 100 / n.rpu75 # ne tient pas compte des NA
 NB : commentaire possible pour expliquer que la somme des 4 pourcentages ci dessus ne fait pas 100 % 
 
 ```{r gravite75, echo=FALSE}
-ccmu75 <- summary(as.factor(dx$GRAVITE))
-n.ccmu75.1 <- ccmu75["1"]
+ccmu75 <- summary(as.factor(pop75$GRAVITE))
+n.ccmu75.1 <- ccmu75[1]
 n.ccmu75.45 <- sum(ccmu75[4:5])
 p.ccmu75.1 <- n.ccmu75.1 * 100 / n.rpu75
 p.ccmu75.45 <- n.ccmu75.45 * 100 / n.rpu75
