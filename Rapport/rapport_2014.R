@@ -1,10 +1,21 @@
-
-# routines
+#####################
+#                   #
+#     routines      #
+#                   #
+#####################
 
 # format.n()
 # completude()
 # radar.completude()
-    
+# synthese.completude()
+# reorder.dataframe.fedoru()
+# reorder.vector.fedoru()
+# teste.radar()
+# count.CIM10()
+# passage()
+# horaire()
+# datetime()
+# pds()
     
 #===============================================
 #
@@ -132,6 +143,34 @@ radar.completude <- function(completude, finess = NULL, titre = NULL){
     )
     # par()
 }
+
+#===============================================
+#
+# Synthèse Taux complétude RPU
+#
+#===============================================
+#
+#' A partir du dataframe initial (dx) calcule le tableau des taux de complétude
+#' de l'ensemble des Finess présents dans dx. Le tableau comporte en ordonnée le
+#' nom des établissements, en abcisse les différents items du RPU et à l'intersection
+#' ligne/colonne la complétude correspondante. dx peut comprter un ou plusieurs Finess
+#' et concerner une période variable (semaine, mois, année...)
+#' Nécessite la librairie dplyr pour la fonction ddply()
+#'
+#'@name synthese.completude
+#'@param dx dataframe de type RPU
+#'@return un dataframe
+#'@usage synthese.completude(dx)
+#'
+synthese.completude <- function(dx){
+    b <- ddply(dx, .(FINESS), completude)
+    rownames(b) <- levels(factor(dx$FINESS))
+    return(b)
+}
+
+#' autre usage: analyse individuelle
+#' synthese.completude(dx[dx$FINESS == "Hag",])
+
 
 # Durée de passage
 # Différence entre la date-heure d'entrée et de sortie
