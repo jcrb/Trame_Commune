@@ -155,7 +155,7 @@ radar.completude <- function(completude, finess = NULL, titre = NULL){
 #' nom des établissements, en abcisse les différents items du RPU et à l'intersection
 #' ligne/colonne la complétude correspondante. dx peut comprter un ou plusieurs Finess
 #' et concerner une période variable (semaine, mois, année...)
-#' Nécessite la librairie dplyr pour la fonction ddply()
+#' Nécessite la librairie plyr pour la fonction ddply()
 #'
 #'@name synthese.completude
 #'@param dx dataframe de type RPU
