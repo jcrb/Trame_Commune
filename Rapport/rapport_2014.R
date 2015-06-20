@@ -62,7 +62,7 @@ format.n <- function(x){
 #'@return vecteur des taux de complétude
 #'@example todo
 #'@export
-dx
+
 completude <- function(dx, tri = FALSE){
     #' complétude brute. Des corrections sont nécessaires pour DESTINATION
     completude <- apply(dx, 2, function(x){round(100 * mean(!is.na(x)),2)})
@@ -331,7 +331,7 @@ datetime <- function(date){
 #' à partir d'une date.
 #' @title
 #' @name
-#' @param date vecteur date/heure au format YYYY-MM-DD HH:MM:SS
+#' @param dx vecteur date/heure au format YYYY-MM-DD HH:MM:SS
 #' @return
 #' @usage x <- "2009-09-02 12:23:33"; weekdays(as.Date(x)); pds(x) # NPDS
 #' @usage pds(c("2015-05-23 02:23:33", "2015-05-24 02:23:33", "2015-05-25 02:23:33", 
@@ -362,12 +362,12 @@ pds <- function(dx){
     
     # Horaires de PDS le WE
     temp[weekdays(j)=="Dimanche" | 
-        weekdays(j)=="Samedi" & h > hms("11:59:59") & h <= hms("23:59:59") |
-        weekdays(j)=="Lundi" & h < hms("08:00:00")] = "PDSWE"
+             weekdays(j)=="Samedi" & h > hms("11:59:59") & h <= hms("23:59:59") |
+             weekdays(j)=="Lundi" & h < hms("08:00:00")] = "PDSWE"
     
     # horaires de PDS le WE
     temp[weekdays(j) %in% c("Mardi","Mercredi","Jeudi","Vendredi") &
-        (h > hms("19:59:59") | h < hms("08:00:00"))]= "PDSS"
+             (h > hms("19:59:59") | h < hms("08:00:00"))]= "PDSS"
     temp[weekdays(j) == "Lundi" & h > hms("19:59:59")]= "PDSS"
     
     return(temp)
