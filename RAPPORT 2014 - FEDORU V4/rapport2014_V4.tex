@@ -93,6 +93,8 @@
 \setcounter{tocdepth}{2}
 \tableofcontents
 }
+Version mse à jour le: \textbf{Tue Jun 16 18:59:44 2015}
+
 \section{Activité des structures d'urgences : panorama 2014 de la région
 ALSACE}\label{activite-des-structures-durgences-panorama-2014-de-la-region-alsace}
 
@@ -278,13 +280,13 @@ compris)}\label{de-patients-ne-venant-pas-de-la-region-etranger-compris}
 \includegraphics{rapport2014_V4_files/figure-latex/horaires-1.pdf}
 
 \begin{itemize}
-\itemsep1pt\parskip0pt\parsep0pt
 \item
   \% passages nuit {[}C{]}: 24.74 \% (N = 92 610)
 \item
   \% passages nuit profonde {[}C{]}: 11.09 \% (N = 41 500)
 \item
-  \% passages en horaire de PDS
+  \% passages en horaire de PDS: 45.22 \% (Remarque: ne tient pas compte
+  des jours fériés survenant en semaine)
 \end{itemize}
 
 \subsubsection{Moyens d'arrivée}\label{moyens-darrivee}
@@ -316,8 +318,22 @@ ci dessus ne fait pas 100 \%
 
 DIAGNOSTIC PRINCIPAL
 
-\% Médico-chirurgical \% Traumatologique \% Psychiatrique \%
-Toxicologique \% Autres recours
+Remarque: les chiffres sont dans le document
+\emph{Codes}regroupement\_ORUMIP\_ =\textgreater{} à rajouter.
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  \% Médico-chirurgical
+\item
+  \% Traumatologique
+\item
+  \% Psychiatrique
+\item
+  \% Toxicologique
+\item
+  \% Autres recours
+\end{itemize}
 
 \subsubsection{Durées de passage}\label{durees-de-passage}
 
@@ -337,7 +353,17 @@ Toxicologique \% Autres recours
   transfert)
 \item
   Lors d'un retour au domicile
+\item
+  moyenne durée de passage en cas de retour à domicile: 145.87 minutes.
+\item
+  moyenne durée de passage en cas d'hospitalisation: 187.55 minutes.
+\item
+  médiane durée de passage en cas de retour à domicile: 104 minutes.
+\item
+  médiane durée de passage en cas d'hospitalisation: 148 minutes.
 \end{itemize}
+
+(source: temps de passages.Rmd)
 
 \subsubsection{MODE DE SORTIE}\label{mode-de-sortie}
 
@@ -361,17 +387,17 @@ SAMU}\label{les-chiffres-cles-de-lactivite-des-samu}
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
 \item
-  Nombre de dossiers de régulation médicale (DRM)
+  Nombre de dossiers de régulation médicale (DRM): 480303
 \item
-  Nombre de SMUR :
+  Nombre de SMUR : 25 321
 
   \begin{itemize}
   \itemsep1pt\parskip0pt\parsep0pt
   \item
-    dont primaires
+    dont primaires: format.n(19714)
   \end{itemize}
 \item
-  Nombre d'ambulances privées à la demande du SAMU
+  Nombre d'ambulances privées à la demande du SAMU: format.n(46031)
 \end{itemize}
 
 \section{Les chiffres clés de l'activité pédiatrique des services
@@ -830,5 +856,58 @@ notamment \textbf{temps de passage}.
 RPU}\label{annexe-2-diagramme-de-completude-des-rpu}
 
 \subsection{ANNEXE 3 : Calcul du TARRU}\label{annexe-3-calcul-du-tarru}
+
+\section{Information de session}\label{information-de-session}
+
+\begin{verbatim}
+R version 3.1.3 (2015-03-09)
+Platform: x86_64-apple-darwin13.4.0 (64-bit)
+Running under: OS X 10.10.3 (Yosemite)
+
+locale:
+[1] fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/fr_FR.UTF-8/fr_FR.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] openintro_1.4     epicalc_2.15.1.0  nnet_7.3-9       
+ [4] MASS_7.3-40       survival_2.38-1   foreign_0.8-63   
+ [7] R.utils_2.1.0     R.oo_1.19.0       R.methodsS3_1.7.0
+[10] xts_0.9-7         zoo_1.7-12        plotrix_3.5-12   
+[13] lubridate_1.3.3   knitr_1.10.5     
+
+loaded via a namespace (and not attached):
+ [1] digest_0.6.8      evaluate_0.7      formatR_1.2      
+ [4] grid_3.1.3        highr_0.5         htmltools_0.2.6  
+ [7] lattice_0.20-31   magrittr_1.5      memoise_0.2.1    
+[10] plyr_1.8.2        Rcpp_0.11.6       rmarkdown_0.5.3.2
+[13] splines_3.1.3     stringi_0.4-1     stringr_1.0.0    
+[16] tools_3.1.3       yaml_2.1.13      
+\end{verbatim}
+
+\begin{verbatim}
+
+To cite R in publications use:
+
+  R Core Team (2015). R: A language and environment for
+  statistical computing. R Foundation for Statistical Computing,
+  Vienna, Austria. URL http://www.R-project.org/.
+
+A BibTeX entry for LaTeX users is
+
+  @Manual{,
+    title = {R: A Language and Environment for Statistical Computing},
+    author = {{R Core Team}},
+    organization = {R Foundation for Statistical Computing},
+    address = {Vienna, Austria},
+    year = {2015},
+    url = {http://www.R-project.org/},
+  }
+
+We have invested a lot of time and effort in creating R, please
+cite it when using it for data analysis. See also
+'citation("pkgname")' for citing R packages.
+\end{verbatim}
 
 \end{document}

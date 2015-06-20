@@ -14,6 +14,9 @@ output:
     theme: cerulean
     toc: yes
 ---
+
+Version mse à jour le: __`r date()`__
+
 ```{r titre, echo=FALSE}
 anc <- 2014 # année courante
 ```
@@ -45,19 +48,15 @@ if(host == "MacBook-Air-de-JCB.local" | host == "Air-de-JCB"){
     path <- "../RPU_2014-master/"
 }
 
-
 source('../Rapport/rapport_2014.R') # routines pour le rapport d'activité
 
-test <- 0 # TRUE = Janvier 2015
+test <- 1 # TRUE = Janvier 2015
 
 if(test == 0){
     file <- "rpu2014d0112_c2.Rda" # données de 2014
     load(paste0(path, file))
     dx <- d14 # si file actif
     rm(d14)
-    load("../horaires_pds.Rda") # h.pds 
-    # puis d'en faire une colonne supplémentaire: 
-    dx$HPDS <- h.pds
 }else{
     file <- "rpu2015d01.Rda" # fichier de test
     load(paste0(path, file))
@@ -68,6 +67,7 @@ if(test == 0){
 #source(paste0(path, "RPU_Doc/mes_constantes.R"))
 
 n.rpu <- nrow(dx) # nb de passages dans l'année
+
 ```
 
 Activité des structures d’urgences : panorama `r anc` de la région ALSACE
@@ -243,6 +243,11 @@ p.org_als <- n.org_als / n.rpu
 
 ARRIVÉE
 -------
+```{r horaires_pds, echo=FALSE}
+# ajout dd'une colonne horaires de PDS
+dx$HPDS <- pds(dx$ENTREE)
+```
+
 ### Horaires de passage
 ```{r horaires}
 # la plupart des instructions qui suivent ont été transformée en fonctions. Voir rapport2014.R notamment passage(), horaire() et datetime().
@@ -276,7 +281,17 @@ p.passages.nuit.profonde <- n.passages.nuit.profonde / n.passages
 
 - % passages nuit [C]: `r round(p.passages.nuit * 100, 2)` % (N = `r format.n(n.passages.nuit)`)
 - % passages nuit profonde [C]: `r round(p.passages.nuit.profonde * 100, 2)` % (N = `r format.n(n.passages.nuit.profonde)`)
-- %  passages en horaire de PDS
+
+```{r passage_pds, echo=FALSE, comment=""}
+# utilise le fichier horaires_pds.Rda
+load("~/Documents/RESURAL/Trame_Commune/horaires_pds.Rda")
+s.pds <- summary(as.factor(h.pds))
+p.s.pds <- prop.table(s.pds)
+n.pds <- p.s.pds["PDSS"] + p.s.pds["PDSWE"] # nombre de passages aux haoraires de PDS
+
+```
+
+- %  passages en horaire de PDS: `r n.pds * 100` % (Remarque: ne tient pas compte des jours fériés survenant en semaine)
 
 ### Moyens d'arrivée
 ```{r transpport, echo=FALSE, comment=""}
@@ -324,11 +339,13 @@ p.ccmu.p <- n.ccmu.p / s.ccmu
 
 DIAGNOSTIC PRINCIPAL 
 
-%  Médico-chirurgical 
-%  Traumatologique
-%  Psychiatrique
-%  Toxicologique
-%  Autres recours
+Remarque: les chiffres sont dans le document _Codes_regroupement_ORUMIP_ => à rajouter.
+
+- %  Médico-chirurgical 
+- %  Traumatologique
+- %  Psychiatrique
+- %  Toxicologique
+- %  Autres recours
 
 ### Durées de passage
 
@@ -367,7 +384,13 @@ iqr.duree <- s.duree['3rd Qu.'] - s.duree['1st Qu.']
 - nombre de passages inférieurs ou égaux à 4 heures: `r format.n(n.duree.inf.4h)` (`r round(p.duree.inf.4h * 100, 2)` %).
 
 - Lors d’une hospitalisation post-urgences (hospitalisation = mutation + transfert)
+    - médiane durée de passage en cas de retour à domicile: __104 minutes__.
+    - médiane durée de passage en cas d’hospitalisation: __148 minutes__.
 - Lors d’un retour au domicile
+    - moyenne durée de passage en cas de retour à domicile: __145.87 minutes__.
+    - moyenne durée de passage en cas d’hospitalisation: __187.55 minutes__.
+
+(source: temps de passages.Rmd)
 
 ### MODE DE SORTIE
 ```{r mode_sortie, echo=FALSE, comment=""}
@@ -395,11 +418,20 @@ p.deces <- mode.sortie['DCD'] / n.mode.sortie
 Les chiffres clés de l’activité des SAMU
 ========================================
  (à partir des données SRVA "officielles")
+ 
+```{r chiffres_2014, echo=FALSE}
+# source: samu.Rmd pour l'année 2014
+drm <- 480303
+smur_primaires <- 19714        
+smur_secondaires <- 5070         
+smur_neonat <- 537
+assu <- 46031
+```
 
-- Nombre de dossiers de régulation médicale (DRM)
-- Nombre de SMUR :
-    - dont primaires
-- Nombre d’ambulances privées à la demande du SAMU
+- Nombre de dossiers de régulation médicale (DRM): `r drm`
+- Nombre de SMUR : `r format.n(smur_primaires + smur_secondaires + smur_neonat)`
+    - dont primaires: format.n(`r smur_primaires`)
+- Nombre d’ambulances privées à la demande du SAMU: format.n(`r assu`)
 
 Les chiffres clés de l’activité pédiatrique des services d’urgences (moins de 18 ans)
 =====================================================================================
@@ -433,9 +465,9 @@ p.rpu18 <- n.rpu18 * 100 / n.rpu # Taux d'urgences gériatriques
 
 RECUEIL DES DONNÉES
 -------------------
-- Nombre de passages dans l'année: `r n.rpu18`
-- Moyenne quotidienne de passage: `r mean.rpu18` passages/j
-- Taux d'urgences pédiatriques (Nb RPU Pédia/ Nb RPU global)*100: `r p.rpu18` %
+- Nombre de passages dans l'année: `r format.n(n.rpu18)`
+- Moyenne quotidienne de passage: `r format.n(mean.rpu18)` passages/j
+- Taux d'urgences pédiatriques [(Nb RPU Pédia/ Nb RPU global)x100]: `r format.n(p.rpu18)` %
 - TODO: % d'évolution par rapport à l'année N-1(données SAE pour ceux qui n’ont pas d’historique RPU fiable et permettant la comparaison, préciser l’origine des données)
 
 PATIENTS
@@ -500,7 +532,7 @@ RECUEIL DES DONNÉES
 -------------------
 - Nombre de passages dans l'année: `r format.n(n.rpu75)`
 - Moyenne quotidienne de passage: `r format.n(mean.rpu75)` passages/j
-- Taux d'urgences gériatriques (Nb RPU Géria/ Nb RPU global)*100: `r p.rpu75` %
+- Taux d'urgences gériatriques [(Nb RPU Géria/ Nb RPU global)x100]: `r p.rpu75` %
 - TODO: % d'évolution par rapport à l'année N-1(données SAE pour ceux qui n’ont pas d’historique RPU fiable et permettant la comparaison, préciser l’origine des données)
 
 PATIENTS
@@ -562,11 +594,7 @@ jour <- passage(he, "jour")
 ```
 ```{r pds75, echo=FALSE, cache=TRUE}
 
-# TRES LONG: il faut appliquer à chaque entrée la précédure pds (rapport_2014.R)
-# pop75$psd <- NA
-# pop75$pds <- sapply(pop75$ENTREE, pds)
 # Résultat sauvegardé pour tout 2014 dans horaires_pds.Rda; on peut récupérer avec load("horaires_pds.Rda") sous le nom de h.pds puis d'en faire une colonne supplémentaire: dx$HPDS <- h.pds
-
 
 s.pds <- summary(as.factor(pop75$HPDS))
 n.pds <- s.pds["PDSS"]+ s.pds["PDSWE"]# nb RPU en PDS = PDS semaine + pds WE
@@ -903,3 +931,12 @@ ANNEXE 2 : Diagramme de complétude des RPU
 
 ANNEXE 3 : Calcul du TARRU
 --------------------------
+
+Information de session
+======================
+
+```{r session, echo=FALSE, comment=""}
+sessionInfo()
+
+citation()
+```

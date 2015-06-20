@@ -62,8 +62,7 @@ format.n <- function(x){
 #'@return vecteur des taux de complétude
 #'@example todo
 #'@export
-
-
+dx
 completude <- function(dx, tri = FALSE){
     #' complétude brute. Des corrections sont nécessaires pour DESTINATION
     completude <- apply(dx, 2, function(x){round(100 * mean(!is.na(x)),2)})
@@ -80,6 +79,12 @@ completude <- function(dx, tri = FALSE){
     completude['ORIENTATION'] <- completude.hosp['ORIENTATION']
     completude['DESTINATION'] <- completude.hosp['DESTINATION']
     
+    #' Correction pour DP. Cette rubrique ne peut pas être remplie dans le cas où ORIENTATION =
+    #' FUGUE, PSA, SCAM, REO
+    "%!in%" <- function(x, y) x[!x %in% y]
+    dp <- dx[dx$ORIENTATION %!in% c("FUGUE","PSA","SCAM","REO"),]
+    completude['DP'] <- mean(!is.na(dx$DP)) * 100
+
     # réorganise les données dans l'ordre de la FEDORU
     completude <- reorder.vector.fedoru(completude)
     #' completude <- completude[-c(1,7)]
@@ -293,6 +298,11 @@ horaire <- function(date){
     return(hms(substr(date, 12, 20)))
 }
 
+# somution avec POSIXt
+horaire2 <- function(date){
+    return(paste(as.POSIXlt(date)$hour, as.POSIXlt(date)$min, as.POSIXlt(date)$sec, sep=":"))
+}
+
 #===============================================
 #
 # datetime
@@ -321,27 +331,44 @@ datetime <- function(date){
 #' à partir d'une date.
 #' @title
 #' @name
-#' @param date date/heure au format YYYY-MM-DD HH:MM:SS
+#' @param date vecteur date/heure au format YYYY-MM-DD HH:MM:SS
 #' @return
-#' @usage x <- "2009-09-02 12:23:33"; pds(x) # PDSS
-#' @usage x <- c("2015-05-23 02:23:33", "2015-05-24 02:23:33", "2015-05-25 02:23:33", 
-#'               "2015-05-26 02:23:33", "2015-05-25 12:23:33", "2015-05-25 22:23:33")
-#'        sapply(x, pds)
-#' # 2015-05-23 02:23:33 2015-05-24 02:23:33 2015-05-25 02:23:33 2015-05-26 02:23:33 
-#' "PDSS"             "PDSWE"             "PDSWE"              "PDSS" 
-#'2015-05-25 12:23:33 2015-05-25 22:23:33 
-#'NA              "PDSS"
-#' 
-pds <- function(date){
-    jour <- wday(as.Date(date), abbr = TRUE, label = TRUE)
-    h <- horaire(date)
-    if(jour == "Sun" |
-       jour == "Sat" & (h > hms("11:59:59") & h <= hms("23:59:59")) |
-       jour == "Mon" & h < hms("08:00:00")
-       ) pds = "PDSWE"
-    else if(jour %in% c("Mon","Tues","Wed","Thurs","Fri") &
-            h > hms("19:59:59") | h < hms("08:00:00")
-        ) pds = "PDSS"
-    else pds = NA
-    return(pds)
+#' @usage x <- "2009-09-02 12:23:33"; weekdays(as.Date(x)); pds(x) # NPDS
+#' @usage pds(c("2015-05-23 02:23:33", "2015-05-24 02:23:33", "2015-05-25 02:23:33", 
+#'              "2015-05-26 02:23:33", "2015-05-25 12:23:33", "2015-05-25 22:23:33"))
+#'        # [1] "NPDS"  "PDSWE" "PDSWE" "PDSS"  "NPDS"  "PDSS" 
+#' @usage Test Wissembourg sur une semaine:
+#'        wis <- d14[d14$FINESS == "Wis" & 
+#'                                  as.Date(d14$ENTREE) >= "2014-12-03" & 
+#'                                  as.Date(d14$ENTREE) <= "2014-12-09", 
+#'                                  c("ENTREE","FINESS")]
+#'        wis$jour <- weekdays(as.Date(wis$ENTREE))
+#'        wis$heure <- horaire(wis$ENTREE)
+#'        wis$pds <- pds(wis$ENTREE)
+#'        table(wis$pds)
+#'        
+#'        NPDS  PDSS PDSWE 
+#'         136    35    52 
+
+pds <- function(dx){
+    j <- as.Date(dx)
+    h <- horaire(dx)
+    
+    # un vecteur vide
+    temp <- rep("NPDS", length(dx))
+    
+    # jour non renseigés
+    temp[is.na(j)] = NA
+    
+    # Horaires de PDS le WE
+    temp[weekdays(j)=="Dimanche" | 
+        weekdays(j)=="Samedi" & h > hms("11:59:59") & h <= hms("23:59:59") |
+        weekdays(j)=="Lundi" & h < hms("08:00:00")] = "PDSWE"
+    
+    # horaires de PDS le WE
+    temp[weekdays(j) %in% c("Mardi","Mercredi","Jeudi","Vendredi") &
+        (h > hms("19:59:59") | h < hms("08:00:00"))]= "PDSS"
+    temp[weekdays(j) == "Lundi" & h > hms("19:59:59")]= "PDSS"
+    
+    return(temp)
 }
