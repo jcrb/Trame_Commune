@@ -30,6 +30,8 @@ library(plotrix) # radialplot et pyramid.plot
 library(xts)
 library(R.utils)
 library(epicalc)
+library(stargazer)
+library(xtable)
 
 # set global chunk options
 opts_chunk$set(echo = FALSE, cache=FALSE, warning=FALSE, message = FALSE, tidy=FALSE, fig.width=8, fig.height=6, scipen= 1, digits = 2)
@@ -136,8 +138,10 @@ n.su.prives <- 4
 
 mean.rpu.quot <- n.rpu / n.jours # Moyenne quotidienne de passages
 
+#---------------------- Chiffres ---------------------------------------------------------------
 chiffres <- c(anc, periode.debut, periode.fin, n.jours, n.su.ped, n.su.adultes, n.su.polyvalents, n.su.publics, n.su.prives, n.rpu, mean.rpu.quot)
 names(chiffres) <- c("anc", "periode.debut", "periode.fin", "n.jours", "n.su.ped", "n.su.adultes", "n.su.polyvalents", "n.su.publics", "n.su.prives", "n.rpu", "mean.rpu.quot")
+#---------------------- Chiffres end ------------------------------------------------------------
 ```
 
 - Nombre de passages dans l'année [C]: `r format.n(n.rpu)` RPU
@@ -160,10 +164,11 @@ n.hommes <- sexe['M']
 n.femmes <- sexe['F']
 tx.masculinite <- n.hommes / (n.hommes + n.femmes)
 
-# archivage
+#---------------------- Chiffres ---------------------------------------------------------------
 val <- c(p.femme, p.homme, n.femmes, n.hommes, tx.masculinite)
 names(val) <- c("p.femme", "p.homme", "n.femmes", "n.hommes", "tx.masculinite")
 chiffres <- c(chiffres, val)
+#---------------------- Chiffres end ------------------------------------------------------------
 ```
 
 - %(N) Femme [C]: `r round(p.femme, 2)` % (`r format(sexe['F'], big.mark = " ")`)
@@ -195,10 +200,12 @@ mean.age.f <- mean.age.sexe['F'] # age moyen des femmes
 
 sd.age.sexe <- tapply(dx$AGE, dx$SEXE, sd, na.rm = TRUE)
 
-# archivage
+#---------------------- Chiffres ---------------------------------------------------------------
 val <- c(n.inf1an, n.supegal90, p.inf1an, n.inf15an, p.inf15an, n.inf18an, p.inf18an, n.supegal75an, p.supegal75an, mean.age, sd.age, median.age, mean.age.h, mean.age.f)
 names(val) <- c("n.inf1an", "n.supegal90", "p.inf1an", "n.inf18an", "p.inf18an", "n.supegal75an", "p.supegal75an", "mean.age", "sd.age", "median.age", "mean.age.h", "mean.age.f")
 chiffres <- c(chiffres, val)
+
+#---------------------- Chiffres end ------------------------------------------------------------
 ```
 
 - age moyen[C]: `r round(mean.age, 2)` ans.
@@ -219,6 +226,8 @@ h <- as.vector(100 * table(a[dx$SEXE == "M"])/n.rpu)
 f <- as.vector(100 * table(a[dx$SEXE == "F"])/n.rpu)
 pyramid.plot(h,f, labels = names(table(a)), top.labels = c("Hommes", "Age", "Femmes"), main = "Pyramide des ages", lxcol = "light green", rxcol = "khaki1")
 
+#---------------------- Chiffres ---------------------------------------------------------------
+#---------------------- Chiffres end ------------------------------------------------------------
 ```
 
 ### Taux de recours (définition FEDORU) régional aux urgences. [S]
@@ -228,7 +237,11 @@ Utilisation des données INSEE qui collent le plus à la période d’étude (pr
 pop.als.tot <- population("Alsace", anc)
 residents <- sum(sapply(dx$CODE_POSTAL, is.cpals))
 tarru <- residents * 100 / pop.als.tot
+
+#---------------------- Chiffres ---------------------------------------------------------------
+#---------------------- Chiffres end ------------------------------------------------------------
 ```
+
 TARRU: __`r tarru`%__ (ref: population alsacienne `r anc`)
 
 ### %  de patients ne venant pas de la région (étranger compris)
@@ -238,7 +251,11 @@ b <- substr(x,1,2)
 org_als <- b[b == "67" | b == "68"]
 n.org_als <- length(org_als)
 p.org_als <- n.org_als / n.rpu
+
+#---------------------- Chiffres ---------------------------------------------------------------
+#---------------------- Chiffres ---------------------------------------------------------------
 ```
+
 `r (1 - p.org_als) * 100`%
 
 ARRIVÉE
@@ -277,6 +294,8 @@ nuit.profonde <- he[he < hms("08:00:00")]
 n.passages.nuit.profonde <- length(nuit.profonde)
 p.passages.nuit.profonde <- n.passages.nuit.profonde / n.passages
 
+#---------------------- Chiffres ---------------------------------------------------------------
+#---------------------- Chiffres ---------------------------------------------------------------
 ```
 
 - % passages nuit [C]: `r round(p.passages.nuit * 100, 2)` % (N = `r format.n(n.passages.nuit)`)
@@ -289,6 +308,8 @@ s.pds <- summary(as.factor(h.pds))
 p.s.pds <- prop.table(s.pds)
 n.pds <- p.s.pds["PDSS"] + p.s.pds["PDSWE"] # nombre de passages aux haoraires de PDS
 
+#---------------------- Chiffres ---------------------------------------------------------------
+#---------------------- Chiffres ---------------------------------------------------------------
 ```
 
 - %  passages en horaire de PDS: `r n.pds * 100` % (Remarque: ne tient pas compte des jours fériés survenant en semaine)
@@ -310,6 +331,9 @@ p.transport.fo <- transport['FO'] / n.transport
 p.transport.heli <- transport['HELI'] / n.transport
 p.transport.smur <- transport['SMUR'] / n.transport
 p.transport.vsab <- transport['VSAB'] / n.transport
+
+#---------------------- Chiffres ---------------------------------------------------------------
+#---------------------- Chiffres ---------------------------------------------------------------
 ```
 
 - __%(N) d'arrivée personnel__ [S]: `r round(n.transport.perso * 100 / n.transport, 2)` % (N = `r format.n(n.transport.perso)`)
@@ -332,6 +356,9 @@ n.ccmu.d <- ccmu[6]
 p.ccmu.d <- n.ccmu.d / s.ccmu
 n.ccmu.p <- ccmu[7]
 p.ccmu.p <- n.ccmu.p / s.ccmu
+
+#---------------------- Chiffres ---------------------------------------------------------------
+#---------------------- Chiffres ---------------------------------------------------------------
 ```
 
 - __%(N) CCMU 1 et 2__ [C]: `r round(100 * p.ccmu12, 2)`% (n = `r format.n(n.ccmu12)`)
@@ -375,6 +402,9 @@ p.duree.inf.4h <- n.duree.inf.4h / n.duree
 
 # intervalle interquartile
 iqr.duree <- s.duree['3rd Qu.'] - s.duree['1st Qu.']
+
+#---------------------- Chiffres ---------------------------------------------------------------
+#---------------------- Chiffres ---------------------------------------------------------------
 ```
 
 - durée moyenne de passage `r mean.duree` mn.
@@ -407,6 +437,9 @@ p.mutations <- mode.sortie['Mutation'] / n.mode.sortie
 p.transferts <- mode.sortie['Transfert'] / n.mode.sortie
 p.hospitalises <- n.hospitalises / n.mode.sortie
 p.deces <- mode.sortie['DCD'] / n.mode.sortie
+
+#---------------------- Chiffres ---------------------------------------------------------------
+#---------------------- Chiffres ---------------------------------------------------------------
 ```
 
 - % (N) de retour à domicile: `r round(n.externes * 100 / n.mode.sortie, 2)` % (N = `r format.n(n.externes)`)
@@ -426,6 +459,10 @@ smur_primaires <- 19714
 smur_secondaires <- 5070         
 smur_neonat <- 537
 assu <- 46031
+
+#---------------------- Chiffres ---------------------------------------------------------------
+#---------------------- Chiffres ---------------------------------------------------------------
+
 ```
 
 - Nombre de dossiers de régulation médicale (DRM): `r drm`
@@ -461,6 +498,9 @@ barplot(table(ped), main = "Pédiatrie")
 n.rpu18 <- nrow(pop18)
 mean.rpu18 <- n.rpu18 / n.jours # Moyenne quotidienne de passages
 p.rpu18 <- n.rpu18 * 100 / n.rpu # Taux d'urgences gériatriques
+
+#---------------------- Chiffres ---------------------------------------------------------------
+#---------------------- Chiffres ---------------------------------------------------------------
 ```
 
 RECUEIL DES DONNÉES
@@ -504,6 +544,9 @@ tx.masculinite18 <- n.hommes18 / (n.hommes18 + n.femmes18)
 # rownames(a) <- c("18-84 ans","85 ans et plus")
 # colnames(a) <- c("effectif", "moyenne par jour ","médiane par jour", "sex ratio")
 # a
+
+#---------------------- Chiffres ---------------------------------------------------------------
+#---------------------- Chiffres ---------------------------------------------------------------
 ```
 
 - Sex ratio: `r sex.ratio18`
@@ -527,6 +570,10 @@ pop75$age2 <- ifelse(pop75$AGE < 85, 1, 2)
 n.rpu75 <- nrow(pop75)
 mean.rpu75 <- n.rpu75 / n.jours # Moyenne quotidienne de passages
 p.rpu75 <- n.rpu75 * 100 / n.rpu # Taux d'urgences gériatriques
+
+#---------------------- Chiffres ---------------------------------------------------------------
+#---------------------- Chiffres ---------------------------------------------------------------
+
 ```
 RECUEIL DES DONNÉES
 -------------------
@@ -569,6 +616,10 @@ a <- data.frame(n.rpu2,mean.rpu.jour, median.rpu2.jour, c(sr1,sr2) )
 rownames(a) <- c("75-84 ans","85 ans et plus")
 colnames(a) <- c("effectif", "moyenne par jour ","médiane par jour", "sex ratio")
 a
+
+#---------------------- Chiffres ---------------------------------------------------------------
+#---------------------- Chiffres ---------------------------------------------------------------
+
 ```
 - Sex ratio: `r sex.ratio75`
 - Pyramide des âges (âge par année, borne supérieure toujours exclue)
@@ -599,6 +650,10 @@ jour <- passage(he, "jour")
 s.pds <- summary(as.factor(pop75$HPDS))
 n.pds <- s.pds["PDSS"]+ s.pds["PDSWE"]# nb RPU en PDS = PDS semaine + pds WE
 p.pds <- n.pds * 100 / n.rpu75
+
+#---------------------- Chiffres ---------------------------------------------------------------
+#---------------------- Chiffres ---------------------------------------------------------------
+
 ```
 - %  passages la nuit: `r nuit[2]*100` % (N = `r format.n(nuit[1])`)
 - %  passages en horaire de PDS: `r p.pds` % (N = `r format.n(n.pds)`)
@@ -618,6 +673,10 @@ n.moy.ambu.75 <- as.integer(moy["AMBU"])
 p.moy.ambu.75 <- n.moy.ambu.75 * 100 / n.rpu75 # ne tient pas compte des NA
 n.moy.na.75 <- as.integer(moy["NA's"])
 p.moy.na.75 <- n.moy.na.75 * 100 / n.rpu75 # ne tient pas compte des NA
+
+#---------------------- Chiffres ---------------------------------------------------------------
+#---------------------- Chiffres ---------------------------------------------------------------
+
 ```
 - %  d’arrivées Moyen perso: `r p.moy.perso.75` % (N = `r format.n(n.moy.perso.75)`)
 - %  d'arrivées SMUR: `r p.moy.smur.75` % (N = `r format.n(n.moy.smur.75)`)
@@ -635,6 +694,10 @@ n.ccmu75.1 <- ccmu75[1]
 n.ccmu75.45 <- sum(ccmu75[4:5])
 p.ccmu75.1 <- n.ccmu75.1 * 100 / n.rpu75
 p.ccmu75.45 <- n.ccmu75.45 * 100 / n.rpu75
+
+#---------------------- Chiffres ---------------------------------------------------------------
+#---------------------- Chiffres ---------------------------------------------------------------
+
 ```
 
 - %  CCMU 1: `r p.ccmu75.1` % (N = `r format.n(n.ccmu75.1)`)
@@ -705,6 +768,9 @@ t$p.value
 boxplot(passages75$duree ~ passages75$DEVENIR, outline = FALSE, ylab = "Durée de passage (mn)", main = "Durée de passage selon le devenir (age > 75 ans)")
 text(1.5,500,"p < 0.001", cex = 0.8, col = "red")
 
+#---------------------- Chiffres ---------------------------------------------------------------
+#---------------------- Chiffres ---------------------------------------------------------------
+
 ```
 
 - Durée moyenne de passage (HORS UHCD) : `r mean.duree75` minutes
@@ -731,6 +797,9 @@ p.dom.75 <- n.dom.75 * 100 / n.rpu75
 
 tab1(pop75$MODE_SORTIE, sort.group = "decreasing", cex = 0.6, cex.names = 0.8, main = "Mode de sortie et Age sup.ou égal à 75 ans")
 
+#---------------------- Chiffres ---------------------------------------------------------------
+#---------------------- Chiffres ---------------------------------------------------------------
+
 ```
 
 - %  d’hospitalisation: `r p.hosp.75` % (N = `r format.n(n.hosp.75)`)
@@ -746,6 +815,9 @@ load("../../../Stat Resural/Codes_regroupement_ORUMIP/d3.Rda") # fichier mergé 
 source('~/Documents/Stat Resural/RPU_2014/Analyse/Temps_passage/passage.R')# pour MAC
 d3$DPAS <- duree.passage(d3$ENTREE, d3$SORTIE)
 
+#---------------------- Chiffres ---------------------------------------------------------------
+#---------------------- Chiffres ---------------------------------------------------------------
+
 ```
 
 ```{r avc}
@@ -759,6 +831,10 @@ AVC$etiologie[substr(AVC$DP,1,3) %in% c("G45","G46")] <-"AIT"
 AVC$etiologie <- as.factor(AVC$etiologie)
 
 n.avc <- nrow(AVC)
+
+#---------------------- Chiffres ---------------------------------------------------------------
+#---------------------- Chiffres ---------------------------------------------------------------
+
 ```
 RECUEIL DES DONNÉES
 -------------------
@@ -766,6 +842,7 @@ RECUEIL DES DONNÉES
 - Nombre d’AVC dans l'année (+ rappeler le pourcentage d’exhaustivité du DP par rapport au nombre de RPU): __`r format.n(n.avc)`__
 - Moyenne quotidienne d’AVC: __`r format.n(n.avc/365)` AVC/j__
 - %  d’AVC dans l’activité globale: __`r n.avc *100 / nrow(d3)` %__
+
 PATIENTS
 --------
 ```{r patients, echo=FALSE}
@@ -778,6 +855,8 @@ c.age <- cut(AVC$AGE,breaks = seq(0,120,5), right = FALSE)
 table(c.age)
 barplot(table(c.age), las = 2, cex.names = 0.8)
 
+#---------------------- Chiffres ---------------------------------------------------------------
+#---------------------- Chiffres ---------------------------------------------------------------
 ```
 
 - Sex ratio: `r sr`
@@ -801,6 +880,10 @@ x2 <- cut(a, p, right = FALSE)
 rbind(levels(x2), table(x))
 
 avc.pds <- tab1(x, cex.names = 0.8, main = "Heure d'admission des AVC", bar.values = "percent", ylab = "%")
+
+#---------------------- Chiffres ---------------------------------------------------------------
+#---------------------- Chiffres ---------------------------------------------------------------
+
 ```
 
 - % AVC le matin: `r avc.pds$output.table[2,2]` %.
@@ -813,6 +896,8 @@ avc.pds <- tab1(x, cex.names = 0.8, main = "Heure d'admission des AVC", bar.valu
 ```{r avc_finess}
 tapply(as.Date(AVC$ENTREE), AVC$FINESS, length)
 
+#---------------------- Chiffres ---------------------------------------------------------------
+#---------------------- Chiffres ---------------------------------------------------------------
 ```
 
 
@@ -829,6 +914,9 @@ n[3] <- "NPDS"
 colnames(a) <- n
 rownames(a) <- c("Nombre AVC", "% AVC")
 kable(a)
+
+#---------------------- Chiffres ---------------------------------------------------------------
+#---------------------- Chiffres ---------------------------------------------------------------
 ```
 
 PDSS = horaires de PDS en semaine, PDSWE = horaires de PDS le WE, NPDS = hors horaire de PDS.
@@ -845,6 +933,10 @@ n.avc.moyen <- summary(factor(AVC$TRANSPORT))
 # n.avc.moyen
 p.avc.moyen <- round(prop.table(n.avc.moyen)*100, 2)
 # p.avc.moyen
+
+#---------------------- Chiffres ---------------------------------------------------------------
+#---------------------- Chiffres ---------------------------------------------------------------
+
 ```
 - %  d’arrivées Moyen perso: `r p.avc.moyen["PERSO"]`%
 - %  d'arrivées SMUR: `r p.avc.moyen["SMUR"]`%
@@ -859,6 +951,9 @@ t.diag <- table(AVC$etiologie)
 p.diag <- prop.table(t.diag)*100
 dp.avc <- rbind(t.diag, p.diag)
 rownames(dp.avc) <- c("nombre","%")
+
+#---------------------- Chiffres ---------------------------------------------------------------
+#---------------------- Chiffres ---------------------------------------------------------------
 
 ```
 
@@ -883,6 +978,9 @@ mean.ts.avc <- mean(as.numeric(ts.avc))
 median.ts.avc <- median(as.numeric(ts.avc))
 n.ts.avc.inf4h <- length(ts.avc < 4 * 60) # nombre AVC restés mons de 4 heures aux urgences
 p.ts.avc.inf4h <- n.ts.avc.inf4h / nrow(AVC)
+
+#---------------------- Chiffres ---------------------------------------------------------------
+#---------------------- Chiffres ---------------------------------------------------------------
 ```
 
 - Durée de passage (HORS UHCD) année N: moyenne __`r mean.ts.avc`__ minutes, et médiane __`r median.ts.avc`__ minutes.
@@ -894,6 +992,8 @@ MODE DE SORTIE
 ```{r avc_mode_sortie}
 avc.sortie <- tab1(factor(AVC$MODE_SORTIE), main = "AVC - Mode de sortie")
 
+#---------------------- Chiffres ---------------------------------------------------------------
+#---------------------- Chiffres ---------------------------------------------------------------
 ```
 
 - % d’hospitalisation: `r avc.sortie$output.table[1,3] + avc.sortie$output.table[2,3]` %
@@ -901,11 +1001,36 @@ avc.sortie <- tab1(factor(AVC$MODE_SORTIE), main = "AVC - Mode de sortie")
 - % de transfert: `r avc.sortie$output.table[2,3]` %
 - % de retour à domicile: `r avc.sortie$output.table[3,3]` %
 
-Oientation
+Orientation
 ----------
 - Répartition par orientation en pourcentage, année N
+
 ```{r avc_orientation}
-summary(AVC$ORIENTATION)
+s.avc <- summary(factor(AVC$ORIENTATION))
+avc.chir <- s.avc['CHIR']
+avc.fugue <- s.avc['FUGUE']
+avc.hdt <- s.avc['HDT']
+avc.ho <- s.avc['HO']
+avc.med <- s.avc['MED']
+avc.obst <- s.avc['OBST']
+avc.psa <- s.avc['PSA']
+avc.rea <- s.avc['REA']
+avc.reo <- s.avc['REO']
+avc.sc <- s.avc['SC']
+avc.scam <- s.avc['SCAM']
+avc.si <- s.avc['SI']
+avc.uhcd <- s.avc['UHCD']
+avc.na <- s.avc["NA's"]
+
+#---------------------- Chiffres ---------------------------------------------------------------
+#---------------------- Chiffres ---------------------------------------------------------------
+
+```
+
+test Stargazer:
+
+```{r star_orientation, echo=FALSE, results='asis'}
+stargazer(s.avc, title = "Orientation des AVC", label = "orientation")
 
 ```
 
@@ -919,6 +1044,11 @@ Doublons ?
 - TOP 5 pourcentage par code CIM 10, année N
 - Répartition we/semaine en pourcentage, année N
 - Répartition par tranche heure en pourcentage, année N
+
+```{r enregistre_chiffres, echo=FALSE}
+write.csv(chiffres, row.names = names(chiffres), file = paste("chiffres_", anc, ".csv", sep = ""))
+```
+
 
 ANNEXES
 =======

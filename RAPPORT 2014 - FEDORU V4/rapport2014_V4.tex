@@ -93,7 +93,7 @@
 \setcounter{tocdepth}{2}
 \tableofcontents
 }
-Version mse à jour le: \textbf{Sat Jun 20 20:07:10 2015}
+Version mse à jour le: \textbf{Sun Jun 21 15:00:54 2015}
 
 \section{Activité des structures d'urgences : panorama 2014 de la région
 ALSACE}\label{activite-des-structures-durgences-panorama-2014-de-la-region-alsace}
@@ -667,8 +667,10 @@ d'urgences}\label{les-chiffres-cles-de-lactivite-avc-des-services-durgences}
 \item
   Moyenne quotidienne d'AVC: \textbf{8,1 AVC/j}
 \item
-  \% d'AVC dans l'activité globale: \textbf{1.19 \%} PATIENTS --------
+  \% d'AVC dans l'activité globale: \textbf{1.19 \%}
 \end{itemize}
+
+\subsection{PATIENTS}\label{patients-3}
 
 \begin{verbatim}
 ## c.age
@@ -827,7 +829,7 @@ notamment \textbf{temps de passage}.
   \% de retour à domicile: 12.7 \%
 \end{itemize}
 
-\subsection{Oientation}\label{oientation}
+\subsection{Orientation}\label{orientation}
 
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
@@ -835,12 +837,24 @@ notamment \textbf{temps de passage}.
   Répartition par orientation en pourcentage, année N
 \end{itemize}
 
-\begin{verbatim}
-##  CHIR FUGUE   HDT    HO   MED  OBST   PSA   REA   REO    SC  SCAM    SI 
-##    75     1     0     1   720     0     0    68     0    46     9   361 
-##  UHCD        NA's 
-##   919     0   749
-\end{verbatim}
+test Stargazer:
+
+\% Table created by stargazer v.5.1 by Marek Hlavac, Harvard University.
+E-mail: hlavac at fas.harvard.edu \% Date and time: Dim, jui 21, 2015 -
+15:02:32
+
+\begin{table}[!htbp] \centering 
+  \caption{Orientation des AVC} 
+  \label{orientation} 
+\begin{tabular}{@{\extracolsep{5pt}} cccccccccc} 
+\\[-1.8ex]\hline 
+\hline \\[-1.8ex] 
+CHIR & FUGUE & HO & MED & REA & SC & SCAM & SI & UHCD & NA's \\ 
+\hline \\[-1.8ex] 
+$75$ & $1$ & $1$ & $720$ & $68$ & $46$ & $9$ & $361$ & $919$ & $749$ \\ 
+\hline \\[-1.8ex] 
+\end{tabular} 
+\end{table}
 
 \subsection{Doublons ?}\label{doublons}
 
@@ -883,18 +897,19 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] openintro_1.4     epicalc_2.15.1.0  nnet_7.3-9       
- [4] MASS_7.3-41       survival_2.38-2   foreign_0.8-63   
- [7] R.utils_2.1.0     R.oo_1.19.0       R.methodsS3_1.7.0
-[10] xts_0.9-7         zoo_1.7-12        plotrix_3.5-12   
-[13] lubridate_1.3.3   knitr_1.10.5     
+ [1] openintro_1.4     xtable_1.7-4      stargazer_5.1    
+ [4] epicalc_2.15.1.0  nnet_7.3-9        MASS_7.3-41      
+ [7] survival_2.38-2   foreign_0.8-63    R.utils_2.1.0    
+[10] R.oo_1.19.0       R.methodsS3_1.7.0 xts_0.9-7        
+[13] zoo_1.7-12        plotrix_3.5-12    lubridate_1.3.3  
+[16] knitr_1.10.5     
 
 loaded via a namespace (and not attached):
- [1] codetools_0.2-11 digest_0.6.8     evaluate_0.7     formatR_1.2     
- [5] grid_3.1.3       highr_0.5        htmltools_0.2.6  lattice_0.20-31 
- [9] magrittr_1.5     memoise_0.2.1    plyr_1.8.3       Rcpp_0.11.6     
-[13] rmarkdown_0.7    splines_3.1.3    stringi_0.4-1    stringr_1.0.0   
-[17] tools_3.1.3      yaml_2.1.13     
+ [1] digest_0.6.8    evaluate_0.7    formatR_1.2     grid_3.1.3     
+ [5] highr_0.5       htmltools_0.2.6 lattice_0.20-31 magrittr_1.5   
+ [9] memoise_0.2.1   plyr_1.8.3      Rcpp_0.11.6     rmarkdown_0.7  
+[13] splines_3.1.3   stringi_0.4-1   stringr_1.0.0   tools_3.1.3    
+[17] yaml_2.1.13    
 \end{verbatim}
 
 \begin{verbatim}
