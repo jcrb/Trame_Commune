@@ -17,6 +17,19 @@ output:
 
 Version mse à jour le: __`r date()`__
 
+Ajout de la dernière versin de Gilles 
+
+- nombre de passages pour 10.000 hab.
+- nombre de SU pour 10.000 hab.
+- nombre de lignes SMUR financées par une MIG
+- nombre de siège de SMUR dont SMUR saisonnier dont antenne SMUR dont hélismur
+- séparer privés lucratifs et ESPIC
+- nombre de logicels et ombre de SU par région
+- SAE 2014 ?
+- augmentation par rapport année N-1 en tenant compte uniquement des établissements "stables"
+- séparer chu et non chu, samu de chu et de non chu
+- retour attendu pour le 4/9
+
 ```{r titre, echo=FALSE}
 anc <- 2014 # année courante
 ```
@@ -168,7 +181,8 @@ tx.masculinite <- n.hommes / (n.hommes + n.femmes)
 val <- c(p.femme, p.homme, n.femmes, n.hommes, tx.masculinite)
 names(val) <- c("p.femme", "p.homme", "n.femmes", "n.hommes", "tx.masculinite")
 chiffres <- c(chiffres, val)
-#---------------------- Chiffres end ------------------------------------------------------------
+#---------------------- Chiffres end -----------------------------------------------------------
+
 ```
 
 - %(N) Femme [C]: `r round(p.femme, 2)` % (`r format(sexe['F'], big.mark = " ")`)
@@ -227,7 +241,8 @@ f <- as.vector(100 * table(a[dx$SEXE == "F"])/n.rpu)
 pyramid.plot(h,f, labels = names(table(a)), top.labels = c("Hommes", "Age", "Femmes"), main = "Pyramide des ages", lxcol = "light green", rxcol = "khaki1")
 
 #---------------------- Chiffres ---------------------------------------------------------------
-#---------------------- Chiffres end ------------------------------------------------------------
+#---------------------- Chiffres end -----------------------------------------------------------
+
 ```
 
 ### Taux de recours (définition FEDORU) régional aux urgences. [S]
@@ -239,7 +254,11 @@ residents <- sum(sapply(dx$CODE_POSTAL, is.cpals))
 tarru <- residents * 100 / pop.als.tot
 
 #---------------------- Chiffres ---------------------------------------------------------------
-#---------------------- Chiffres end ------------------------------------------------------------
+val <- c(pop.als.tot, residents, tarru)
+names(val) <- c("pop.als.tot", "residents", "TARRU")
+chiffres <- c(chiffres, val)
+#---------------------- Chiffres end -----------------------------------------------------------
+
 ```
 
 TARRU: __`r tarru`%__ (ref: population alsacienne `r anc`)
@@ -253,6 +272,9 @@ n.org_als <- length(org_als)
 p.org_als <- n.org_als / n.rpu
 
 #---------------------- Chiffres ---------------------------------------------------------------
+val <- c(n.org_als, p.org_als)
+names(val) <- c("nb_etrangers", "p_etrangers")
+chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 ```
 
@@ -295,6 +317,9 @@ n.passages.nuit.profonde <- length(nuit.profonde)
 p.passages.nuit.profonde <- n.passages.nuit.profonde / n.passages
 
 #---------------------- Chiffres ---------------------------------------------------------------
+val <- c(n.passages,n.passages.nuit, p.passages.nuit, n.passages.nuit.profonde, p.passages.nuit.profonde)
+names(val) <- c("Passages.48H", "Passages.N", "Passages.NP", "%Passages.N", "%Passages.NP")
+chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 ```
 
@@ -306,13 +331,16 @@ p.passages.nuit.profonde <- n.passages.nuit.profonde / n.passages
 load("~/Documents/RESURAL/Trame_Commune/horaires_pds.Rda")
 s.pds <- summary(as.factor(h.pds))
 p.s.pds <- prop.table(s.pds)
-n.pds <- p.s.pds["PDSS"] + p.s.pds["PDSWE"] # nombre de passages aux haoraires de PDS
+p.pds <- p.s.pds["PDSS"] + p.s.pds["PDSWE"] # nombre de passages aux haoraires de PDS
 
 #---------------------- Chiffres ---------------------------------------------------------------
+val <- c(p.pds)
+names(val) <- c("Passages.PDS")
+chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 ```
 
-- %  passages en horaire de PDS: `r n.pds * 100` % (Remarque: ne tient pas compte des jours fériés survenant en semaine)
+- %  passages en horaire de PDS: `r p.pds * 100` % (Remarque: ne tient pas compte des jours fériés survenant en semaine)
 
 ### Moyens d'arrivée
 ```{r transpport, echo=FALSE, comment=""}
@@ -333,6 +361,9 @@ p.transport.smur <- transport['SMUR'] / n.transport
 p.transport.vsab <- transport['VSAB'] / n.transport
 
 #---------------------- Chiffres ---------------------------------------------------------------
+val <- c(n.transport, n.transport.perso, n.transport.ambu, n.transport.fo, n.transport.heli, n.transport.smur, n.transport.vsab, p.transport.perso, p.transport.ambu, p.transport.fo, p.transport.heli, p.transport.smur, p.transport.vsab)
+names(val) <- c("n.transport", "PERSO", "AMBU", "FO", "HELI", "SMUR", "VSAB", "p.PERSO", "P.AMBU", "p.FO", "p.HELI", "p.SMUR", "p.VSAB")
+chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 ```
 
@@ -358,6 +389,9 @@ n.ccmu.p <- ccmu[7]
 p.ccmu.p <- n.ccmu.p / s.ccmu
 
 #---------------------- Chiffres ---------------------------------------------------------------
+val <- c(NA)
+names(val) <- c("")
+chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 ```
 
@@ -404,6 +438,9 @@ p.duree.inf.4h <- n.duree.inf.4h / n.duree
 iqr.duree <- s.duree['3rd Qu.'] - s.duree['1st Qu.']
 
 #---------------------- Chiffres ---------------------------------------------------------------
+val <- c(NA)
+names(val) <- c("")
+chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 ```
 
@@ -439,6 +476,9 @@ p.hospitalises <- n.hospitalises / n.mode.sortie
 p.deces <- mode.sortie['DCD'] / n.mode.sortie
 
 #---------------------- Chiffres ---------------------------------------------------------------
+val <- c(NA)
+names(val) <- c("")
+chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 ```
 
@@ -461,6 +501,9 @@ smur_neonat <- 537
 assu <- 46031
 
 #---------------------- Chiffres ---------------------------------------------------------------
+val <- c(NA)
+names(val) <- c("")
+chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 
 ```
@@ -500,6 +543,9 @@ mean.rpu18 <- n.rpu18 / n.jours # Moyenne quotidienne de passages
 p.rpu18 <- n.rpu18 * 100 / n.rpu # Taux d'urgences gériatriques
 
 #---------------------- Chiffres ---------------------------------------------------------------
+val <- c(NA)
+names(val) <- c("")
+chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 ```
 
@@ -546,6 +592,9 @@ tx.masculinite18 <- n.hommes18 / (n.hommes18 + n.femmes18)
 # a
 
 #---------------------- Chiffres ---------------------------------------------------------------
+val <- c(NA)
+names(val) <- c("")
+chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 ```
 
@@ -572,6 +621,9 @@ mean.rpu75 <- n.rpu75 / n.jours # Moyenne quotidienne de passages
 p.rpu75 <- n.rpu75 * 100 / n.rpu # Taux d'urgences gériatriques
 
 #---------------------- Chiffres ---------------------------------------------------------------
+val <- c(NA)
+names(val) <- c("")
+chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 
 ```
@@ -618,6 +670,9 @@ colnames(a) <- c("effectif", "moyenne par jour ","médiane par jour", "sex ratio
 a
 
 #---------------------- Chiffres ---------------------------------------------------------------
+val <- c(NA)
+names(val) <- c("")
+chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 
 ```
@@ -652,6 +707,9 @@ n.pds <- s.pds["PDSS"]+ s.pds["PDSWE"]# nb RPU en PDS = PDS semaine + pds WE
 p.pds <- n.pds * 100 / n.rpu75
 
 #---------------------- Chiffres ---------------------------------------------------------------
+val <- c(NA)
+names(val) <- c("")
+chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 
 ```
@@ -675,6 +733,9 @@ n.moy.na.75 <- as.integer(moy["NA's"])
 p.moy.na.75 <- n.moy.na.75 * 100 / n.rpu75 # ne tient pas compte des NA
 
 #---------------------- Chiffres ---------------------------------------------------------------
+val <- c(NA)
+names(val) <- c("")
+chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 
 ```
@@ -696,6 +757,9 @@ p.ccmu75.1 <- n.ccmu75.1 * 100 / n.rpu75
 p.ccmu75.45 <- n.ccmu75.45 * 100 / n.rpu75
 
 #---------------------- Chiffres ---------------------------------------------------------------
+val <- c(NA)
+names(val) <- c("")
+chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 
 ```
@@ -769,6 +833,9 @@ boxplot(passages75$duree ~ passages75$DEVENIR, outline = FALSE, ylab = "Durée d
 text(1.5,500,"p < 0.001", cex = 0.8, col = "red")
 
 #---------------------- Chiffres ---------------------------------------------------------------
+val <- c(NA)
+names(val) <- c("")
+chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 
 ```
@@ -798,6 +865,9 @@ p.dom.75 <- n.dom.75 * 100 / n.rpu75
 tab1(pop75$MODE_SORTIE, sort.group = "decreasing", cex = 0.6, cex.names = 0.8, main = "Mode de sortie et Age sup.ou égal à 75 ans")
 
 #---------------------- Chiffres ---------------------------------------------------------------
+val <- c(NA)
+names(val) <- c("")
+chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 
 ```
@@ -816,6 +886,9 @@ source('~/Documents/Stat Resural/RPU_2014/Analyse/Temps_passage/passage.R')# pou
 d3$DPAS <- duree.passage(d3$ENTREE, d3$SORTIE)
 
 #---------------------- Chiffres ---------------------------------------------------------------
+val <- c(NA)
+names(val) <- c("")
+chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 
 ```
@@ -833,6 +906,9 @@ AVC$etiologie <- as.factor(AVC$etiologie)
 n.avc <- nrow(AVC)
 
 #---------------------- Chiffres ---------------------------------------------------------------
+val <- c(NA)
+names(val) <- c("")
+chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 
 ```
@@ -856,6 +932,9 @@ table(c.age)
 barplot(table(c.age), las = 2, cex.names = 0.8)
 
 #---------------------- Chiffres ---------------------------------------------------------------
+val <- c(NA)
+names(val) <- c("")
+chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 ```
 
@@ -882,6 +961,9 @@ rbind(levels(x2), table(x))
 avc.pds <- tab1(x, cex.names = 0.8, main = "Heure d'admission des AVC", bar.values = "percent", ylab = "%")
 
 #---------------------- Chiffres ---------------------------------------------------------------
+val <- c(NA)
+names(val) <- c("")
+chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 
 ```
@@ -897,6 +979,9 @@ avc.pds <- tab1(x, cex.names = 0.8, main = "Heure d'admission des AVC", bar.valu
 tapply(as.Date(AVC$ENTREE), AVC$FINESS, length)
 
 #---------------------- Chiffres ---------------------------------------------------------------
+val <- c(NA)
+names(val) <- c("")
+chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 ```
 
@@ -916,6 +1001,9 @@ rownames(a) <- c("Nombre AVC", "% AVC")
 kable(a)
 
 #---------------------- Chiffres ---------------------------------------------------------------
+val <- c(NA)
+names(val) <- c("")
+chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 ```
 
@@ -935,6 +1023,9 @@ p.avc.moyen <- round(prop.table(n.avc.moyen)*100, 2)
 # p.avc.moyen
 
 #---------------------- Chiffres ---------------------------------------------------------------
+val <- c(NA)
+names(val) <- c("")
+chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 
 ```
@@ -953,6 +1044,9 @@ dp.avc <- rbind(t.diag, p.diag)
 rownames(dp.avc) <- c("nombre","%")
 
 #---------------------- Chiffres ---------------------------------------------------------------
+val <- c(NA)
+names(val) <- c("")
+chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 
 ```
@@ -980,6 +1074,9 @@ n.ts.avc.inf4h <- length(ts.avc < 4 * 60) # nombre AVC restés mons de 4 heures 
 p.ts.avc.inf4h <- n.ts.avc.inf4h / nrow(AVC)
 
 #---------------------- Chiffres ---------------------------------------------------------------
+val <- c(NA)
+names(val) <- c("")
+chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 ```
 
@@ -993,6 +1090,9 @@ MODE DE SORTIE
 avc.sortie <- tab1(factor(AVC$MODE_SORTIE), main = "AVC - Mode de sortie")
 
 #---------------------- Chiffres ---------------------------------------------------------------
+val <- c(NA)
+names(val) <- c("")
+chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 ```
 
@@ -1023,13 +1123,14 @@ avc.uhcd <- s.avc['UHCD']
 avc.na <- s.avc["NA's"]
 
 #---------------------- Chiffres ---------------------------------------------------------------
+val <- c(NA)
+names(val) <- c("")
+chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 
 ```
 
-test Stargazer:
-
-```{r star_orientation, echo=FALSE, results='asis'}
+```{r star_orientation, echo=FALSE, results='asis', comment=FALSE}
 stargazer(s.avc, title = "Orientation des AVC", label = "orientation")
 
 ```
