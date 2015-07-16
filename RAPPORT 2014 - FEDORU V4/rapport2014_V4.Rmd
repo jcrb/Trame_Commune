@@ -17,14 +17,14 @@ output:
 
 Version mse à jour le: __`r date()`__
 
-Ajout de la dernière versin de Gilles 
+Ajout de la dernière version de Gilles 
 
 - nombre de passages pour 10.000 hab.
 - nombre de SU pour 10.000 hab.
 - nombre de lignes SMUR financées par une MIG
 - nombre de siège de SMUR dont SMUR saisonnier dont antenne SMUR dont hélismur
 - séparer privés lucratifs et ESPIC
-- nombre de logicels et ombre de SU par région
+- nombre de logicels et nombre de SU par région
 - SAE 2014 ?
 - augmentation par rapport année N-1 en tenant compte uniquement des établissements "stables"
 - séparer chu et non chu, samu de chu et de non chu

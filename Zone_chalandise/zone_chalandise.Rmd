@@ -1,0 +1,246 @@
+---
+title: "Zone de chalandise"
+author: "jcb"
+date: "12 juillet 2015"
+output:
+  html_document:
+    number_sections: yes
+    toc: yes
+---
+
+```{r init, echo=FALSE}
+library(sp)
+
+# routine chalandise
+# source('~/Documents/RESURAL/Trame_Commune/Rapport/rapport_2014.R')
+source('~/Documents/RESURAL/Trame_Commune/Zone_chalandise/zone_chalandise.R')
+
+# on supprime les marges pour les cartes
+par(mar = c(0,0,0,0))
+
+# variables`
+# cp67 spatialPolygon = cartographie + BD des codes postaux du bas-rhin
+# cp.hus liste des CP des patients ayant consulté aux HUS et le nb de patients correspondants
+```
+
+L'objet est de représenter graphiquement les zones de provenance des patients consultants aux urgences. Le premier découpage utilisé sont les zones définies par les codes postaux, indication figurant dans le RPU. On dispose d'un fichier Shapefile représentant les zones de CP pour toute la France (source Open Date). A partir de ce fichier on été crées:
+
+- __cp67.Rda__ shapefile pour le bas-Rhin
+- __cp68.Rda__ shapefile pour le haut-Rhin
+- __cp.alsace.Rda__ shapefile pour l'Alsace
+
+Voir __carto&pop.Rmd__, paragraphe _Codes Postaux_ pour les détails de la création des fichiers shapefile.
+
+Codes postaux du 67
+===================
+La base de données attachée au fichier donne les indications suivantes:
+
+```{r cp67, echo=FALSE}
+# cartographie des CP du bas-Rhin
+file <- "~/Documents/Stat Resural/carto&pop/cp67.Rda"
+load(file) # données = cp67
+# base de données associée
+data.cp <- cp67@data
+names(data.cp)
+
+# correction des caractères accentués (nom descommunes), les données provenant de windows...
+# si les données sont de type factor, il faut d'abord les transcoder en character
+b <- as.character(cp67@data$LIB)
+Encoding(b) <- "latin1"
+cp67@data$LIB <- b
+
+
+```
+
+- ID: code postal
+- LIB: libellé su CP (nom de la commune)
+- DEP: n° du département
+- SURF: surface de la zone
+- POP2010: population 2010
+- X_COL6: nombre de ménages
+
+On peut calculer un __Taux de Recours__: nombre de passages dans les structures d'urgence de la zone de patients originaires d'une zone donnée divisé par la population estimée de la même zone sur une période donnée.
+
+Il faut donc connaître le nombre de RPU enregistré durant la période pour une zone donnée.
+
+Ici la zone est l'aire couverte par le code postal (CP).
+
+Récupération de RPU créés
+=========================
+Le nombre de RPU pour un CP peut être extrait de la base RPU.
+
+```{r rpu, echo=FALSE}
+# on récupère les RPU de 2014 (d14)
+load("~/Documents/Stat Resural/RPU_2014/rpu2014d0112_c2.Rda")
+```
+
+Liste des CP et des RPU
+-----------------------
+
+On forme cp.hus, un dataframe à 2 colonnes (CP, RPU) contenant le nombre de RPU pour un code postal donné résultant d'une consutation aux HUS. On a nrow(cp.hus) = 100 => les RPU des HUS en 2014 proviennent de 100 zones postales différentes.
+
+L'objectif est de pouvoir réaliser une jointure (merge) entre cette matrice et data.cp pour disposer d'une table attributaire permettant d'effectuer des calculs entre des données RPU et des données géographiques (comme calculer la taux de recours).
+
+La fonction chalandise permet de créer ce dataframe.
+```{r cp_rpu, echo=FALSE, comment=""}
+hop <- "Sel"
+cp.hus <- chalandise(d14, hop)
+head(cp.hus)
+```
+
+Jointure cp67 et FINESS
+------------------------
+On réalise un merging entre __data.cp__ et __cp.hus__ grace à la méthode __attrbJoin__ qui utilise _match_ à la place de _merge_ (la fonction _merge_ ne conserve pas toujours l'ordre des lignes.)
+
+Note: la jointure ne concerne que la table attributaire (cp67@data) qui se voit ajouter les colonnes RPU et CP (la colonne CP est redondante avec la colonne ID).
+
+```{r merging, echo=FALSE}
+
+cp67 <- attribJoin(df = cp.hus, spdf = cp67, df.field = "CP", spdf.field = "ID")
+data.cp67 <- cp67@data # partie attributaire
+
+```
+Calcul des taux de recours
+--------------------------
+La table attributaire possède 2 colonnes, POP2010 pour la population de la zone du code postal et RPU contenant le nombre de personnes de la zone ayant eu recours au SU du secteur. Le rapport des deux fournit le taux de recours qui est stoké dans une colonne supplémentaire de la table attributaire.
+
+Le programme affiche en jaune les zones où au moins 1 patient à eu recours au SU de la zone et un chiffre correspondant au taux de recours.
+
+```{r taux, echo=FALSE, comment="", fig.height=10}
+# calcul du taux de recours = RPU / POP2010
+cp67@data$TAUX <- cp67@data$RPU / cp67@data$POP2010 # exprimé en %
+
+summary(cp67@data$TAUX)
+
+# on colorie en jaune les CP qui ont eu recours aux HUS
+old <- par()
+par(mar = c(0,0,0,0))
+plot(cp67, col = ifelse(!is.na(cp67@data$TAUX), "yellow", "white"))
+p <- coordinates(cp67)
+text(p[,1], p[,2], round(cp67@data$TAUX * 100, 0), cex =0.6)
+par <- old
+```
+
+
+Cartographie selon le taux de recours
+=====================================
+
+Le programme affiche une carte où les CP sont coliriés avec une échelle de couleur progressive en fonction du taux de recours.
+
+L'échelle de couleur est crée à partir de la librairie __RColorBrewer__ sur la base d'une palette de neuf nuances.
+
+Les taux de recours sont discrédités en 5 niveaux pour rester compatible avec les cartes ORUCA. Cependant il n'a pas été possible de conserver leur niveaux de découpage, le taux de recours en Alsace ne dépassant pas 25%.
+
+```{r nuancier, echo=FALSE, fig.height=10}
+library(RColorBrewer)
+
+# heatpal <- heat.colors(5) # 5 couleurs orange, pas utilisé.
+
+# découpage en quantiles entre 0 et 15% => paliers de 3%
+#q <- quantile(cp67@data$TAUX, probs = seq(0, 1, 0.2), names = TRUE, na.rm = TRUE)
+#q <- cut(cp67@data$TAUX, breaks = c(0, 0.02, 0.11, 0.2, 0.29, 0.38, 1), names = TRUE, na.rm = TRUE)
+
+# on fixe un découpage identique à celui de l'ORUCA pas applicable
+# q <- c(0, 0.02, 0.11, 0.2, 0.29, 0.38, 1)
+
+# choix pour Alsace -> devrait le normaliser pour 10.000 habitant
+q <- c(0, 0.01, 0.05, 0.10, 0.15, 0.20, 1)
+names <- c("< 1 %", "1-5 %", "5-10 %", "10-15 %", "15-20 %", "> 20 %")
+
+# palette de length(q) - 1 couleurs
+greypal <- brewer.pal(n = length(q) - 1, name = "Oranges")
+
+q2 <- as.character(cut(cp67@data$TAUX, breaks = q, labels = greypal, include.lowest = TRUE, right = FALSE))
+
+#q2 <- as.character(cut(cp67@data$TAUX, breaks = q, labels = greypal, include.lowest = TRUE, right = FALSE))
+
+plot(cp67, col = q2, main = "Taux de recours au SU des HUS")
+
+# legendQ5 crée un affichage sous forme d'intervalles. Remplacé par names (cf.supra)
+# legendQ5 <- as.character(levels(cut(cp67@data$TAUX * 100, breaks = q * 100, include.lowest = TRUE, right = FALSE)))
+# legendQ5 <- paste(legendQ5, "%")
+
+legend("bottomright", legend = names, bty="n", fill=greypal, cex=0.8, title="Taux de recours au SU")
+
+# échelle
+arrows(par()$usr[1]+1000, par()$usr[3]+1000, par()$usr[1]+10000, par()$usr[3]+1000, lwd = 2, code = 3, angle = 90, length = 0.05)
+text(par()$usr[1]+5050, par()$usr[3]+2700, "10 km", cex = 0.8)
+
+# REMARQUES
+# - pour avoir le tracé des axes ajouter axes = TRUE dans plot
+# - pour récupérer le viewport: bbox <- cp67@bbox
+# - bbox        min     max
+#         x  988703 1082671
+#         y 6789870 6895581
+# - pour zoomer sur un secteur, jouer sur les dimensions du viewport
+#         par(mar = c(2,2,3,1))
+#         cp67@bbox[2,1] <- 6800000
+#         plot(cp67, col = q2, main = "Taux de recours au SU des HUS", axes = TRUE)
+# - carroyage: abline(v = seq(bbox["x","min"], bbox["x","max"], 10000), lty = 2, col = "black")
+#              abline(h = seq(bbox["y","min"], bbox["y","max"], 10000), lty = 2, col = "black")
+
+
+
+```
+
+
+```{r}
+# affiche la carte des CP
+plot(cp67)
+
+a <- names(cp.hus)
+
+# colorie les CP en rouge si ont consultés les HUS
+plot(cp67, col = ifelse(cp67$ID %in% a, "red", "white"))
+
+```
+
+Dessiner avec des nuances de couleur selon la fréquentation
+
+```{r}
+# # palette de 5 couleurs
+# greypal <- heat.colors(5)
+# # découpage en quintiles
+# q <- quantile(cp.hus$RPU, probs = seq(0, 1, 0.2), names = TRUE)
+# head(q)
+# q2 <- as.character(cut(cp.hus$RPU, breaks = q, labels = greypal, include.lowest = TRUE, right = FALSE))
+# plot(cp67, col = ifelse(cp67$ID %in% a, q2, "white"))
+
+```
+
+Fusion des CP
+=============
+
+```{r fusion, echo=FALSE}
+library(maptools)
+contour3<-unionSpatialPolygons(cp67,IDs=cp67@data$DEP)
+plot(contour3)
+
+# combinaison de graphiques avec Add = TRUE
+plot(cp67)
+plot(contour3, lwd = 3, border = "blue", add = TRUE)
+
+```
+
+Récupérer les coordonnées des polygones
+=======================================
+
+La méthode __coordinates__ récupère les coordonées des opjets contenus dans l'objet spatial.
+
+```{r coordonees, echo=FALSE}
+a <- as.data.frame(coordinates(cp67))
+names(a)
+head(a)
+```
+
+Coordonnées du rectangle englobant
+==================================
+
+La méthode __bbox__ retourne une matrice carrée contenant les coordonnées des 4 points limitant le rectangle englobant la carte.
+
+```{r bbox, echo=FALSE}
+b <- bbox(cp67)
+b
+
+```
+

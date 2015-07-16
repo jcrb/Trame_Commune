@@ -372,3 +372,43 @@ pds <- function(dx){
     
     return(temp)
 }
+
+# faire un tableau de complétude par jour pendant une période donnée
+# Permetde suivre les taux de complétude pour une structure et par période
+#'@param dx dataframe de type RPU
+#'@param d1 date de début
+#'@param d2 date de fin
+#'@param finess =  NULL ou un des finess abrégés autorisés. Si NULL, dx doit être spécifique
+#'                 d'un établissement.
+#'@usage hus <- d15[d15$FINESS == hus,]
+#'       d1 <- as.Date("2015-01-01")
+#'       d2 <- as.Date("2015-01-31")
+#'       t <- tab.completude(hus, d1, d2)
+#'       plot(t[,"DATE DE SORTIE"], type = "l", main = "Mode de sortie", ylab = "Taux de completude")
+#'       t.zoo <- zoo(t) # nécessite la librairie zoo
+#'       plot(xts(t.zoo$DP, order.by = as.Date(rownames(t.zoo))), las = 2, 
+#'              main = "Diagnostic principal", ylab = "Taux de completude", cex.axis = 0.8)
+#'      boxplot(t, las = 2, cex.axis = 0.8, ylab = "% de completude", main = "Complétude RPU")
+
+
+
+tab.completude <- function(dx, d1, d2, finess = NULL){
+    periode <- seq(as.Date (d1), as.Date(d2), 1)
+    n <- length(periode)
+    if(!is.null(finess)){
+        dx <- dx[dx$FINESS == finess,]
+    }
+    tab <- completude(dx[as.Date(dx$ENTREE) == d1,])
+    for(i in 2:n){
+        j <- dx[as.Date(dx$ENTREE) == periode[i],]
+        k <- completude(j)
+        tab <- rbind(tab, k)
+    }
+    #tab <- data.frame(tab)
+    rownames(tab) <- as.character(periode)
+    return(tab)
+}
+
+
+
+
