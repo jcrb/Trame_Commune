@@ -58,14 +58,26 @@ format.n <- function(x){
 #'@keywords complétude
 #'@family RPU
 #'@param dx Un dataframe
+#'#'@param calcul 2 options "percent" (défaut) ou "somme". Somme = nb de réponses
+#'        non nulles. Percent = % de réponses non nulles.
 #'@param tri si tri = TRUE (defaut) les colonnes sont triées par ordre croissant.
 #'@return vecteur des taux de complétude
 #'@example todo
 #'@export
 
-completude <- function(dx, tri = FALSE){
+completude <- function(dx, calcul = "percent", tri = FALSE){
+    # calcul du % ou de la somme
+    percent <- function(x){round(100 * mean(!is.na(x)),2)}
+    somme <- function(x){sum(!is.na(x))}
+    "%!in%" <- function(x, y) x[!x %in% y]
+    
+    if(calcul == "percent")
+        fun <- percent
+    else
+        fun <- somme
+    
     #' complétude brute. Des corrections sont nécessaires pour DESTINATION
-    completude <- apply(dx, 2, function(x){round(100 * mean(!is.na(x)),2)})
+    completude <- apply(dx, 2, fun)
     
     #' correction pour Destination et Orientation
     #' Les items DESTINATION et ORIENTATION ne s'appliquent qu'aux patients hspitalisés. 
@@ -75,15 +87,16 @@ completude <- function(dx, tri = FALSE){
     #' On ne retient donc que le sous ensemble des patients hospitalisés pour lesquels les rubriques 
     #' DESTINATION et ORIENTATION doivent être renseignées.
     hosp <- dx[dx$MODE_SORTIE %in% c("Mutation","Transfert"), c("DESTINATION", "ORIENTATION")]
-    completude.hosp <- apply(hosp, 2, function(x){round(100 * mean(!is.na(x)),2)})
+    completude.hosp <- apply(hosp, 2, fun)
     completude['ORIENTATION'] <- completude.hosp['ORIENTATION']
     completude['DESTINATION'] <- completude.hosp['DESTINATION']
     
     #' Correction pour DP. Cette rubrique ne peut pas être remplie dans le cas où ORIENTATION =
     #' FUGUE, PSA, SCAM, REO
-    "%!in%" <- function(x, y) x[!x %in% y]
-    dp <- dx[dx$ORIENTATION %!in% c("FUGUE","PSA","SCAM","REO"),]
-    completude['DP'] <- mean(!is.na(dx$DP)) * 100
+    # exemple d'utilisation de NOT IN
+    dp <- dx[!(dx$ORIENTATION %in% c("FUGUE","PSA","SCAM","REO")), "DP"]
+    # completude['DP'] <- mean(!is.na(dx$DP)) * 100 # erreur remplacer !is.na(dx$DP) par !is.na(dp$DP)
+    completude['DP'] <- fun(dp)
 
     # réorganise les données dans l'ordre de la FEDORU
     completude <- reorder.vector.fedoru(completude)
