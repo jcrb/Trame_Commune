@@ -83,8 +83,8 @@ L'objectif est de pouvoir réaliser une jointure (merge) entre cette matrice et 
 
 La fonction chalandise permet de créer ce dataframe.
 ```{r cp_rpu, echo=FALSE, comment=""}
-hop <- "Sel"
-cp.hus <- chalandise(d14, hop)
+hop <- "Wis"
+cp.hus <- chalandise(d14, "CODE_POSTAL", hop)
 head(cp.hus)
 ```
 
@@ -244,3 +244,12 @@ b
 
 ```
 
+Cartes de base à mettre en stock
+=================================
+
+- codes postaux
+- communes, cantons, arrondissements
+- chef-lieux, préfectures, sous-préfectures
+- hopitaux, SAMU, SMUR, Hélismur, SMUR pédiatriques => cartographie de l'offre de soins
+- zones de proximité
+- territoires de santé
