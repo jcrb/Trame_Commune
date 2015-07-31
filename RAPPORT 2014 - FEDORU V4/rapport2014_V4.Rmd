@@ -113,7 +113,9 @@ Réalisation d’un diagramme radar présentant l’exhaustivité des items RPU.
 # on réordonne les colonnes (ordre FEDORU)
 dx2 <- dx[, c("FINESS","id","EXTRACT","CODE_POSTAL","COMMUNE","NAISSANCE","SEXE","ENTREE","MODE_ENTREE","PROVENANCE","TRANSPORT","TRANSPORT_PEC","SORTIE","MODE_SORTIE","DESTINATION","ORIENTATION","MOTIF","GRAVITE","DP")]
 
-comp <- completude(dx2)
+comp <- completude(dx2, calcul = "percent")
+s.comp <- completude(dx2, calcul = "somme")
+
 rm(dx2)
 
 # barplot
@@ -124,6 +126,13 @@ abline(v = 90, lty = 2, col = "red")
 # Tracé du diagrame en étoile
 par(mar =c (0,0,0,0))
 radar.completude(completude(dx))
+```
+
+Complétude en valeur absolue et en pourcentages:`
+```{r, echo=FALSE}
+s.comp
+
+comp
 ```
 
 Les chiffres clés de l’activité des services d’urgences
