@@ -93,7 +93,7 @@
 \setcounter{tocdepth}{2}
 \tableofcontents
 }
-Version mse à jour le: \textbf{Fri Jul 31 16:24:29 2015}
+Version mse à jour le: \textbf{Sat Aug 1 17:05:08 2015}
 
 Ajout de la dernière version de Gilles
 
@@ -274,7 +274,7 @@ d'urgences}\label{les-chiffres-cles-de-lactivite-des-services-durgences}
 
 \subsection{PATIENTS}\label{patients}
 
-\subsubsection{SEXE}\label{sexe}
+\subsubsection{Sexe}\label{sexe}
 
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
@@ -327,7 +327,7 @@ TARRU: \textbf{21.31\%} (ref: population alsacienne 2014)
 \subsubsection{\% de patients ne venant pas de la région (étranger
 compris)}\label{de-patients-ne-venant-pas-de-la-region-etranger-compris}
 
-4.43\%
+4.43\% (N = `r n.rpu - n.org\_als)
 
 \subsection{ARRIVÉE}\label{arrivee}
 
@@ -341,9 +341,15 @@ compris)}\label{de-patients-ne-venant-pas-de-la-region-etranger-compris}
 \item
   \% passages nuit profonde {[}C{]}: 11.09 \% (N = 41 500)
 \item
-  \% passages en horaire de PDS: 45.22 \% (Remarque: ne tient pas compte
-  des jours fériés survenant en semaine)
+  \% passages en horaire de PDS: 45.22 \%
+  \href{Remarque:\%20ne\%20tient\%20pas\%20compte\%20des\%20jours\%20fériés\%20survenant\%20en\%20semaine}{N
+  = 188454}
 \end{itemize}
+
+\subsubsection{Variations saisonnières}\label{variations-saisonnieres}
+
+Variation du nombre de RPU entre les mois d'été (juillet-août) et les
+autres mois de l'année: -5.82 \%
 
 \subsubsection{Moyens d'arrivée}\label{moyens-darrivee}
 
@@ -367,10 +373,17 @@ ci dessus ne fait pas 100 \%
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
 \item
+  nombre de CCMU renseignés: 339827
+\item
+  \textbf{\%(N) CCMU 1 } {[}C{]}: 15.21\% (n = 51 682)
+\item
   \textbf{\%(N) CCMU 1 et 2} {[}C{]}: 84.45\% (n = 286 979)
 \item
   \textbf{\%(N) CCMU 4 et 5} {[}C{]}: 1.28\% (n = 4 341)
 \end{itemize}
+
+Exhaustivité CCMU : - Nombre de RPU 2014 hors orientation = FUGUE, PSA
+et REO ayant un élément transmis pour la CCMU: 335889
 
 DIAGNOSTIC PRINCIPAL
 
@@ -393,17 +406,21 @@ Remarque: les chiffres sont dans le document
 
 \subsubsection{Durées de passage}\label{durees-de-passage}
 
+\includegraphics{rapport2014_V4_files/figure-latex/passages-1.pdf}
+
 \begin{itemize}
 \item
-  durée moyenne de passage 155 mn.
+  Nb de RPU dont la durée de passage est comprise entre 0 et 72h: 333397
 \item
-  écart-type: 171.59 mn.
+  durée moyenne de passage 156 mn.
 \item
-  médiane: 109 mn.
+  écart-type: 176.18 mn.
 \item
-  nombre de passages \textgreater{} 4 heures: 69 521 (18.69 \%).
+  médiane: 110 mn.
 \item
-  nombre de passages inférieurs ou égaux à 4 heures: 302 546 (81.31 \%).
+  nombre de passages \textgreater{} 4 heures: 62 888 (18.86 \%).
+\item
+  nombre de passages inférieurs ou égaux à 4 heures: 270 509 (81.14 \%).
 \item
   Lors d'une hospitalisation post-urgences (hospitalisation = mutation +
   transfert)
@@ -445,6 +462,12 @@ Remarque: les chiffres sont dans le document
   \% (N) Mutation: 22.72 \% (N = 76 999)
 \item
   \% (N) Transfert: 1.78 \% (N = 6 025)
+\item
+  Nb de RPU 2014 avec mode de sortie = 6 ou 7 (hospitalisation) avec un
+  élément transmis pour la destination: 82635
+\item
+  Nb de RPU 2014 avec mode de sortie = 6 ou 7 avec un élement transmis
+  pour l'orientation: 72898
 \end{itemize}
 
 \section{Les chiffres clés de l'activité des
@@ -836,7 +859,7 @@ urgences}\label{mode-darrivee-aux-urgences}
   expliquer que la somme des 4 pourcentages ci dessus ne fait pas 100 \%
 \end{itemize}
 
-\subsection{DIAGNOSTIC PRINCIPAL}\label{diagnostic-principal-1}
+\subsection{Diagnostic principal}\label{diagnostic-principal-1}
 
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
@@ -894,8 +917,8 @@ notamment \textbf{temps de passage}.
 \end{itemize}
 
 \% Table created by stargazer v.5.1 by Marek Hlavac, Harvard University.
-E-mail: hlavac at fas.harvard.edu \% Date and time: Ven, jul 31, 2015 -
-16:26:10
+E-mail: hlavac at fas.harvard.edu \% Date and time: Sam, aoû 01, 2015 -
+17:07:03
 
 \begin{table}[!htbp] \centering 
   \caption{Orientation des AVC} 

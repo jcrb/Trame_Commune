@@ -311,7 +311,7 @@ horaire <- function(date){
     return(hms(substr(date, 12, 20)))
 }
 
-# somution avec POSIXt
+# solution avec POSIXt
 horaire2 <- function(date){
     return(paste(as.POSIXlt(date)$hour, as.POSIXlt(date)$min, as.POSIXlt(date)$sec, sep=":"))
 }
