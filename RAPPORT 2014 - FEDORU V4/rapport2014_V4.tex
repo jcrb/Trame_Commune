@@ -93,7 +93,7 @@
 \setcounter{tocdepth}{2}
 \tableofcontents
 }
-Version mse à jour le: \textbf{Sat Aug 1 17:05:08 2015}
+Version mse à jour le: \textbf{Thu Aug 6 10:00:03 2015}
 
 Ajout de la dernière version de Gilles
 
@@ -522,14 +522,61 @@ ans)}\label{les-chiffres-cles-de-lactivite-pediatrique-des-services-durgences-mo
 
 \subsection{PATIENTS}\label{patients-1}
 
+\begin{verbatim}
+ AMBU    FO  HELI PERSO  SMUR  VSAB        NA's 
+ 2024    81    17 71809   706  3053     0 41523 
+\end{verbatim}
+
+\begin{verbatim}
+[1] 77690
+\end{verbatim}
+
+\begin{verbatim}
+[1] 94706
+\end{verbatim}
+
+\begin{verbatim}
+    1     2     3     4     5     D     P        NA's 
+24353 63361  6678   211    23     2    78     0 24507 
+\end{verbatim}
+
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
+\item
+  nombre de garçons: 65619
+\item
+  nombre de filles: 53590
 \item
   Sex ratio: 1.22
 \item
   Pyramide des âges (âge par année, borne supérieure toujours exclue)
 \item
   Par sous classes d'âge:
+\end{itemize}
+
+\subsubsection{horaires de passages
+pédiatriques}\label{horaires-de-passages-pediatriques}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  nombre de passages la nuit: 32677 (p = 27.41 \%)
+\item
+  nombre de passages en nuit profonde: 8660 (p = 7.26 \%)
+\end{itemize}
+
+\subsubsection{Durée de passage}\label{duree-de-passage}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  Nombre de RPU avec une heure de sortie conforme ({]}0-72h{[}: 95936
+\item
+  Durée moyenne de passage (en min): 121.3 mn
+\item
+  Durée médiane de passage (en min): 86 mn
+\item
+  Nombre de RPU dont la durée de passage est inférieure à 4h: 89071
 \end{itemize}
 
 \section{Les chiffres clés de l'activité gériatrique des services
@@ -749,6 +796,28 @@ d'urgences}\label{les-chiffres-cles-de-lactivite-avc-des-services-durgences}
   \% d'AVC dans l'activité globale: \textbf{1.19 \%}
 \end{itemize}
 
+\subsection{Répartition des AVC}\label{repartition-des-avc}
+
+Exemple d'utilisation de la méthode \emph{hist} appliquée aux objets
+date-time:
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  \emph{x} = as.Date(AVC\$ENTREE)
+\item
+  \emph{breaks} est obligatoire: ``days'', ``weeks'', ``months'',
+  ``quarters'', ``years'', ``secs'', ``mins'', ``hours''. Utiliser
+  \emph{start.on.monday = TRUE} si \emph{breaks = ``weeks''}.
+\item
+  \emph{freq} = TRUE (défaut FALSE) pour afficher les fréquences
+\item
+  \emph{format} permet de coisir l'affichage de la date sur l'axe des x
+  \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/strptime.html}{voir}.
+\end{itemize}
+
+\includegraphics{rapport2014_V4_files/figure-latex/hist_avc-1.pdf}
+
 \subsection{PATIENTS}\label{patients-3}
 
 \begin{verbatim}
@@ -917,8 +986,8 @@ notamment \textbf{temps de passage}.
 \end{itemize}
 
 \% Table created by stargazer v.5.1 by Marek Hlavac, Harvard University.
-E-mail: hlavac at fas.harvard.edu \% Date and time: Sam, aoû 01, 2015 -
-17:07:03
+E-mail: hlavac at fas.harvard.edu \% Date and time: Jeu, aoû 06, 2015 -
+10:01:59
 
 \begin{table}[!htbp] \centering 
   \caption{Orientation des AVC} 

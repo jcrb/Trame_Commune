@@ -320,7 +320,7 @@ hs <- hms(substr(s, 12, 20)) # heures de sortie
 x <- barplot(table(hour(he)), main = "Heures d'entrée", ylab = "Fréquence", xlab = "Heures")
 #x
 
-# passages de nuit
+# passages de nuit (nécessite lubridate) library(lubridate)
 # nombre de passages dont l’admission s’est effectuée sur la période [20h00 - 7h59] divisé par l’ensemble des passages
 nuit <- he[he > hms("19:59:59") | he < hms("08:00:00")]
 n.passages.nuit <- length(nuit) # passages 20:00 - 7:59
@@ -328,6 +328,7 @@ p.passages.nuit <- n.passages.nuit / n.passages
 
 # passages en nuit profonde
 #nombre de passages dont l’admission s’est effectuée sur la période [00h00 - 7h59] divisé par l’ensemble des passages
+# NB VOIR ROUTINE passages()
 nuit.profonde <- he[he < hms("08:00:00")]
 n.passages.nuit.profonde <- length(nuit.profonde)
 p.passages.nuit.profonde <- n.passages.nuit.profonde / n.passages
@@ -638,6 +639,8 @@ barplot(table(ped), main = "Pédiatrie")
 
 # nombre
 n.rpu18 <- nrow(pop18)
+n.pop18 <- nrow(pop18) # conserver plutôt que n.rpu18
+
 mean.rpu18 <- n.rpu18 / n.jours # Moyenne quotidienne de passages
 p.rpu18 <- n.rpu18 * 100 / n.rpu # Taux d'urgences gériatriques
 
@@ -715,6 +718,35 @@ chiffres <- c(chiffres, val)
  # kable(a)
 ```
 
+### horaires de passages pédiatriques
+```{r passages_ped, echo=FALSE}
+# nombre de passages de nuit 20h-8h
+n.passages.nuit <- passages2(pop18$ENTREE, "nuit")
+p.passages.nuit <- n.passages.nuit / n.pop18
+
+n.passages.nuit.profonde <- passages2(pop18$ENTREE, "nuit_profonde")
+p.passages.nuit.profonde <- n.passages.nuit.profonde / n.pop18
+#---------------------- Chiffres ---------------------------------------------------------------
+val <- c(NA)
+names(val) <- c("")
+chiffres <- c(chiffres, val)
+#---------------------- Chiffres ---------------------------------------------------------------
+```
+- nombre de passages la nuit: `r n.passages.nuit` (p = `r p.passages.nuit * 100` %)
+- nombre de passages en nuit profonde: `r n.passages.nuit.profonde` (p = `r p.passages.nuit.profonde * 100` %)
+
+### Durée de passage
+```{r ped_duree_passage, echo=FALSE}
+ped.dp <- duree.passage2(pop18)
+ped.conforme <- nrow(ped.dp)
+ped.duree.moyenne.passage <- mean(ped.dp$duree)
+ped.duree.mediane.passage <- median(ped.dp$duree)
+ped.passage4 <- length(ped.dp$duree[ped.dp$duree < 4 * 60 + 1]) #nb passages < 4h
+```
+- Nombre de RPU avec une heure de sortie conforme (]0-72h[: `r nrow(ped.dp)`
+- Durée moyenne de passage (en min): `r ped.duree.moyenne.passage` mn
+- Durée médiane de passage (en min): `r ped.duree.mediane.passage` mn
+- Nombre de RPU dont la durée de passage est inférieure à 4h: `r ped.passage4`
 
 Les chiffres clés de l’activité gériatrique des services d’urgences (plus de 75 ans)
 ====================================================================================
@@ -1028,6 +1060,22 @@ RECUEIL DES DONNÉES
 - Nombre d’AVC dans l'année (+ rappeler le pourcentage d’exhaustivité du DP par rapport au nombre de RPU): __`r format.n(n.avc)`__
 - Moyenne quotidienne d’AVC: __`r format.n(n.avc/365)` AVC/j__
 - %  d’AVC dans l’activité globale: __`r n.avc *100 / nrow(d3)` %__
+
+Répartition des AVC
+-------------------
+Exemple d'utilisation de la méthode _hist_ appliquée aux objets date-time:
+
+- _x_ = as.Date(AVC$ENTREE)
+- _breaks_ est obligatoire: "days", "weeks", "months", "quarters", "years", "secs", "mins", "hours". Utiliser _start.on.monday = TRUE_ si _breaks = "weeks"_.
+- _freq_ = TRUE (défaut FALSE) pour afficher les fréquences
+- _format_ permet de coisir l'affichage de la date sur l'axe des x [voir](https://stat.ethz.ch/R-manual/R-devel/library/base/html/strptime.html).
+
+
+```{r hist_avc}
+hist(as.Date(AVC$ENTREE), breaks = "months", freq = TRUE, xlab = "Mois", ylab = "Fréquence", main = "Histogramme des AVC vu en SU en 2014", las = 2, col = "cornflowerblue", border = "white")
+
+```
+
 
 PATIENTS
 --------
