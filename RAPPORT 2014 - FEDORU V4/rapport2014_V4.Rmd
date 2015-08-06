@@ -56,6 +56,10 @@ host <- System$getHostname()
 if(host == "MacBook-Air-de-JCB.local" | host == "Air-de-JCB"){
     path <- "../../../Stat Resural/RPU_2014/"
     source("../../../Stat Resural/RPU_Doc/mes_constantes.R")
+    # en mode console:
+    # path <- "../../Stat Resural/RPU_2014/"
+    # source("../../Stat Resural/RPU_Doc/mes_constantes.R")
+    
 }else if(host == "XPS"){#XPS
     path <- "../../Stat Resural/RPU_2014/"
     source("../../Stat Resural/RPU_Doc/mes_constantes.R")
@@ -64,6 +68,7 @@ if(host == "MacBook-Air-de-JCB.local" | host == "Air-de-JCB"){
 }
 
 source('../Rapport/rapport_2014.R') # routines pour le rapport d'activité
+# en mode console source('Rapport/rapport_2014.R')
 
 test <- 0 # TRUE = Janvier 2015
 
@@ -742,19 +747,41 @@ ped.conforme <- nrow(ped.dp)
 ped.duree.moyenne.passage <- mean(ped.dp$duree)
 ped.duree.mediane.passage <- median(ped.dp$duree)
 ped.passage4 <- length(ped.dp$duree[ped.dp$duree < 4 * 60 + 1]) #nb passages < 4h
+s.ped.mode.sortie <- summary(ped.dp$MODE_SORTIE)
+ped.hosp.passage4 <- length(ped.dp$duree[ped.dp$duree < 4 * 60 + 1 & ped.dp$MODE_SORTIE %in% c("Mutation","Transfert")]) #nb passages < 4h et hospitalisation
+
+ped.dom.passage4 <- length(ped.dp$duree[ped.dp$duree < 4 * 60 + 1 & ped.dp$MODE_SORTIE == "Domicile"]) #nb passages < 4h et retourà domicile
+
+s.mode.sortie <- summary(pop18$MODE_SORTIE)
+# Nombre de mutation interne
+n.ped.mutation <- s.mode.sortie["Mutation"]
+# nb de transfert
+n.ped.transfert <- s.mode.sortie["Transfert"]
+# nb de retour à domicile
+n.ped.domicile <- s.mode.sortie["Domicile"]
+
 ```
 - Nombre de RPU avec une heure de sortie conforme (]0-72h[: `r nrow(ped.dp)`
 - Durée moyenne de passage (en min): `r ped.duree.moyenne.passage` mn
 - Durée médiane de passage (en min): `r ped.duree.mediane.passage` mn
 - Nombre de RPU dont la durée de passage est inférieure à 4h: `r ped.passage4`
+- Nombre de RPU avec une heure de sortie conforme (]0-72h[ lors d'une hospitalisation post-urgences: `r s.ped.mode.sortie["Mutation"] + s.ped.mode.sortie["Transfert"]`
+- Nombre de RPU avec une heure de sortie conforme (]0-72h[ lors d'un retour au domicile: `r s.ped.mode.sortie["Domicile"]`
+- Nombre de RPU dont la durée de passage est inférieure à 4h lors d'une hospitalisation post-urgences: `r ped.hosp.passage4`
+- Nombre de RPU dont la durée de passage est inférieure à 4h lors d'un retour au domicile: `r ped.dom.passage4`
 
-Les chiffres clés de l’activité gériatrique des services d’urgences (plus de 75 ans)
+- Nombre de RPU avec un mode de sortie renseigné: `r sum(!is.na(pop18$MODE_SORTIE))`
+- Nombre de mutation interne: `r n.ped.mutation`
+- Nombre de transfert externe: `r n.ped.transfert`
+- nombre de retours à domicile: `r n.ped.domicile`
+
+Les chiffres clés de l’activité gériatrique des services d’urgences (75 ans et plus)
 ====================================================================================
 ```{r pop75, echo=FALSE}
 n.jours <- length(unique(as.Date(dx$ENTREE))) # nb de jours pour la période
 n.rpu <- nrow(dx)
 
-pop75 <- dx[!is.na(dx$AGE) & dx$AGE > 75,]
+pop75 <- dx[!is.na(dx$AGE) & dx$AGE > 74,]
 # crée une nouvelle colonne age à 2 classes: mois de 85 ans = 1, 85 ans et plus = 2
 pop75$age2 <- ifelse(pop75$AGE < 85, 1, 2)
 # nombre
