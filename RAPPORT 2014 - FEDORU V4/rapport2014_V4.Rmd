@@ -58,7 +58,7 @@ if(host == "MacBook-Air-de-JCB.local" | host == "Air-de-JCB"){
     source("../../../Stat Resural/RPU_Doc/mes_constantes.R")
 }else if(host == "XPS"){#XPS
     path <- "../../Stat Resural/RPU_2014/"
-    source("../../Stat Resural/RPU_Doc/mes_constantes.R")
+    source("../../../Stat Resural/RPU_Doc/mes_constantes.R")
 }else if(host == "P171I16"){# HUS
     path <- "../RPU_2014-master/"
 }
