@@ -93,7 +93,35 @@
 \setcounter{tocdepth}{2}
 \tableofcontents
 }
-Version mse à jour le: \textbf{Tue Jun 30 08:44:23 2015}
+Version mse à jour le: \textbf{Thu Aug 6 12:48:26 2015}
+
+Ajout de la dernière version de Gilles
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  nombre de passages pour 10.000 hab.
+\item
+  nombre de SU pour 10.000 hab.
+\item
+  nombre de lignes SMUR financées par une MIG
+\item
+  nombre de siège de SMUR dont SMUR saisonnier dont antenne SMUR dont
+  hélismur
+\item
+  séparer privés lucratifs et ESPIC
+\item
+  nombre de logicels et nombre de SU par région
+\item
+  SAE 2014 ?
+\item
+  augmentation par rapport année N-1 en tenant compte uniquement des
+  établissements ``stables''
+\item
+  séparer chu et non chu, samu de chu et de non chu
+\item
+  retour attendu pour le 4/9
+\end{itemize}
 
 \section{Activité des structures d'urgences : panorama 2014 de la région
 ALSACE}\label{activite-des-structures-durgences-panorama-2014-de-la-region-alsace}
@@ -185,6 +213,34 @@ RPU.
 \includegraphics{rapport2014_V4_files/figure-latex/completude-1.pdf}
 \includegraphics{rapport2014_V4_files/figure-latex/completude-2.pdf}
 
+Complétude en valeur absolue et en pourcentages:`
+
+\begin{verbatim}
+##           FINESS               ID          EXTRACT      CODE POSTAL 
+##           416733           416733           415731           416733 
+##          COMMUNE        NAISSANCE             SEXE    DATE D'ENTREE 
+##           416716           416733           416733           416733 
+##    MODE D'ENTREE       PROVENANCE        TRANSPORT    TRANSPORT PEC 
+##           391370           239122           289308           283189 
+##   DATE DE SORTIE   MODE DE SORTIE      DESTINATION      ORIENTATION 
+##           374349           338878            82635            72898 
+## MOTIF DE RECOURS             CCMU               DP 
+##           270962           339827           245974
+\end{verbatim}
+
+\begin{verbatim}
+##           FINESS               ID          EXTRACT      CODE POSTAL 
+##              100              100              100              100 
+##          COMMUNE        NAISSANCE             SEXE    DATE D'ENTREE 
+##              100              100              100              100 
+##    MODE D'ENTREE       PROVENANCE        TRANSPORT    TRANSPORT PEC 
+##               94               57               69               68 
+##   DATE DE SORTIE   MODE DE SORTIE      DESTINATION      ORIENTATION 
+##               90               81              100               88 
+## MOTIF DE RECOURS             CCMU               DP 
+##               65               82               60
+\end{verbatim}
+
 \section{Les chiffres clés de l'activité des services
 d'urgences}\label{les-chiffres-cles-de-lactivite-des-services-durgences}
 
@@ -218,7 +274,7 @@ d'urgences}\label{les-chiffres-cles-de-lactivite-des-services-durgences}
 
 \subsection{PATIENTS}\label{patients}
 
-\subsubsection{SEXE}\label{sexe}
+\subsubsection{Sexe}\label{sexe}
 
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
@@ -271,7 +327,7 @@ TARRU: \textbf{21.31\%} (ref: population alsacienne 2014)
 \subsubsection{\% de patients ne venant pas de la région (étranger
 compris)}\label{de-patients-ne-venant-pas-de-la-region-etranger-compris}
 
-4.43\%
+4.43\% (N = `r n.rpu - n.org\_als)
 
 \subsection{ARRIVÉE}\label{arrivee}
 
@@ -285,9 +341,15 @@ compris)}\label{de-patients-ne-venant-pas-de-la-region-etranger-compris}
 \item
   \% passages nuit profonde {[}C{]}: 11.09 \% (N = 41 500)
 \item
-  \% passages en horaire de PDS: 45.22 \% (Remarque: ne tient pas compte
-  des jours fériés survenant en semaine)
+  \% passages en horaire de PDS: 45.22 \%
+  \href{Remarque:\%20ne\%20tient\%20pas\%20compte\%20des\%20jours\%20fériés\%20survenant\%20en\%20semaine}{N
+  = 188454}
 \end{itemize}
+
+\subsubsection{Variations saisonnières}\label{variations-saisonnieres}
+
+Variation du nombre de RPU entre les mois d'été (juillet-août) et les
+autres mois de l'année: -5.82 \%
 
 \subsubsection{Moyens d'arrivée}\label{moyens-darrivee}
 
@@ -311,10 +373,17 @@ ci dessus ne fait pas 100 \%
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
 \item
+  nombre de CCMU renseignés: 339827
+\item
+  \textbf{\%(N) CCMU 1 } {[}C{]}: 15.21\% (n = 51 682)
+\item
   \textbf{\%(N) CCMU 1 et 2} {[}C{]}: 84.45\% (n = 286 979)
 \item
   \textbf{\%(N) CCMU 4 et 5} {[}C{]}: 1.28\% (n = 4 341)
 \end{itemize}
+
+Exhaustivité CCMU : - Nombre de RPU 2014 hors orientation = FUGUE, PSA
+et REO ayant un élément transmis pour la CCMU: 335889
 
 DIAGNOSTIC PRINCIPAL
 
@@ -337,17 +406,21 @@ Remarque: les chiffres sont dans le document
 
 \subsubsection{Durées de passage}\label{durees-de-passage}
 
+\includegraphics{rapport2014_V4_files/figure-latex/passages-1.pdf}
+
 \begin{itemize}
 \item
-  durée moyenne de passage 155 mn.
+  Nb de RPU dont la durée de passage est comprise entre 0 et 72h: 333397
 \item
-  écart-type: 171.59 mn.
+  durée moyenne de passage 156 mn.
 \item
-  médiane: 109 mn.
+  écart-type: 176.18 mn.
 \item
-  nombre de passages \textgreater{} 4 heures: 69 521 (18.69 \%).
+  médiane: 110 mn.
 \item
-  nombre de passages inférieurs ou égaux à 4 heures: 302 546 (81.31 \%).
+  nombre de passages \textgreater{} 4 heures: 62 888 (18.86 \%).
+\item
+  nombre de passages inférieurs ou égaux à 4 heures: 270 509 (81.14 \%).
 \item
   Lors d'une hospitalisation post-urgences (hospitalisation = mutation +
   transfert)
@@ -389,6 +462,12 @@ Remarque: les chiffres sont dans le document
   \% (N) Mutation: 22.72 \% (N = 76 999)
 \item
   \% (N) Transfert: 1.78 \% (N = 6 025)
+\item
+  Nb de RPU 2014 avec mode de sortie = 6 ou 7 (hospitalisation) avec un
+  élément transmis pour la destination: 82635
+\item
+  Nb de RPU 2014 avec mode de sortie = 6 ou 7 avec un élement transmis
+  pour l'orientation: 72898
 \end{itemize}
 
 \section{Les chiffres clés de l'activité des
@@ -443,8 +522,30 @@ ans)}\label{les-chiffres-cles-de-lactivite-pediatrique-des-services-durgences-mo
 
 \subsection{PATIENTS}\label{patients-1}
 
+\begin{verbatim}
+ AMBU    FO  HELI PERSO  SMUR  VSAB        NA's 
+ 2024    81    17 71809   706  3053     0 41523 
+\end{verbatim}
+
+\begin{verbatim}
+[1] 77690
+\end{verbatim}
+
+\begin{verbatim}
+[1] 94706
+\end{verbatim}
+
+\begin{verbatim}
+    1     2     3     4     5     D     P        NA's 
+24353 63361  6678   211    23     2    78     0 24507 
+\end{verbatim}
+
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
+\item
+  nombre de garçons: 65619
+\item
+  nombre de filles: 53590
 \item
   Sex ratio: 1.22
 \item
@@ -453,21 +554,65 @@ ans)}\label{les-chiffres-cles-de-lactivite-pediatrique-des-services-durgences-mo
   Par sous classes d'âge:
 \end{itemize}
 
+\subsubsection{horaires de passages
+pédiatriques}\label{horaires-de-passages-pediatriques}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  nombre de passages la nuit: 32677 (p = 27.41 \%)
+\item
+  nombre de passages en nuit profonde: 8660 (p = 7.26 \%)
+\end{itemize}
+
+\subsubsection{Durée de passage}\label{duree-de-passage}
+
+\begin{itemize}
+\item
+  Nombre de RPU avec une heure de sortie conforme ({]}0-72h{[}: 95936
+\item
+  Durée moyenne de passage (en min): 121.3 mn
+\item
+  Durée médiane de passage (en min): 86 mn
+\item
+  Nombre de RPU dont la durée de passage est inférieure à 4h: 89071
+\item
+  Nombre de RPU avec une heure de sortie conforme ({]}0-72h{[} lors
+  d'une hospitalisation post-urgences: 12452
+\item
+  Nombre de RPU avec une heure de sortie conforme ({]}0-72h{[} lors d'un
+  retour au domicile: 83483
+\item
+  Nombre de RPU dont la durée de passage est inférieure à 4h lors d'une
+  hospitalisation post-urgences: 11313
+\item
+  Nombre de RPU dont la durée de passage est inférieure à 4h lors d'un
+  retour au domicile: 77757
+\item
+  Nombre de RPU avec un mode de sortie renseigné: 96860
+\item
+  Nombre de mutation interne: 11996
+\item
+  Nombre de transfert externe: 556
+\item
+  nombre de retours à domicile: 84307
+\end{itemize}
+
 \section{Les chiffres clés de l'activité gériatrique des services
-d'urgences (plus de 75
-ans)}\label{les-chiffres-cles-de-lactivite-geriatrique-des-services-durgences-plus-de-75-ans}
+d'urgences (75 ans et
+plus)}\label{les-chiffres-cles-de-lactivite-geriatrique-des-services-durgences-75-ans-et-plus}
 
 \subsection{RECUEIL DES DONNÉES}\label{recueil-des-donnees-2}
 
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
 \item
-  Nombre de passages dans l'année: 54 310
+  Nombre de passages dans l'année: 57 271
 \item
-  Moyenne quotidienne de passage: 149 passages/j
+  Moyenne quotidienne de passage: 157 passages/j
 \item
   Taux d'urgences gériatriques {[}(Nb RPU Géria/ Nb RPU global)x100{]}:
-  13.03 \%
+  13.74 \%
 \item
   TODO: \% d'évolution par rapport à l'année N-1(données SAE pour ceux
   qui n'ont pas d'historique RPU fiable et permettant la comparaison,
@@ -480,13 +625,13 @@ ans)}\label{les-chiffres-cles-de-lactivite-geriatrique-des-services-durgences-pl
 
 \begin{verbatim}
                effectif moyenne par jour  médiane par jour sex ratio
-75-84 ans         30438                83               83      0.80
+75-84 ans         33399                92               91      0.82
 85 ans et plus    23872                65               66      0.47
 \end{verbatim}
 
 \begin{itemize}
 \item
-  Sex ratio: 0.64
+  Sex ratio: 0.65
 \item
   Pyramide des âges (âge par année, borne supérieure toujours exclue)
 \item
@@ -497,7 +642,7 @@ ans)}\label{les-chiffres-cles-de-lactivite-geriatrique-des-services-durgences-pl
   eff & ectif moy & enne par jour méd & iane par jour sex & ratio
   \\\addlinespace
   \midrule\endhead
-  75-84 ans & 30438 & 83 & 83 & 0.80
+  75-84 ans & 33399 & 92 & 91 & 0.82
   \\\addlinespace
   85 ans et plus & 23872 & 65 & 66 & 0.47
   \\\addlinespace
@@ -512,7 +657,7 @@ ans)}\label{les-chiffres-cles-de-lactivite-geriatrique-des-services-durgences-pl
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
 \item
-  \% passages la nuit: 22.35 \% (N = 12 140)
+  \% passages la nuit: 22.38 \% (N = 12 815)
 \item
   \% passages en horaire de PDS: 36.75 \% (N = 19 960)
 \end{itemize}
@@ -522,13 +667,13 @@ ans)}\label{les-chiffres-cles-de-lactivite-geriatrique-des-services-durgences-pl
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
 \item
-  \% d'arrivées Moyen perso: 20.17 \% (N = 10 953)
+  \% d'arrivées Moyen perso: 20.89 \% (N = 11 962)
 \item
-  \% d'arrivées SMUR: 1.2 \% (N = 654)
+  \% d'arrivées SMUR: 1.22 \% (N = 698)
 \item
-  \% d'arrivées VSAV: 11.98 \% (N = 6 505)
+  \% d'arrivées VSAV: 11.87 \% (N = 6 797)
 \item
-  \% d'arrivées ambulance privée: 37.91 \% (N = 20 587)
+  \% d'arrivées ambulance privée: 37.31 \% (N = 21 370)
 \item
   \% réponses manquantes:
 \end{itemize}
@@ -541,9 +686,9 @@ ci dessus ne fait pas 100 \%
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
 \item
-  \% CCMU 1: 4.27 \% (N = 2 318)
+  \% CCMU 1: 4.32 \% (N = 2 472)
 \item
-  \% CCMU 4 et 5: 3.16 \% (N = 1 718)
+  \% CCMU 4 et 5: 3.14 \% (N = 1 797)
 \end{itemize}
 
 \subsubsection{Diagnostic principal}\label{diagnostic-principal}
@@ -578,12 +723,12 @@ ci dessus ne fait pas 100 \%
 
 \begin{verbatim}
 ##        NA  Mutation Transfert  Domicile     Décès           
-##        NA       219       318       216        NA        NA
+##        NA       219       316       215        NA        NA
 \end{verbatim}
 
 \begin{verbatim}
 ##        NA  Mutation Transfert  Domicile     Décès           
-##        NA       200       250       176        NA        NA
+##        NA       200       248       174        NA        NA
 \end{verbatim}
 
 \begin{verbatim}
@@ -591,17 +736,17 @@ ci dessus ne fait pas 100 \%
 ##  Welch Two Sample t-test
 ## 
 ## data:  passages75$duree by passages75$DEVENIR
-## t = -4.1, df = 38419, p-value = 0.00003634
+## t = -4.8, df = 41184, p-value = 0.000001585
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  -11.7  -4.2
+##  -12.7  -5.3
 ## sample estimates:
 ## mean in group Domicile     mean in group Hosp 
-##                    216                    224
+##                    215                    224
 \end{verbatim}
 
 \begin{verbatim}
-## [1] 0.000036
+## [1] 0.0000016
 \end{verbatim}
 
 \includegraphics{rapport2014_V4_files/figure-latex/duree_passage_75-1.pdf}
@@ -609,16 +754,16 @@ ci dessus ne fait pas 100 \%
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
 \item
-  Durée moyenne de passage (HORS UHCD) : 221 minutes
+  Durée moyenne de passage (HORS UHCD) : 220 minutes
 \item
-  Durée médiane de passage (HORS UHCD) : 191 minutes
+  Durée médiane de passage (HORS UHCD) : 190 minutes
 \item
-  \% de passages de moins de 4h : 60.92 \%
+  \% de passages de moins de 4h : 61.22 \%
 \item
   lors d'une hospitalisation post-urgences (hospitalisation = mutation +
-  transfert): 224.04 minutes.
+  transfert): 223.7 minutes.
 \item
-  lors d'un retour au domicile: 216.09 minutes.
+  lors d'un retour au domicile: 214.71 minutes.
 \end{itemize}
 
 \subsubsection{MODE DE SORTIE}\label{mode-de-sortie-1}
@@ -628,30 +773,30 @@ ci dessus ne fait pas 100 \%
 \begin{verbatim}
 ## pop75$MODE_SORTIE : 
 ##           Frequency   %(NA+)   %(NA-)
-## Mutation      26032     47.9     58.6
-## Domicile      16945     31.2     38.2
-## NA's           9896     18.2      0.0
-## Transfert      1437      2.6      3.2
+## Mutation      27196     47.5     58.1
+## Domicile      18131     31.7     38.7
+## NA's          10430     18.2      0.0
+## Transfert      1514      2.6      3.2
 ## NA                0      0.0      0.0
 ## Décès             0      0.0      0.0
 ##                   0      0.0      0.0
-##   Total       54310    100.0    100.0
+##   Total       57271    100.0    100.0
 \end{verbatim}
 
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
 \item
-  \% d'hospitalisation: 50.58 \% (N = 27 469)
+  \% d'hospitalisation: 50.13 \% (N = 28 710)
 
   \begin{itemize}
   \itemsep1pt\parskip0pt\parsep0pt
   \item
-    \% de mutation:47.93 \% (N = 26 032)
+    \% de mutation:47.49 \% (N = 27 196)
   \item
-    \% de transfert:2.65 \% (N = 1 437)
+    \% de transfert:2.64 \% (N = 1 514)
   \end{itemize}
 \item
-  \% de retour à domicile:31.2 \% (N = 16 945)
+  \% de retour à domicile:31.66 \% (N = 18 131)
 \end{itemize}
 
 \section{Les chiffres clés de l'activité AVC des services
@@ -669,6 +814,28 @@ d'urgences}\label{les-chiffres-cles-de-lactivite-avc-des-services-durgences}
 \item
   \% d'AVC dans l'activité globale: \textbf{1.19 \%}
 \end{itemize}
+
+\subsection{Répartition des AVC}\label{repartition-des-avc}
+
+Exemple d'utilisation de la méthode \emph{hist} appliquée aux objets
+date-time:
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  \emph{x} = as.Date(AVC\$ENTREE)
+\item
+  \emph{breaks} est obligatoire: ``days'', ``weeks'', ``months'',
+  ``quarters'', ``years'', ``secs'', ``mins'', ``hours''. Utiliser
+  \emph{start.on.monday = TRUE} si \emph{breaks = ``weeks''}.
+\item
+  \emph{freq} = TRUE (défaut FALSE) pour afficher les fréquences
+\item
+  \emph{format} permet de coisir l'affichage de la date sur l'axe des x
+  \href{https://stat.ethz.ch/R-manual/R-devel/library/base/html/strptime.html}{voir}.
+\end{itemize}
+
+\includegraphics{rapport2014_V4_files/figure-latex/hist_avc-1.pdf}
 
 \subsection{PATIENTS}\label{patients-3}
 
@@ -780,7 +947,7 @@ urgences}\label{mode-darrivee-aux-urgences}
   expliquer que la somme des 4 pourcentages ci dessus ne fait pas 100 \%
 \end{itemize}
 
-\subsection{DIAGNOSTIC PRINCIPAL}\label{diagnostic-principal-1}
+\subsection{Diagnostic principal}\label{diagnostic-principal-1}
 
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
@@ -838,8 +1005,8 @@ notamment \textbf{temps de passage}.
 \end{itemize}
 
 \% Table created by stargazer v.5.1 by Marek Hlavac, Harvard University.
-E-mail: hlavac at fas.harvard.edu \% Date and time: Mar, jui 30, 2015 -
-08:46:09
+E-mail: hlavac at fas.harvard.edu \% Date and time: Jeu, aoû 06, 2015 -
+12:51:32
 
 \begin{table}[!htbp] \centering 
   \caption{Orientation des AVC} 
@@ -896,8 +1063,8 @@ attached base packages:
 
 other attached packages:
  [1] openintro_1.4     xtable_1.7-4      stargazer_5.1    
- [4] epicalc_2.15.1.0  nnet_7.3-9        MASS_7.3-41      
- [7] survival_2.38-2   foreign_0.8-63    R.utils_2.1.0    
+ [4] epicalc_2.15.1.0  nnet_7.3-10       MASS_7.3-42      
+ [7] survival_2.38-3   foreign_0.8-65    R.utils_2.1.0    
 [10] R.oo_1.19.0       R.methodsS3_1.7.0 xts_0.9-7        
 [13] zoo_1.7-12        plotrix_3.5-12    lubridate_1.3.3  
 [16] knitr_1.10.5     
@@ -906,7 +1073,7 @@ loaded via a namespace (and not attached):
  [1] digest_0.6.8    evaluate_0.7    formatR_1.2     grid_3.1.3     
  [5] highr_0.5       htmltools_0.2.6 lattice_0.20-31 magrittr_1.5   
  [9] memoise_0.2.1   plyr_1.8.3      Rcpp_0.11.6     rmarkdown_0.7  
-[13] splines_3.1.3   stringi_0.4-1   stringr_1.0.0   tools_3.1.3    
+[13] splines_3.1.3   stringi_0.5-5   stringr_1.0.0   tools_3.1.3    
 [17] yaml_2.1.13    
 \end{verbatim}
 

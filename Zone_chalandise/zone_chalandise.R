@@ -14,7 +14,10 @@
 #'              Pour chaque CP associe le nombre de RPU correspondants
 #'              NOTE: ne conserve que les données de l'Alsace
 #'              Permet de caractériser l'attractivité d'un établissement
-#' @param dx dataframe
+#' @param dx dataframe de type RPU
+#' @param dxId colonne de dx utilisée. Par défaut CODE_POSTAL. En pratique les items suceptibles
+#'              d'être cartographiés sont le CODE_POSTAL, la COMMUNE, le FINESS (zone de 
+#'              proximité), le territoire de santé, l'arrondissement et le canton.
 #' @param finess le code de l'établissement
 #' @usage cp.hus <- chalandise(d15, "Hus")
 #'        summary(as.numeric(cp.hus))
@@ -23,8 +26,8 @@
 #'        9645  8535  5622  2785  2121  1581
 #' @return une liste nommée
 
-chalandise <- function(dx, finess){
-    cp <- factor(dx$CODE_POSTAL[dx$FINESS == finess])
+chalandise <- function(dx, dxId = "CODE_POSTAL", finess){
+    cp <- factor(dx[, dxId][dx$FINESS == finess])# cp <- factor(dx$CODE_POSTAL[dx$FINESS == finess])
     # on ne garde que les cp de la région
     b <- factor(cp[substr(as.character(cp),1,2) %in% c("67","68")])
     # summary retourne le nb de RPU par code postal
@@ -77,10 +80,13 @@ attribJoin <- function(df, spdf, df.field, spdf.field){
 #'@description dessine la carte des taux de recours par code postal pour 
 #'              un établissement
 #' @param sp spatalPolygonDataframe ex. cp67. NB le dataframe doit comporter une colonne TAUX
-#' @param palette palette de couleur pour la discrétisation
+#' @param palette palette de couleur pour la discrétisation (compatible colorBrewer)
 #' @param titre titre principal du graphique
-#' @param q vecteur numérique de discrétisation (varie entre 0 et 1)
+#' @param q vecteur numérique de discrétisation (varie entre 0 et 1).
+#'          par défaut 6 classes
 #' @param names vecteur de character correspondant à q
+#' @usage carte.recours(cp67, titre = "Test") #par codes postaux du 67 pour les HUS
+
 
 carte.recours <- function(sp, palette = "Oranges", titre = "", q = NULL, names = NULL){
     library(RColorBrewer)

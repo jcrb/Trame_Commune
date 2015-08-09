@@ -56,6 +56,10 @@ host <- System$getHostname()
 if(host == "MacBook-Air-de-JCB.local" | host == "Air-de-JCB"){
     path <- "../../../Stat Resural/RPU_2014/"
     source("../../../Stat Resural/RPU_Doc/mes_constantes.R")
+    # en mode console:
+    # path <- "../../Stat Resural/RPU_2014/"
+    # source("../../Stat Resural/RPU_Doc/mes_constantes.R")
+    
 }else if(host == "XPS"){#XPS
     path <- "../../Stat Resural/RPU_2014/"
     source("../../../Stat Resural/RPU_Doc/mes_constantes.R")
@@ -64,6 +68,7 @@ if(host == "MacBook-Air-de-JCB.local" | host == "Air-de-JCB"){
 }
 
 source('../Rapport/rapport_2014.R') # routines pour le rapport d'activité
+# en mode console source('Rapport/rapport_2014.R')
 
 test <- 0 # TRUE = Janvier 2015
 
@@ -83,6 +88,13 @@ if(test == 0){
 
 n.rpu <- nrow(dx) # nb de passages dans l'année
 
+# RPU corrigés: on retire les RPU où l'orientation est égale à "FUGUE","PSA","REO"
+# sous forme de dataframe:
+# dx.corrigee <- dx[!(dx$ORIENTATION %in% c("FUGUE","PSA","REO")),]
+# nrow(dx.corrigee)
+# sous forme de vecteur
+dx.corrigee2 <- dx[!(dx$ORIENTATION %in% c("FUGUE","PSA","REO")),1]
+n.rpu.corriges <- length(dx.corrigee2)
 ```
 
 Activité des structures d’urgences : panorama `r anc` de la région ALSACE
@@ -113,7 +125,9 @@ Réalisation d’un diagramme radar présentant l’exhaustivité des items RPU.
 # on réordonne les colonnes (ordre FEDORU)
 dx2 <- dx[, c("FINESS","id","EXTRACT","CODE_POSTAL","COMMUNE","NAISSANCE","SEXE","ENTREE","MODE_ENTREE","PROVENANCE","TRANSPORT","TRANSPORT_PEC","SORTIE","MODE_SORTIE","DESTINATION","ORIENTATION","MOTIF","GRAVITE","DP")]
 
-comp <- completude(dx2)
+comp <- completude(dx2, calcul = "percent")
+s.comp <- completude(dx2, calcul = "somme")
+
 rm(dx2)
 
 # barplot
@@ -124,6 +138,13 @@ abline(v = 90, lty = 2, col = "red")
 # Tracé du diagrame en étoile
 par(mar =c (0,0,0,0))
 radar.completude(completude(dx))
+```
+
+Complétude en valeur absolue et en pourcentages:`
+```{r, echo=FALSE}
+s.comp
+
+comp
 ```
 
 Les chiffres clés de l’activité des services d’urgences
@@ -167,7 +188,7 @@ names(chiffres) <- c("anc", "periode.debut", "periode.fin", "n.jours", "n.su.ped
 
 PATIENTS
 --------
-### SEXE
+### Sexe
 ```{r sexe, echo=FALSE, comment=""}
 sexe <- table(as.factor(dx$SEXE))
 p.femme <- sexe['F']*100/(sexe['F'] + sexe['M']) # % de femmes
@@ -273,12 +294,12 @@ p.org_als <- n.org_als / n.rpu
 
 #---------------------- Chiffres ---------------------------------------------------------------
 val <- c(n.org_als, p.org_als)
-names(val) <- c("nb_etrangers", "p_etrangers")
+names(val) <- c("nb_alsaciens", "p_alsaciens")
 chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 ```
 
-`r (1 - p.org_als) * 100`%
+`r (1 - p.org_als) * 100`% (N = `r n.rpu - n.org_als)
 
 ARRIVÉE
 -------
@@ -304,7 +325,7 @@ hs <- hms(substr(s, 12, 20)) # heures de sortie
 x <- barplot(table(hour(he)), main = "Heures d'entrée", ylab = "Fréquence", xlab = "Heures")
 #x
 
-# passages de nuit
+# passages de nuit (nécessite lubridate) library(lubridate)
 # nombre de passages dont l’admission s’est effectuée sur la période [20h00 - 7h59] divisé par l’ensemble des passages
 nuit <- he[he > hms("19:59:59") | he < hms("08:00:00")]
 n.passages.nuit <- length(nuit) # passages 20:00 - 7:59
@@ -312,6 +333,7 @@ p.passages.nuit <- n.passages.nuit / n.passages
 
 # passages en nuit profonde
 #nombre de passages dont l’admission s’est effectuée sur la période [00h00 - 7h59] divisé par l’ensemble des passages
+# NB VOIR ROUTINE passages()
 nuit.profonde <- he[he < hms("08:00:00")]
 n.passages.nuit.profonde <- length(nuit.profonde)
 p.passages.nuit.profonde <- n.passages.nuit.profonde / n.passages
@@ -331,7 +353,8 @@ chiffres <- c(chiffres, val)
 load("~/Documents/RESURAL/Trame_Commune/horaires_pds.Rda")
 s.pds <- summary(as.factor(h.pds))
 p.s.pds <- prop.table(s.pds)
-p.pds <- p.s.pds["PDSS"] + p.s.pds["PDSWE"] # nombre de passages aux haoraires de PDS
+p.pds <- p.s.pds["PDSS"] + p.s.pds["PDSWE"] # % de passages aux haoraires de PDS
+n.pds <- s.pds["PDSS"] + s.pds["PDSWE"] # nombre de passages aux haoraires de PDS
 
 #---------------------- Chiffres ---------------------------------------------------------------
 val <- c(p.pds)
@@ -340,7 +363,20 @@ chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 ```
 
-- %  passages en horaire de PDS: `r p.pds * 100` % (Remarque: ne tient pas compte des jours fériés survenant en semaine)
+- %  passages en horaire de PDS: `r p.pds * 100` % [N = `r n.pds`](Remarque: ne tient pas compte des jours fériés survenant en semaine)
+
+### Variations saisonnières
+```{r saison, echo=FALSE}
+# nombre de passages en juillet-aout
+n.rpu.ete <- length(dx[as.Date(dx$ENTREE) > "2014-06-30" & as.Date(dx$ENTREE) < "2014-09-01", "ENTREE"])
+mean.rpu.ete <- n.rpu.ete / 62 # nb moyen de rpu en été
+# nb de passages le reste de l'année
+n.rpu.autre.mois <- n.rpu - n.rpu.ete
+mean.rpu.autre <- n.rpu.autre.mois / 303
+# évolution
+t <- (mean.rpu.ete - mean.rpu.autre) / mean.rpu.autre
+```
+Variation du nombre de RPU entre les mois d'été (juillet-août) et les autres mois de l'année: `r t * 100` %
 
 ### Moyens d'arrivée
 ```{r transpport, echo=FALSE, comment=""}
@@ -377,8 +413,10 @@ NB : commentaire possible pour expliquer que la somme des 4 pourcentages ci dess
 ### Gravité (CCMU)
 
 ```{r ccmu, echo=FALSE, comment=""}
-ccmu <- summary(as.factor(dx$GRAVITE))
+ccmu <- summary(as.factor(dx$GRAVITE)) # nb de ccmu par catégories
 s.ccmu <- sum(ccmu[1:7]) # on retire les NA
+n.ccmu1 <- ccmu[1]
+p.ccmu1 <- n.ccmu1 / s.ccmu
 n.ccmu12 <- ccmu[1] + ccmu[2] 
 p.ccmu12 <- n.ccmu12 / s.ccmu
 n.ccmu45 <- ccmu[4] + ccmu[5] 
@@ -388,15 +426,25 @@ p.ccmu.d <- n.ccmu.d / s.ccmu
 n.ccmu.p <- ccmu[7]
 p.ccmu.p <- n.ccmu.p / s.ccmu
 
+# Exhaustivité CCMU 
+ccmu.corrigee <- dx$GRAVITE[!(dx$ORIENTATION %in% c("FUGUE","PSA","REO"))] # on ne tient pas compte des RPU dont le motif ORIENTATION = fugue, reo ou psa
+n.ccmu.utilisable <- length(ccmu.corrigee)
+n.ccmu.conforme <- sum(!is.na(ccmu.corrigee)) # Nombre de RPU 2014 hors orientation = FUGUE, PSA et REO ayant un élément transmis pour la CCMU
+
+
 #---------------------- Chiffres ---------------------------------------------------------------
-val <- c(NA)
+val <- c(n.ccmu12, n.ccmu45, n.ccmu.utilisable, n.ccmu.conforme, s.ccmu)
 names(val) <- c("")
 chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 ```
-
+- nombre de CCMU renseignés: `r s.ccmu`
+- __%(N) CCMU 1 __ [C]: `r round(100 * p.ccmu1, 2)`% (n = `r format.n(n.ccmu1)`)
 - __%(N) CCMU 1 et 2__ [C]: `r round(100 * p.ccmu12, 2)`% (n = `r format.n(n.ccmu12)`)
 - __%(N) CCMU 4 et 5__ [C]: `r round(100 * p.ccmu45, 2)`% (n = `r format.n(n.ccmu45)`)
+
+Exhaustivité CCMU :
+- Nombre de RPU 2014 hors orientation = FUGUE, PSA et REO ayant un élément transmis pour la CCMU: `r n.ccmu.conforme`
 
 DIAGNOSTIC PRINCIPAL 
 
@@ -411,31 +459,75 @@ Remarque: les chiffres sont dans le document _Codes_regroupement_ORUMIP_ => à r
 ### Durées de passage
 
 ```{r passages, echo=FALSE, comment=""}
-passages <- dx[, c("ENTREE", "SORTIE")] # dataframe entrées-sorties
+# On forme un dataframe avec les heures d'entrées et de sortie auxquelle on rajoute pour certains calculs: Mode_Sortie
+passages <- dx[, c("ENTREE", "SORTIE", "MODE_SORTIE")] # dataframe entrées-sorties
 passages <- passages[complete.cases(passages),] # on ne conserve que les couples complets
 n.passages <- nrow(passages)
 e <- ymd_hms(passages$ENTREE) # vecteur des entrées
 s <- ymd_hms(passages$SORTIE)
 d <- as.numeric((s-e)/60) # vecteur des durées de passage en minutes
-# on ne garde que les durées > 0 et < ou = 48 heures
-duree <- d[d > 0 & d < 2 * 24 * 60 + 1]
-n.duree <- length(duree) # nb total de durées
-s.duree <- summary(duree) # résumé des durées totales de passage
+passages$duree <- d
+
+# on ne garde que les passages dont la durées > 0 et < ou = 72 heures
+passages <- passages[passages$duree > 0 & passages$duree < 3 * 24 * 60 + 1,]
+n.duree <- nrow(passages) # nb total de durées
+s.duree <- summary(passages$duree) # résumé des durées totales de passage
+hist(passages$duree/60, breaks = 72, xlab = "Heures", main = paste0("Durées de passage en ", anc), col= "cornflowerblue", border = "white")
 mean.duree <- s.duree['Mean']
 median.duree <- s.duree['Median']
-sd.duree <- sd(duree)
+sd.duree <- sd(passages$duree)
 # nb de passages dont la durée est supérieure à 4 heures:
-duree.sup.4h <- duree[duree > 4 * 60] # vecteur des durées sup 4 h
+duree.sup.4h <- passages$duree[passages$duree > 4 * 60] # vecteur des durées sup 4 h
 n.duree.sup.4h <- length(duree.sup.4h) # nb de passages > 4h
 p.duree.sup.4h <- n.duree.sup.4h / n.duree
 
 # nb  de passages dont la durée est inférieure à 4 heures:
-duree.inf.4h <- duree[duree <= 4 * 60] # vecteur des durées inf 4 h
+duree.inf.4h <- passages$duree[passages$duree <= 4 * 60] # vecteur des durées inf 4 h
 n.duree.inf.4h <- length(duree.inf.4h) # nb de passages > 4h
 p.duree.inf.4h <- n.duree.inf.4h / n.duree
 
 # intervalle interquartile
 iqr.duree <- s.duree['3rd Qu.'] - s.duree['1st Qu.']
+
+# ancien code avec le vecteur durée
+# duree <- d[d > 0 & d < 3 * 24 * 60 + 1]
+# n.duree <- length(duree) # nb total de durées
+# s.duree <- summary(duree) # résumé des durées totales de passage
+# mean.duree <- s.duree['Mean']
+# median.duree <- s.duree['Median']
+# sd.duree <- sd(duree)
+# # nb de passages dont la durée est supérieure à 4 heures:
+# duree.sup.4h <- duree[duree > 4 * 60] # vecteur des durées sup 4 h
+# n.duree.sup.4h <- length(duree.sup.4h) # nb de passages > 4h
+# p.duree.sup.4h <- n.duree.sup.4h / n.duree
+# 
+# # nb  de passages dont la durée est inférieure à 4 heures:
+# duree.inf.4h <- duree[duree <= 4 * 60] # vecteur des durées inf 4 h
+# n.duree.inf.4h <- length(duree.inf.4h) # nb de passages > 4h
+# p.duree.inf.4h <- n.duree.inf.4h / n.duree
+# 
+# # intervalle interquartile
+# iqr.duree <- s.duree['3rd Qu.'] - s.duree['1st Qu.']
+
+# Nombre de RPU avec une heure de sortie conforme (]0-72h[ lors d'une hospitalisation post-urgences
+duree.hosp <- passages[passages$MODE_SORTIE %in% c("Mutation","Transfert"), "duree"]
+n.duree.hosp <- length(duree.hosp)
+# durée moyenne de passage si hospitalisation
+mean.duree.hosp <- mean(duree.hosp)
+median.duree.hosp <- median(duree.hosp)
+# Nombre de RPU dont la durée de passage est inférieure à 4h lors d'une hospitalisation post-urgences
+duree.hosp.inf4h <- passages[passages$MODE_SORTIE %in% c("Mutation","Transfert") & passages$duree < 4*60, "duree"]
+n.duree.hosp.inf4h <- length(duree.hosp.inf4h)
+
+# Nombre de RPU avec une heure de sortie conforme (]0-72h[ lors d'un retour au domicile
+duree.domicile <- passages[passages$MODE_SORTIE == "Domicile", "duree"]
+n.duree.domicile <- length(duree.domicile)
+# durée moyenne de passage si retour à domicile
+mean.duree.domicile <- mean(duree.domicile)
+median.duree.domicile <- median(duree.domicile)
+# Nombre de RPU dont la durée de passage est inférieure à 4h lors d'un retour au domicile
+duree.domicile.inf4h <- passages[passages$MODE_SORTIE == "Domicile" & passages$duree < 4*60, "duree"]
+n.duree.domicile.inf4h <- length(duree.domicile.inf4h)
 
 #---------------------- Chiffres ---------------------------------------------------------------
 val <- c(NA)
@@ -444,6 +536,7 @@ chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 ```
 
+- Nb de RPU dont la durée de passage est comprise entre 0 et 72h: `r n.duree`
 - durée moyenne de passage `r mean.duree` mn.
 - écart-type: `r sd.duree` mn.
 - médiane: `r median.duree` mn.
@@ -475,6 +568,16 @@ p.transferts <- mode.sortie['Transfert'] / n.mode.sortie
 p.hospitalises <- n.hospitalises / n.mode.sortie
 p.deces <- mode.sortie['DCD'] / n.mode.sortie
 
+# Exhaustivité Destination (lors d'une hospitalisation) 
+#Nb de RPU 2014  avec mode de sortie = 6 ou 7 avec un élément transmis pour la destination
+hosp.dest <- dx[dx$MODE_SORTIE %in% c("Mutation","Transfert"), "DESTINATION"]
+n.hosp.dest <- sum(!is.na(hosp.dest))
+
+# Exhaustivité Orientation lors d'une hospitalisation    
+# Nb de RPU 2014 avec mode de sortie = 6 ou 7 avec un élement transmis pour l'orientation
+hosp.orient <- dx[dx$MODE_SORTIE %in% c("Mutation","Transfert"), "ORIENTATION"]
+n.hosp.orient <- sum(!is.na(hosp.orient))
+
 #---------------------- Chiffres ---------------------------------------------------------------
 val <- c(NA)
 names(val) <- c("")
@@ -486,6 +589,8 @@ chiffres <- c(chiffres, val)
 - % (N) Hospitalisation: `r round(n.hospitalises * 100 / n.mode.sortie, 2)` % (N = `r format.n(n.hospitalises)`)
 - % (N) Mutation: `r round(n.mutations * 100 / n.mode.sortie, 2)` % (N = `r format.n(n.mutations)`)
 - % (N) Transfert: `r round(n.transferts * 100 / n.mode.sortie, 2)` % (N = `r format.n(n.transferts)`)
+- Nb de RPU 2014  avec mode de sortie = 6 ou 7 (hospitalisation) avec un élément transmis pour la destination: `r n.hosp.dest`
+- Nb de RPU 2014 avec mode de sortie = 6 ou 7 avec un élement transmis pour l'orientation: `r n.hosp.orient`
 
 
 Les chiffres clés de l’activité des SAMU
@@ -539,6 +644,8 @@ barplot(table(ped), main = "Pédiatrie")
 
 # nombre
 n.rpu18 <- nrow(pop18)
+n.pop18 <- nrow(pop18) # conserver plutôt que n.rpu18
+
 mean.rpu18 <- n.rpu18 / n.jours # Moyenne quotidienne de passages
 p.rpu18 <- n.rpu18 * 100 / n.rpu # Taux d'urgences gériatriques
 
@@ -591,13 +698,24 @@ tx.masculinite18 <- n.hommes18 / (n.hommes18 + n.femmes18)
 # colnames(a) <- c("effectif", "moyenne par jour ","médiane par jour", "sex ratio")
 # a
 
+# moyen de transport
+summary(pop18$TRANSPORT)
+# Nombre de RPU avec un moyen de transport renseigné
+sum(!is.na(pop18$TRANSPORT))
+# Nombre de RPU avec une CCMU renseignée
+sum(!is.na(pop18$GRAVITE))
+# nombre de CCMU
+summary(pop18$GRAVITE)
+
+
 #---------------------- Chiffres ---------------------------------------------------------------
 val <- c(NA)
 names(val) <- c("")
 chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 ```
-
+- nombre de garçons: `r n.hommes18`
+- nombre de filles: `r n.femmes18`
 - Sex ratio: `r sex.ratio18`
 - Pyramide des âges (âge par année, borne supérieure toujours exclue)
 - Par sous classes d’âge:
@@ -605,14 +723,65 @@ chiffres <- c(chiffres, val)
  # kable(a)
 ```
 
+### horaires de passages pédiatriques
+```{r passages_ped, echo=FALSE}
+# nombre de passages de nuit 20h-8h
+n.passages.nuit <- passages2(pop18$ENTREE, "nuit")
+p.passages.nuit <- n.passages.nuit / n.pop18
 
-Les chiffres clés de l’activité gériatrique des services d’urgences (plus de 75 ans)
+n.passages.nuit.profonde <- passages2(pop18$ENTREE, "nuit_profonde")
+p.passages.nuit.profonde <- n.passages.nuit.profonde / n.pop18
+#---------------------- Chiffres ---------------------------------------------------------------
+val <- c(NA)
+names(val) <- c("")
+chiffres <- c(chiffres, val)
+#---------------------- Chiffres ---------------------------------------------------------------
+```
+- nombre de passages la nuit: `r n.passages.nuit` (p = `r p.passages.nuit * 100` %)
+- nombre de passages en nuit profonde: `r n.passages.nuit.profonde` (p = `r p.passages.nuit.profonde * 100` %)
+
+### Durée de passage
+```{r ped_duree_passage, echo=FALSE}
+ped.dp <- duree.passage2(pop18)
+ped.conforme <- nrow(ped.dp)
+ped.duree.moyenne.passage <- mean(ped.dp$duree)
+ped.duree.mediane.passage <- median(ped.dp$duree)
+ped.passage4 <- length(ped.dp$duree[ped.dp$duree < 4 * 60 + 1]) #nb passages < 4h
+s.ped.mode.sortie <- summary(ped.dp$MODE_SORTIE)
+ped.hosp.passage4 <- length(ped.dp$duree[ped.dp$duree < 4 * 60 + 1 & ped.dp$MODE_SORTIE %in% c("Mutation","Transfert")]) #nb passages < 4h et hospitalisation
+
+ped.dom.passage4 <- length(ped.dp$duree[ped.dp$duree < 4 * 60 + 1 & ped.dp$MODE_SORTIE == "Domicile"]) #nb passages < 4h et retourà domicile
+
+s.mode.sortie <- summary(pop18$MODE_SORTIE)
+# Nombre de mutation interne
+n.ped.mutation <- s.mode.sortie["Mutation"]
+# nb de transfert
+n.ped.transfert <- s.mode.sortie["Transfert"]
+# nb de retour à domicile
+n.ped.domicile <- s.mode.sortie["Domicile"]
+
+```
+- Nombre de RPU avec une heure de sortie conforme (]0-72h[: `r nrow(ped.dp)`
+- Durée moyenne de passage (en min): `r ped.duree.moyenne.passage` mn
+- Durée médiane de passage (en min): `r ped.duree.mediane.passage` mn
+- Nombre de RPU dont la durée de passage est inférieure à 4h: `r ped.passage4`
+- Nombre de RPU avec une heure de sortie conforme (]0-72h[ lors d'une hospitalisation post-urgences: `r s.ped.mode.sortie["Mutation"] + s.ped.mode.sortie["Transfert"]`
+- Nombre de RPU avec une heure de sortie conforme (]0-72h[ lors d'un retour au domicile: `r s.ped.mode.sortie["Domicile"]`
+- Nombre de RPU dont la durée de passage est inférieure à 4h lors d'une hospitalisation post-urgences: `r ped.hosp.passage4`
+- Nombre de RPU dont la durée de passage est inférieure à 4h lors d'un retour au domicile: `r ped.dom.passage4`
+
+- Nombre de RPU avec un mode de sortie renseigné: `r sum(!is.na(pop18$MODE_SORTIE))`
+- Nombre de mutation interne: `r n.ped.mutation`
+- Nombre de transfert externe: `r n.ped.transfert`
+- nombre de retours à domicile: `r n.ped.domicile`
+
+Les chiffres clés de l’activité gériatrique des services d’urgences (75 ans et plus)
 ====================================================================================
 ```{r pop75, echo=FALSE}
 n.jours <- length(unique(as.Date(dx$ENTREE))) # nb de jours pour la période
 n.rpu <- nrow(dx)
 
-pop75 <- dx[!is.na(dx$AGE) & dx$AGE > 75,]
+pop75 <- dx[!is.na(dx$AGE) & dx$AGE > 74,]
 # crée une nouvelle colonne age à 2 classes: mois de 85 ans = 1, 85 ans et plus = 2
 pop75$age2 <- ifelse(pop75$AGE < 85, 1, 2)
 # nombre
@@ -919,6 +1088,22 @@ RECUEIL DES DONNÉES
 - Moyenne quotidienne d’AVC: __`r format.n(n.avc/365)` AVC/j__
 - %  d’AVC dans l’activité globale: __`r n.avc *100 / nrow(d3)` %__
 
+Répartition des AVC
+-------------------
+Exemple d'utilisation de la méthode _hist_ appliquée aux objets date-time:
+
+- _x_ = as.Date(AVC$ENTREE)
+- _breaks_ est obligatoire: "days", "weeks", "months", "quarters", "years", "secs", "mins", "hours". Utiliser _start.on.monday = TRUE_ si _breaks = "weeks"_.
+- _freq_ = TRUE (défaut FALSE) pour afficher les fréquences
+- _format_ permet de coisir l'affichage de la date sur l'axe des x [voir](https://stat.ethz.ch/R-manual/R-devel/library/base/html/strptime.html).
+
+
+```{r hist_avc}
+hist(as.Date(AVC$ENTREE), breaks = "months", freq = TRUE, xlab = "Mois", ylab = "Fréquence", main = "Histogramme des AVC vu en SU en 2014", las = 2, col = "cornflowerblue", border = "white")
+
+```
+
+
 PATIENTS
 --------
 ```{r patients, echo=FALSE}
@@ -1035,13 +1220,19 @@ chiffres <- c(chiffres, val)
 - %  d'arrivées ambulance privée: `r p.avc.moyen["AMBU"]`%
 NB : commentaire possible pour expliquer que la somme des 4 pourcentages ci dessus ne fait pas 100 %
 
-DIAGNOSTIC PRINCIPAL
+Diagnostic principal
 --------------------
+
 ```{r diag_principal}
 t.diag <- table(AVC$etiologie)
 p.diag <- prop.table(t.diag)*100
 dp.avc <- rbind(t.diag, p.diag)
 rownames(dp.avc) <- c("nombre","%")
+
+# Exhaustivité CCMU 
+dp.corrigee <- dx$DP[!(dx$ORIENTATION %in% c("FUGUE","PSA","REO"))] # on ne tient pas compte des RPU dont le motif ORIENTATION = fugue, reo ou psa
+n.dp.utilisable <- length(dp.corrigee)
+n.dp.conforme <- sum(!is.na(dp.corrigee)) # Nombre de RPU 2014 hors orientation = FUGUE, PSA et REO ayant un élément transmis pour la CCMU
 
 #---------------------- Chiffres ---------------------------------------------------------------
 val <- c(NA)

@@ -16,6 +16,7 @@
 # horaire()
 # datetime()
 # pds()
+# passages.nuit()
     
 #===============================================
 #
@@ -58,14 +59,26 @@ format.n <- function(x){
 #'@keywords complétude
 #'@family RPU
 #'@param dx Un dataframe
+#'#'@param calcul 2 options "percent" (défaut) ou "somme". Somme = nb de réponses
+#'        non nulles. Percent = % de réponses non nulles.
 #'@param tri si tri = TRUE (defaut) les colonnes sont triées par ordre croissant.
 #'@return vecteur des taux de complétude
 #'@example todo
 #'@export
 
-completude <- function(dx, tri = FALSE){
+completude <- function(dx, calcul = "percent", tri = FALSE){
+    # calcul du % ou de la somme
+    percent <- function(x){round(100 * mean(!is.na(x)),2)}
+    somme <- function(x){sum(!is.na(x))}
+    "%!in%" <- function(x, y) x[!x %in% y]
+    
+    if(calcul == "percent")
+        fun <- percent
+    else
+        fun <- somme
+    
     #' complétude brute. Des corrections sont nécessaires pour DESTINATION
-    completude <- apply(dx, 2, function(x){round(100 * mean(!is.na(x)),2)})
+    completude <- apply(dx, 2, fun)
     
     #' correction pour Destination et Orientation
     #' Les items DESTINATION et ORIENTATION ne s'appliquent qu'aux patients hspitalisés. 
@@ -75,15 +88,16 @@ completude <- function(dx, tri = FALSE){
     #' On ne retient donc que le sous ensemble des patients hospitalisés pour lesquels les rubriques 
     #' DESTINATION et ORIENTATION doivent être renseignées.
     hosp <- dx[dx$MODE_SORTIE %in% c("Mutation","Transfert"), c("DESTINATION", "ORIENTATION")]
-    completude.hosp <- apply(hosp, 2, function(x){round(100 * mean(!is.na(x)),2)})
+    completude.hosp <- apply(hosp, 2, fun)
     completude['ORIENTATION'] <- completude.hosp['ORIENTATION']
     completude['DESTINATION'] <- completude.hosp['DESTINATION']
     
     #' Correction pour DP. Cette rubrique ne peut pas être remplie dans le cas où ORIENTATION =
     #' FUGUE, PSA, SCAM, REO
-    "%!in%" <- function(x, y) x[!x %in% y]
-    dp <- dx[dx$ORIENTATION %!in% c("FUGUE","PSA","SCAM","REO"),]
-    completude['DP'] <- mean(!is.na(dx$DP)) * 100
+    # exemple d'utilisation de NOT IN
+    dp <- dx[!(dx$ORIENTATION %in% c("FUGUE","PSA","SCAM","REO")), "DP"]
+    # completude['DP'] <- mean(!is.na(dx$DP)) * 100 # erreur remplacer !is.na(dx$DP) par !is.na(dp$DP)
+    completude['DP'] <- fun(dp)
 
     # réorganise les données dans l'ordre de la FEDORU
     completude <- reorder.vector.fedoru(completude)
@@ -298,7 +312,7 @@ horaire <- function(date){
     return(hms(substr(date, 12, 20)))
 }
 
-# somution avec POSIXt
+# solution avec POSIXt
 horaire2 <- function(date){
     return(paste(as.POSIXlt(date)$hour, as.POSIXlt(date)$min, as.POSIXlt(date)$sec, sep=":"))
 }
@@ -373,6 +387,11 @@ pds <- function(dx){
     return(temp)
 }
 
+#===============================================
+#
+# tab.completude
+#
+#===============================================
 # faire un tableau de complétude par jour pendant une période donnée
 # Permetde suivre les taux de complétude pour une structure et par période
 #'@param dx dataframe de type RPU
@@ -410,5 +429,71 @@ tab.completude <- function(dx, d1, d2, finess = NULL){
 }
 
 
+#===============================================
+#
+# passages (nombre de passages)
+#
+#===============================================
+#'
+#' Détermine le nombre de RPU sur une plage horaire donnée
+#' @author jcb
+#' @description nécessite lubridate library(lubridate)
+#' @param vx vecteur de type datetime (dx$ENTREE, dx$SORTIE par exemple)
+#' @param h1 char heure de début ou période: 'nuit', nuit_profonde', 'jour', 'pds', 
+#'                                            'soir', '08:00:00'
+#' @param h2 char heure de fin
+#' @usage n.passages.nuit <- passages(pop18$ENTREE, "nuit")
+#' 
+passages2 <- function(vx, h1, h2 = NULL){
+    e <- ymd_hms(vx) # vecteur des entrées
+    he <- hms(substr(e, 12, 20)) # on ne conserve que la partie horaire
+    
+    if(h1 == "nuit"){
+        # nombre de passages dont l’admission s’est effectuée sur la période [20h00 - 7h59] 
+        n <- he[he > hms("19:59:59") | he < hms("08:00:00")] # passages 20:00 - 7:59
+    }
+    else if(h1 == "nuit_profonde"){
+        #nombre de passages dont l’admission s’est effectuée sur la période [00h00 - 7h59]
+        n  <- he[he < hms("08:00:00")]
+    }
+    else if(h1 == "jour"){
+        #nombre de passages dont l’admission s’est effectuée sur la période [08h00 - 19h59]
+        n <- he[he > hms("07:59:59") | he < hms("08:00:00")] # passages 7:59 - 20:00
+    }
+    else if(h1 == "soir"){
+        #nombre de passages dont l’admission s’est effectuée sur la période [20h00 - 0:00]
+        n <- he[he > hms("19:59:59") | he <= hms("23:59:59")] # passages 7:59 - 20:00
+    }
+    else if(!is.null(h2)){
+        # nombre de passages dont l’admission s’est effectuée sur la période [h1 - h2] 
+        n <- he[he > hms(h1) | he < hms(h2)]
+    }
+    return(length(n))
+}
 
-
+#===============================================
+#
+# duree.passage
+#
+#===============================================
+#'
+#' @param dx dataframe RPU
+#' @param h1 durée minimale en minutes (par défaut > 0)
+#' @param h2 durée maximale en minutes (par défaut 4320 = 72 heures)
+#' @return dataframe à 4 colonnes: entree, sortie, mode_sortie, duree (en mn)
+#' 
+duree.passage2 <- function(dx, h1 = 0, h2 = 4320){
+    # On forme un dataframe avec les heures d'entrées et de sortie auxquelle on rajoute 
+    #pour certains calculs: Mode_Sortie
+    passages <- dx[, c("ENTREE", "SORTIE", "MODE_SORTIE")] # dataframe entrées-sorties
+    passages <- passages[complete.cases(passages),] # on ne conserve que les couples complets
+    n.passages <- nrow(passages)
+    e <- ymd_hms(passages$ENTREE) # vecteur des entrées
+    s <- ymd_hms(passages$SORTIE)
+    # ON AJOUTE UNE COLONNE DUREE
+    passages$duree <- as.numeric((s-e)/60) # vecteur des durées de passage en minutes
+    # on ne garde que les passages dont la durées > 0 et < ou = 72 heures
+    passages <- passages[passages$duree > 0 & passages$duree < 3 * 24 * 60 + 1,]
+    
+    return(passages)
+}
