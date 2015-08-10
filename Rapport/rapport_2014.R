@@ -443,6 +443,7 @@ tab.completude <- function(dx, d1, d2, finess = NULL){
 #'                                            'soir', '08:00:00'
 #' @param h2 char heure de fin
 #' @usage n.passages.nuit <- passages(pop18$ENTREE, "nuit")
+#' @return integer
 #' 
 passages2 <- function(vx, h1, h2 = NULL){
     e <- ymd_hms(vx) # vecteur des entrées
@@ -496,4 +497,286 @@ duree.passage2 <- function(dx, h1 = 0, h2 = 4320){
     passages <- passages[passages$duree > 0 & passages$duree < 3 * 24 * 60 + 1,]
     
     return(passages)
+}
+
+#===============================================
+#
+# summary.passages
+#
+#===============================================
+#'
+#' @description analyse un objet de type duree.passage2
+#' @param dp un objet de type duree.passage2. Correspond à un dataframe d'éléments du RPU dont
+#'        la rurée de passage est conforme cad non nulle et inférieure à 72 heures
+#' @return n.conforme               NB de durées conformes (>0 mn et < 72 heures)
+#'         duree.moyenne.passage    durée moyenne d'un passage en minutes
+#'         duree.mediane.passage    durée médiane d'un passage en minutes
+#'         n.passage4               nombre de passages de moins de 4 heures
+#'         n.hosp.passage4          nombre de passages de moins de 4 heures suivi d'hospitalisation
+#'         n.domicile               nombre de retours à domicile
+#'         n.dom.passage4           nombre de passages de moins de 4 heures suivi d'un retour à domicile
+#'         n.dom                    nombre de retours à domicile
+summary.passages <- function(dp){
+    # dp <- duree.passage2(dx)
+    
+    tmax <- 4 * 60 + 1 # < 4 heures
+    
+    n.conforme <- nrow(dp)
+    duree.moyenne.passage <- mean(dp$duree)
+    duree.mediane.passage <- median(dp$duree)
+    
+    s.mode.sortie <- summary(dp$MODE_SORTIE)
+    
+    n.passage4 <- length(dp$duree[dp$duree < tmax]) #nb passages < 4h
+    
+    # Nombre de RPU avec une heure de sortie conforme (]0-72h[ lors d'un retour au domicile:
+    n.dom <- s.mode.sortie["Domicile"]
+    # Nombre de RPU avec une heure de sortie conforme (]0-72h[ lors d'une hospitalisation
+    # post-urgences:
+    n.hosp <- s.mode.sortie["Mutation"] + s.mode.sortie["Transfert"] 
+    
+    n.transfert <- s.mode.sortie["Transfert"]   # nb de transfert
+    n.mutation <- s.mode.sortie["Mutation"]     # Nombre de mutation interne
+    n.deces <- s.mode.sortie["Décès"]           # nombre de décès
+    
+    n.hosp.passage4 <- length(dp$duree[dp$duree < tmax & 
+          dp$MODE_SORTIE %in% c("Mutation","Transfert")]) #nb passages < 4h et hospitalisation
+    
+    n.dom.passage4 <- length(dp$duree[dp$duree < tmax & 
+                      dp$MODE_SORTIE == "Domicile"]) #nb passages < 4h et retourà domicile
+    
+    a <- c(n.conforme, duree.moyenne.passage, duree.mediane.passage, n.passage4, n.hosp.passage4,
+           n.dom.passage4, n.dom, n.hosp, n.transfert, n.mutation, n.deces)
+    names(a) <- c("n.conforme", "duree.moyenne.passage", "duree.mediane.passage", "n.passage4",
+                  "n.hosp.passage4", "n.dom.passage4",  "n.dom", "n.hosp", "n.transfert", 
+                  "n.mutation", "n.deces")
+    
+    return(a)
+}
+
+
+#===============================================
+#
+# summary.sexe
+#
+#===============================================
+#'
+#' @description analyse un vecteur formé d'une suite de H, F, ou I
+#' @param vx vecteur de Char (sexe)
+#' @return vecteur nommé
+#' 
+summary.sexe <- function(vx){
+    sexe <- table(as.factor(vx))
+    n <- length(vx) # nb de valeurs
+    n.na <- sum(is.na(vx)) # nb de valeurs non renseignées
+    p.na <- mean(is.na(vx)) # % de valeurs non renseignées
+    n.rens <- sum(!is.na(vx)) # nb de valeurs renseignées
+    p.rens <- mean(!is.na(vx)) # % de valeurs renseignées
+    
+    p.femme <- sexe['F']*100/(sexe['F'] + sexe['M']) # % de femmes
+    p.homme <- sexe['M']*100/(sexe['F'] + sexe['M']) # % d'hommes
+    sex.ratio <- sexe['M'] / sexe['F'] # sex ratio
+    n.hommes <- sexe['M']
+    n.femmes <- sexe['F']
+    tx.masculinite <- n.hommes / (n.hommes + n.femmes)
+    
+    a <- c(n, n.na, n.rens, p.rens, n.hommes, n.femmes, p.homme, p.femme, sex.ratio, tx.masculinite)
+    names(a) <- c("N", "n.na", "n.rens", "p.rens", "n.hommes", "n.femmes", "p.hommes", "p.femmes",
+                  "sex.ratio", "tx.masculinité")
+    return(a)
+}
+
+#===============================================
+#
+# summary.entree
+#
+#===============================================
+#'
+#' @description analyse du vecteur ENTREE ou SORTIE
+#' @param vx vecteur de Date ou de DateTime
+#' @usage summary.entree(as.Date(pop75$ENTREE))
+#' @TODO min et max ne s'affiche pas sous formr de date. Que donne hms
+#' 
+summary.entree <- function(vx){
+    n <- length(vx) # nb de valeurs
+    n.na <- sum(is.na(vx)) # nb de valeurs non renseignées
+    p.na <- mean(is.na(vx)) # % de valeurs non renseignées
+    n.rens <- sum(!is.na(vx)) # nb de valeurs renseignées
+    p.rens <- mean(!is.na(vx)) # % de valeurs renseignées
+    
+    a <- c(n, n.na, n.rens, p.rens, min(as.Date(vx)), max(as.Date(vx)), max(vx) - min(vx))
+    names(a) <- c("n", "n.na", "n.rens", "p.rens", "min", "max", "range")
+    
+    return(a)
+}
+
+#===============================================
+#
+# summary.transport
+#
+#===============================================
+#' @description analyse du vecteur TRANSPORT
+#' @p vx vecteur de Factor
+#' @usage summary.transport(pop75$TRANSPORT)
+
+summary.transport <- function(vx){
+    n <- length(vx) # nb de valeurs
+    n.na <- sum(is.na(vx)) # nb de valeurs non renseignées
+    p.na <- mean(is.na(vx)) # % de valeurs non renseignées
+    n.rens <- sum(!is.na(vx)) # nb de valeurs renseignées
+    p.rens <- mean(!is.na(vx)) # % de valeurs renseignées
+    s <- summary(vx)
+    
+    a <- c(n, n.na, p.na, n.rens, p.rens, s['FO'], s['HELI'], s['PERSO'], s['SMUR'], s['VSAB'], s['AMBU'])
+    names(a) <- c("n", "n.na", "p.na", "n.rens", "p.rens", "FO", "HELI", "PERSO", "SMUR", "VSAB", "AMBU")
+    
+    return(a)
+}
+
+#===============================================
+#
+# summary.ccmu
+#
+#===============================================
+#' @description résumé du vecteur vx des CCMU
+#' @param vx vecteur de factor CCMU
+#' @usage summary.ccmu(dx$GRAVITE)
+#' @return
+#' 
+summary.ccmu <- function(vx){
+    n <- length(vx) # nb de valeurs
+    n.na <- sum(is.na(vx)) # nb de valeurs non renseignées
+    p.na <- mean(is.na(vx)) # % de valeurs non renseignées
+    n.rens <- sum(!is.na(vx)) # nb de valeurs renseignées
+    p.rens <- mean(!is.na(vx)) # % de valeurs renseignées
+    s <- summary(factor(vx))
+    
+    a <- c(n, n.na, p.na, n.rens, p.rens, s['1'], s['2'], s['3'], s['4'], s['5'], s['P'], s['D'])
+    names(a) <- c("n", "n.na", "p.na", "n.rens", "p.rens", "CCMU1", "CCMU2", "CCMU3", "CCMU4", "CCMU5", "CCMU P", "CCMU D")
+    
+    return(a)
+}
+
+#===============================================
+#
+# summary.dateheure
+#
+#===============================================
+#' @description résumé du vecteur vx des ENTREE ou SORTIE
+#' @param vx vecteur ENTREE ou SORTIE
+#' @usage summary.ccmu(dx$SORTIE)
+#' @return
+#' 
+summary.dateheure <- function(vx){
+    n <- length(vx) # nb de valeurs
+    n.na <- sum(is.na(vx)) # nb de valeurs non renseignées
+    p.na <- mean(is.na(vx)) # % de valeurs non renseignées
+    n.rens <- sum(!is.na(vx)) # nb de valeurs renseignées
+    p.rens <- mean(!is.na(vx)) # % de valeurs renseignées
+    s <- summary(factor(vx))
+    
+    a <- c(n, n.na, p.na, n.rens, p.rens)
+    names(a) <- c("n", "n.na", "p.na", "n.rens", "p.rens")
+    
+    return(a)
+}
+
+#===============================================
+#
+# summary.mode.sortie
+#
+#===============================================
+#' @description résumé du vecteur vx des MODE_SORTIE
+#' @param vx vecteur char MODE_SORTIE
+#' @usage summary.mode.sortie(dx$MODE_SORTIE)
+#' @return
+#' 
+summary.mode.sortie <- function(vx){
+    n <- length(vx) # nb de valeurs
+    n.na <- sum(is.na(vx)) # nb de valeurs non renseignées
+    p.na <- mean(is.na(vx)) # % de valeurs non renseignées
+    n.rens <- sum(!is.na(vx)) # nb de valeurs renseignées
+    p.rens <- mean(!is.na(vx)) # % de valeurs renseignées
+    s <- summary(as.factor(vx))
+    
+    n.dom <- s["Domicile"]
+    n.hosp <- s["Mutation"] + s["Transfert"] 
+    n.transfert <- s["Transfert"]   # nb de transfert
+    n.mutation <- s["Mutation"]     # Nombre de mutation interne
+    n.deces <- s["Décès"]           # nombre de décès
+    
+    a <- c(n, n.na, p.na, n.rens, p.rens, n.dom, n.hosp, n.transfert, n.mutation, n.deces)
+    names(a) <- c("n", "n.na", "p.na", "n.rens", "p.rens", "n.dom", "n.hosp", "n.transfert", "n.mutation", "n.deces")
+    
+    return(a)
+}
+
+#===============================================
+#
+# summary.dp
+#
+#===============================================
+#' @description résumé du vecteur vx des DP (diagnostic principal)
+#' @param vx vecteur char DP
+#' @usage summary.dp(dx$DP)
+#' @return
+#' 
+summary.dp <- function(vx){
+    n <- length(vx) # nb de valeurs
+    n.na <- sum(is.na(vx)) # nb de valeurs non renseignées
+    p.na <- mean(is.na(vx)) # % de valeurs non renseignées
+    n.rens <- sum(!is.na(vx)) # nb de valeurs renseignées
+    p.rens <- mean(!is.na(vx)) # % de valeurs renseignées
+    
+    a <- c(n, n.na, p.na, n.rens, p.rens)
+    names(a) <- c("n", "n.na", "p.na", "n.rens", "p.rens")
+    
+    return(a)
+}
+
+#===============================================
+#
+# summary.age
+#
+#===============================================
+#' @description résumé du vecteur vx des AGE
+#' @param vx vecteur char AGE
+#' @usage summary.dp(dx$AGE)
+#' @return
+#' 
+summary.age <- function(vx){
+    n <- length(vx) # nb de valeurs
+    n.na <- sum(is.na(vx)) # nb de valeurs non renseignées
+    p.na <- mean(is.na(vx)) # % de valeurs non renseignées
+    n.rens <- sum(!is.na(vx)) # nb de valeurs renseignées
+    p.rens <- mean(!is.na(vx)) # % de valeurs renseignées
+    s.age <- summary(vx)
+    # age sans les NA
+    n.inf1an <- length(vx[!is.na(vx) & vx < 1]) #nb de moins d'un an
+    n.inf15ans <- length(vx[!is.na(vx) & vx < 15]) #nb de moins de 15 an
+    n.75ans <- length(vx[!is.na(vx) & vx > 74]) #nb de 75 ans et plus
+    
+    a <- c(n, n.na, p.na, n.rens, p.rens, n.inf1an, n.inf15ans, n.75ans)
+    names(a) <- c("n", "n.na", "p.na", "n.rens", "p.rens","n.inf1an", "n.inf15ans","n.75ans" )
+    
+    return(a)
+}
+
+#===============================================
+#
+# summary.wday
+#
+#===============================================
+#' @description à partir du vecteur vx des ENTREE, retourne le nombre de RPU
+#'                  pour chaque jour de la semaine
+#' @param vx vecteur datetime
+#' @ return vecteur nommé commençant le lundi
+#' @usage summary.wday(dx$ENTREE)
+#' 
+summary.wday <- function(vx){
+    a <- tapply(as.Date(vx), wday(as.Date(vx), label = TRUE), length)
+    names(a) <- c("Dim","Lun","Mar","Mer","Jeu","Ven","Sam")
+    b <- a[2:7]
+    a <- c(b, a[1])
+    return(a)
 }

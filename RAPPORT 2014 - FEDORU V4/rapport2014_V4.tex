@@ -93,7 +93,7 @@
 \setcounter{tocdepth}{2}
 \tableofcontents
 }
-Version mse à jour le: \textbf{Thu Aug 6 12:48:26 2015}
+Version mse à jour le: \textbf{Sat Aug 8 13:15:54 2015}
 
 Ajout de la dernière version de Gilles
 
@@ -631,6 +631,10 @@ plus)}\label{les-chiffres-cles-de-lactivite-geriatrique-des-services-durgences-7
 
 \begin{itemize}
 \item
+  Nombre d'hommes: 22 665
+\item
+  Nombre de femmes: 34 605
+\item
   Sex ratio: 0.65
 \item
   Pyramide des âges (âge par année, borne supérieure toujours exclue)
@@ -657,15 +661,28 @@ plus)}\label{les-chiffres-cles-de-lactivite-geriatrique-des-services-durgences-7
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
 \item
+  Nb de RPU avec date/heure d'entrée renseignés: 57 271
+\item
   \% passages la nuit: 22.38 \% (N = 12 815)
 \item
-  \% passages en horaire de PDS: 36.75 \% (N = 19 960)
+  \% passages en horaire de PDS: 36.77 \% (N = 21 058)
 \end{itemize}
 
 \subsubsection{Moyens de transport}\label{moyens-de-transport}
 
 \begin{itemize}
-\itemsep1pt\parskip0pt\parsep0pt
+\item
+  nombre de moyens de transport: 57271
+\item
+  nombre de moyens de transport renseignés: 40878
+\item
+  nombre de moyens personnels: 11962
+\item
+  nombre de SMUR: 698
+\item
+  nombre de VSAV: 6797
+\item
+  nombre d'ambulances privées: 21370
 \item
   \% d'arrivées Moyen perso: 20.89 \% (N = 11 962)
 \item
@@ -685,6 +702,8 @@ ci dessus ne fait pas 100 \%
 
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
+\item
+  Nombre de RPU avec une CCMU renseignée: 47408
 \item
   \% CCMU 1: 4.32 \% (N = 2 472)
 \item
@@ -766,6 +785,31 @@ ci dessus ne fait pas 100 \%
   lors d'un retour au domicile: 214.71 minutes.
 \end{itemize}
 
+\paragraph{Nouveau}\label{nouveau}
+
+\begin{itemize}
+\item
+  Nombre de RPU avec une heure de sortie conforme ({]}0-72h{[}: 45715
+\item
+  Durée moyenne de passage (en min): 220.66 mn
+\item
+  Durée médiane de passage (en min): 190 mn
+\item
+  Nombre de RPU dont la durée de passage est inférieure à 4h: 27982
+\item
+  Nombre de RPU avec une heure de sortie conforme ({]}0-72h{[} lors
+  d'une hospitalisation post-urgences: 28228
+\item
+  Nombre de RPU avec une heure de sortie conforme ({]}0-72h{[} lors d'un
+  retour au domicile: 17487
+\item
+  Nombre de RPU dont la durée de passage est inférieure à 4h lors d'une
+  hospitalisation post-urgences: 16467
+\item
+  Nombre de RPU dont la durée de passage est inférieure à 4h lors d'un
+  retour au domicile: 11515
+\end{itemize}
+
 \subsubsection{MODE DE SORTIE}\label{mode-de-sortie-1}
 
 \includegraphics{rapport2014_V4_files/figure-latex/sortie75-1.pdf}
@@ -797,6 +841,20 @@ ci dessus ne fait pas 100 \%
   \end{itemize}
 \item
   \% de retour à domicile:31.66 \% (N = 18 131)
+\end{itemize}
+
+\paragraph{rapport régional}\label{rapport-regional}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  Nombre de RPU avec un mode de sortie renseigné: 46 841
+\item
+  Nombre de mutation interne: 27 196
+\item
+  Nombre de transfert externe: 1 514
+\item
+  nombre de retours à domicile: 18 131
 \end{itemize}
 
 \section{Les chiffres clés de l'activité AVC des services
@@ -852,6 +910,16 @@ date-time:
 \end{verbatim}
 
 \includegraphics{rapport2014_V4_files/figure-latex/patients-1.pdf}
+
+\begin{verbatim}
+## c.age
+##    [0,1)    [1,5)   [5,10)  [10,15)  [15,18)  [18,30)  [30,45)  [45,65) 
+##        3        7        2        4        4       51      127      648 
+##  [65,75)  [75,85) [85,120) 
+##      579      889      635
+\end{verbatim}
+
+\includegraphics{rapport2014_V4_files/figure-latex/patients-2.pdf}
 
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
@@ -987,13 +1055,15 @@ notamment \textbf{temps de passage}.
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
 \item
-  \% d'hospitalisation: 87.3 \%
+  Nombre de RPU ac diag. AVC avec un mode de sortie renseigné: 2626
 \item
-  \% de mutation: 81.3 \%
+  \% d'hospitalisation: 87.3 \% (N = 2292)
 \item
-  \% de transfert: 6 \%
+  \% de mutation: 81.3 \% (N = 2134)
 \item
-  \% de retour à domicile: 12.7 \%
+  \% de transfert: 6 \% (N = 158)
+\item
+  \% de retour à domicile: 12.7 \% (N = 334)
 \end{itemize}
 
 \subsection{Orientation}\label{orientation}
@@ -1005,8 +1075,8 @@ notamment \textbf{temps de passage}.
 \end{itemize}
 
 \% Table created by stargazer v.5.1 by Marek Hlavac, Harvard University.
-E-mail: hlavac at fas.harvard.edu \% Date and time: Jeu, aoû 06, 2015 -
-12:51:32
+E-mail: hlavac at fas.harvard.edu \% Date and time: Sam, aoû 08, 2015 -
+13:18:42
 
 \begin{table}[!htbp] \centering 
   \caption{Orientation des AVC} 
