@@ -3,6 +3,8 @@ title: "Zone de chalandise"
 author: "jcb"
 date: "12 juillet 2015"
 output:
+  pdf_document:
+    toc: yes
   html_document:
     number_sections: yes
     toc: yes

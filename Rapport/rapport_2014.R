@@ -341,12 +341,13 @@ datetime <- function(date){
 # pds
 #
 #===============================================
-#' Détermine si on est en horaire de PDS de WE (PDSWE) ou de semaine (PDSS)
+#' Détermine si on est en horaire de PDS de WE (PDSWE) ou de semaine (PDSS) 
+#' ou hors horaire de PDS (NPDS)
 #' à partir d'une date.
 #' @title
 #' @name
 #' @param dx vecteur date/heure au format YYYY-MM-DD HH:MM:SS
-#' @return
+#' @return un vecteur de factor NPDS, PDSS, PDSW
 #' @usage x <- "2009-09-02 12:23:33"; weekdays(as.Date(x)); pds(x) # NPDS
 #' @usage pds(c("2015-05-23 02:23:33", "2015-05-24 02:23:33", "2015-05-25 02:23:33", 
 #'              "2015-05-26 02:23:33", "2015-05-25 12:23:33", "2015-05-25 22:23:33"))
@@ -525,7 +526,7 @@ summary.passages <- function(dp){
     duree.moyenne.passage <- mean(dp$duree)
     duree.mediane.passage <- median(dp$duree)
     
-    s.mode.sortie <- summary(dp$MODE_SORTIE)
+    s.mode.sortie <- summary(as.factor(dp$MODE_SORTIE))
     
     n.passage4 <- length(dp$duree[dp$duree < tmax]) #nb passages < 4h
     
@@ -625,7 +626,7 @@ summary.transport <- function(vx){
     p.na <- mean(is.na(vx)) # % de valeurs non renseignées
     n.rens <- sum(!is.na(vx)) # nb de valeurs renseignées
     p.rens <- mean(!is.na(vx)) # % de valeurs renseignées
-    s <- summary(vx)
+    s <- summary(as.factor(vx))
     
     a <- c(n, n.na, p.na, n.rens, p.rens, s['FO'], s['HELI'], s['PERSO'], s['SMUR'], s['VSAB'], s['AMBU'])
     names(a) <- c("n", "n.na", "p.na", "n.rens", "p.rens", "FO", "HELI", "PERSO", "SMUR", "VSAB", "AMBU")
@@ -780,3 +781,75 @@ summary.wday <- function(vx){
     a <- c(b, a[1])
     return(a)
 }
+
+#===============================================
+#
+# summary.cp
+#
+#===============================================
+#' @description résumé du vecteur vx des CODE_POSTAL (cp)
+#' @param vx vecteur char CODE_POSTAL
+#' @details NECESSITE LA BIBLIOTHEQUE RPU_Doc/mes.constantes
+#' @usage summary.cp(dx$CODE_POSTAL)
+#' @return - nb de CP renseignés
+#'          - nb de résidents alsaciens
+#'          - nb d'étrangers
+#' 
+summary.cp <- function(vx){
+    n <- length(vx) # nb de valeurs
+    n.na <- sum(is.na(vx)) # nb de valeurs non renseignées
+    p.na <- mean(is.na(vx)) # % de valeurs non renseignées
+    n.rens <- sum(!is.na(vx)) # nb de valeurs renseignées
+    p.rens <- mean(!is.na(vx)) # % de valeurs renseignées
+    
+    n.residents <- sum(sapply(vx, is.cpals))
+    n.etrangers <- n.rens - n.residents
+    
+    a <- c(n, n.na, p.na, n.rens, p.rens,n.residents, n.etrangers)
+    names(a) <- c("n", "n.na", "p.na", "n.rens", "p.rens", "n.residents", "n.etrangers")
+    
+    return(a)
+}
+
+#===============================================
+#
+# analyse_type_etablissement
+#
+#===============================================
+#' @description fournit une liste d'indicateur à partir des données d'un établissement
+#'              ou d'un groupe d'établissements
+#' @param es dataframe RPU 
+#' 
+analyse_type_etablissement <- function(es){
+    # nombre de passages déclarés
+    nrow(es)
+    # Nombre de RPU avec un âge renseigné
+    summary.age(es$AGE)
+    # Nombre de RPU avec un code postal renseigné
+    summary.cp(es$CODE_POSTAL)
+    
+    # par jour de semaine
+    summary.wday(es$ENTREE)
+    summary.age(es$AGE)
+    # passages de nuit
+    passage(horaire(es$ENTREE), "nuit")
+    # passage en PDS
+    table(pds(es$ENTREE))
+    #Nombre de RPU avec une date et heure d'entrée renseignées
+    summary.dateheure(es$ENTREE)
+    # nombre avec moyen de transport renseigné
+    summary.transport(es$TRANSPORT)
+    # nombre avec CCMU renseigné
+    summary.ccmu(es$GRAVITE)
+    # nombre de sorties conformes
+    summary.passages(duree.passage2(es))
+    # Nombre de RPU avec un mode de sortie renseigné
+    summary.mode.sortie(es$MODE_SORTIE)
+}
+
+#===============================================
+#
+# summary.cp
+#
+#===============================================
+#' @description résumé du vecteur vx des CODE_POSTAL (cp)

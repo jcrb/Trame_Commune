@@ -1292,7 +1292,7 @@ chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 
 ```
-- Nombre de RPU avec moyens de transport précisé: `r format.N(s.avc.transport['n.rens'])`
+- Nombre de RPU avec moyens de transport précisé: `r format.n(s.avc.transport['n.rens'])`
 - %  d’arrivées Moyen perso: `r p.avc.moyen["PERSO"]`%
 - %  d'arrivées SMUR: `r p.avc.moyen["SMUR"]`%
 - %  d'arrivées VSAV: `r p.avc.moyen["VSAV"]`%
@@ -1355,10 +1355,10 @@ chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 ```
 
-- Nombre de RPU avec une heure de sortie conforme (]0-72h[: `r format.n(s.dp.avc[n.conforme])`
-- Durée moyenne de passage des patients PEC pour AVC (en min): `r format.n(s.dp.avc[duree.moyenne.passage])`
-- Durée médiane de passage des patients PEC pour AVC (en min): `r format.n(s.dp.avc[duree.mediane.passage])`
-- Nombre de RPU ac diag AVC dont la durée de passage est inférieure à 4h: `r format.n(s.dp.avc[n.passage4])`
+- Nombre de RPU avec une heure de sortie conforme (]0-72h[: `r format.n(s.dp.avc['n.conforme'])`
+- Durée moyenne de passage des patients PEC pour AVC (en min): `r format.n(s.dp.avc['duree.moyenne.passage'])`
+- Durée médiane de passage des patients PEC pour AVC (en min): `r format.n(s.dp.avc['duree.mediane.passage'])`
+- Nombre de RPU ac diag AVC dont la durée de passage est inférieure à 4h: `r format.n(s.dp.avc['n.passage4'])`
 
 - Durée de passage (HORS UHCD) année N: moyenne __`r mean.ts.avc`__ minutes, et médiane __`r median.ts.avc`__ minutes.
 - % de passages de moins de 4h `r p.ts.avc.inf4h`
@@ -1417,18 +1417,172 @@ stargazer(s.avc, title = "Orientation des AVC", label = "orientation")
 
 ```
 
-Analyse du CHU
-==============
+Analyse par type d'étblissement
+===============================
+
+SU de CHU
+---------
+
+Un seul établissement __HUS__ avec 3 SU:
+
+- NHC
+- HTP Adultes
+- HTP Pédiatrie
 
 ```{r chu, echo=FALSE}
-chu <- dx[dx$FINESS == "Hus",]
+es <- dx[dx$FINESS == "Hus",]
+#analyse_type_etablissement(es)
 
-# par jour de semaine
-summary.wday(chu$ENTREE)
-summary.age(chu$AGE)
-
+# nombre de passages déclarés
+    nrow(es)
+    # Nombre de RPU avec un âge renseigné
+    summary.age(es$AGE)
+    # Nombre de RPU avec un code postal renseigné
+    summary.cp(es$CODE_POSTAL)
+    
+    # par jour de semaine
+    summary.wday(es$ENTREE)
+    summary.age(es$AGE)
+    # passages de nuit
+    passage(horaire(es$ENTREE), "nuit")
+    # passage en PDS
+    table(pds(es$ENTREE))
+    #Nombre de RPU avec une date et heure d'entrée renseignées
+    summary.dateheure(es$ENTREE)
+    # nombre avec moyen de transport renseigné
+    summary.transport(es$TRANSPORT)
+    # nombre avec CCMU renseigné
+    summary.ccmu(es$GRAVITE)
+    # nombre de sorties conformes
+    summary.passages(duree.passage2(es))
+    # Nombre de RPU avec un mode de sortie renseigné
+    summary.mode.sortie(es$MODE_SORTIE)
 ```
 
+SU d'ES siège de SAMU, non CHU
+------------------------------
+
+Un seul établissement: CH de Mulhouse avec 2 implantations:
+
+- Emile Muller (Adultes + Pédiatrie traumatique)
+- Hasenrain (Pédiatrie médicale)
+
+```{r mul, echo=FALSE, comment=""}
+es <- dx[dx$FINESS == "Mul",]
+# analyse_type_etablissement(es)
+
+    # nombre de passages déclarés
+    nrow(es)
+    # Nombre de RPU avec un âge renseigné
+    summary.age(es$AGE)
+    # Nombre de RPU avec un code postal renseigné
+    summary.cp(es$CODE_POSTAL)
+    
+    # par jour de semaine
+    summary.wday(es$ENTREE)
+    summary.age(es$AGE)
+    # passages de nuit
+    passage(horaire(es$ENTREE), "nuit")
+    # passage en PDS
+    table(pds(es$ENTREE))
+    #Nombre de RPU avec une date et heure d'entrée renseignées
+    summary.dateheure(es$ENTREE)
+    # nombre avec moyen de transport renseigné
+    summary.transport(es$TRANSPORT)
+    # nombre avec CCMU renseigné
+    summary.ccmu(es$GRAVITE)
+    # nombre de sorties conformes
+    summary.passages(duree.passage2(es))
+    # Nombre de RPU avec un mode de sortie renseigné
+    summary.mode.sortie(es$MODE_SORTIE)
+```
+
+SU avec SMUR non siège de SAMU
+------------------------------
+
+SU abec SMUR sans SAMU, 5 établissements:
+
+- CH Wissembourg
+- CH haguenau
+- CH Saverne
+- CH Sélestat
+- CH Colmar
+
+```{r sus, echo=FALSE, comment=""}
+es <- dx[dx$FINESS %in% c("Wis","Hag","Sav","Sel","Col"),]
+# analyse_type_etablissement(es)
+
+# nombre de passages déclarés
+    nrow(es)
+    # Nombre de RPU avec un âge renseigné
+    summary.age(es$AGE)
+    # Nombre de RPU avec un code postal renseigné
+    summary.cp(es$CODE_POSTAL)
+    
+    # par jour de semaine
+    summary.wday(es$ENTREE)
+    summary.age(es$AGE)
+    # passages de nuit
+    passage(horaire(es$ENTREE), "nuit")
+    # passage en PDS
+    table(pds(es$ENTREE))
+    #Nombre de RPU avec une date et heure d'entrée renseignées
+    summary.dateheure(es$ENTREE)
+    # nombre avec moyen de transport renseigné
+    summary.transport(es$TRANSPORT)
+    # nombre avec CCMU renseigné
+    summary.ccmu(es$GRAVITE)
+    # nombre de sorties conformes
+    summary.passages(duree.passage2(es))
+    # Nombre de RPU avec un mode de sortie renseigné
+    summary.mode.sortie(es$MODE_SORTIE)
+```
+
+
+SU non SMUR, non SAMU, non CHU
+------------------------------
+
+ES avec SU isolé (pas de SMUR associé): 8 établissements
+
+- Ste Anne
+- Ste Odile
+- Diaconat Strasbourg
+- CH de Guebwiller
+- CH de Thann (pas de RPU)
+- CH d'Altkirch
+- Clinique des 3 frontières
+- Roosvelt
+- Fonderie
+
+```{r esnsns, echo=FALSE, comment=""}
+es <- dx[dx$FINESS  %in% c("Ane","Odi","Dts","Geb","Alk","3Fr","Ros","Dia"),]
+
+# nombre de passages déclarés
+nrow(es)
+# Nombre de RPU avec un âge renseigné
+summary.age(es$AGE)
+# Nombre de RPU avec un code postal renseigné
+summary.cp(es$CODE_POSTAL)
+
+# par jour de semaine
+summary.wday(es$ENTREE)
+summary.age(es$AGE)
+# passages de nuit
+passage(horaire(es$ENTREE), "nuit")
+# passage en PDS
+table(pds(es$ENTREE))
+#Nombre de RPU avec une date et heure d'entrée renseignées
+summary.dateheure(es$ENTREE)
+# nombre avec moyen de transport renseigné
+summary.transport(es$TRANSPORT)
+# nombre avec CCMU renseigné
+summary.ccmu(es$GRAVITE)
+# nombre de sorties conformes
+summary.passages(duree.passage2(es))
+# Nombre de RPU avec un mode de sortie renseigné
+summary.mode.sortie(es$MODE_SORTIE)
+
+```
 
 Doublons ?
 ----------

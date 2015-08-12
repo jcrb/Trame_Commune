@@ -93,7 +93,7 @@
 \setcounter{tocdepth}{2}
 \tableofcontents
 }
-Version mse à jour le: \textbf{Sat Aug 8 13:15:54 2015}
+Version mse à jour le: \textbf{Tue Aug 11 20:25:13 2015}
 
 Ajout de la dernière version de Gilles
 
@@ -997,13 +997,25 @@ hors horaire de PDS.
   nombre d'AVC aux horaires de PDS de week-end:22.24 \%
 \item
   nombre d'AVC en dehors des horaires de PDS:64.09 \%
+\item
+  Nombre de RPU avec diag AVC avec date et heure d'entrées renseignées:
+  2 949
 \end{itemize}
 
 \subsection{Mode d'arrivée aux
 urgences}\label{mode-darrivee-aux-urgences}
 
+\begin{verbatim}
+##       n    n.na    p.na  n.rens  p.rens      FO    HELI   PERSO    SMUR 
+## 2949.00  554.00    0.19 2395.00    0.81    1.00   19.00  636.00   58.00 
+##    VSAB    AMBU 
+##  527.00 1154.00
+\end{verbatim}
+
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
+\item
+  Nombre de RPU avec moyens de transport précisé: 2 395
 \item
   \% d'arrivées Moyen perso: 21.57\%
 \item
@@ -1020,14 +1032,14 @@ urgences}\label{mode-darrivee-aux-urgences}
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
 \item
-  Nombre d'AVC ischémique et \%: 1 021 (34.62 \%)
+  Nombre d'AVC ischémiques et \%: 1 021 (34.62 \%)
+\item
+  Nombre d'AVC hémorragiques et \%: 442 (14.99 \%)
 \item
   Nombre d'AIT et \%: 806 (27.33 \%)
 \item
   Nombre de codes ``symptomatiques'' (hémiplégie, aphasie, amaurose,
-  etc\ldots{}) et \%
-\item
-  Nombre d'autres hémorragies non traumatiques et \%: 442 (14.99 \%)
+  etc\ldots{}) et \%: 680 (23.06 \%)
 \end{itemize}
 
 NB : se référer à l'annexe 4 pour les regroupements.
@@ -1040,7 +1052,15 @@ Voir les routines de RPU\_2014/Analyse/Temps\_passage/passage.R et
 notamment \textbf{temps de passage}.
 
 \begin{itemize}
-\itemsep1pt\parskip0pt\parsep0pt
+\item
+  Nombre de RPU avec une heure de sortie conforme ({]}0-72h{[}: 2 564
+\item
+  Durée moyenne de passage des patients PEC pour AVC (en min): 250
+\item
+  Durée médiane de passage des patients PEC pour AVC (en min): 229
+\item
+  Nombre de RPU ac diag AVC dont la durée de passage est inférieure à
+  4h: 1 352
 \item
   Durée de passage (HORS UHCD) année N: moyenne \textbf{249.8} minutes,
   et médiane \textbf{228} minutes.
@@ -1074,9 +1094,9 @@ notamment \textbf{temps de passage}.
   Répartition par orientation en pourcentage, année N
 \end{itemize}
 
-\% Table created by stargazer v.5.1 by Marek Hlavac, Harvard University.
-E-mail: hlavac at fas.harvard.edu \% Date and time: Sam, aoû 08, 2015 -
-13:18:42
+\% Table created by stargazer v.5.2 by Marek Hlavac, Harvard University.
+E-mail: hlavac at fas.harvard.edu \% Date and time: Mar, aoû 11, 2015 -
+20:27:58
 
 \begin{table}[!htbp] \centering 
   \caption{Orientation des AVC} 
@@ -1090,6 +1110,390 @@ $75$ & $1$ & $1$ & $720$ & $68$ & $46$ & $9$ & $361$ & $919$ & $749$ \\
 \hline \\[-1.8ex] 
 \end{tabular} 
 \end{table}
+
+\section{Analyse par type
+d'étblissement}\label{analyse-par-type-detblissement}
+
+\subsection{SU de CHU}\label{su-de-chu}
+
+Un seul établissement \textbf{HUS} avec 3 SU:
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  NHC
+\item
+  HTP Adultes
+\item
+  HTP Pédiatrie
+\end{itemize}
+
+\begin{verbatim}
+## [1] 61793
+\end{verbatim}
+
+\begin{verbatim}
+##          n       n.na       p.na     n.rens     p.rens   n.inf1an 
+##      61793          0          0      61793          1       2888 
+## n.inf15ans    n.75ans 
+##      14472      12337
+\end{verbatim}
+
+\begin{verbatim}
+##           n        n.na        p.na      n.rens      p.rens n.residents 
+##       61793           0           0       61793           1       59288 
+## n.etrangers 
+##        2505
+\end{verbatim}
+
+\begin{verbatim}
+##  Lun  Mar  Mer  Jeu  Ven  Sam  Dim 
+## 9211 8980 8527 8667 9170 8806 8432
+\end{verbatim}
+
+\begin{verbatim}
+##          n       n.na       p.na     n.rens     p.rens   n.inf1an 
+##      61793          0          0      61793          1       2888 
+## n.inf15ans    n.75ans 
+##      14472      12337
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 22681.00     0.37
+\end{verbatim}
+
+\begin{verbatim}
+## 
+##  NPDS  PDSS PDSWE 
+## 31429 14830 15534
+\end{verbatim}
+
+\begin{verbatim}
+##      n   n.na   p.na n.rens p.rens 
+##  61793      0      0  61793      1
+\end{verbatim}
+
+\begin{verbatim}
+##        n     n.na     p.na   n.rens   p.rens       FO     HELI    PERSO 
+## 61793.00 53476.00     0.87  8317.00     0.13    47.00     2.00  1214.00 
+##     SMUR     VSAB     AMBU 
+##   274.00  2262.00  4518.00
+\end{verbatim}
+
+\begin{verbatim}
+##        n     n.na     p.na   n.rens   p.rens    CCMU1    CCMU2    CCMU3 
+## 61793.00 28298.00     0.46 33495.00     0.54  8743.00 17870.00  6178.00 
+##    CCMU4    CCMU5   CCMU P   CCMU D 
+##   503.00   201.00       NA       NA
+\end{verbatim}
+
+\begin{verbatim}
+##            n.conforme duree.moyenne.passage duree.mediane.passage 
+##                 26292                   159                     1 
+##            n.passage4       n.hosp.passage4        n.dom.passage4 
+##                 20805                 20137                   668 
+##                 n.dom                n.hosp           n.transfert 
+##                  2959                 23333                   115 
+##            n.mutation               n.deces 
+##                 23218                     0
+\end{verbatim}
+
+\begin{verbatim}
+##           n        n.na        p.na      n.rens      p.rens       n.dom 
+##    61793.00    35337.00        0.57    26456.00        0.43     3122.00 
+##      n.hosp n.transfert  n.mutation     n.deces 
+##    23334.00      115.00    23219.00        0.00
+\end{verbatim}
+
+\subsection{SU d'ES siège de SAMU, non
+CHU}\label{su-des-siege-de-samu-non-chu}
+
+Un seul établissement: CH de Mulhouse avec 2 implantations:
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  Emile Muller (Adultes + Pédiatrie traumatique)
+\item
+  Hasenrain (Pédiatrie médicale)
+\end{itemize}
+
+\begin{verbatim}
+[1] 59471
+\end{verbatim}
+
+\begin{verbatim}
+         n       n.na       p.na     n.rens     p.rens   n.inf1an 
+     59471          0          0      59471          1       4715 
+n.inf15ans    n.75ans 
+     19015       7480 
+\end{verbatim}
+
+\begin{verbatim}
+          n        n.na        p.na      n.rens      p.rens n.residents 
+      59471           0           0       59471           1       57952 
+n.etrangers 
+       1519 
+\end{verbatim}
+
+\begin{verbatim}
+ Lun  Mar  Mer  Jeu  Ven  Sam  Dim 
+8868 7885 8130 7931 8270 8854 9533 
+\end{verbatim}
+
+\begin{verbatim}
+         n       n.na       p.na     n.rens     p.rens   n.inf1an 
+     59471          0          0      59471          1       4715 
+n.inf15ans    n.75ans 
+     19015       7480 
+\end{verbatim}
+
+\begin{verbatim}
+[1] 18349.00     0.31
+\end{verbatim}
+
+\begin{verbatim}
+
+ NPDS  PDSS PDSWE 
+31661 11503 16307 
+\end{verbatim}
+
+\begin{verbatim}
+     n   n.na   p.na n.rens p.rens 
+ 59471      0      0  59471      1 
+\end{verbatim}
+
+\begin{verbatim}
+        n      n.na      p.na    n.rens    p.rens        FO      HELI 
+59471.000  3836.000     0.065 55635.000     0.935   478.000   122.000 
+    PERSO      SMUR      VSAB      AMBU 
+35973.000   223.000  7051.000 11788.000 
+\end{verbatim}
+
+\begin{verbatim}
+       n     n.na     p.na   n.rens   p.rens    CCMU1    CCMU2    CCMU3 
+59471.00 14043.00     0.24 45428.00     0.76  7349.00 30451.00  6094.00 
+   CCMU4    CCMU5   CCMU P   CCMU D 
+ 1235.00   299.00       NA       NA 
+\end{verbatim}
+
+\begin{verbatim}
+           n.conforme duree.moyenne.passage duree.mediane.passage 
+                43850                   189                   153 
+           n.passage4       n.hosp.passage4        n.dom.passage4 
+                31491                  4238                 27253 
+                n.dom                n.hosp           n.transfert 
+                35953                  7897                   146 
+           n.mutation               n.deces 
+                 7751                     0 
+\end{verbatim}
+
+\begin{verbatim}
+          n        n.na        p.na      n.rens      p.rens       n.dom 
+   59471.00    14257.00        0.24    45214.00        0.76    36717.00 
+     n.hosp n.transfert  n.mutation     n.deces 
+    8497.00      150.00     8347.00        0.00 
+\end{verbatim}
+
+\subsection{SU avec SMUR non siège de
+SAMU}\label{su-avec-smur-non-siege-de-samu}
+
+SU abec SMUR sans SAMU, 5 établissements:
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  CH Wissembourg
+\item
+  CH haguenau
+\item
+  CH Saverne
+\item
+  CH Sélestat
+\item
+  CH Colmar
+\end{itemize}
+
+\begin{verbatim}
+[1] 177747
+\end{verbatim}
+
+\begin{verbatim}
+         n       n.na       p.na     n.rens     p.rens   n.inf1an 
+    177747          0          0     177747          1       7110 
+n.inf15ans    n.75ans 
+     48795      25444 
+\end{verbatim}
+
+\begin{verbatim}
+          n        n.na        p.na      n.rens      p.rens n.residents 
+     177747           0           0      177747           1      166676 
+n.etrangers 
+      11071 
+\end{verbatim}
+
+\begin{verbatim}
+  Lun   Mar   Mer   Jeu   Ven   Sam   Dim 
+27415 24007 24628 24099 24688 25896 27014 
+\end{verbatim}
+
+\begin{verbatim}
+         n       n.na       p.na     n.rens     p.rens   n.inf1an 
+    177747          0          0     177747          1       7110 
+n.inf15ans    n.75ans 
+     48795      25444 
+\end{verbatim}
+
+\begin{verbatim}
+[1] 46677.00     0.26
+\end{verbatim}
+
+\begin{verbatim}
+
+  NPDS   PDSS  PDSWE 
+101652  29361  46734 
+\end{verbatim}
+
+\begin{verbatim}
+     n   n.na   p.na n.rens p.rens 
+177747      0      0 177747      1 
+\end{verbatim}
+
+\begin{verbatim}
+        n      n.na      p.na    n.rens    p.rens        FO      HELI 
+177747.00  41213.00      0.23 136534.00      0.77    760.00     95.00 
+    PERSO      SMUR      VSAB      AMBU 
+ 97489.00   1603.00  14816.00  21771.00 
+\end{verbatim}
+
+\begin{verbatim}
+        n      n.na      p.na    n.rens    p.rens     CCMU1     CCMU2 
+177747.00  21649.00      0.12 156098.00      0.88  27108.00 101455.00 
+    CCMU3     CCMU4     CCMU5    CCMU P    CCMU D 
+ 24309.00   1547.00    385.00   1273.00     21.00 
+\end{verbatim}
+
+\begin{verbatim}
+           n.conforme duree.moyenne.passage duree.mediane.passage 
+               165658                   168                   124 
+           n.passage4       n.hosp.passage4        n.dom.passage4 
+               130119                 23133                106985 
+                n.dom                n.hosp           n.transfert 
+               125512                 40145                  2958 
+           n.mutation               n.deces 
+                37187                     1 
+\end{verbatim}
+
+\begin{verbatim}
+          n        n.na        p.na      n.rens      p.rens       n.dom 
+ 177747.000   10215.000       0.057  167532.000       0.943  126977.000 
+     n.hosp n.transfert  n.mutation     n.deces 
+  40554.000    2990.000   37564.000       1.000 
+\end{verbatim}
+
+\subsection{SU non SMUR, non SAMU, non
+CHU}\label{su-non-smur-non-samu-non-chu}
+
+ES avec SU isolé (pas de SMUR associé): 8 établissements
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  Ste Anne
+\item
+  Ste Odile
+\item
+  Diaconat Strasbourg
+\item
+  CH de Guebwiller
+\item
+  CH de Thann (pas de RPU)
+\item
+  CH d'Altkirch
+\item
+  Clinique des 3 frontières
+\item
+  Roosvelt
+\item
+  Fonderie
+\end{itemize}
+
+\begin{verbatim}
+[1] 117722
+\end{verbatim}
+
+\begin{verbatim}
+            n          n.na          p.na        n.rens        p.rens 
+117722.000000      4.000000      0.000034 117718.000000      0.999966 
+     n.inf1an    n.inf15ans       n.75ans 
+   663.000000  21131.000000  12010.000000 
+\end{verbatim}
+
+\begin{verbatim}
+          n        n.na        p.na      n.rens      p.rens n.residents 
+     117722           0           0      117722           1      114350 
+n.etrangers 
+       3372 
+\end{verbatim}
+
+\begin{verbatim}
+  Lun   Mar   Mer   Jeu   Ven   Sam   Dim 
+18645 15880 16232 16002 16456 17567 16940 
+\end{verbatim}
+
+\begin{verbatim}
+            n          n.na          p.na        n.rens        p.rens 
+117722.000000      4.000000      0.000034 117718.000000      0.999966 
+     n.inf1an    n.inf15ans       n.75ans 
+   663.000000  21131.000000  12010.000000 
+\end{verbatim}
+
+\begin{verbatim}
+[1] 27711.00     0.24
+\end{verbatim}
+
+\begin{verbatim}
+
+ NPDS  PDSS PDSWE 
+70145 17768 29809 
+\end{verbatim}
+
+\begin{verbatim}
+     n   n.na   p.na n.rens p.rens 
+117722      0      0 117722      1 
+\end{verbatim}
+
+\begin{verbatim}
+        n      n.na      p.na    n.rens    p.rens        FO      HELI 
+117722.00  28900.00      0.25  88822.00      0.75    264.00      1.00 
+    PERSO      SMUR      VSAB      AMBU 
+ 74095.00    602.00   5825.00   8035.00 
+\end{verbatim}
+
+\begin{verbatim}
+        n      n.na      p.na    n.rens    p.rens     CCMU1     CCMU2 
+117722.00  12916.00      0.11 104806.00      0.89   8482.00  85521.00 
+    CCMU3     CCMU4     CCMU5    CCMU P    CCMU D 
+ 10593.00    147.00     24.00     34.00      5.00 
+\end{verbatim}
+
+\begin{verbatim}
+           n.conforme duree.moyenne.passage duree.mediane.passage 
+                97597                   121                    87 
+           n.passage4       n.hosp.passage4        n.dom.passage4 
+                88094                  8259                 79834 
+                n.dom                n.hosp           n.transfert 
+                87133                 10463                  2753 
+           n.mutation               n.deces 
+                 7710                     1 
+\end{verbatim}
+
+\begin{verbatim}
+          n        n.na        p.na      n.rens      p.rens       n.dom 
+  117722.00    18046.00        0.15    99676.00        0.85    89036.00 
+     n.hosp n.transfert  n.mutation     n.deces 
+   10639.00     2770.00     7869.00        1.00 
+\end{verbatim}
 
 \subsection{Doublons ?}\label{doublons}
 
@@ -1132,8 +1536,8 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] openintro_1.4     xtable_1.7-4      stargazer_5.1    
- [4] epicalc_2.15.1.0  nnet_7.3-10       MASS_7.3-42      
+ [1] openintro_1.4     xtable_1.7-4      stargazer_5.2    
+ [4] epicalc_2.15.1.0  nnet_7.3-10       MASS_7.3-43      
  [7] survival_2.38-3   foreign_0.8-65    R.utils_2.1.0    
 [10] R.oo_1.19.0       R.methodsS3_1.7.0 xts_0.9-7        
 [13] zoo_1.7-12        plotrix_3.5-12    lubridate_1.3.3  
@@ -1141,8 +1545,8 @@ other attached packages:
 
 loaded via a namespace (and not attached):
  [1] digest_0.6.8    evaluate_0.7    formatR_1.2     grid_3.1.3     
- [5] highr_0.5       htmltools_0.2.6 lattice_0.20-31 magrittr_1.5   
- [9] memoise_0.2.1   plyr_1.8.3      Rcpp_0.11.6     rmarkdown_0.7  
+ [5] highr_0.5       htmltools_0.2.6 lattice_0.20-33 magrittr_1.5   
+ [9] memoise_0.2.1   plyr_1.8.3      Rcpp_0.12.0     rmarkdown_0.7  
 [13] splines_3.1.3   stringi_0.5-5   stringr_1.0.0   tools_3.1.3    
 [17] yaml_2.1.13    
 \end{verbatim}
