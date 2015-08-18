@@ -1,8 +1,8 @@
-#####################
-#                   #
-#     routines      #
-#                   #
-#####################
+####################################
+#                                  #
+#     routines rapport_2014.R      #
+#                                  #
+####################################
 
 # format.n()
 # completude()
@@ -16,7 +16,21 @@
 # horaire()
 # datetime()
 # pds()
-# passages.nuit()
+# tab.completude
+# passages2
+# duree.passage
+# summary.passages
+# summary.sexe
+# summary.entree
+# summary.transport
+# summary.ccmu
+# summary.dateheure
+# summary.mode.sortie
+# summary.dp
+# summary.age
+# summary.wday
+# summary.cp
+# analyse.type.etablissement
     
 #===============================================
 #
@@ -817,34 +831,113 @@ summary.cp <- function(vx){
 #
 #===============================================
 #' @description fournit une liste d'indicateur à partir des données d'un établissement
-#'              ou d'un groupe d'établissements
-#' @param es dataframe RPU 
+#'              ou d'un groupe d'établissements. Voir rapport 2014: Analyse par type d'étblissement
+#' @param es dataframe RPU (es = établissement de santé)
+#' @usage # es non SAMU, siège de SMUR
+#'          es <- dx[dx$FINESS %in% c("Wis","Hag","Sav","Sel","Col"),]
+#'          analyse_type_etablissement(es)
 #' 
 analyse_type_etablissement <- function(es){
     # nombre de passages déclarés
-    nrow(es)
+    n.passages <- nrow(es)
+    
+    s <- summary.age(es$AGE)# summary
     # Nombre de RPU avec un âge renseigné
-    summary.age(es$AGE)
+    n.age.ren <- s["n.rens"]
+    n.inf1an <- s["n.inf1an"]
+    n.inf15ans <- s["n.inf15ans"]
+    n.75ans <- s["n.75ans"]
+    
+    s <- summary.cp(es$CODE_POSTAL)
     # Nombre de RPU avec un code postal renseigné
-    summary.cp(es$CODE_POSTAL)
+    n.cp.rens <- s["n.rens"]
+    # Nombre ne veant pas de la région
+    n.etrangers <- s["n.etrangers"]
     
     # par jour de semaine
-    summary.wday(es$ENTREE)
-    summary.age(es$AGE)
+    s <- summary.wday(es$ENTREE)
+    n.lun <- s[1]
+    n.mar <- s[2]
+    n.mer <- s[3]
+    n.jeu <- s[4]
+    n.ven <- s[5]
+    n.sam <- s[6]
+    n.dim <- s[7]
+    
     # passages de nuit
-    passage(horaire(es$ENTREE), "nuit")
+    n.nuit <- passage(horaire(es$ENTREE), "nuit")[1]
+    
     # passage en PDS
-    table(pds(es$ENTREE))
+    t <- table(pds(es$ENTREE))
+    n.pds <- t["PDSS"] + t["PDSWE"]
+    
     #Nombre de RPU avec une date et heure d'entrée renseignées
-    summary.dateheure(es$ENTREE)
+    s <- summary.dateheure(es$ENTREE)
+    n.h.rens <- s["n.rens"]
+    
     # nombre avec moyen de transport renseigné
-    summary.transport(es$TRANSPORT)
+    s <- summary.transport(es$TRANSPORT)
+    n.trans.rens <- s["n.rens"]
+    n.fo <- s["FO"]
+    n.heli <- s["HELI"]
+    n.perso <- s["PERSO"]
+    n.smur <- s["SMUR"]
+    n.vsav <- s["VSAB"]
+    n.ambu <- s["AMBU"]
+    
     # nombre avec CCMU renseigné
-    summary.ccmu(es$GRAVITE)
+    s <- summary.ccmu(es$GRAVITE)
+    n.ccmu.rens <- s["n.rens"]
+    n.ccmu1 <- s["CCMU1"]
+    n.ccmu2 <- s["CCMU2"]
+    n.ccmu3 <- s["CCMU3"]
+    n.ccmu4 <- s["CCMU4"]
+    n.ccmu5 <- s["CCMU5"]
+    n.ccmuP <- s["CCMU P"]
+    n.ccmuD <- s["CCMU D"]
+    n.ccmu45 <- n.ccmu4 + n.ccmu5
+    
     # nombre de sorties conformes
-    summary.passages(duree.passage2(es))
+    s <- summary.passages(duree.passage2(es))
+    n.sorties.conf <- s["n.conforme"]
+    mean.passage <- s["duree.moyenne.passage"]
+    median.passage <- s["duree.mediane.passage"]
+    
+    n.passage4 <- s["n.passage4"] # nb de passages de moins de 4 heures
+    n.hosp.passage4 <- s["n.hosp.passage4"] # nb de passages de moins de 4 heures suivi hospit.
+    n.dom.passage4 <- s["n.dom.passage4"] # nb de passages de moins de 4 heures suivi retour dom.
+    n.dom  <- s["n.dom"] # nb total de retour à domicile
+    n.hosp  <- s["n.hosp"]
+    n.transfert  <- s["n.transfert"]
+    n.deces <- s["n.deces"]
+    
     # Nombre de RPU avec un mode de sortie renseigné
-    summary.mode.sortie(es$MODE_SORTIE)
+    s <- summary.mode.sortie(es$MODE_SORTIE)
+    n.mode.sortie <- s["n.rens"]
+    n.dom2 <- s["n.dom"]
+    n.transfert2 <- s["n.transfert"]
+    n.mutation2 <- s["n.mutation"]
+    n.deces2 <- s["n.deces"]
+    n.hosp2 <- s["n.hosp"]
+    
+    a <- c(n.passages, n.age.ren, n.inf1an, n.inf15ans, n.75ans, n.cp.rens, n.etrangers, n.lun,
+           n.mar, n.mer, n.jeu, n.ven, n.sam, n.dim, n.nuit, n.pds, n.h.rens, n.trans.rens, n.fo,
+           n.heli, n.perso, n.smur, n.vsav, n.ambu, n.ccmu.rens, n.ccmu1, n.ccmu2, n.ccmu3, n.ccmu4,
+           n.ccmu5, n.ccmuP, n.ccmuD, n.ccmu45, n.sorties.conf, mean.passage, median.passage,
+           n.passage4, n.hosp.passage4, n.dom.passage4, n.dom, n.hosp, n.transfert, n.deces, n.mode.sortie,
+           n.mutation2)
+    
+    names(a) <- c("n.passages", "n.age.ren", "n.inf1an", "n.inf15ans", "n.75ans", "n.cp.rens",
+                  "n.etrangers", "n.lun", "n.mar", "n.mer", "n.jeu", "n.ven", "n.sam", "n.dim", 
+                  "n.nuit", "n.pds", "n.h.rens", "n.trans.rens", "n.fo",
+                  "n.heli", "n.perso", "n.smur", "n.vsav", "n.ambu", "n.ccmu.rens", "n.ccmu1", 
+                  "n.ccmu2", "n.ccmu3", "n.ccmu4",
+                  "n.ccmu5", "n.ccmuP", "n.ccmuD", "n.ccmu45", "n.sorties.conf", "mean.passage", 
+                  "median.passage", "n.passage4", "n.hosp.passage4", "n.dom.passage4", "n.dom", 
+                  "n.hosp", "n.transfert", "n.deces", "n.mode.sortie",
+                  "n.mutation2")
+    
+    return(a)
 }
 
 #===============================================
@@ -853,3 +946,20 @@ analyse_type_etablissement <- function(es){
 #
 #===============================================
 #' @description résumé du vecteur vx des CODE_POSTAL (cp)
+#' 
+#' TODO
+#' 
+
+#===============================================
+#
+# evolution
+#
+#===============================================
+#' @description calcule l'évolution entre 2 chiffres
+#' @param a chiffre de l'année courante
+#' @param b chiffre de l'année précédente
+#' @return pourcentage d'augmentation ou de diminution
+
+evolution <- function(a, b){
+    return((a - b)/b)
+}

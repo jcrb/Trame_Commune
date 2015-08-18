@@ -150,6 +150,8 @@ comp
 Les chiffres clés de l’activité des services d’urgences
 =======================================================
 
+Le format des chiffres clés est celui défini par la FEDORU. Il est commun à toutes les régions membres de la FEDORU.
+
 Recueil des données
 -------------------
 ```{r chiffres, echo=FALSE, comment=""}
@@ -175,16 +177,19 @@ mean.rpu.quot <- n.rpu / n.jours # Moyenne quotidienne de passages
 #---------------------- Chiffres ---------------------------------------------------------------
 chiffres <- c(anc, periode.debut, periode.fin, n.jours, n.su.ped, n.su.adultes, n.su.polyvalents, n.su.publics, n.su.prives, n.rpu, mean.rpu.quot)
 names(chiffres) <- c("anc", "periode.debut", "periode.fin", "n.jours", "n.su.ped", "n.su.adultes", "n.su.polyvalents", "n.su.publics", "n.su.prives", "n.rpu", "mean.rpu.quot")
-#---------------------- Chiffres end ------------------------------------------------------------
-```
+#---------------------- Chiffres end -----------------------------------------------------------
 
-- Nombre de passages dans l'année [C]: `r format.n(n.rpu)` RPU
-- Moyenne quotidienne de passages [C]: `r format.n(mean.rpu.quot)` RPU
-- %(N) d'évolution par rapport à année N-1 [C]: `r format(n.rpu * 100 / n.rpu.2013)` %.
-- % d’évolution moyenne sur les 5 dernières années (méthode calcul : moyenne des évolutions constatées entre chaque année)
-- Données renseignées (données à partir desquelles tout le reste de l’analyse sera effectuée)
-    - Nombre de RPU transmis: `r format.n(n.rpu)` RPU
-    - Exhaustivité du recueil : Nb RPU transmis / Nb de passages déclarés `r format.n(n.rpu * 100 / passages.2013.SAE)` % (NOTE le nombre de passages déclarés est celui indiqué par les données SAE 2013)
+n.sae.2014 <- 432170
+
+```
+- Nombre de passages dans l'année: `r format.n(n.sae.2014)` (données SAE 2014)
+- Nombre de RPU déclarés: __`r format.n(n.rpu)` RPU__
+- Exhaustivité du recueil: __`r round(n.rpu * 100 / n.sae.2014, 2)` %__
+- Moyenne quotidienne de passages: __`r format.n(mean.rpu.quot)` RPU/jour__
+- %(N) d'évolution par rapport à année N-1: __`r round(evolution(n.rpu, n.rpu.2013)*100, 0)` %__.
+- % d’évolution moyenne sur les 5 dernières années (méthode calcul : _pas de données disponibles_.
+- Données renseignées (données à partir desquelles tout le reste de l’analyse sera effectuée) = Nombre de RPU transmis: `r format.n(n.rpu)` RPU
+    
 
 PATIENTS
 --------
@@ -206,9 +211,9 @@ chiffres <- c(chiffres, val)
 
 ```
 
-- %(N) Femme [C]: `r round(p.femme, 2)` % (`r format(sexe['F'], big.mark = " ")`)
-- %(N) Homme [C]: `r round(p.homme, 2)` % (`r format(sexe['M'], big.mark = " ")`)
-- Sex ratio: `r sex.ratio`
+- %(N) Femme: `r round(p.femme, 2)` % (`r format.n(sexe['F'])`)
+- %(N) Homme: `r round(p.homme, 2)` % (`r format.n(sexe['M'])`)
+- Sex ratio: __`r sex.ratio`__
 - Taux de masculinité: `r tx.masculinite`
 
 ### Age
@@ -243,14 +248,14 @@ chiffres <- c(chiffres, val)
 #---------------------- Chiffres end ------------------------------------------------------------
 ```
 
-- age moyen[C]: `r round(mean.age, 2)` ans.
-- age moyen des hommes [S]: `r round(mean.age.sexe['M'], 2)` ans.
-- age moyen des femmes [S]: `r round(mean.age.sexe['F'], 2)` ans.
+- age moyen: __`r round(mean.age, 2)` ans__.
+- age moyen des hommes: `r round(mean.age.sexe['M'], 2)` ans.
+- age moyen des femmes: `r round(mean.age.sexe['F'], 2)` ans.
 
-- % (N) < 1 an [C]: `r format.n(n.inf1an)` (`r round(100 * p.inf1an, 2)` %)
-- %(N) < 15 ans [C]: `r format.n(n.inf15an)` (`r round(100 * p.inf15an, 2)` %)
-- %(N) < 18 ans [C]: `r format.n(n.inf18an)` (`r round(100 * p.inf18an, 2)` %)
-- %(N) >= 75 ans [C]: `r format.n(n.supegal75an)` (`r round(100 * p.supegal75an, 2)` %)
+- % (N) < 1 an: `r format.n(n.inf1an)` (__`r round(100 * p.inf1an, 2)` %__)
+- %(N) < 15 ans: `r format.n(n.inf15an)` (__`r round(100 * p.inf15an, 2)` %__)
+- %(N) < 18 ans: `r format.n(n.inf18an)` (__`r round(100 * p.inf18an, 2)` %__)
+- %(N) >= 75 ans: `r format.n(n.supegal75an)` (__`r round(100 * p.supegal75an, 2)` %__)
 - Pyramide des ages:
 
 ```{r pyramide, echo=FALSE, message=FALSE}
@@ -266,8 +271,10 @@ pyramid.plot(h,f, labels = names(table(a)), top.labels = c("Hommes", "Age", "Fem
 
 ```
 
-### Taux de recours (définition FEDORU) régional aux urgences. [S]
-Utilisation des données INSEE qui collent le plus à la période d’étude (projections ou données consolidées)
+### Taux de recours (définition FEDORU) régional aux urgences.
+
+Le taux de recours régional est calculé à partir des données de l'INSEE.
+
 ```{r tarru, echo=FALSE}
 # pop.als.tot.2014 <- 1868773 # chiffre insee au 1/1/2014 (http://www.insee.fr/fr/themes/tableau.asp?reg_id=15&ref_id=poptc02104)
 pop.als.tot <- population("Alsace", anc)
@@ -299,7 +306,7 @@ chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 ```
 
-`r (1 - p.org_als) * 100`% (N = `r n.rpu - n.org_als)
+Part des non résidents: __`r (1 - p.org_als) * 100`%__ (N = `r n.rpu - n.org_als`)
 
 ARRIVÉE
 -------
@@ -345,8 +352,8 @@ chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 ```
 
-- % passages nuit [C]: `r round(p.passages.nuit * 100, 2)` % (N = `r format.n(n.passages.nuit)`)
-- % passages nuit profonde [C]: `r round(p.passages.nuit.profonde * 100, 2)` % (N = `r format.n(n.passages.nuit.profonde)`)
+- % passages nuit (20h - 8h): __`r round(p.passages.nuit * 100, 2)` %__ (N = `r format.n(n.passages.nuit)`)
+- % passages nuit profonde: __`r round(p.passages.nuit.profonde * 100, 2)` %__ (N = `r format.n(n.passages.nuit.profonde)`)
 
 ```{r passage_pds, echo=FALSE, comment=""}
 # utilise le fichier horaires_pds.Rda
@@ -363,7 +370,7 @@ chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 ```
 
-- %  passages en horaire de PDS: `r p.pds * 100` % [N = `r n.pds`](Remarque: ne tient pas compte des jours fériés survenant en semaine)
+- %  passages en horaire de PDS: __`r p.pds * 100` %__ [N = `r format.n(n.pds)`](Remarque: ne tient pas compte des jours fériés survenant en semaine)
 
 ### Variations saisonnières
 ```{r saison, echo=FALSE}
@@ -403,10 +410,10 @@ chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 ```
 
-- __%(N) d'arrivée personnel__ [S]: `r round(n.transport.perso * 100 / n.transport, 2)` % (N = `r format.n(n.transport.perso)`)
-- __%(N) d'arrivée SMUR__ [S]: `r round(n.transport.smur * 100 / n.transport, 2)` % (N = `r format.n(n.transport.smur)`)
-- __%(N) d'arrivée VSAB__ [S]: `r round(n.transport.vsab * 100 / n.transport, 2)` % (N = `r format.n(n.transport.vsab)`)
-- __%(N) d'arrivée Ambulance__ [S]: `r round(n.transport.ambu * 100 / n.transport, 2)` % (N = `r format.n(n.transport.ambu)`)
+- __%(N) d'arrivée personnel__: `r round(n.transport.perso * 100 / n.transport, 2)` % (N = `r format.n(n.transport.perso)`)
+- __%(N) d'arrivée SMUR__: `r round(n.transport.smur * 100 / n.transport, 2)` % (N = `r format.n(n.transport.smur)`)
+- __%(N) d'arrivée VSAB__: `r round(n.transport.vsab * 100 / n.transport, 2)` % (N = `r format.n(n.transport.vsab)`)
+- __%(N) d'arrivée Ambulance__: `r round(n.transport.ambu * 100 / n.transport, 2)` % (N = `r format.n(n.transport.ambu)`)
 
 NB : commentaire possible pour expliquer que la somme des 4 pourcentages ci dessus ne fait pas 100 %
 
@@ -439,9 +446,9 @@ chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 ```
 - nombre de CCMU renseignés: `r s.ccmu`
-- __%(N) CCMU 1 __ [C]: `r round(100 * p.ccmu1, 2)`% (n = `r format.n(n.ccmu1)`)
-- __%(N) CCMU 1 et 2__ [C]: `r round(100 * p.ccmu12, 2)`% (n = `r format.n(n.ccmu12)`)
-- __%(N) CCMU 4 et 5__ [C]: `r round(100 * p.ccmu45, 2)`% (n = `r format.n(n.ccmu45)`)
+- __%(N) CCMU 1 __: `r round(100 * p.ccmu1, 2)`% (n = `r format.n(n.ccmu1)`)
+- __%(N) CCMU 1 et 2__: `r round(100 * p.ccmu12, 2)`% (n = `r format.n(n.ccmu12)`)
+- __%(N) CCMU 4 et 5__: `r round(100 * p.ccmu45, 2)`% (n = `r format.n(n.ccmu45)`)
 
 Exhaustivité CCMU :
 - Nombre de RPU 2014 hors orientation = FUGUE, PSA et REO ayant un élément transmis pour la CCMU: `r n.ccmu.conforme`
@@ -450,11 +457,11 @@ DIAGNOSTIC PRINCIPAL
 
 Remarque: les chiffres sont dans le document _Codes_regroupement_ORUMIP_ => à rajouter.
 
-- %  Médico-chirurgical 
-- %  Traumatologique
-- %  Psychiatrique
-- %  Toxicologique
-- %  Autres recours
+- %  Médico-chirurgical: __`r format.n(136816)`__
+- %  Traumatologique: __`r format.n(91907)`__
+- %  Psychiatrique: __`r format.n(6185)`__
+- %  Toxicologique: __`r format.n(4847)`__
+- %  Autres recours: __`r format.n(7441)`__
 
 ### Durées de passage
 
@@ -537,11 +544,11 @@ chiffres <- c(chiffres, val)
 ```
 
 - Nb de RPU dont la durée de passage est comprise entre 0 et 72h: `r n.duree`
-- durée moyenne de passage `r mean.duree` mn.
+- durée moyenne de passage __`r mean.duree` mn__.
 - écart-type: `r sd.duree` mn.
-- médiane: `r median.duree` mn.
-- nombre de passages > 4 heures: `r format.n(n.duree.sup.4h)` (`r round(p.duree.sup.4h * 100, 2)` %).
-- nombre de passages inférieurs ou égaux à 4 heures: `r format.n(n.duree.inf.4h)` (`r round(p.duree.inf.4h * 100, 2)` %).
+- médiane: __`r median.duree` mn__.
+- nombre de prises en charge > 4 heures: `r format.n(n.duree.sup.4h)` (__`r round(p.duree.sup.4h * 100, 2)` %__).
+- nombre de prises en charge inférieures ou égales à 4 heures: `r format.n(n.duree.inf.4h)` (__`r round(p.duree.inf.4h * 100, 2)` %__).
 
 - Lors d’une hospitalisation post-urgences (hospitalisation = mutation + transfert)
     - médiane durée de passage en cas de retour à domicile: __104 minutes__.
@@ -617,6 +624,20 @@ chiffres <- c(chiffres, val)
 - Nombre de SMUR : `r format.n(smur_primaires + smur_secondaires + smur_neonat)`
     - dont primaires: format.n(`r smur_primaires`)
 - Nombre d’ambulances privées à la demande du SAMU: format.n(`r assu`)
+
+Organisation
+------------
+Nombre de colonnes SMUR:
+
+SMUR  |  Jour  |  Nuit   
+------|--------|------
+Wissembourg  |  1  |  1   
+Haguenau  |  1  |  1   
+Saverne  |  1  |  1   
+Strasbourg  |  4  |  3   
+Sélestat  |  1  |  1   
+Colmar  |  1  |  1   
+Mulhouse  |  1  |  1   
 
 Les chiffres clés de l’activité pédiatrique des services d’urgences (moins de 18 ans)
 =====================================================================================
@@ -1420,6 +1441,8 @@ stargazer(s.avc, title = "Orientation des AVC", label = "orientation")
 Analyse par type d'étblissement
 ===============================
 
+Voir routine __analyse-type_etablissement__ (rapport_2014.R).
+
 SU de CHU
 ---------
 
@@ -1583,6 +1606,26 @@ summary.passages(duree.passage2(es))
 summary.mode.sortie(es$MODE_SORTIE)
 
 ```
+
+Test de la routine et tableau compact
+
+```{r tableauSU, echo=FALSE}
+es <- dx[dx$FINESS %in% c("Wis","Hag","Sav","Sel","Col"),]
+es.smur <- analyse_type_etablissement(es)
+es <- dx[dx$FINESS == "Hus",]
+es.chu <- analyse_type_etablissement(es)
+es <- dx[dx$FINESS == "Mul",]
+es.samu <- analyse_type_etablissement(es)
+es <- dx[dx$FINESS  %in% c("Ane","Odi","Dts","Geb","Alk","3Fr","Ros","Dia"),]
+es.simple <- analyse_type_etablissement(es)
+
+t <- cbind(es.chu, es.samu, es.smur, es.simple)
+t
+
+colnames(t) <- c("CHU", "SU non CHU siège de SAMU","SU non SAMU siège de SMUR","Autre SU")
+rownames(t) <- c("Nombre de RPU", "Nombre d'âges renseignés", "Nombre de moins de 1 an", "Nombre de moins de 15 ans", "Nombre de 75 ans et plus", "Nombre de RPU avec un code postal renseigné", "Nombre de patients ne venant pas de la région (étranger compris)", "Nombre de passages les lundis", "Nombre de passages les mardis", "Nombre de passages les mercredis", "Nombre de passages les jeudis", "Nombre de passages les vendredis", "Nombre de passages les samedis", "Nombre de passages les dimanchess", "Nombre de RPU la nuit (20h-8h)", "Nombre de RPU en horaire de PDS", "Nombre de RPU avec une date et heure d'entrée renseignées", "Nombre de RPU avec un moyen de transport renseigné", "Amené par la police", "Arrivés par hélicoptère", "Nombre de moyen personnel", "Nombre de SMUR", "Nombre de VSAV", "Nombre d'ambulances", "Nombre de RPU avec une CCMU renseignée", "CCMU 1", "CCMU 2", "CCMU 3", "CCMU 4", "CCMU 5", "CCMU P", "CCMU D", "CCMU 4 et 5", "Nombre de RPU avec une heure de sortie conforme (]0-72h[", "Durée moyenne de passage (en min)", "Durée médiane de passage (en min)", "Nombre de RPU dont la durée de passage est inférieure à 4h", "Nombre de RPU dont la durée de passage est inférieure à 4h lors d'une hospitalisation post-urgences", "Nombre de RPU dont la durée de passage est inférieure à 4h lors d'une retour au domicile", "Nombre de RPU lors d'un retour au domicile", "Nombre de RPU lors d'une hospitalisation post-urgences",  "Nombre de RPU avec transfert", "Nombre de RPU avec décès", "Nombre de RPU avec un mode de sortie renseigné", "Nombre de RPU avec mutation")
+```
+
 
 Doublons ?
 ----------
