@@ -7,6 +7,7 @@ output:
     keep_tex: yes
     number_sections: yes
     toc: yes
+    toc_depth: 3
   html_document:
     highlight: pygments
     keep_md: yes
@@ -32,6 +33,7 @@ Ajout de la dernière version de Gilles
 
 ```{r titre, echo=FALSE}
 anc <- 2014 # année courante
+anp <- 2013 # année précédente
 ```
 
 ```{r Declarations, echo=FALSE, include=FALSE}
@@ -186,7 +188,7 @@ n.sae.2014 <- 432170
 - Nombre de RPU déclarés: __`r format.n(n.rpu)` RPU__
 - Exhaustivité du recueil: __`r round(n.rpu * 100 / n.sae.2014, 2)` %__
 - Moyenne quotidienne de passages: __`r format.n(mean.rpu.quot)` RPU/jour__
-- %(N) d'évolution par rapport à année N-1: __`r round(evolution(n.rpu, n.rpu.2013)*100, 0)` %__.
+- %(N) d'évolution par rapport à année `r anp`: __`r round(evolution(n.rpu, n.rpu.2013)*100, 0)` %__.
 - % d’évolution moyenne sur les 5 dernières années (méthode calcul : _pas de données disponibles_.
 - Données renseignées (données à partir desquelles tout le reste de l’analyse sera effectuée) = Nombre de RPU transmis: `r format.n(n.rpu)` RPU
     
@@ -195,48 +197,60 @@ PATIENTS
 --------
 ### Sexe
 ```{r sexe, echo=FALSE, comment=""}
-sexe <- table(as.factor(dx$SEXE))
-p.femme <- sexe['F']*100/(sexe['F'] + sexe['M']) # % de femmes
-p.homme <- sexe['M']*100/(sexe['F'] + sexe['M']) # % d'hommes
-sex.ratio <- sexe['M'] / sexe['F'] # sex ratio
-n.hommes <- sexe['M']
-n.femmes <- sexe['F']
-tx.masculinite <- n.hommes / (n.hommes + n.femmes)
+s <- summary.sexe(dx$SEXE)
+p.femme <- s["p.femmes"] # % de femmes
+p.homme <- s["p.hommes"] # % d'hommes
+sex.ratio <- s["sex.ratio"] # sex ratio
+n.hommes <- s["n.hommes"]
+n.femmes <- s["n.femmes"]
+tx.masculinite <- s["tx.masculinité"]
+n.sexe.renseigne <- s["n.rens"]
+p.sexe.renseigne <- s["p.rens"]
 
 #---------------------- Chiffres ---------------------------------------------------------------
 val <- c(p.femme, p.homme, n.femmes, n.hommes, tx.masculinite)
 names(val) <- c("p.femme", "p.homme", "n.femmes", "n.hommes", "tx.masculinite")
 chiffres <- c(chiffres, val)
 #---------------------- Chiffres end -----------------------------------------------------------
-
 ```
 
-- %(N) Femme: `r round(p.femme, 2)` % (`r format.n(sexe['F'])`)
-- %(N) Homme: `r round(p.homme, 2)` % (`r format.n(sexe['M'])`)
+- %(N) Femme: `r round(p.femme, 2)` % (`r format.n(n.hommes)`)
+- %(N) Homme: `r round(p.homme, 2)` % (`r format.n(n.femmes)`)
 - Sex ratio: __`r sex.ratio`__
 - Taux de masculinité: `r tx.masculinite`
 
 ### Age
+
 ```{r age, echo=FALSE, comment=""}
-n.inf1an <- sum(dx$AGE < 1, na.rm = TRUE)
-n.supegal90 <- sum(dx$AGE > 89, na.rm = TRUE)
-p.inf1an <- mean(dx$AGE < 1, na.rm = TRUE)
+s <- summary.age(dx$AGE)
 
-n.inf15an <- sum(dx$AGE < 15, na.rm = TRUE)
-p.inf15an <- mean(dx$AGE < 15, na.rm = TRUE)
+n.inf1an <- s["n.inf1an"]
+p.inf1an <- s["p.inf1an"]
 
-n.inf18an <- sum(dx$AGE < 18, na.rm = TRUE)
-p.inf18an <- mean(dx$AGE < 18, na.rm = TRUE)
+n.inf15an <- s["n.inf15ans"]
+p.inf15an <- s["p.inf15anS"]
 
-n.supegal75an <- sum(dx$AGE >= 75, na.rm = TRUE)
-p.supegal75an <- mean(dx$AGE >= 75, na.rm = TRUE)
-mean.age <- mean(dx$AGE, na.rm = TRUE)
-sd.age <- sd(dx$AGE, na.rm = TRUE)
-median.age <- median(dx$AGE, na.rm = TRUE)
+n.inf18an <- s["n.inf18ans"]
+p.inf18an <- s["p.inf18ans"]
 
-mean.age.sexe <- tapply(dx$AGE, dx$SEXE, mean, na.rm = TRUE)
-mean.age.h <- mean.age.sexe['M'] # age moyen des hommes
-mean.age.f <- mean.age.sexe['F'] # age moyen des femmes
+n.supegal75an <- s["n.75ans"]
+p.supegal75an <- s["p.75ans"]
+
+n.supegal80 <- s["n.80ans"]
+p.supegal80 <- s["p.80ans"]
+
+n.supegal90 <- s["n.90ans"]
+p.supegal90 <- s["p.90ans"]
+
+mean.age <- s["mean.age"]
+sd.age <- s["sd.age"]
+median.age <- s["median.age"]
+
+# ----------------- Age et sexe ----------------------------
+s <- summary.age.sexe(dx)
+
+mean.age.h <- s['mean.age.h'] # age moyen des hommes
+mean.age.f <- s['mean.age.f'] # age moyen des femmes
 
 sd.age.sexe <- tapply(dx$AGE, dx$SEXE, sd, na.rm = TRUE)
 
@@ -249,8 +263,8 @@ chiffres <- c(chiffres, val)
 ```
 
 - age moyen: __`r round(mean.age, 2)` ans__.
-- age moyen des hommes: `r round(mean.age.sexe['M'], 2)` ans.
-- age moyen des femmes: `r round(mean.age.sexe['F'], 2)` ans.
+- age moyen des hommes: `r round(mean.age.h, 2)` ans.
+- age moyen des femmes: `r round(mean.age.f, 2)` ans.
 
 - % (N) < 1 an: `r format.n(n.inf1an)` (__`r round(100 * p.inf1an, 2)` %__)
 - %(N) < 15 ans: `r format.n(n.inf15an)` (__`r round(100 * p.inf15an, 2)` %__)
@@ -259,12 +273,9 @@ chiffres <- c(chiffres, val)
 - Pyramide des ages:
 
 ```{r pyramide, echo=FALSE, message=FALSE}
-# faire une fonction générique
+
 # par tranche d'age de 5 ans, borne sup exclue: [0-5[ ans
-a <- cut(dx$AGE, seq(from = 0,to = 120, by = 5), include.lowest = TRUE, right = FALSE)
-h <- as.vector(100 * table(a[dx$SEXE == "M"])/n.rpu)
-f <- as.vector(100 * table(a[dx$SEXE == "F"])/n.rpu)
-pyramid.plot(h,f, labels = names(table(a)), top.labels = c("Hommes", "Age", "Femmes"), main = "Pyramide des ages", lxcol = "light green", rxcol = "khaki1")
+pyramide.age(dx, cut = 5)
 
 #---------------------- Chiffres ---------------------------------------------------------------
 #---------------------- Chiffres end -----------------------------------------------------------
@@ -277,21 +288,20 @@ Le taux de recours régional est calculé à partir des données de l'INSEE.
 
 ```{r tarru, echo=FALSE}
 # pop.als.tot.2014 <- 1868773 # chiffre insee au 1/1/2014 (http://www.insee.fr/fr/themes/tableau.asp?reg_id=15&ref_id=poptc02104)
-pop.als.tot <- population("Alsace", anc)
-residents <- sum(sapply(dx$CODE_POSTAL, is.cpals))
-tarru <- residents * 100 / pop.als.tot
+pop.region <- 1868773 # pop.als.tot.2014
+tarru <- tarru(dx$CODE_POSTAL, pop.region)
 
 #---------------------- Chiffres ---------------------------------------------------------------
-val <- c(pop.als.tot, residents, tarru)
-names(val) <- c("pop.als.tot", "residents", "TARRU")
-chiffres <- c(chiffres, val)
+# val <- c(pop.als.tot, residents, tarru)
+# names(val) <- c("pop.als.tot", "residents", "TARRU")
+# chiffres <- c(chiffres, val)
 #---------------------- Chiffres end -----------------------------------------------------------
 
 ```
 
 TARRU: __`r tarru`%__ (ref: population alsacienne `r anc`)
 
-### %  de patients ne venant pas de la région (étranger compris)
+### Pourcentage  de patients ne venant pas de la région (étranger compris)
 ```{r etrangers, echo=FALSE}
 x <- as.character(dx$CODE_POSTAL)
 b <- substr(x,1,2)
@@ -329,7 +339,7 @@ s <- ymd_hms(passages$SORTIE)
 he <- hms(substr(e, 12, 20)) # heures d'entrée
 hs <- hms(substr(s, 12, 20)) # heures de sortie
 # graphique des entrées
-x <- barplot(table(hour(he)), main = "Heures d'entrée", ylab = "Fréquence", xlab = "Heures")
+x <- barplot(table(hour(he)), main = paste("Heures d'entrée -", anc), ylab = "Fréquence", xlab = "Heures")
 #x
 
 # passages de nuit (nécessite lubridate) library(lubridate)
@@ -352,8 +362,8 @@ chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 ```
 
-- % passages nuit (20h - 8h): __`r round(p.passages.nuit * 100, 2)` %__ (N = `r format.n(n.passages.nuit)`)
-- % passages nuit profonde: __`r round(p.passages.nuit.profonde * 100, 2)` %__ (N = `r format.n(n.passages.nuit.profonde)`)
+- Passages de nuit (20h - 8h): __`r round(p.passages.nuit * 100, 2)` %__ (N = `r format.n(n.passages.nuit)`)
+- Passages en nuit profonde (0h - 8h): __`r round(p.passages.nuit.profonde * 100, 2)` %__ (N = `r format.n(n.passages.nuit.profonde)`)
 
 ```{r passage_pds, echo=FALSE, comment=""}
 # utilise le fichier horaires_pds.Rda
@@ -370,7 +380,7 @@ chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 ```
 
-- %  passages en horaire de PDS: __`r p.pds * 100` %__ [N = `r format.n(n.pds)`](Remarque: ne tient pas compte des jours fériés survenant en semaine)
+- Passages en horaire de PDS (8h - 20h): __`r p.pds * 100` %__ [N = `r format.n(n.pds)`](Remarque: ne tient pas compte des jours fériés survenant en semaine)
 
 ### Variations saisonnières
 ```{r saison, echo=FALSE}
@@ -383,7 +393,7 @@ mean.rpu.autre <- n.rpu.autre.mois / 303
 # évolution
 t <- (mean.rpu.ete - mean.rpu.autre) / mean.rpu.autre
 ```
-Variation du nombre de RPU entre les mois d'été (juillet-août) et les autres mois de l'année: `r t * 100` %
+Variation du nombre de RPU entre les mois d'été (juillet-août) et les autres mois de l'année: __`r t * 100` %__.
 
 ### Moyens d'arrivée
 ```{r transpport, echo=FALSE, comment=""}
@@ -410,10 +420,10 @@ chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 ```
 
-- __%(N) d'arrivée personnel__: `r round(n.transport.perso * 100 / n.transport, 2)` % (N = `r format.n(n.transport.perso)`)
-- __%(N) d'arrivée SMUR__: `r round(n.transport.smur * 100 / n.transport, 2)` % (N = `r format.n(n.transport.smur)`)
-- __%(N) d'arrivée VSAB__: `r round(n.transport.vsab * 100 / n.transport, 2)` % (N = `r format.n(n.transport.vsab)`)
-- __%(N) d'arrivée Ambulance__: `r round(n.transport.ambu * 100 / n.transport, 2)` % (N = `r format.n(n.transport.ambu)`)
+- %(N) d'arrivée personnel: __`r round(n.transport.perso * 100 / n.transport, 2)` %__ (N = `r format.n(n.transport.perso)`)
+- %(N) d'arrivée SMUR: __`r round(n.transport.smur * 100 / n.transport, 2)` %__ (N = `r format.n(n.transport.smur)`)
+- %(N) d'arrivée VSAB: __`r round(n.transport.vsab * 100 / n.transport, 2)` %__ (N = `r format.n(n.transport.vsab)`)
+- %(N) d'arrivée Ambulance: __`r round(n.transport.ambu * 100 / n.transport, 2)` %__ (N = `r format.n(n.transport.ambu)`)
 
 NB : commentaire possible pour expliquer que la somme des 4 pourcentages ci dessus ne fait pas 100 %
 
@@ -446,14 +456,15 @@ chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 ```
 - nombre de CCMU renseignés: `r s.ccmu`
-- __%(N) CCMU 1 __: `r round(100 * p.ccmu1, 2)`% (n = `r format.n(n.ccmu1)`)
-- __%(N) CCMU 1 et 2__: `r round(100 * p.ccmu12, 2)`% (n = `r format.n(n.ccmu12)`)
-- __%(N) CCMU 4 et 5__: `r round(100 * p.ccmu45, 2)`% (n = `r format.n(n.ccmu45)`)
+- %(N) CCMU 1: __`r round(100 * p.ccmu1, 2)`%__ (n = `r format.n(n.ccmu1)`)
+- %(N) CCMU 1 et 2: __`r round(100 * p.ccmu12, 2)`%__ (n = `r format.n(n.ccmu12)`)
+- %(N) CCMU 4 et 5: __`r round(100 * p.ccmu45, 2)`%__ (n = `r format.n(n.ccmu45)`)
 
 Exhaustivité CCMU :
-- Nombre de RPU 2014 hors orientation = FUGUE, PSA et REO ayant un élément transmis pour la CCMU: `r n.ccmu.conforme`
 
-DIAGNOSTIC PRINCIPAL 
+- Nombre de RPU 2014 hors orientation = FUGUE, PSA et REO ayant un élément transmis pour la CCMU: __`r n.ccmu.conforme`__.
+
+### Diadnostic principal 
 
 Remarque: les chiffres sont dans le document _Codes_regroupement_ORUMIP_ => à rajouter.
 
@@ -467,34 +478,55 @@ Remarque: les chiffres sont dans le document _Codes_regroupement_ORUMIP_ => à r
 
 ```{r passages, echo=FALSE, comment=""}
 # On forme un dataframe avec les heures d'entrées et de sortie auxquelle on rajoute pour certains calculs: Mode_Sortie
-passages <- dx[, c("ENTREE", "SORTIE", "MODE_SORTIE")] # dataframe entrées-sorties
-passages <- passages[complete.cases(passages),] # on ne conserve que les couples complets
-n.passages <- nrow(passages)
-e <- ymd_hms(passages$ENTREE) # vecteur des entrées
-s <- ymd_hms(passages$SORTIE)
-d <- as.numeric((s-e)/60) # vecteur des durées de passage en minutes
-passages$duree <- d
 
-# on ne garde que les passages dont la durées > 0 et < ou = 72 heures
-passages <- passages[passages$duree > 0 & passages$duree < 3 * 24 * 60 + 1,]
-n.duree <- nrow(passages) # nb total de durées
-s.duree <- summary(passages$duree) # résumé des durées totales de passage
-hist(passages$duree/60, breaks = 72, xlab = "Heures", main = paste0("Durées de passage en ", anc), col= "cornflowerblue", border = "white")
-mean.duree <- s.duree['Mean']
-median.duree <- s.duree['Median']
-sd.duree <- sd(passages$duree)
-# nb de passages dont la durée est supérieure à 4 heures:
-duree.sup.4h <- passages$duree[passages$duree > 4 * 60] # vecteur des durées sup 4 h
-n.duree.sup.4h <- length(duree.sup.4h) # nb de passages > 4h
-p.duree.sup.4h <- n.duree.sup.4h / n.duree
+# -------- TOUT CE PASSAGE EST REMPLACE PAR duree.passage2() ----------------------
+# passages <- dx[, c("ENTREE", "SORTIE", "MODE_SORTIE")] # dataframe entrées-sorties
+# passages <- passages[complete.cases(passages),] # on ne conserve que les couples complets
+# n.passages <- nrow(passages)
+# e <- ymd_hms(passages$ENTREE) # vecteur des entrées
+# s <- ymd_hms(passages$SORTIE)
+# d <- as.numeric((s-e)/60) # vecteur des durées de passage en minutes
+# passages$duree <- d
+# # on ne garde que les passages dont la durées > 0 et < ou = 72 heures
+# passages <- passages[passages$duree > 0 & passages$duree < 3 * 24 * 60 + 1,]
 
-# nb  de passages dont la durée est inférieure à 4 heures:
-duree.inf.4h <- passages$duree[passages$duree <= 4 * 60] # vecteur des durées inf 4 h
-n.duree.inf.4h <- length(duree.inf.4h) # nb de passages > 4h
-p.duree.inf.4h <- n.duree.inf.4h / n.duree
+passages <- duree.passage2(dx)
+
+# analyse simple de la durée:
+s <- summary.duree.passage(passages)
+n.duree <- s["n"] # nb total de durées
+mean.duree <- s['mean']
+median.duree <- s['median']
+sd.duree <- s['sd']
+#s.duree <- summary(passages$duree) # résumé des durées totales de passage
 
 # intervalle interquartile
-iqr.duree <- s.duree['3rd Qu.'] - s.duree['1st Qu.']
+iqr.duree <- s['q3'] - s['q1']
+
+# histogramme
+hist(passages$duree/60, breaks = 72, xlab = "Heures", main = paste0("Durées de passage en ", anc), col= "cornflowerblue", border = "white")
+
+# analyse avancée de la durée
+s2 <- summary.passages(passages)
+
+# nb  de passages dont la durée est inférieure à 4 heures:
+n.duree.inf.4h <- s2["n.passage4"]
+p.duree.inf.4h <- n.duree.inf.4h / n.duree
+
+# nb de passages dont la durée est supérieure à 4 heures:
+n.duree.sup.4h <- n.duree - n.duree.inf.4h
+p.duree.sup.4h <- 1 - p.duree.inf.4h
+
+#---------------------- OLD ---------------------------------
+# nb de passages dont la durée est supérieure à 4 heures:
+# duree.sup.4h <- passages$duree[passages$duree > 4 * 60] # vecteur des durées sup 4 h
+# n.duree.sup.4h <- length(duree.sup.4h) # nb de passages > 4h
+# p.duree.sup.4h <- n.duree.sup.4h / n.duree
+
+# nb  de passages dont la durée est inférieure à 4 heures:
+# duree.inf.4h <- passages$duree[passages$duree <= 4 * 60] # vecteur des durées inf 4 h
+# n.duree.inf.4h <- length(duree.inf.4h) # nb de passages > 4h
+# p.duree.inf.4h <- n.duree.inf.4h / n.duree
 
 # ancien code avec le vecteur durée
 # duree <- d[d > 0 & d < 3 * 24 * 60 + 1]
@@ -517,24 +549,41 @@ iqr.duree <- s.duree['3rd Qu.'] - s.duree['1st Qu.']
 # iqr.duree <- s.duree['3rd Qu.'] - s.duree['1st Qu.']
 
 # Nombre de RPU avec une heure de sortie conforme (]0-72h[ lors d'une hospitalisation post-urgences
-duree.hosp <- passages[passages$MODE_SORTIE %in% c("Mutation","Transfert"), "duree"]
-n.duree.hosp <- length(duree.hosp)
+n.duree.hosp <- s2["n.hosp"]
 # durée moyenne de passage si hospitalisation
-mean.duree.hosp <- mean(duree.hosp)
-median.duree.hosp <- median(duree.hosp)
+mean.duree.hosp <- s2["duree.moyenne.passage.hosp"]
+median.duree.hosp <- s2["duree.mediane.passage.hosp"]
 # Nombre de RPU dont la durée de passage est inférieure à 4h lors d'une hospitalisation post-urgences
-duree.hosp.inf4h <- passages[passages$MODE_SORTIE %in% c("Mutation","Transfert") & passages$duree < 4*60, "duree"]
-n.duree.hosp.inf4h <- length(duree.hosp.inf4h)
-
+n.duree.hosp.inf4h <- s2["n.hosp.passage4"]
 # Nombre de RPU avec une heure de sortie conforme (]0-72h[ lors d'un retour au domicile
-duree.domicile <- passages[passages$MODE_SORTIE == "Domicile", "duree"]
-n.duree.domicile <- length(duree.domicile)
+n.duree.domicile <- s2["n.domicile"]
 # durée moyenne de passage si retour à domicile
-mean.duree.domicile <- mean(duree.domicile)
-median.duree.domicile <- median(duree.domicile)
+mean.duree.domicile <- s2["duree.moyenne.passage.dom"]
+median.duree.domicile <- s2["duree.mediane.passage.dom"]
 # Nombre de RPU dont la durée de passage est inférieure à 4h lors d'un retour au domicile
-duree.domicile.inf4h <- passages[passages$MODE_SORTIE == "Domicile" & passages$duree < 4*60, "duree"]
-n.duree.domicile.inf4h <- length(duree.domicile.inf4h)
+n.duree.domicile.inf4h <- s2["n.dom.passage4"]
+
+
+#---------------------- OLD ---------------------------------
+# # Nombre de RPU avec une heure de sortie conforme (]0-72h[ lors d'une hospitalisation post-urgences
+# duree.hosp <- passages[passages$MODE_SORTIE %in% c("Mutation","Transfert"), "duree"]
+# n.duree.hosp <- length(duree.hosp)
+# # durée moyenne de passage si hospitalisation
+# mean.duree.hosp <- mean(duree.hosp)
+# median.duree.hosp <- median(duree.hosp)
+# # Nombre de RPU dont la durée de passage est inférieure à 4h lors d'une hospitalisation post-urgences
+# duree.hosp.inf4h <- passages[passages$MODE_SORTIE %in% c("Mutation","Transfert") & passages$duree < 4*60, "duree"]
+# n.duree.hosp.inf4h <- length(duree.hosp.inf4h)
+# 
+# # Nombre de RPU avec une heure de sortie conforme (]0-72h[ lors d'un retour au domicile
+# duree.domicile <- passages[passages$MODE_SORTIE == "Domicile", "duree"]
+# n.duree.domicile <- length(duree.domicile)
+# # durée moyenne de passage si retour à domicile
+# mean.duree.domicile <- mean(duree.domicile)
+# median.duree.domicile <- median(duree.domicile)
+# # Nombre de RPU dont la durée de passage est inférieure à 4h lors d'un retour au domicile
+# duree.domicile.inf4h <- passages[passages$MODE_SORTIE == "Domicile" & passages$duree < 4*60, "duree"]
+# n.duree.domicile.inf4h <- length(duree.domicile.inf4h)
 
 #---------------------- Chiffres ---------------------------------------------------------------
 val <- c(NA)
@@ -543,47 +592,72 @@ chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 ```
 
-- Nb de RPU dont la durée de passage est comprise entre 0 et 72h: `r n.duree`
-- durée moyenne de passage __`r mean.duree` mn__.
-- écart-type: `r sd.duree` mn.
-- médiane: __`r median.duree` mn__.
+- Nombre de RPU dont la durée de passage est comprise entre 0h et 72h: __`r format.n(n.duree)`__
+- durée moyenne de passage __`r mean.duree` mn__ (`r mn2h(mean.duree)`).
+- écart-type: `r sd.duree` mn (`r mn2h(sd.duree)`).
+- médiane: __`r median.duree` mn__ (`r mn2h(median.duree)`).
 - nombre de prises en charge > 4 heures: `r format.n(n.duree.sup.4h)` (__`r round(p.duree.sup.4h * 100, 2)` %__).
 - nombre de prises en charge inférieures ou égales à 4 heures: `r format.n(n.duree.inf.4h)` (__`r round(p.duree.inf.4h * 100, 2)` %__).
 
 - Lors d’une hospitalisation post-urgences (hospitalisation = mutation + transfert)
-    - médiane durée de passage en cas de retour à domicile: __104 minutes__.
-    - médiane durée de passage en cas d’hospitalisation: __148 minutes__.
+    - moyenne durée de passage en cas d’hospitalisation: __`r mean.duree.hosp` mn__.
+    - médiane durée de passage en cas d’hospitalisation: __`r median.duree.hosp` mn__.
+    
 - Lors d’un retour au domicile
-    - moyenne durée de passage en cas de retour à domicile: __145.87 minutes__.
-    - moyenne durée de passage en cas d’hospitalisation: __187.55 minutes__.
+    - moyenne durée de passage en cas de retour à domicile: __`r mean.duree.domicile` mn__.
+    - médiane durée de passage en cas de retour à domicile: __`r median.duree.domicile` mn__.
 
 (source: temps de passages.Rmd)
 
-### MODE DE SORTIE
+### Mode de sortie
+
 ```{r mode_sortie, echo=FALSE, comment=""}
-mode.sortie <- table(dx$MODE_SORTIE) # mode de sortie par type
-n.mode.sortie <- sum(mode.sortie) # nb de mode de sortie renseigné
-n.externes <- mode.sortie['Domicile'] # nb de sortants
-n.mutations <- mode.sortie['Mutation'] # nb d'hospitalisés
-n.transferts <- mode.sortie['Transfert'] # nb de transferts
-n.hospitalises <- n.mutations + n.transferts
-n.deces <- mode.sortie['DCD']
+s <- summary.mode.sortie(dx$MODE_SORTIE)
+n.mode.sortie <- s["n.rens"] # nb de mode de sortie renseigné
+n.externes <- s["n.dom"] # nb de sortants
+n.mutations <- s["n.mutation"] # nb d'hospitalisés
+n.transferts <- s["n.transfert"] # nb de transferts
+n.hospitalises <- s["n.hosp"]
+n.deces <- s["n.deces"]
 
-p.externes <- mode.sortie['Domicile'] / n.mode.sortie
-p.mutations <- mode.sortie['Mutation'] / n.mode.sortie
-p.transferts <- mode.sortie['Transfert'] / n.mode.sortie
+#--------------- OLD -----------------------------------
+# mode.sortie <- table(dx$MODE_SORTIE) # mode de sortie par type
+# n.mode.sortie <- sum(mode.sortie) # nb de mode de sortie renseigné
+# n.externes <- mode.sortie['Domicile'] # nb de sortants
+# n.mutations <- mode.sortie['Mutation'] # nb d'hospitalisés
+# n.transferts <- mode.sortie['Transfert'] # nb de transferts
+# n.hospitalises <- n.mutations + n.transferts
+# n.deces <- mode.sortie['DCD']
+
+p.externes <- n.externes / n.mode.sortie
+p.mutations <- n.mutations / n.mode.sortie
+p.transferts <- n.transferts / n.mode.sortie
 p.hospitalises <- n.hospitalises / n.mode.sortie
-p.deces <- mode.sortie['DCD'] / n.mode.sortie
+p.deces <- n.deces / n.mode.sortie
 
-# Exhaustivité Destination (lors d'une hospitalisation) 
+# Exhaustivité DESTINATION (lors d'une hospitalisation) 
 #Nb de RPU 2014  avec mode de sortie = 6 ou 7 avec un élément transmis pour la destination
-hosp.dest <- dx[dx$MODE_SORTIE %in% c("Mutation","Transfert"), "DESTINATION"]
-n.hosp.dest <- sum(!is.na(hosp.dest))
 
-# Exhaustivité Orientation lors d'une hospitalisation    
+#------------- OLD ------------------------
+# hosp.dest <- dx[dx$MODE_SORTIE %in% c("Mutation","Transfert"), "DESTINATION"]
+# n.hosp.dest <- sum(!is.na(hosp.dest))
+
+s <- summary.destination(dx,correction = TRUE)
+# n.hosp.dest <- s["n"] ?
+n.hosp.dest <- s["n.rens"]
+
+# Exhaustivité ORIENTATION lors d'une hospitalisation
+
+#------------- OLD ------------------------
 # Nb de RPU 2014 avec mode de sortie = 6 ou 7 avec un élement transmis pour l'orientation
-hosp.orient <- dx[dx$MODE_SORTIE %in% c("Mutation","Transfert"), "ORIENTATION"]
-n.hosp.orient <- sum(!is.na(hosp.orient))
+# hosp.orient <- dx[dx$MODE_SORTIE %in% c("Mutation","Transfert"), "ORIENTATION"]
+# n.hosp.orient <- sum(!is.na(hosp.orient))
+
+s <- summary.orientation(dx,correction = TRUE)
+# n.hosp.orient <- s["n"] ?
+n.hosp.orient <- s["n.rens"]
+
+
 
 #---------------------- Chiffres ---------------------------------------------------------------
 val <- c(NA)
@@ -592,12 +666,12 @@ chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 ```
 
-- % (N) de retour à domicile: `r round(n.externes * 100 / n.mode.sortie, 2)` % (N = `r format.n(n.externes)`)
-- % (N) Hospitalisation: `r round(n.hospitalises * 100 / n.mode.sortie, 2)` % (N = `r format.n(n.hospitalises)`)
-- % (N) Mutation: `r round(n.mutations * 100 / n.mode.sortie, 2)` % (N = `r format.n(n.mutations)`)
-- % (N) Transfert: `r round(n.transferts * 100 / n.mode.sortie, 2)` % (N = `r format.n(n.transferts)`)
-- Nb de RPU 2014  avec mode de sortie = 6 ou 7 (hospitalisation) avec un élément transmis pour la destination: `r n.hosp.dest`
-- Nb de RPU 2014 avec mode de sortie = 6 ou 7 avec un élement transmis pour l'orientation: `r n.hosp.orient`
+- % (N) de retour à domicile: __`r round(n.externes * 100 / n.mode.sortie, 2)` %__ (N = `r format.n(n.externes)`)
+- % (N) Hospitalisation: __`r round(n.hospitalises * 100 / n.mode.sortie, 2)` %__ (N = `r format.n(n.hospitalises)`)
+- % (N) Mutation: __`r round(n.mutations * 100 / n.mode.sortie, 2)` %__ (N = `r format.n(n.mutations)`)
+- % (N) Transfert: __`r round(n.transferts * 100 / n.mode.sortie, 2)` %__ (N = `r format.n(n.transferts)`)
+- Nb de RPU 2014  avec mode de sortie = 6 ou 7 (hospitalisation) avec un élément transmis pour la destination: __`r n.hosp.dest`__
+- Nb de RPU 2014 avec mode de sortie = 6 ou 7 avec un élement transmis pour l'orientation: __`r n.hosp.orient`__
 
 
 Les chiffres clés de l’activité des SAMU
@@ -636,8 +710,8 @@ Haguenau  |  1  |  1
 Saverne  |  1  |  1   
 Strasbourg  |  4  |  3   
 Sélestat  |  1  |  1   
-Colmar  |  1  |  1   
-Mulhouse  |  1  |  1   
+Colmar  |  2  |  2     
+Mulhouse  |  2  |  2   
 
 Les chiffres clés de l’activité pédiatrique des services d’urgences (moins de 18 ans)
 =====================================================================================

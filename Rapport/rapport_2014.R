@@ -31,6 +31,8 @@
 # summary.wday
 # summary.cp
 # analyse.type.etablissement
+# summary.destination
+# summary.orientation
     
 #===============================================
 #
@@ -496,7 +498,8 @@ passages2 <- function(vx, h1, h2 = NULL){
 #' @param dx dataframe RPU
 #' @param h1 durée minimale en minutes (par défaut > 0)
 #' @param h2 durée maximale en minutes (par défaut 4320 = 72 heures)
-#' @return dataframe à 4 colonnes: entree, sortie, mode_sortie, duree (en mn)
+#' @return dataframe à 4 colonnes: entree, sortie, mode_sortie, duree (en mn),
+#'                                 he (heure d'entrée), hs (heure de sortie)
 #' 
 duree.passage2 <- function(dx, h1 = 0, h2 = 4320){
     # On forme un dataframe avec les heures d'entrées et de sortie auxquelle on rajoute 
@@ -508,10 +511,38 @@ duree.passage2 <- function(dx, h1 = 0, h2 = 4320){
     s <- ymd_hms(passages$SORTIE)
     # ON AJOUTE UNE COLONNE DUREE
     passages$duree <- as.numeric((s-e)/60) # vecteur des durées de passage en minutes
+    # horaires seuls. Il faut isoler les heures de la date
+    passages$he <- hms(substr(e, 12, 20)) # heures d'entrée
+    passages$hs <- hms(substr(s, 12, 20)) # heures de sortie
     # on ne garde que les passages dont la durées > 0 et < ou = 72 heures
     passages <- passages[passages$duree > 0 & passages$duree < 3 * 24 * 60 + 1,]
     
     return(passages)
+}
+
+#' Résumé de dp. dp est produit par duree.passages2 et se présente sous forme d'un 
+#' data.frame à 4 colonnes
+#' @name summary.duree.passage
+#' @description analyse de la colonne durée 
+#' @param dp un objet de type duree.passage2
+#' @return - nb de durées
+#'         - min durée
+#'         - max durée
+#'         - durée moyenne
+#'         - durée médiane
+#'         - écart-type
+#'         - 1er quartile
+#'         - 3ème quartile
+#'         
+summary.duree.passage <- function(dp){
+    n <- nrow(dp) # nb de valeurs
+    s <- summary(dp$duree) # summary de la colonne durée
+    sd <- sd(dp$duree)
+    
+    a <- c(n, s["Min."], s["Max."], s["Mean"], s["Median"], sd, s["1st Qu."], s["3rd Qu."])
+    
+    names(a) <- c("n", "min", "max", "mean", "median", "sd", "q1", "q3")
+    return(a)
 }
 
 #===============================================
@@ -523,9 +554,14 @@ duree.passage2 <- function(dx, h1 = 0, h2 = 4320){
 #' @description analyse un objet de type duree.passage2
 #' @param dp un objet de type duree.passage2. Correspond à un dataframe d'éléments du RPU dont
 #'        la rurée de passage est conforme cad non nulle et inférieure à 72 heures
+#'        
 #' @return n.conforme               NB de durées conformes (>0 mn et < 72 heures)
 #'         duree.moyenne.passage    durée moyenne d'un passage en minutes
 #'         duree.mediane.passage    durée médiane d'un passage en minutes
+#'         duree.moyenne.passage.dom    durée moyenne d'un passage en minutes si retour dom
+#'         duree.mediane.passage.dom    durée médiane d'un passage en minutes
+#'         duree.moyenne.passage.hosp    durée moyenne d'un passage en minutes si hospit.
+#'         duree.mediane.passage.hosp    durée médiane d'un passage en minutes
 #'         n.passage4               nombre de passages de moins de 4 heures
 #'         n.hosp.passage4          nombre de passages de moins de 4 heures suivi d'hospitalisation
 #'         n.domicile               nombre de retours à domicile
@@ -539,6 +575,12 @@ summary.passages <- function(dp){
     n.conforme <- nrow(dp)
     duree.moyenne.passage <- mean(dp$duree)
     duree.mediane.passage <- median(dp$duree)
+    # durée de passage moyenne si retour à domicile
+    duree.moyenne.passage.dom <- mean(dp$duree[dp$MODE_SORTIE == "Domicile"])
+    duree.mediane.passage.dom <- median(dp$duree[dp$MODE_SORTIE == "Domicile"])
+    # durée de passage moyenne si hospitalisation
+    duree.moyenne.passage.hosp <- mean(dp$duree[dp$MODE_SORTIE %in% c("Mutation","Transfert")])
+    duree.mediane.passage.hosp <- median(dp$duree[dp$MODE_SORTIE %in% c("Mutation","Transfert")])
     
     s.mode.sortie <- summary(as.factor(dp$MODE_SORTIE))
     
@@ -560,9 +602,15 @@ summary.passages <- function(dp){
     n.dom.passage4 <- length(dp$duree[dp$duree < tmax & 
                       dp$MODE_SORTIE == "Domicile"]) #nb passages < 4h et retourà domicile
     
-    a <- c(n.conforme, duree.moyenne.passage, duree.mediane.passage, n.passage4, n.hosp.passage4,
+    a <- c(n.conforme, duree.moyenne.passage, duree.mediane.passage, duree.moyenne.passage.dom,
+           duree.mediane.passage.dom, duree.moyenne.passage.hosp, duree.mediane.passage.hosp,
+           n.passage4, n.hosp.passage4,
            n.dom.passage4, n.dom, n.hosp, n.transfert, n.mutation, n.deces)
-    names(a) <- c("n.conforme", "duree.moyenne.passage", "duree.mediane.passage", "n.passage4",
+
+    names(a) <- c("n.conforme", "duree.moyenne.passage", "duree.mediane.passage",
+                  "duree.moyenne.passage.dom", "duree.mediane.passage.dom",
+                  "duree.moyenne.passage.hosp", "duree.mediane.passage.hosp",
+                  "n.passage4",
                   "n.hosp.passage4", "n.dom.passage4",  "n.dom", "n.hosp", "n.transfert", 
                   "n.mutation", "n.deces")
     
@@ -766,15 +814,114 @@ summary.age <- function(vx){
     n.rens <- sum(!is.na(vx)) # nb de valeurs renseignées
     p.rens <- mean(!is.na(vx)) # % de valeurs renseignées
     s.age <- summary(vx)
+    # summary
+    s <- summary(vx)
+    sd <- sd(vx, na.rm = TRUE)
     # age sans les NA
-    n.inf1an <- length(vx[!is.na(vx) & vx < 1]) #nb de moins d'un an
-    n.inf15ans <- length(vx[!is.na(vx) & vx < 15]) #nb de moins de 15 an
-    n.75ans <- length(vx[!is.na(vx) & vx > 74]) #nb de 75 ans et plus
+    n.inf1an <- sum(dx$AGE < 1, na.rm = TRUE) #nb de moins d'un an
+    p.inf1an <- mean(dx$AGE < 1, na.rm = TRUE)
     
-    a <- c(n, n.na, p.na, n.rens, p.rens, n.inf1an, n.inf15ans, n.75ans)
-    names(a) <- c("n", "n.na", "p.na", "n.rens", "p.rens","n.inf1an", "n.inf15ans","n.75ans" )
+    n.inf15an <- sum(dx$AGE < 15, na.rm = TRUE) #nb de moins de 15 ans
+    p.inf15an <- mean(dx$AGE < 15, na.rm = TRUE)
+    
+    n.inf18an <- sum(dx$AGE < 18, na.rm = TRUE)
+    p.inf18an <- mean(dx$AGE < 18, na.rm = TRUE)
+    
+    n.75ans <- sum(dx$AGE > 74, na.rm = TRUE)  #nb de 75 ans et plus
+    p.75ans <- mean(dx$AGE > 74, na.rm = TRUE)
+    
+    n.85ans <- sum(dx$AGE > 84, na.rm = TRUE)  #nb de 85 ans et plus
+    p.85ans <- mean(dx$AGE > 84, na.rm = TRUE)
+    
+    n.90ans <- sum(dx$AGE > 89, na.rm = TRUE)  #nb de 90 ans et plus
+    p.90ans <- mean(dx$AGE > 89, na.rm = TRUE)
+    
+    a <- c(n, n.na, p.na, n.rens, p.rens, n.inf1an, n.inf15an, n.inf18an, n.75ans, n.85ans, n.90ans,
+           p.inf1an, p.inf15an, p.inf18an, p.75ans, p.85ans, p.90ans,
+           s['Mean'], sd, s['Median'], s['Min.'], s['Max.'], s['1st Qu.'], s['3rd Qu.'])
+    
+    names(a) <- c("n", "n.na", "p.na", "n.rens", "p.rens","n.inf1an", "n.inf15ans", "n.inf18ans",
+                  "n.75ans", "n.85ans", "n.90ans",
+                  "p.inf1an", "p.inf15ans", "p.inf18ans", "p.75ans", "p.85ans", "p.90ans",
+                  "mean.age", "sd.age", "median.age", "min.age", "max.age", "q1", "q3")
     
     return(a)
+}
+
+#===============================================
+#
+# summary.age.sexe
+#
+#===============================================
+#' @description résumé des vecteurs AGE et SEXE
+#' @param dx dataframe RPU
+#' @usage summary.age.sexe(dx)
+#' @return moyenne, écart-type, médiane par sexe
+#' 
+summary.age.sexe <- function(dx){
+    
+    sd <- tapply(dx$AGE, dx$SEXE, sd, na.rm = TRUE)
+    sd.age.h <- sd[['M']]
+    sd.age.f <- sd[['F']]
+    
+    s <- tapply(dx$AGE, dx$SEXE, summary)
+    
+    mean.age.h <- s[["M"]]["Mean"] # age moyen des hommes
+    mean.age.f <- s[["F"]]["Mean"] # age moyen des femmes
+    
+    median.age.h <- s[["M"]]["Median"] # age médian des hommes
+    median.age.f <- s[["F"]]["Median"] # age médian des femmes
+    
+    a <- c(mean.age.h, sd.age.h, mean.age.f, sd.age.f, median.age.h, median.age.f)
+    
+    names(a) <- c("mean.age.h", "sd.age.h", "mean.age.f", "sd.age.f", "median.age.h", 
+                  "median.age.f")
+    
+    return(a)
+}
+
+#===============================================
+#
+# pyramide.age
+#
+#===============================================
+#' @description pyramide des ages
+#' @param dx datafrae RPU ou DF à 2 colonnes: AGE et SEXE
+#' @param cut intervalles. Par défaut tranche d'age de 5 ans, borne sup exclue: [0-5[ ans
+#' @param col.h couleur pour les hommes
+#' @param col.f couleur pour les femmes
+#' @details pyramid nécessite epicalc, pyramid.plot nécessite plotrix
+
+pyramide.age <- function(dx, cut = 5, col.h = "light green", col.f = "khaki1"){
+    # découpage du vecteur AGE en classes
+    a <- cut(dx$AGE, seq(from = 0,to = 120, by = cut), include.lowest = TRUE, right = FALSE)
+    # division en 2 classes
+    h <- as.vector(100 * table(a[dx$SEXE == "M"])/n.rpu)
+    f <- as.vector(100 * table(a[dx$SEXE == "F"])/n.rpu)
+    # graphe
+    p <- pyramid.plot(h,f,
+                 labels = names(table(a)), 
+                 top.labels = c("Hommes", "Age", "Femmes"), 
+                 main = "Pyramide des ages", 
+                 lxcol = col.h, rxcol = col.f)
+    return(p)
+}
+
+#===============================================
+#
+# tarru
+#
+#===============================================
+#' @description Taux de Recours régional aux Urgences
+#' @param pop.region population régionale de référence
+#' @param cp vecteur des codes postaux. Détermine le nb de RPU générés par des Alsaciens
+#' @usage pop.region <- pop.als.tot.2014 <- 1868773
+#'        tarru(dx$CODE_POSTAL, pop.region)
+
+tarru <- function(cp, pop.region, rpu.region){
+    rpu.region <- sum(sapply(cp, is.cpals))
+    tarru <- rpu.region * 100 / pop.region
+    return(tarru)
 }
 
 #===============================================
@@ -942,6 +1089,66 @@ analyse_type_etablissement <- function(es){
 
 #===============================================
 #
+# summary.destination
+#
+#===============================================
+#' @description résumé du vecteur vx des DESTINATION
+#' @param dx dataframe RPU
+#' @param correction = TRUE: on ne retient que les destinations 
+#'                           correspondant à une hospitalisation
+#'
+
+summary.destination <- function(dx, correction = TRUE){
+    if(correction == TRUE){
+        vx <- dx$DESTINATION[dx$MODE_SORTIE %in% c("Mutation","Transfert")]
+    }
+    else{
+        vx <- dx$DESTINATION
+    }
+    n <- length(vx) # nb de valeurs
+    n.na <- sum(is.na(vx)) # nb de valeurs non renseignées
+    p.na <- mean(is.na(vx)) # % de valeurs non renseignées
+    n.rens <- sum(!is.na(vx)) # nb de valeurs renseignées
+    p.rens <- mean(!is.na(vx)) # % de valeurs renseignées
+    
+    a <- c(n, n.na, p.na, n.rens, p.rens)
+    names(a) <- c("n", "n.na", "p.na", "n.rens", "p.rens")
+    
+    return(a)
+}
+
+#===============================================
+#
+# summary.orientation
+#
+#===============================================
+#' @description résumé du vecteur vx des ORIENTATION
+#' @param dx dataframe RPU
+#' @param correction = TRUE: on ne retient que les orientation 
+#'                           correspondant à une hospitalisation
+#'
+
+summary.orientation <- function(dx, correction = TRUE){
+    if(correction == TRUE){
+        vx <- dx$ORIENTATION[dx$MODE_SORTIE %in% c("Mutation","Transfert")]
+    }
+    else{
+        vx <- dx$ORIENTATION
+    }
+    n <- length(vx) # nb de valeurs
+    n.na <- sum(is.na(vx)) # nb de valeurs non renseignées
+    p.na <- mean(is.na(vx)) # % de valeurs non renseignées
+    n.rens <- sum(!is.na(vx)) # nb de valeurs renseignées
+    p.rens <- mean(!is.na(vx)) # % de valeurs renseignées
+    
+    a <- c(n, n.na, p.na, n.rens, p.rens)
+    names(a) <- c("n", "n.na", "p.na", "n.rens", "p.rens")
+    
+    return(a)
+}
+
+#===============================================
+#
 # summary.cp
 #
 #===============================================
@@ -962,4 +1169,23 @@ analyse_type_etablissement <- function(es){
 
 evolution <- function(a, b){
     return((a - b)/b)
+}
+
+#===============================================
+#
+# mn2h
+#
+#===============================================
+#' @description transforme des minutes en heure/mn
+#' @param x integer = nombre de minutes
+#' @return char
+#' @usage 
+#' 
+
+mn2h <- function(x){
+    h <- floor(x/60)
+    mn <- round((x/60 - h) * 60, 0)
+    a <- paste0(h, "h", mn)
+    return(a)
+
 }
