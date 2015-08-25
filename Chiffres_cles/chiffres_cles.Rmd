@@ -1,0 +1,123 @@
+---
+title: "Chiffres Clés"
+author: "jcb"
+date: "21 août 2015"
+output: html_document
+---
+
+```{r test, child = '../Test/test.Rmd'}
+```
+
+Chiffres Clés de la région Alsace en `r anc`
+================================
+
+Recueil des données
+-------------------
+
+```{r}
+n.rpu <- nrow(dx)
+anp <- anc - 1
+```  
+
+  Nombre de passages  |   n     
+------------- | -------------:
+Nombre de RPU transmis  | `r format.n(n.rpu)`
+Evolution `r anp`/`r anc`  |  `r round(evolution(n.rpu, n.rpu.2013) * 100, 2)` %  |
+Moyenne quotidienne de passage  | `r format.n(n.rpu/365)`
+Nombre de passages (SAE)  |  `r format.n(passages.2014.SAE)`
+Exhaustivité  |  `r format.n(round(100 * n.rpu/passages.2014.SAE, 2))`%
+
+
+Patients
+-------------------
+```{r patients, echo=FALSE}
+age <- summary.age(dx$AGE)
+sexe <- summary.sexe(dx$SEXE)
+cp <- summary.cp(dx$CODE_POSTAL)
+```
+
+
+|  Caractéristiques  |  n  |
+|-----|:-----|
+|  sex-ratio  |  `r sexe['sex.ratio']`  |
+|  age moyen  |  `r age['mean.age']` ans |
+|  moins de 1 ans  |  `r format.n(age['p.inf1an'])` %  |
+|  moins de 15 ans  |  `r format.n(age['p.inf15ans'])` %  |
+|  75 ans et plus  |  `r format.n(age['p.75ans'])` %  |
+|  patients hors région  |  `r round(cp['n.etrangers']*100/n.rpu, 2)` %  |
+|  taux de recours régional  |  `r tarru(dx$CODE_POSTAL, pop.als.tot.2014)` %  |
+
+Arrivées
+-------------------
+```{r arrivee, echo=FALSE}
+a <- pdsa(dx$ENTREE)
+pds <- length(a[a %in% c('PDSWE','PDSS')]) / length(a)
+
+s <- summary.transport(dx$TRANSPORT)
+
+g <- summary.ccmu(dx$GRAVITE)
+```
+
+
+|  Passages  |  %  |
+|-----|:-----|
+|  la nuit  |  `r round(100*passages2(dx$ENTREE, "nuit")[2], 2)` %  |
+|  en horaire de PDS  |  `r round(pds * 100, 2)`%  |
+
+|  Modes d'arrivée  |  %  |
+|-----|:-----|
+|  moyens personnels  |  `r round(s['p.perso']*100, 2)`%  |
+|  SMUR  |  `r round(s['p.smur']*100, 2)` %  |
+|  VSAV  |  `r round(s['p.vsav']*100, 2)` %  |
+|  Ambulances privées  |  `r round(s['p.ambu']*100, 2)` %`  |
+
+|  Gravité  |  %  |
+|-----|:-----|
+|  CCMU 1  |  `r round(g['p.ccmu1']*100, 2)` %  |
+|  CCMU 4 et 5  |  `r round((g['p.ccmu4']+g['p.ccmu5'])*100, 2)` %  |
+
+Diagnostic Principal
+-------------------
+
+|  Recours  |  %  |
+|-----|:-----|
+|  médico-chirurgical  |  1  |
+|  traumatologique  |  1  |
+|  psychiatrique  |  1  |
+|  toxicologique  |  1  |
+|  autres recours  |  1  |
+
+
+Mode de sortie
+-------------------
+```{r mode_sortie, echo=FALSE}
+s <- summary.mode.sortie(dx$MODE_SORTIE)
+```
+
+
+  Recours  |  -  |  %  |
+|-----|:-----|--------|
+|  Hospitalisation  |  Mutation  |  `r round(s['p.mutation']*100, 2)` %  |
+|                   |  Transfert  |  `r round(s['p.transfert']*100, 2)` %  |
+|  Domicile         |            |  `r round(s['p.dom']*100, 2)` %  |
+
+Durée
+-------------------
+```{r passages, echo = FALSE}
+s <- summary.passages(duree.passage2(dx))
+```
+
+
+  Durée de passage  |  heures  |
+|-----|:-----|
+|  moyenne  |  `r mn2h(s['duree.moyenne.passage'])`  |
+|  médiane  |  `r mn2h(s['duree.mediane.passage'])`  |
+
+  Passages de moins de 4 heures  |  %  |
+|-----|:-----|
+|  lors d'une hospitalisation  |  `r round(s['n.hosp.passage4']*100/s['n.conforme'], 2)` %  |
+|  lors d'un retour à domicile  |  `r round(s['n.dom.passage4']*100/s['n.conforme'], 2)` %  |
+
+
+
+

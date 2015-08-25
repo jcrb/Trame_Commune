@@ -293,11 +293,12 @@ count.CIM10 <- function(vx){
 #'@name passage
 #'@param he vecteur time de type hms
 #'@param horaire = 'nuit', 'nuit profonde', 'jour'
-#'@note necessite lubridate
+#'@note necessite lubridate. Prend en compte toutes les heures et pas seulement celles
+#'      comprises entre 0 et 72h (voir passage2)
 #'@return un vecteur avec 2 éléments: le nombre de passages et le pourcentage en
 #'        fonction de la période (jour, nuit)
 #'@seealso horaire
-#'@usage e <- datetime(dx$ENTREE); he <- horaire(e); nuit <- passsage.nuit(he, "nuit")
+#'@usage e <- datetime(dx$ENTREE); he <- horaire(e); nuit <- passage(he, "nuit")
 #'
 passage <- function(he, horaire = "nuit"){
     if(horaire == "nuit")
@@ -354,7 +355,7 @@ datetime <- function(date){
 
 #===============================================
 #
-# pds
+# pdsa
 #
 #===============================================
 #' Détermine si on est en horaire de PDS de WE (PDSWE) ou de semaine (PDSS) 
@@ -375,13 +376,13 @@ datetime <- function(date){
 #'                                  c("ENTREE","FINESS")]
 #'        wis$jour <- weekdays(as.Date(wis$ENTREE))
 #'        wis$heure <- horaire(wis$ENTREE)
-#'        wis$pds <- pds(wis$ENTREE)
+#'        wis$pdsa <- pds(wis$ENTREE)
 #'        table(wis$pds)
 #'        
 #'        NPDS  PDSS PDSWE 
 #'         136    35    52 
 
-pds <- function(dx){
+pdsa <- function(dx){
     j <- as.Date(dx)
     h <- horaire(dx)
     
@@ -396,10 +397,11 @@ pds <- function(dx){
              weekdays(j)=="Samedi" & h > hms("11:59:59") & h <= hms("23:59:59") |
              weekdays(j)=="Lundi" & h < hms("08:00:00")] = "PDSWE"
     
-    # horaires de PDS le WE
+    # horaires de PDS en semaine
     temp[weekdays(j) %in% c("Mardi","Mercredi","Jeudi","Vendredi") &
              (h > hms("19:59:59") | h < hms("08:00:00"))]= "PDSS"
     temp[weekdays(j) == "Lundi" & h > hms("19:59:59")]= "PDSS"
+    temp[weekdays(j) == "Samedi" & h < hms("08:00:00")]= "PDSS"
     
     return(temp)
 }
@@ -448,23 +450,25 @@ tab.completude <- function(dx, d1, d2, finess = NULL){
 
 #===============================================
 #
-# passages (nombre de passages)
+# passages2 (nombre de passages)
 #
 #===============================================
 #'
 #' Détermine le nombre de RPU sur une plage horaire donnée
 #' @author jcb
 #' @description nécessite lubridate library(lubridate)
-#' @param vx vecteur de type datetime (dx$ENTREE, dx$SORTIE par exemple)
+#' @param vx vecteur de type datetime (dx$ENTREE, dx$SORTIE par exemple). Transformé par ymd_hms
+#'           Transform dates stored as character or numeric vectors to POSIXct objects
 #' @param h1 char heure de début ou période: 'nuit', nuit_profonde', 'jour', 'pds', 
 #'                                            'soir', '08:00:00'
-#' @param h2 char heure de fin
+#' @param h2 char heure de fin. h2 doit être > h1
 #' @usage n.passages.nuit <- passages(pop18$ENTREE, "nuit")
 #' @return integer
 #' 
 passages2 <- function(vx, h1, h2 = NULL){
     e <- ymd_hms(vx) # vecteur des entrées
     he <- hms(substr(e, 12, 20)) # on ne conserve que la partie horaire
+    n.passages <- length(he) # nb de passages
     
     if(h1 == "nuit"){
         # nombre de passages dont l’admission s’est effectuée sur la période [20h00 - 7h59] 
@@ -476,7 +480,7 @@ passages2 <- function(vx, h1, h2 = NULL){
     }
     else if(h1 == "jour"){
         #nombre de passages dont l’admission s’est effectuée sur la période [08h00 - 19h59]
-        n <- he[he > hms("07:59:59") | he < hms("08:00:00")] # passages 7:59 - 20:00
+        n <- he[he > hms("07:59:59") & he < hms("20:00:00")] # passages 7:59 - 20:00
     }
     else if(h1 == "soir"){
         #nombre de passages dont l’admission s’est effectuée sur la période [20h00 - 0:00]
@@ -484,9 +488,13 @@ passages2 <- function(vx, h1, h2 = NULL){
     }
     else if(!is.null(h2)){
         # nombre de passages dont l’admission s’est effectuée sur la période [h1 - h2] 
-        n <- he[he > hms(h1) | he < hms(h2)]
+        n <- he[he > hms(h1) & he < hms(h2)]
     }
-    return(length(n))
+    
+    n <- length(n)
+    p <- n/n.passages
+    
+    return(c(n, p))
 }
 
 #===============================================
@@ -690,8 +698,25 @@ summary.transport <- function(vx){
     p.rens <- mean(!is.na(vx)) # % de valeurs renseignées
     s <- summary(as.factor(vx))
     
-    a <- c(n, n.na, p.na, n.rens, p.rens, s['FO'], s['HELI'], s['PERSO'], s['SMUR'], s['VSAB'], s['AMBU'])
-    names(a) <- c("n", "n.na", "p.na", "n.rens", "p.rens", "FO", "HELI", "PERSO", "SMUR", "VSAB", "AMBU")
+    n.perso <- s['PERSO']
+    n.smur <- s['SMUR']
+    n.vsav <- s['VSAB']
+    n.ambu <- s['AMBU']
+    n.fo <- s['FO']
+    n.heli <- s['HELI']
+    
+    p.perso <- n.perso / n.rens
+    p.smur <- n.smur / n.rens
+    p.vsav <- n.vsav / n.rens
+    p.ambu <- n.ambu / n.rens
+    p.fo <- n.fo / n.rens
+    p.heli <- n.heli / n.rens
+    
+    a <- c(n, n.na, p.na, n.rens, p.rens, n.fo, n.heli, n.perso, n.smur, n.vsav, n.ambu,
+           p.fo, p.heli, p.perso, p.smur, p.vsav, p.ambu)
+    
+    names(a) <- c("n", "n.na", "p.na", "n.rens", "p.rens", "n.fo", "n.heli", "n.perso", "n.smur",
+                  "n.vsav", "n.ambu", "p.fo", "p.heli", "p.perso", "p.smur", "p.vsav", "p.ambu")
     
     return(a)
 }
@@ -714,8 +739,28 @@ summary.ccmu <- function(vx){
     p.rens <- mean(!is.na(vx)) # % de valeurs renseignées
     s <- summary(factor(vx))
     
-    a <- c(n, n.na, p.na, n.rens, p.rens, s['1'], s['2'], s['3'], s['4'], s['5'], s['P'], s['D'])
-    names(a) <- c("n", "n.na", "p.na", "n.rens", "p.rens", "CCMU1", "CCMU2", "CCMU3", "CCMU4", "CCMU5", "CCMU P", "CCMU D")
+    n.ccmu1 <- s['1']
+    n.ccmu2 <- s['2']
+    n.ccmu3 <- s['3']
+    n.ccmu4 <- s['4']
+    n.ccmu5 <- s['5']
+    n.ccmup <- s['P']
+    n.ccmud <- s['D']
+    
+    p.ccmu1 <- n.ccmu1/n.rens
+    p.ccmu2 <- n.ccmu2/n.rens
+    p.ccmu3 <- n.ccmu3/n.rens
+    p.ccmu4 <- n.ccmu4/n.rens
+    p.ccmu5 <- n.ccmu5/n.rens
+    p.ccmup <- n.ccmup/n.rens
+    p.ccmud <- n.ccmud/n.rens
+    
+    a <- c(n, n.na, p.na, n.rens, p.rens, n.ccmu1, n.ccmu2, n.ccmu3, n.ccmu4, n.ccmu5, 
+           n.ccmup, n.ccmud, p.ccmu1, p.ccmu2, p.ccmu3, p.ccmu4, p.ccmu5, p.ccmup,p.ccmud)
+    
+    names(a) <- c("n", "n.na", "p.na", "n.rens", "p.rens", "n.ccmu1", "n.ccmu2", "n.ccmu3", 
+                  "n.ccmu4", "n.ccmu5", "n.ccmup", "n.ccmud", "p.ccmu1", "p.ccmu2", "p.ccmu3", 
+                  "p.ccmu4", "p.ccmu5", "p.ccmup", "p.ccmud")
     
     return(a)
 }
@@ -768,8 +813,17 @@ summary.mode.sortie <- function(vx){
     n.mutation <- s["Mutation"]     # Nombre de mutation interne
     n.deces <- s["Décès"]           # nombre de décès
     
-    a <- c(n, n.na, p.na, n.rens, p.rens, n.dom, n.hosp, n.transfert, n.mutation, n.deces)
-    names(a) <- c("n", "n.na", "p.na", "n.rens", "p.rens", "n.dom", "n.hosp", "n.transfert", "n.mutation", "n.deces")
+    p.dom <- n.dom / n.rens
+    p.hosp <- n.hosp / n.rens
+    p.transfert <- n.transfert / n.rens
+    p.mutation <- n.mutation / n.rens
+    p.deces <- n.deces / n.rens
+    
+    a <- c(n, n.na, p.na, n.rens, p.rens, n.dom, n.hosp, n.transfert, n.mutation, n.deces,
+           p.dom, p.hosp, p.transfert, p.mutation, p.deces)
+    names(a) <- c("n", "n.na", "p.na", "n.rens", "p.rens", 
+                  "n.dom", "n.hosp", "n.transfert", "n.mutation", "n.deces",
+                  "p.dom", "p.hosp", "p.transfert", "p.mutation", "p.deces")
     
     return(a)
 }
@@ -890,11 +944,14 @@ summary.age.sexe <- function(dx){
 #' @param cut intervalles. Par défaut tranche d'age de 5 ans, borne sup exclue: [0-5[ ans
 #' @param col.h couleur pour les hommes
 #' @param col.f couleur pour les femmes
+#' @param gap largeur de la colonne age (N = 1, varie de 0 à ...)
 #' @details pyramid nécessite epicalc, pyramid.plot nécessite plotrix
 
-pyramide.age <- function(dx, cut = 5, col.h = "light green", col.f = "khaki1"){
+pyramide.age <- function(dx, cut = 5, gap = 1, cex = 0.8,col.h = "light green", col.f = "khaki1"){
     # découpage du vecteur AGE en classes
-    a <- cut(dx$AGE, seq(from = 0,to = 120, by = cut), include.lowest = TRUE, right = FALSE)
+    max = max(dx$AGE, na.rm = TRUE) 
+    min = min(dx$AGE, na.rm = TRUE)
+    a <- cut(dx$AGE, seq(from = min, to = max, by = cut), include.lowest = TRUE, right = FALSE)
     # division en 2 classes
     h <- as.vector(100 * table(a[dx$SEXE == "M"])/n.rpu)
     f <- as.vector(100 * table(a[dx$SEXE == "F"])/n.rpu)
@@ -903,7 +960,10 @@ pyramide.age <- function(dx, cut = 5, col.h = "light green", col.f = "khaki1"){
                  labels = names(table(a)), 
                  top.labels = c("Hommes", "Age", "Femmes"), 
                  main = "Pyramide des ages", 
-                 lxcol = col.h, rxcol = col.f)
+                 lxcol = col.h, rxcol = col.f,
+                 labelcex = cex,
+                 gap = gap
+                )
     return(p)
 }
 
@@ -916,7 +976,7 @@ pyramide.age <- function(dx, cut = 5, col.h = "light green", col.f = "khaki1"){
 #' @param pop.region population régionale de référence
 #' @param cp vecteur des codes postaux. Détermine le nb de RPU générés par des Alsaciens
 #' @usage pop.region <- pop.als.tot.2014 <- 1868773
-#'        tarru(dx$CODE_POSTAL, pop.region)
+#'        tarru(dx$CODE_POSTAL, pop.als.tot.2014)
 
 tarru <- function(cp, pop.region, rpu.region){
     rpu.region <- sum(sapply(cp, is.cpals))
@@ -1013,9 +1073,10 @@ analyse_type_etablissement <- function(es){
     
     # passages de nuit
     n.nuit <- passage(horaire(es$ENTREE), "nuit")[1]
+    # p.nuit <- passage(horaire(es$ENTREE), "nuit")[2]
     
     # passage en PDS
-    t <- table(pds(es$ENTREE))
+    t <- table(pdsa(es$ENTREE))
     n.pds <- t["PDSS"] + t["PDSWE"]
     
     #Nombre de RPU avec une date et heure d'entrée renseignées
@@ -1166,6 +1227,7 @@ summary.orientation <- function(dx, correction = TRUE){
 #' @param a chiffre de l'année courante
 #' @param b chiffre de l'année précédente
 #' @return pourcentage d'augmentation ou de diminution
+#' @usage evolution(n.rpu, n.rpu.2013)
 
 evolution <- function(a, b){
     return((a - b)/b)

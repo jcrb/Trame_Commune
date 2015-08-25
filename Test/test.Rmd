@@ -39,3 +39,8 @@ if(host == "MacBook-Air-de-JCB.local" | host == "Air-de-JCB"){
 }
 
 source('../Rapport/rapport_2014.R') # routines pour le rapport d'activité
+
+file <- "rpu2014d0112_c2.Rda" # données de 2014
+    load(paste0(path, file))
+    dx <- d14 # si file actif
+    rm(d14)
