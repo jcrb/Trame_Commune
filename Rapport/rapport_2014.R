@@ -462,7 +462,7 @@ tab.completude <- function(dx, d1, d2, finess = NULL){
 #' @param h1 char heure de début ou période: 'nuit', nuit_profonde', 'jour', 'pds', 
 #'                                            'soir', '08:00:00'
 #' @param h2 char heure de fin. h2 doit être > h1
-#' @usage n.passages.nuit <- passages(pop18$ENTREE, "nuit")
+#' @usage n.passages.nuit <- passages2(pop18$ENTREE, "nuit")
 #' @return integer
 #' 
 passages2 <- function(vx, h1, h2 = NULL){
@@ -484,7 +484,7 @@ passages2 <- function(vx, h1, h2 = NULL){
     }
     else if(h1 == "soir"){
         #nombre de passages dont l’admission s’est effectuée sur la période [20h00 - 0:00]
-        n <- he[he > hms("19:59:59") | he <= hms("23:59:59")] # passages 7:59 - 20:00
+        n <- he[he > hms("19:59:59") & he <= hms("23:59:59")] # passages 7:59 - 20:00
     }
     else if(!is.null(h2)){
         # nombre de passages dont l’admission s’est effectuée sur la période [h1 - h2] 
@@ -506,14 +506,17 @@ passages2 <- function(vx, h1, h2 = NULL){
 #' @param dx dataframe RPU
 #' @param h1 durée minimale en minutes (par défaut > 0)
 #' @param h2 durée maximale en minutes (par défaut 4320 = 72 heures)
+#' @param hors_uhcd si TRUE (défaut) on retire les engegistrements où ORIENTATION = UHCD
 #' @return dataframe à 4 colonnes: entree, sortie, mode_sortie, duree (en mn),
 #'                                 he (heure d'entrée), hs (heure de sortie)
 #' 
-duree.passage2 <- function(dx, h1 = 0, h2 = 4320){
+duree.passage2 <- function(dx, h1 = 0, h2 = 4320, hors_uhcd = TRUE){
     # On forme un dataframe avec les heures d'entrées et de sortie auxquelle on rajoute 
-    #pour certains calculs: Mode_Sortie
-    passages <- dx[, c("ENTREE", "SORTIE", "MODE_SORTIE")] # dataframe entrées-sorties
-    passages <- passages[complete.cases(passages),] # on ne conserve que les couples complets
+    #pour certains calculs: MODE_SORTIE et ORIENTATION (Uhcd)
+    # dataframe entrées-sorties, mode de sortie, orientation
+    passages <- dx[, c("ENTREE", "SORTIE", "MODE_SORTIE", "ORIENTATION")] 
+    # on ne conserve que les couples ENTREE-SORTIE complets
+    passages <- passages[complete.cases(passages[, c("ENTREE", "SORTIE")]),] 
     n.passages <- nrow(passages)
     e <- ymd_hms(passages$ENTREE) # vecteur des entrées
     s <- ymd_hms(passages$SORTIE)
@@ -524,10 +527,26 @@ duree.passage2 <- function(dx, h1 = 0, h2 = 4320){
     passages$hs <- hms(substr(s, 12, 20)) # heures de sortie
     # on ne garde que les passages dont la durées > 0 et < ou = 72 heures
     passages <- passages[passages$duree > 0 & passages$duree < 3 * 24 * 60 + 1,]
+    # passages hors UHCD
+    if(hors_uhcd == TRUE){
+        # un peu compliqliqué mais il faut éliminer les NA dans Orientation sinon
+        # les résultats sont faux
+        passages$ORIENTATION <- as.character(passages$ORIENTATION)
+        passages$ORIENTATION[is.na(passages$ORIENTATION)] <- "na"
+        passages <- passages[as.character(passages$ORIENTATION) != "UHCD",]
+        # on remet tout en état
+        passages$ORIENTATION[passages$ORIENTATION == "na"] <- NA
+    }
     
     return(passages)
 }
 
+#===============================================
+#
+# summary.duree.passage
+#
+#===============================================
+#'
 #' Résumé de dp. dp est produit par duree.passages2 et se présente sous forme d'un 
 #' data.frame à 4 colonnes
 #' @name summary.duree.passage
@@ -1202,8 +1221,45 @@ summary.orientation <- function(dx, correction = TRUE){
     n.rens <- sum(!is.na(vx)) # nb de valeurs renseignées
     p.rens <- mean(!is.na(vx)) # % de valeurs renseignées
     
-    a <- c(n, n.na, p.na, n.rens, p.rens)
-    names(a) <- c("n", "n.na", "p.na", "n.rens", "p.rens")
+    s <- table(vx)
+    
+    # hospitalisés
+    n.chir <- s['CHIR']
+    n.med <- s['MED']
+    n.obst <- s['OBST']
+    n.si <- s['SI']
+    n.sc <- s['SC']
+    n.rea <- s['REA']
+    n.uhcd <- s['UHCD']
+    n.ho <- s['HO']
+    n.hdt <- s['HDT']
+    # non hospitalisés
+    n.reo <- s['REO']
+    n.scam <- s['SCAM']
+    n.psa <- s['PSA']
+    
+    p.chir <- n.chir / n.rens
+    p.med <- n.med / n.rens
+    p.obst <- n.obst / n.rens
+    p.si <- n.si / n.rens
+    p.sc <- n.sc / n.rens
+    p.rea <- n.rea / n.rens
+    p.uhcd <- n.uhcd / n.rens
+    p.ho <- n.ho / n.rens
+    p.hdt <- n.hdt / n.rens
+    p.reo <- n.reo / n.rens
+    p.scam <- n.scam / n.rens
+    p.psa <- n.psa / n.rens
+    
+    a <- c(n, n.na, p.na, n.rens, p.rens,
+           n.chir, n.med, n.obst, n.si, n.sc, n.rea, n.uhcd, n.ho, n.hdt, n.reo, n.scam, n.psa,
+           p.chir, p.med, p.obst, p.si, p.sc, p.rea, p.uhcd, p.ho, p.hdt, p.reo, p.scam, p.psa)
+    
+    names(a) <- c("n", "n.na", "p.na", "n.rens", "p.rens",
+                  "n.chir", "n.med", "n.obst", "n.si", "n.sc", "n.rea", "n.uhcd", "n.ho", "n.hdt", 
+                  "n.reo", "n.scam", "n.psa",
+                  "p.chir", "p.med", "p.obst", "p.si", "p.sc", "p.rea", "p.uhcd", "p.ho", "p.hdt", 
+                  "p.reo", "p.scam", "p.psa")
     
     return(a)
 }

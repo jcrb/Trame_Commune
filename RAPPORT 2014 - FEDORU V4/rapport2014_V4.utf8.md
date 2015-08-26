@@ -3,20 +3,20 @@ title: 'Activité des structures d’urgences : panorama 2014 de la région ALSA
 author: "RESURAL (JcB)"
 date: "28/01/2015"
 output:
-  pdf_document:
-    keep_tex: yes
-    number_sections: yes
-    toc: yes
-    toc_depth: 3
   html_document:
     highlight: pygments
     keep_md: yes
     number_sections: yes
     theme: cerulean
     toc: yes
+  pdf_document:
+    keep_tex: yes
+    number_sections: yes
+    toc: yes
+    toc_depth: 3
 ---
 
-Version mse à jour le: __Tue Aug 25 14:53:58 2015__
+Version mse à jour le: __Wed Aug 26 10:24:59 2015__
 
 Ajout de la dernière version de Gilles 
 
@@ -80,7 +80,7 @@ Qualité des données
 -------------------
 Réalisation d’un diagramme radar présentant l’exhaustivité des items RPU.
 
-![](rapport2014_V4_files/figure-latex/completude-1.pdf) ![](rapport2014_V4_files/figure-latex/completude-2.pdf) 
+![](rapport2014_V4_files/figure-html/completude-1.png) ![](rapport2014_V4_files/figure-html/completude-2.png) 
 
 Complétude en valeur absolue et en pourcentages:`
 
@@ -151,7 +151,7 @@ PATIENTS
 - %(N) >= 75 ans: 57 271 (__13.74 %__)
 - Pyramide des ages:
 
-![](rapport2014_V4_files/figure-latex/pyramide-1.pdf) 
+![](rapport2014_V4_files/figure-html/pyramide-1.png) 
 
 ### Taux de recours (définition FEDORU) régional aux urgences.
 
@@ -172,7 +172,7 @@ ARRIVÉE
 
 ### Horaires de passage
 
-![](rapport2014_V4_files/figure-latex/horaires-1.pdf) ![](rapport2014_V4_files/figure-latex/horaires-2.pdf) 
+![](rapport2014_V4_files/figure-html/horaires-1.png) ![](rapport2014_V4_files/figure-html/horaires-2.png) 
 
 - Passages de nuit (20h - 8h): __27.7 %__ (N = 115 418)
 - Passages en nuit profonde (0h - 8h): __10.38 %__ (N = 43 271)
@@ -227,22 +227,22 @@ Remarque: les chiffres sont dans le document _Codes_regroupement_ORUMIP_ => à r
 
 ### Durées de passage
 
-![](rapport2014_V4_files/figure-latex/passages-1.pdf) 
+![](rapport2014_V4_files/figure-html/passages-1.png) 
 
-- Nombre de RPU dont la durée de passage est comprise entre 0h et 72h: __333 397__
-- durée moyenne de passage __156 mn__ (2h36).
-- écart-type: 176.18 mn (2h56).
-- médiane: __110 mn__ (1h50).
-- nombre de prises en charge > 4 heures: 62 888 (__18.86 %__).
-- nombre de prises en charge inférieures ou égales à 4 heures: 270 509 (__81.14 %__).
+- Nombre de RPU dont la durée de passage est comprise entre 0h et 72h: __338 722__
+- durée moyenne de passage __226 mn__ (3h46).
+- écart-type: NA mn (NAhNA).
+- médiane: __191 mn__ (3h11).
+- nombre de prises en charge > 4 heures: 18 121 (__5.35 %__).
+- nombre de prises en charge inférieures ou égales à 4 heures: 320 601 (__94.65 %__).
 
 - Lors d’une hospitalisation post-urgences (hospitalisation = mutation + transfert)
-    - moyenne durée de passage en cas d’hospitalisation: __187.86 mn__.
-    - médiane durée de passage en cas d’hospitalisation: __148 mn__.
+    - moyenne durée de passage en cas d’hospitalisation: __239.29 mn__.
+    - médiane durée de passage en cas d’hospitalisation: __205 mn__.
     
 - Lors d’un retour au domicile
-    - moyenne durée de passage en cas de retour à domicile: __146.13 mn__.
-    - médiane durée de passage en cas de retour à domicile: __104 mn__.
+    - moyenne durée de passage en cas de retour à domicile: __NA mn__.
+    - médiane durée de passage en cas de retour à domicile: __NA mn__.
 
 (source: temps de passages.Rmd)
 
@@ -293,7 +293,7 @@ Les chiffres clés de l’activité pédiatrique des services d’urgences (moin
 ##      1791     13554     36287     24738     27012     15800
 ```
 
-![](rapport2014_V4_files/figure-latex/pop18-1.pdf) 
+![](rapport2014_V4_files/figure-html/pop18-1.png) 
 
 # par tranche d'age de 5 ans, borne sup exclue: [0-5[ ans
 p <- pyramide.age(pop18, cut = 1, gap = 0.3)
@@ -344,14 +344,14 @@ PATIENTS
 ### Durée de passage
 
 
-- Nombre de RPU avec une heure de sortie conforme (]0-72h[: 95936
-- Durée moyenne de passage (en min): 121.3 mn
-- Durée médiane de passage (en min): 86 mn
-- Nombre de RPU dont la durée de passage est inférieure à 4h: 89071
-- Nombre de RPU avec une heure de sortie conforme (]0-72h[ lors d'une hospitalisation post-urgences: 12452
-- Nombre de RPU avec une heure de sortie conforme (]0-72h[ lors d'un retour au domicile: 83483
-- Nombre de RPU dont la durée de passage est inférieure à 4h lors d'une hospitalisation post-urgences: 11313
-- Nombre de RPU dont la durée de passage est inférieure à 4h lors d'un retour au domicile: 77757
+- Nombre de RPU avec une heure de sortie conforme (]0-72h[: 106660
+- Durée moyenne de passage (en min): NA mn
+- Durée médiane de passage (en min): NA mn
+- Nombre de RPU dont la durée de passage est inférieure à 4h: 105548
+- Nombre de RPU avec une heure de sortie conforme (]0-72h[ lors d'une hospitalisation post-urgences: 8771
+- Nombre de RPU avec une heure de sortie conforme (]0-72h[ lors d'un retour au domicile: 1328
+- Nombre de RPU dont la durée de passage est inférieure à 4h lors d'une hospitalisation post-urgences: 7845
+- Nombre de RPU dont la durée de passage est inférieure à 4h lors d'un retour au domicile: 97702
 
 - Nombre de RPU avec un mode de sortie renseigné: 96860
 - Nombre de mutation interne: 11996
@@ -370,7 +370,7 @@ RECUEIL DES DONNÉES
 
 PATIENTS
 --------
-![](rapport2014_V4_files/figure-latex/sexe75-1.pdf) 
+![](rapport2014_V4_files/figure-html/sexe75-1.png) 
 
 ```
                effectif moyenne par jour  médiane par jour sex ratio
@@ -388,7 +388,7 @@ PATIENTS
 75-84 ans            33399                  92                 91        0.82
 85 ans et plus       23872                  65                 66        0.47
 
-![](rapport2014_V4_files/figure-latex/sous_classe_age-1.pdf) 
+![](rapport2014_V4_files/figure-html/sous_classe_age-1.png) 
 
 ARRIVÉE
 -------
@@ -399,7 +399,7 @@ ARRIVÉE
 
 - Nb de RPU avec date/heure d'entrée renseignés: 57 271
 - %  passages la nuit: 22.38 % (N = 12 815)
-- %  passages en horaire de PDS: 36.77 % (N = 21 058)
+- %  passages en horaire de PDS: 38.12 % (N = 21 830)
 
 ### Moyens de transport
 
@@ -473,7 +473,7 @@ NB : commentaire possible pour expliquer que la somme des 4 pourcentages ci dess
 ## [1] 0.0000016
 ```
 
-![](rapport2014_V4_files/figure-latex/duree_passage_75-1.pdf) 
+![](rapport2014_V4_files/figure-html/duree_passage_75-1.png) 
 
 - Durée moyenne de passage (HORS UHCD) : 220 minutes
 - Durée médiane de passage (HORS UHCD) : 190 minutes
@@ -482,22 +482,22 @@ NB : commentaire possible pour expliquer que la somme des 4 pourcentages ci dess
 - lors d’un retour au domicile: 214.71 minutes.
 
 #### Nouveau
-- Nombre de RPU avec une heure de sortie conforme (]0-72h[: 45715
-- Durée moyenne de passage (en min): 220.66 mn
-- Durée médiane de passage (en min): 190 mn
-- Nombre de RPU dont la durée de passage est inférieure à 4h: 27982
+- Nombre de RPU avec une heure de sortie conforme (]0-72h[: 37603
+- Durée moyenne de passage (en min): NA mn
+- Durée médiane de passage (en min): NA mn
+- Nombre de RPU dont la durée de passage est inférieure à 4h: 29856
 
-- Nombre de RPU avec une heure de sortie conforme (]0-72h[ lors d'une hospitalisation post-urgences: 28228
+- Nombre de RPU avec une heure de sortie conforme (]0-72h[ lors d'une hospitalisation post-urgences: 13887
 
-- Nombre de RPU avec une heure de sortie conforme (]0-72h[ lors d'un retour au domicile: 17487
+- Nombre de RPU avec une heure de sortie conforme (]0-72h[ lors d'un retour au domicile: 416
 
-- Nombre de RPU dont la durée de passage est inférieure à 4h lors d'une hospitalisation post-urgences: 16467
+- Nombre de RPU dont la durée de passage est inférieure à 4h lors d'une hospitalisation post-urgences: 6318
 
-- Nombre de RPU dont la durée de passage est inférieure à 4h lors d'un retour au domicile: 11515
+- Nombre de RPU dont la durée de passage est inférieure à 4h lors d'un retour au domicile: 23538
 
 ### MODE DE SORTIE
 
-![](rapport2014_V4_files/figure-latex/sortie75-1.pdf) 
+![](rapport2014_V4_files/figure-html/sortie75-1.png) 
 
 ```
 ## pop75$MODE_SORTIE : 
@@ -548,7 +548,7 @@ Exemple d'utilisation de la méthode _hist_ appliquée aux objets date-time:
 - _format_ permet de coisir l'affichage de la date sur l'axe des x [voir](https://stat.ethz.ch/R-manual/R-devel/library/base/html/strptime.html).
 
 
-![](rapport2014_V4_files/figure-latex/hist_avc-1.pdf) 
+![](rapport2014_V4_files/figure-html/hist_avc-1.png) 
 
 
 PATIENTS
@@ -566,7 +566,7 @@ PATIENTS
 ##         1         1         0
 ```
 
-![](rapport2014_V4_files/figure-latex/patients-1.pdf) 
+![](rapport2014_V4_files/figure-html/patients-1.png) 
 
 ```
 ## c.age
@@ -576,7 +576,7 @@ PATIENTS
 ##      579      889      635
 ```
 
-![](rapport2014_V4_files/figure-latex/patients-2.pdf) 
+![](rapport2014_V4_files/figure-html/patients-2.png) 
 
 - Sex ratio: 0.95
 - Age moyen: 71.44 ans
@@ -592,7 +592,7 @@ ARRIVÉE
 ## [2,] "272"         "900"    "865"            "619"          "293"
 ```
 
-![](rapport2014_V4_files/figure-latex/avc_periode-1.pdf) 
+![](rapport2014_V4_files/figure-html/avc_periode-1.png) 
 
 - % AVC le matin: 30.5 %.
 - % AVC en début d'après-midi: 29.3 %.
@@ -662,10 +662,10 @@ Voir les routines de RPU_2014/Analyse/Temps_passage/passage.R et notamment __tem
 
 
 
-- Nombre de RPU avec une heure de sortie conforme (]0-72h[: 2 564
-- Durée moyenne de passage des patients PEC pour AVC (en min): 250
-- Durée médiane de passage des patients PEC pour AVC (en min): 229
-- Nombre de RPU ac diag AVC dont la durée de passage est inférieure à 4h: 1 352
+- Nombre de RPU avec une heure de sortie conforme (]0-72h[: 1 899
+- Durée moyenne de passage des patients PEC pour AVC (en min): NA
+- Durée médiane de passage des patients PEC pour AVC (en min): NA
+- Nombre de RPU ac diag AVC dont la durée de passage est inférieure à 4h: 1 248
 
 - Durée de passage (HORS UHCD) année N: moyenne __249.8__ minutes, et médiane __228__ minutes.
 - % de passages de moins de 4h 0.92
@@ -673,7 +673,7 @@ Voir les routines de RPU_2014/Analyse/Temps_passage/passage.R et notamment __tem
 
 MODE DE SORTIE
 --------------
-![](rapport2014_V4_files/figure-latex/avc_mode_sortie-1.pdf) 
+![](rapport2014_V4_files/figure-html/avc_mode_sortie-1.png) 
 
 - Nombre de RPU ac diag. AVC avec un mode de sortie renseigné: 2626
 - % d’hospitalisation: 87.3 % (N = 2292)
@@ -689,7 +689,7 @@ Orientation
 
 
 % Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: Mar, aoû 25, 2015 - 14:56:14
+% Date and time: Mer, aoû 26, 2015 - 10:27:16
 \begin{table}[!htbp] \centering 
   \caption{Orientation des AVC} 
   \label{orientation} 
@@ -819,19 +819,19 @@ p.inf15ans p.inf18ans    p.75ans    p.85ans    p.90ans   mean.age
 
 ```
                 n.conforme      duree.moyenne.passage 
-                     43850                        189 
+                     47518                         NA 
      duree.mediane.passage  duree.moyenne.passage.dom 
-                       153                        175 
+                        NA                         NA 
  duree.mediane.passage.dom duree.moyenne.passage.hosp 
-                       142                        254 
+                        NA                        238 
 duree.mediane.passage.hosp                 n.passage4 
-                       224                      31491 
+                       213                      44737 
            n.hosp.passage4             n.dom.passage4 
-                      4238                      27253 
+                      3358                      41379 
                      n.dom                     n.hosp 
-                     35953                       7897 
+                       362                       5926 
                n.transfert                 n.mutation 
-                       146                       7751 
+                        20                       5906 
                    n.deces 
                          0 
 ```
@@ -932,19 +932,19 @@ p.inf15ans p.inf18ans    p.75ans    p.85ans    p.90ans   mean.age
 
 ```
                 n.conforme      duree.moyenne.passage 
-                    165658                        168 
+                    158099                         NA 
      duree.mediane.passage  duree.moyenne.passage.dom 
-                       124                        144 
+                        NA                         NA 
  duree.mediane.passage.dom duree.moyenne.passage.hosp 
-                       107                        245 
+                        NA                        237 
 duree.mediane.passage.hosp                 n.passage4 
-                       211                     130119 
+                       205                     146169 
            n.hosp.passage4             n.dom.passage4 
-                     23133                     106985 
+                     16272                     129896 
                      n.dom                     n.hosp 
-                    125512                      40145 
+                      3330                      27522 
                n.transfert                 n.mutation 
-                      2958                      37187 
+                       875                      26647 
                    n.deces 
                          1 
 ```
@@ -1056,19 +1056,19 @@ n.etrangers
 
 ```
                 n.conforme      duree.moyenne.passage 
-                     97597                        121 
+                    106689                         NA 
      duree.mediane.passage  duree.moyenne.passage.dom 
-                        87                        115 
+                        NA                         NA 
  duree.mediane.passage.dom duree.moyenne.passage.hosp 
-                        84                        170 
+                        NA                        180 
 duree.mediane.passage.hosp                 n.passage4 
-                       130                      88094 
+                       150                     105246 
            n.hosp.passage4             n.dom.passage4 
-                      8259                      79834 
+                      3193                     102052 
                      n.dom                     n.hosp 
-                     87133                      10463 
+                      2440                       4199 
                n.transfert                 n.mutation 
-                      2753                       7710 
+                      1203                       2996 
                    n.deces 
                          1 
 ```
@@ -1120,15 +1120,15 @@ Test de la routine et tableau compact
 ## n.ccmuP             NA      NA      NA        NA
 ## n.ccmuD             NA      NA      NA        NA
 ## n.ccmu45            NA      NA      NA        NA
-## n.sorties.conf   26292   43850  165658     97597
-## mean.passage       159     189     168       121
-## median.passage       1     153     124        87
-## n.passage4       20805   31491  130119     88094
-## n.hosp.passage4  20137    4238   23133      8259
-## n.dom.passage4     668   27253  106985     79834
-## n.dom             2959   35953  125512     87133
-## n.hosp           23333    7897   40145     10463
-## n.transfert        115     146    2958      2753
+## n.sorties.conf   26416   47518  158099    106689
+## mean.passage        NA      NA      NA        NA
+## median.passage      NA      NA      NA        NA
+## n.passage4       24449   44737  146169    105246
+## n.hosp.passage4   1203    3358   16272      3193
+## n.dom.passage4   23246   41379  129896    102052
+## n.dom                0     362    3330      2440
+## n.hosp            3170    5926   27522      4199
+## n.transfert          0      20     875      1203
 ## n.deces              0       0       1         1
 ## n.mode.sortie    26456   45214  167532     99676
 ## n.mutation2      23219    8347   37564      7869
@@ -1184,11 +1184,11 @@ other attached packages:
 [16] knitr_1.10.5     
 
 loaded via a namespace (and not attached):
- [1] digest_0.6.8    evaluate_0.7.2  formatR_1.2     grid_3.1.3     
- [5] highr_0.5       htmltools_0.2.6 lattice_0.20-33 magrittr_1.5   
- [9] memoise_0.2.1   plyr_1.8.3      Rcpp_0.12.0     rmarkdown_0.7  
-[13] splines_3.1.3   stringi_0.5-5   stringr_1.0.0   tools_3.1.3    
-[17] yaml_2.1.13    
+ [1] codetools_0.2-14 digest_0.6.8     evaluate_0.7.2   formatR_1.2     
+ [5] grid_3.1.3       highr_0.5        htmltools_0.2.6  lattice_0.20-33 
+ [9] magrittr_1.5     memoise_0.2.1    plyr_1.8.3       Rcpp_0.12.0     
+[13] rmarkdown_0.7    splines_3.1.3    stringi_0.5-5    stringr_1.0.0   
+[17] tools_3.1.3      yaml_2.1.13     
 ```
 
 ```
