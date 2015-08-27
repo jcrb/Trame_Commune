@@ -1307,3 +1307,79 @@ mn2h <- function(x){
     return(a)
 
 }
+
+#===============================================
+#
+# summary.rpu
+#
+#===============================================
+#'@author JcB - 2015-08-24
+#'@source summary_rpu.R
+#'@details v1.0 24/08/2015
+#'@description calcule le nombre de RPU par SU, territoire de santé et
+#'              département à partir d'un dataframe RPU. Deux colonnes sont
+#'              indispensables: ENTREE et FINESS
+#'@param dx un dataframe RPU ou un dataframe réduit à 2 colonnes: ENTREE et
+#'          FINESS
+#'@return un objet "list"
+#'        n nombre total de RPU
+#'        n.tx  total RPU du territoire x
+#'        n.67  total pour le 67
+#'        n.68  total pour 68
+#'        n.xxx total pour le Finess xxx
+#'        p.tx  % pour territoire x
+#'@usage s <- summary.rpu(d15); s[1]; s$debut; s$n
+
+summary.rpu <- function(dx){
+    
+    debut <- min(as.Date(dx$ENTREE))
+    fin <- max(as.Date(dx$ENTREE))
+    
+    t <- tapply(as.Date(dx$ENTREE), dx$FINESS, length)
+    n <- sum(t)
+    n.t1 <- sum(t['Hag'], t['Sav'], t['Wis'])
+    n.hus <- sum(t['Hus'], t['HTP'], t['NHC'])
+    n.t2 <- sum(n.hus, t['Ane'], t['Odi'], t['Dts'])
+    n.t3 <- sum(t['Sel'], t['Col'], t['Geb'])
+    n.t4 <- sum(t['Alk'], t['Tan'], t['Mul'], t['3Fr'], t['Dia'], t['Ros'],
+                na.rm = TRUE)
+    n.67 <- n.t1 + n.t2 + t['Sel']
+    n.68 <- n - n.67
+    
+    p.t1 <- n.t1 / n
+    p.t2 <- n.t2 / n
+    p.t3 <- n.t3 / n
+    p.t4 <- n.t4 / n
+    
+    n.wis <- t['Wis']
+    n.hag <- t['Hag']
+    n.sav <- t['Sav']
+    n.ane <- t['Ane']
+    n.odi <- t['Odi']
+    n.dts <- t['Dts']
+    n.sel <- t['Sel']
+    n.col <- t['Col']
+    n.geb <- t['Geb']
+    n.alk <- t['Alk']
+    n.tan <- t['Tan']
+    n.mul <- t['Mul']
+    n.dia <- t['Dia']
+    n.ros <- t['Ros']
+    n.3fr <- t['3Fr']
+    
+    # a est un objet composite formé de dates et de chiffres => on ne peut pas
+    # en faire un vecteur car tous les éléments d'un vecteur doivent appartenir
+    # au même type.
+    a <- list(debut, fin, n, n.t1, n.t2, n.t3, n.t4, n.67, n.68, n.wis, n.hag, n.sav, n.ane,
+              n.hus, n.odi, n.sel, n.col, n.geb, n.alk, n.tan, n.mul, n.dia,
+              n.ros, n.3fr,
+              p.t1, p.t2, p.t3, p.t4)
+    
+    names(a) <- c("debut", "fin", "n", "n.t1", "n.t2", "n.t3", "n.t4", "n.67", "n.68",
+                  "n.wis", "n.hag", "n.sav", "n.ane", "n.hus", "n.odi",
+                  "n.sel", "n.col", "n.geb", "n.alk", "n.tan", "n.mul",
+                  "n.dia", "n.ros", "n.3fr",
+                  "p.t1", "p.t2", "p.t3", "p.t4")
+    
+    return(a)
+}

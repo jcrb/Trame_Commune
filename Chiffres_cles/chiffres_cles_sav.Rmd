@@ -1,22 +1,32 @@
 ---
-title: "Chiffres Clés"
+title: "Chiffres clés 2014 - CH Saverne"
 author: "jcb"
-date: "21 août 2015"
-output: pdf_document
+date: "27 août 2015"
+output: html_document
 ---
 
 ```{r test, child = '../Test/test.Rmd'}
+# modifier
+# - le nom du CH dans le titre 
+# - les données source (ligne 21)
+# - infos SAE (ligne 26)
+# - le TARRU (ligne 53)
 ```
 
-Chiffres Clés de la région Alsace en `r anc`
+Chiffres Clés du CH SAVERNE en `r anc`
 ================================
 
 Recueil des données
 -------------------
 
 ```{r}
+# à adapter:
+dx <- dx[dx$FINESS == "Sav",]
+n.rpu.2013 <- n.rpu.2013.sav
+n.sae <- passages.2014.SAE.sav
+titre <- "CH Saverne"
+
 n.rpu <- nrow(dx)
-anp <- anc - 1
 ```  
 
   Nombre de passages  |   n     
@@ -24,8 +34,8 @@ anp <- anc - 1
 Nombre de RPU transmis  | `r format.n(n.rpu)`
 Evolution `r anp`/`r anc`  |  `r round(evolution(n.rpu, n.rpu.2013) * 100, 2)` %  |
 Moyenne quotidienne de passage  | `r format.n(n.rpu/365)`
-Nombre de passages (SAE)  |  `r format.n(passages.2014.SAE)`
-Exhaustivité  |  `r format.n(round(100 * n.rpu/passages.2014.SAE, 2))`%
+Nombre de passages (SAE)  |  `r format.n(passages.2014.SAE.wis)`
+Exhaustivité  |  `r format.n(round(100 * n.rpu/n.sae, 2))`%
 
 
 Patients
@@ -45,7 +55,10 @@ cp <- summary.cp(dx$CODE_POSTAL)
 |  moins de 15 ans  |  `r round(age['p.inf15ans']*100, 2)` %  |
 |  75 ans et plus  |  `r round(age['p.75ans']*100, 2)` %  |
 |  patients hors région  |  `r round(cp['n.etrangers']*100/n.rpu, 2)` %  |
+
+<!-- Manque la population du secteur
 |  taux de recours régional  |  `r tarru(dx$CODE_POSTAL, pop.als.tot.2014)` %  |
+-->
 
 Arrivées
 -------------------
@@ -157,6 +170,5 @@ s <- summary.passages(duree.passage2(pop75))
 Diagramme de complétude
 -----------------------
 ```{r completude, echo=FALSE}
-radar.completude(completude(dx), "SU Alsace")
+radar.completude(completude(dx), titre)
 ```
-

@@ -9,6 +9,7 @@ Version mse à jour le: __`r date()`__
 
 ```{r titre, echo=FALSE}
 anc <- 2014 # année courante
+anp <- anc - 1
 ```
 
 ```{r Declarations, echo=FALSE, include=FALSE}
