@@ -1,5 +1,5 @@
 ---
-title: "Chiffres clés 2014 - CH Haguenau"
+title: "Chiffres clés - CH Haguenau"
 author: "jcb"
 date: "27 août 2015"
 output: html_document
@@ -15,32 +15,37 @@ output: html_document
 
 Chiffres Clés du CH HAGUENAU en `r anc`
 ================================
+```{r date, echo=FALSE}
+# à adapter:
+dx <- dx[dx$FINESS == "Hag",]
+n.rpu.anp <- n.rpu.2014.hag
+n.sae <- NA # passages.2014.SAE.hag
+titre <- "CH Haguenau"
+max.date <- max(as.Date(dx$ENTREE))
+n.jour <- as.numeric(max.date - min(as.Date(dx$ENTREE)))
+```
+
+Date de point: `r format(max.date, "%d/%m/%Y")`
 
 Recueil des données
 -------------------
 
-```{r}
-# à adapter:
-dx <- dx[dx$FINESS == "Hag",]
-n.rpu.2013 <- n.rpu.2013.hag
-n.sae <- passages.2014.SAE.hag
-titre <- "CH Haguenau"
-
+```{r, echo=FALSE}
 n.rpu <- nrow(dx)
 ```  
 
   Nombre de passages  |   n     
 ------------- | -------------:
 Nombre de RPU transmis  | `r format.n(n.rpu)`
-Evolution `r anp`/`r anc`  |  `r round(evolution(n.rpu, n.rpu.2013) * 100, 2)` %  |
-Moyenne quotidienne de passage  | `r format.n(n.rpu/365)`
-Nombre de passages (SAE)  |  `r format.n(passages.2014.SAE.wis)`
+Evolution `r anp`/`r anc`  |  `r round(evolution(n.rpu, n.rpu.anp) * 100, 2)` %  |
+Moyenne quotidienne de passage  | `r format.n(n.rpu/n.jour)`
+Nombre de passages (SAE)  |  `r format.n(n.sae)`
 Exhaustivité  |  `r format.n(round(100 * n.rpu/n.sae, 2))`%
 
 
 Patients
 -------------------
-```{r patients, echo=FALSE}
+```{r hag_patients, echo=FALSE}
 age <- summary.age(dx$AGE)
 sexe <- summary.sexe(dx$SEXE)
 cp <- summary.cp(dx$CODE_POSTAL)
@@ -62,7 +67,7 @@ cp <- summary.cp(dx$CODE_POSTAL)
 
 Arrivées
 -------------------
-```{r arrivee, echo=FALSE}
+```{r hag_arrivee, echo=FALSE}
 a <- pdsa(dx$ENTREE)
 pds <- length(a[a %in% c('PDSWE','PDSS')]) / length(a)
 
@@ -96,7 +101,7 @@ g <- summary.ccmu(dx$GRAVITE)
 
 Diagnostic Principal
 --------------------
-```{r dp, echo=FALSE}
+```{r hag_dp, echo=FALSE}
 load("../../../Stat Resural/Codes_regroupement_ORUMIP/Regroupement_ORUMIP/Regroupement_ORUMIP/merge2015.Rda")
 t <- table(merge2015$CODE_URGENCE)
 sum <- sum(t)
@@ -119,7 +124,7 @@ p.autre <- round(t['AUTRE']*100 / sum, 2)
 
 Mode de sortie
 -------------------
-```{r mode_sortie, echo=FALSE}
+```{r hag_mode_sortie, echo=FALSE}
 s <- summary.mode.sortie(dx$MODE_SORTIE)
 o <- summary.orientation(dx)
 ```
@@ -134,7 +139,7 @@ o <- summary.orientation(dx)
 
 Durée
 -------------------
-```{r passages, echo = FALSE}
+```{r hag_passages, echo = FALSE}
 s <- summary.passages(duree.passage2(dx))
 ```
 
@@ -152,7 +157,7 @@ s <- summary.passages(duree.passage2(dx))
 
 ### Pour les 75 ans ou plus
 
-```{r pop75, echo=FALSE}
+```{r hag_pop75, echo=FALSE}
 pop75 <- dx[!is.na(dx$AGE) & dx$AGE > 74,]
 s <- summary.passages(duree.passage2(pop75))
 ```
@@ -169,6 +174,6 @@ s <- summary.passages(duree.passage2(pop75))
 
 Diagramme de complétude
 -----------------------
-```{r completude, echo=FALSE}
+```{r hag_completude, echo=FALSE, fig.width= 8}
 radar.completude(completude(dx), titre)
 ```

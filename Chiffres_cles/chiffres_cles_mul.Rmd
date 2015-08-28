@@ -1,5 +1,5 @@
 ---
-title: "Chiffres clés - CH Saverne"
+title: "Chiffres clés - CH Mulhouse"
 author: "jcb"
 date: "27 août 2015"
 output: html_document
@@ -13,15 +13,15 @@ output: html_document
 # - le TARRU (ligne 53)
 ```
 
-Chiffres Clés du CH SAVERNE en `r anc`
+Chiffres Clés du CH SELESTAT en `r anc`
 ================================
 
 ```{r date, echo=FALSE}
 # à adapter:
-dx <- dx[dx$FINESS == "Sav",]
-n.rpu.anp <- n.rpu.2014.sav
-n.sae <- NA # passages.2014.SAE.sav
-titre <- "CH Saverne"
+dx <- dx[dx$FINESS == "Mul",]
+n.rpu.anp <- n.rpu.2014.mul
+n.sae <- NA # passages.2014.SAE.mul
+titre <- "CH Mulhouse"
 
 max.date <- max(as.Date(dx$ENTREE))
 n.jour <- as.numeric(max.date - min(as.Date(dx$ENTREE)))

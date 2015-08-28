@@ -499,7 +499,7 @@ passages2 <- function(vx, h1, h2 = NULL){
 
 #===============================================
 #
-# duree.passage
+# duree.passage2
 #
 #===============================================
 #'
@@ -521,7 +521,7 @@ duree.passage2 <- function(dx, h1 = 0, h2 = 4320, hors_uhcd = TRUE){
     e <- ymd_hms(passages$ENTREE) # vecteur des entrées
     s <- ymd_hms(passages$SORTIE)
     # ON AJOUTE UNE COLONNE DUREE
-    passages$duree <- as.numeric((s-e)/60) # vecteur des durées de passage en minutes
+    passages$duree <- as.numeric(difftime(s, e, units = "mins")) # vecteur des durées de passage en minutes
     # horaires seuls. Il faut isoler les heures de la date
     passages$he <- hms(substr(e, 12, 20)) # heures d'entrée
     passages$hs <- hms(substr(s, 12, 20)) # heures de sortie

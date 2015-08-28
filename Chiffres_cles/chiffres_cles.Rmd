@@ -2,7 +2,7 @@
 title: "Chiffres Clés"
 author: "jcb"
 date: "21 août 2015"
-output: pdf_document
+output: html_document
 ---
 
 ```{r test, child = '../Test/test.Rmd'}
@@ -11,21 +11,33 @@ output: pdf_document
 Chiffres Clés de la région Alsace en `r anc`
 ================================
 
+```{r date, echo=FALSE}
+# à adapter:
+#dx <- dx[dx$FINESS == "Wis",]
+n.rpu.anp <- n.rpu.2014
+n.sae <- NA # passages.2014.SAE
+titre <- "SU Alsace"
+
+max.date <- max(as.Date(dx$ENTREE))
+n.jour <- as.numeric(max.date - min(as.Date(dx$ENTREE)))
+```
+
+Date de point: `r format(max.date, "%d/%m/%Y")`
+
 Recueil des données
 -------------------
 
 ```{r}
 n.rpu <- nrow(dx)
-anp <- anc - 1
 ```  
 
   Nombre de passages  |   n     
 ------------- | -------------:
 Nombre de RPU transmis  | `r format.n(n.rpu)`
-Evolution `r anp`/`r anc`  |  `r round(evolution(n.rpu, n.rpu.2013) * 100, 2)` %  |
-Moyenne quotidienne de passage  | `r format.n(n.rpu/365)`
-Nombre de passages (SAE)  |  `r format.n(passages.2014.SAE)`
-Exhaustivité  |  `r format.n(round(100 * n.rpu/passages.2014.SAE, 2))`%
+Evolution `r anp`/`r anc`  |  `r round(evolution(n.rpu, n.rpu.anp) * 100, 2)` %  |
+Moyenne quotidienne de passage  | `r format.n(n.rpu/n.jour)`
+Nombre de passages (SAE)  |  `r format.n(n.sae)`
+Exhaustivité  |  `r format.n(round(100 * n.rpu/n.sae, 2))`%
 
 
 Patients

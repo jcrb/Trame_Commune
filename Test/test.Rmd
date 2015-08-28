@@ -8,7 +8,7 @@ output: html_document
 Version mse à jour le: __`r date()`__
 
 ```{r titre, echo=FALSE}
-anc <- 2014 # année courante
+anc <- 2015 # année courante
 anp <- anc - 1
 ```
 
@@ -31,17 +31,30 @@ opts_chunk$set(echo = FALSE, cache=FALSE, warning=FALSE, message = FALSE, tidy=F
 host <- System$getHostname()
 if(host == "MacBook-Air-de-JCB.local" | host == "Air-de-JCB"){
     path <- "../../../Stat Resural/RPU_2014/"
+    # path <- paste0("../../../Stat Resural/RPU_", anc, "/")
     source("../../../Stat Resural/RPU_Doc/mes_constantes.R")
 }else if(host == "XPS"){#XPS
     path <- "../../Stat Resural/RPU_2014/"
+    # path <- paste0("../../Stat Resural/RPU_", anc, "/")
     source("../../Stat Resural/RPU_Doc/mes_constantes.R")
 }else if(host == "P171I16"){# HUS
-    path <- "../RPU_2014-master/"
+    path <- paste0("../RPU_", anc, "-master/")
 }
 
 source('../Rapport/rapport_2014.R') # routines pour le rapport d'activité
 
-file <- "rpu2014d0112_c2.Rda" # données de 2014
-    load(paste0(path, file))
+if(anc == 2014)
+    file <- "rpu2014d0112_c2.Rda" else # données de 2014
+if(anc == 2015)
+    file <- "rpu2015d0112_provisoire.Rda" # données de 2015
+
+load(paste0(path, file))
+
+if(anc == 2014){
     dx <- d14 # si file actif
     rm(d14)
+    }
+if(anc == 2015){
+    dx <- d15 # si file actif
+    rm(d15)
+    }

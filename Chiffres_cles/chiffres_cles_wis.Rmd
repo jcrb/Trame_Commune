@@ -1,5 +1,5 @@
 ---
-title: "Chiffres clés 2014 - CH Wissembourg"
+title: "Chiffres clés - CH Wissembourg"
 author: "jcb"
 date: "27 août 2015"
 output: html_document
@@ -16,25 +16,32 @@ output: html_document
 Chiffres Clés du CH WISSEMBOURG en `r anc`
 ================================
 
+```{r date, echo=FALSE}
+# à adapter:
+dx <- dx[dx$FINESS == "Wis",]
+n.rpu.anp <- n.rpu.2014.wis
+n.sae <- NA # passages.2014.SAE.wis
+titre <- "CH Wissembourg"
+
+max.date <- max(as.Date(dx$ENTREE))
+n.jour <- as.numeric(max.date - min(as.Date(dx$ENTREE)))
+```
+
+Date de point: `r format(max.date, "%d/%m/%Y")`
+
 Recueil des données
 -------------------
 
 ```{r}
-# à adapter:
-dx <- dx[dx$FINESS == "Wis",]
-n.rpu.2013 <- n.rpu.2013.wis
-n.sae <- passages.2014.SAE.wis
-titre <- "CH Wissembourg"
-
 n.rpu <- nrow(dx)
 ```  
 
   Nombre de passages  |   n     
 ------------- | -------------:
 Nombre de RPU transmis  | `r format.n(n.rpu)`
-Evolution `r anp`/`r anc`  |  `r round(evolution(n.rpu, n.rpu.2013) * 100, 2)` %  |
-Moyenne quotidienne de passage  | `r format.n(n.rpu/365)`
-Nombre de passages (SAE)  |  `r format.n(passages.2014.SAE.wis)`
+Evolution `r anp`/`r anc`  |  `r round(evolution(n.rpu, n.rpu.anp) * 100, 2)` %  |
+Moyenne quotidienne de passage  | `r format.n(n.rpu/n.jour)`
+Nombre de passages (SAE)  |  `r format.n(n.sae)`
 Exhaustivité  |  `r format.n(round(100 * n.rpu/n.sae, 2))`%
 
 

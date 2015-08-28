@@ -1,0 +1,18 @@
+---
+title: "Synthèse des chiffres clés 2014"
+author: "jcb"
+date: "27 août 2015"
+output: html_document
+---
+
+Territoire 1
+============
+
+```{r test, child = '../Test/test.Rmd'}
+```
+
+```{r test, child = 'chiffres_cles_wis.Rmd'}
+```
+
+```{r test, child = 'chiffres_cles_sav.Rmd'}
+```
