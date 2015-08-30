@@ -3,10 +3,13 @@ title: "Zone de chalandise"
 author: "jcb"
 date: "12 juillet 2015"
 output:
+  pdf_document:
+    toc: yes
   html_document:
     number_sections: yes
     toc: yes
 ---
+La zone de chalandise (ZC) est la zone d'attractivité d'un établissement de santé. Elle est définie à partir de la commune de résidence ou du code postal contenu dans chaque RPU. On peut la comparer au bassin de vie définit par l'INSEE.
 
 ```{r init, echo=FALSE}
 library(sp)

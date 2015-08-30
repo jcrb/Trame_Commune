@@ -1,10 +1,4 @@
 base
-methods
-datasets
-utils
-grDevices
-graphics
-stats
 knitr
 lubridate
 plotrix
@@ -19,3 +13,5 @@ MASS
 nnet
 epicalc
 openintro
+stargazer
+xtable

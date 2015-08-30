@@ -1,0 +1,179 @@
+---
+title: "Chiffres clés - CH Haguenau"
+author: "jcb"
+date: "27 août 2015"
+output: html_document
+---
+
+```{r test, child = '../Test/test.Rmd'}
+# modifier
+# - le nom du CH dans le titre 
+# - les données source (ligne 21)
+# - infos SAE (ligne 26)
+# - le TARRU (ligne 53)
+```
+
+Chiffres Clés du CH HAGUENAU en `r anc`
+================================
+```{r date, echo=FALSE}
+# à adapter:
+dx <- dx[dx$FINESS == "Hag",]
+n.rpu.anp <- n.rpu.2014.hag
+n.sae <- NA # passages.2014.SAE.hag
+titre <- "CH Haguenau"
+max.date <- max(as.Date(dx$ENTREE))
+n.jour <- as.numeric(max.date - min(as.Date(dx$ENTREE)))
+```
+
+Date de point: `r format(max.date, "%d/%m/%Y")`
+
+Recueil des données
+-------------------
+
+```{r, echo=FALSE}
+n.rpu <- nrow(dx)
+```  
+
+  Nombre de passages  |   n     
+------------- | -------------:
+Nombre de RPU transmis  | `r format.n(n.rpu)`
+Evolution `r anp`/`r anc`  |  `r round(evolution(n.rpu, n.rpu.anp) * 100, 2)` %  |
+Moyenne quotidienne de passage  | `r format.n(n.rpu/n.jour)`
+Nombre de passages (SAE)  |  `r format.n(n.sae)`
+Exhaustivité  |  `r format.n(round(100 * n.rpu/n.sae, 2))`%
+
+
+Patients
+-------------------
+```{r hag_patients, echo=FALSE}
+age <- summary.age(dx$AGE)
+sexe <- summary.sexe(dx$SEXE)
+cp <- summary.cp(dx$CODE_POSTAL)
+```
+
+
+|  Caractéristiques  |  n  |
+|-----|:-----|
+|  sex-ratio  |  `r sexe['sex.ratio']`  |
+|  age moyen  |  `r age['mean.age']` ans |
+|  moins de 1 ans  |  `r round(age['p.inf1an']*100, 2)` %  |
+|  moins de 15 ans  |  `r round(age['p.inf15ans']*100, 2)` %  |
+|  75 ans et plus  |  `r round(age['p.75ans']*100, 2)` %  |
+|  patients hors région  |  `r round(cp['n.etrangers']*100/n.rpu, 2)` %  |
+
+<!-- Manque la population du secteur
+|  taux de recours régional  |  `r tarru(dx$CODE_POSTAL, pop.als.tot.2014)` %  |
+-->
+
+Arrivées
+-------------------
+```{r hag_arrivee, echo=FALSE}
+a <- pdsa(dx$ENTREE)
+pds <- length(a[a %in% c('PDSWE','PDSS')]) / length(a)
+
+s <- summary.transport(dx$TRANSPORT)
+
+g <- summary.ccmu(dx$GRAVITE)
+```
+
+
+|  Passages  |  %  |
+|-----|:-----|
+|  la nuit (20h-8h)  |  `r round(100*passages2(dx$ENTREE, "nuit")[2], 2)` %  |
+|  en soirée (20h-0H)  |  `r round(100*passages2(dx$ENTREE, "soir")[2], 2)` %  |
+|  en horaire de PDS  |  `r round(pds * 100, 2)`%  |
+
+|  Modes d'arrivée  |  %  |
+|-----|:-----|
+|  moyens personnels  |  `r round(s['p.perso']*100, 2)`%  |
+|  SMUR  |  `r round(s['p.smur']*100, 2)` %  |
+|  VSAV  |  `r round(s['p.vsav']*100, 2)` %  |
+|  Ambulances privées  |  `r round(s['p.ambu']*100, 2)` %`  |
+
+|  Gravité  |  %  |
+|-----|:-----|
+|  CCMU 1  |  `r round(g['p.ccmu1']*100, 2)` %  |
+|  CCMU 2  |  `r round(g['p.ccmu2']*100, 2)` %  |
+|  CCMU 3  |  `r round(g['p.ccmu3']*100, 2)` %  |
+|  CCMU 4 et 5  |  `r round((g['p.ccmu4']+g['p.ccmu5'])*100, 2)` %  |
+|  CCMU P  |  `r round(g['p.ccmup']*100, 2)` %  |
+|  CCMU D  |  `r round(g['p.ccmud']*100, 2)` %  |
+
+Diagnostic Principal
+--------------------
+```{r hag_dp, echo=FALSE}
+load("../../../Stat Resural/Codes_regroupement_ORUMIP/Regroupement_ORUMIP/Regroupement_ORUMIP/merge2015.Rda")
+t <- table(merge2015$CODE_URGENCE)
+sum <- sum(t)
+p.medchir <- round(t['MED-CHIR']*100 / sum, 2)
+p.trauma <- round(t['TRAUMA']*100 / sum, 2)
+p.psy <- round(t['PSY']*100 / sum, 2)
+p.tox <- round(t['TOXICO']*100 / sum, 2)
+p.autre <- round(t['AUTRE']*100 / sum, 2)
+```
+
+
+|  Recours  |  %  |
+|-----|:-----|
+|  médico-chirurgical  |  `r p.medchir` %  |
+|  traumatologique  |  `r p.trauma` %  |
+|  psychiatrique  |  `r p.psy` %  |
+|  toxicologique  |  `r p.tox` %  |
+|  autres recours  |  `r p.autre` %  |
+
+
+Mode de sortie
+-------------------
+```{r hag_mode_sortie, echo=FALSE}
+s <- summary.mode.sortie(dx$MODE_SORTIE)
+o <- summary.orientation(dx)
+```
+
+
+  Recours  |  -  |  %  |
+|-----|:-----|--------|
+|  Hospitalisation  |  Mutation  |  `r round(s['p.mutation']*100, 2)` %  |
+|                   |  Transfert  |  `r round(s['p.transfert']*100, 2)` %  |
+|                   |  dont UHCD  |  `r round(o['p.uhcd']*100, 2)` %  |
+|  Domicile         |            |  `r round(s['p.dom']*100, 2)` %  |
+
+Durée
+-------------------
+```{r hag_passages, echo = FALSE}
+s <- summary.passages(duree.passage2(dx))
+```
+
+### Tous âge
+
+  Durée de passage  |  heures  |
+|-----|:-----|
+|  moyenne  |  `r mn2h(s['duree.moyenne.passage'])`  |
+|  médiane  |  `r mn2h(s['duree.mediane.passage'])`  |
+
+  Passages de moins de 4 heures  |  %  |
+|-----|:-----|
+|  lors d'une hospitalisation  |  `r round(s['n.hosp.passage4']*100/s['n.conforme'], 2)` %  |
+|  lors d'un retour à domicile  |  `r round(s['n.dom.passage4']*100/s['n.conforme'], 2)` %  |
+
+### Pour les 75 ans ou plus
+
+```{r hag_pop75, echo=FALSE}
+pop75 <- dx[!is.na(dx$AGE) & dx$AGE > 74,]
+s <- summary.passages(duree.passage2(pop75))
+```
+
+  Durée de passage  |  heures  |
+|-----|:-----|
+|  moyenne  |  `r mn2h(s['duree.moyenne.passage'])`  |
+|  médiane  |  `r mn2h(s['duree.mediane.passage'])`  |
+
+  Passages de moins de 4 heures  |  %  |
+|-----|:-----|
+|  lors d'une hospitalisation  |  `r round(s['n.hosp.passage4']*100/s['n.conforme'], 2)` %  |
+|  lors d'un retour à domicile  |  `r round(s['n.dom.passage4']*100/s['n.conforme'], 2)` %  |
+
+Diagramme de complétude
+-----------------------
+```{r hag_completude, echo=FALSE, fig.width= 8}
+radar.completude(completude(dx), titre)
+```
