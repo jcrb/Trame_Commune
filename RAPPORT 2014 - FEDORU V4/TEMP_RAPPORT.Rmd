@@ -3,17 +3,17 @@ title: 'Activité des structures d’urgences : panorama 2014 de la région ALSA
 author: "RESURAL (JcB)"
 date: "28/01/2015"
 output:
-  pdf_document:
-    keep_tex: yes
-    number_sections: yes
-    toc: yes
-    toc_depth: 3
   html_document:
     highlight: pygments
     keep_md: yes
     number_sections: yes
     theme: cerulean
     toc: yes
+  pdf_document:
+    keep_tex: yes
+    number_sections: yes
+    toc: yes
+    toc_depth: 3
 ---
 
 Version mse à jour le: __`r date()`__
@@ -425,7 +425,7 @@ chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 ```
 
-- Passages en horaire de PDSA: __`r p.pds * 100` %__ N = `r format.n(n.pds)` (Remarque: ne tient pas compte des jours fériés survenant en semaine)
+- Passages en horaire de PDSA: __`r p.pds * 100` %__ [N = `r format.n(n.pds)`](Remarque: ne tient pas compte des jours fériés survenant en semaine)
 
 ### Variations saisonnières
 ```{r saison, echo=FALSE}
@@ -447,17 +447,17 @@ Variation du nombre de RPU entre les mois d'été (juillet-août) et les autres 
 ```{r transpport, echo=FALSE, comment=""}
 s <- summary.transport(dx$TRANSPORT)
 n.transport <- s['n.rens'] # nb de moyens de transport renseignés
-n.transport.perso <- s['n.perso']
+n.transport.perso <- s['PERSO']
 p.transport.perso <- n.transport.perso / n.transport
-n.transport.ambu <- s['n.ambu']
+n.transport.ambu <- s['AMBU']
 p.transport.ambu <- n.transport.ambu / n.transport
-n.transport.fo <- s['n.fo']
+n.transport.fo <- s['FO']
 p.transport.fo <- n.transport.fo / n.transport
-n.transport.heli <- s['n.heli']
+n.transport.heli <- s['HELI']
 p.transport.heli <- n.transport.heli / n.transport
-n.transport.smur <- s['n.smur']
+n.transport.smur <- s['SMUR']
 p.transport.smur <- n.transport.smur / n.transport
-n.transport.vsab <- s['n.vsav']
+n.transport.vsab <- s['VSAB']
 p.transport.vsab <- n.transport.vsab / n.transport
 
 #---------------------- Chiffres ---------------------------------------------------------------
@@ -481,34 +481,34 @@ s <- summary.ccmu(dx$GRAVITE)
 n.ccmu <- s['n.rens']
 ```
 ```{r}
-n.ccmu1 <- s['n.ccmu1']
+n.ccmu1 <- s['CCMU1']
 p.ccmu1 <- n.ccmu1 / n.ccmu
 
-n.ccmu2 <- s['n.ccmu2']
+n.ccmu2 <- s['CCMU2']
 p.ccmu2 <- n.ccmu2 / n.ccmu
 
 n.ccmu12 <- n.ccmu1 + n.ccmu2
 p.ccmu12 <- p.ccmu1 + p.ccmu2
 
-n.ccmu3 <- s['n.ccmu3']
+n.ccmu3 <- s['CCMU3']
 p.ccmu3 <- n.ccmu3 / n.ccmu
 ```
 ```{r}
-n.ccmu4 <- s['n.ccmu4']
+n.ccmu4 <- s['CCMU4']
 p.ccmu4 <- n.ccmu4 / n.ccmu
 
-n.ccmu5 <- s['n.ccmu5']
+n.ccmu5 <- s['CCMU5']
 p.ccmu5 <- n.ccmu5 / n.ccmu
 
 n.ccmu45 <- n.ccmu4 + n.ccmu5
 p.ccmu45 <- p.ccmu4 + p.ccmu5
 ```
 ```{r}
-n.ccmu.d <- s['n.ccmud']
+n.ccmu.d <- s['CCMU D']
 p.ccmu.d <- n.ccmu.d / n.ccmu
 ```
 ```{r}
-n.ccmu.p <- s['n.ccmup']
+n.ccmu.p <- s['CCMU P']
 ```
 ```{r}
 p.ccmu.p <- n.ccmu.p / n.ccmu
@@ -745,7 +745,6 @@ chiffres <- c(chiffres, val)
 - Nb de RPU 2014  avec mode de sortie = 6 ou 7 (hospitalisation) avec un élément transmis pour la destination: __`r n.hosp.dest`__
 - Nb de RPU 2014 avec mode de sortie = 6 ou 7 avec un élement transmis pour l'orientation: __`r n.hosp.orient`__
 
-
 Les chiffres clés de l’activité des SAMU
 ========================================
  (à partir des données SRVA "officielles")
@@ -954,6 +953,7 @@ n.ped.domicile <- s.mode.sortie["Domicile"]
 
 Les chiffres clés de l’activité gériatrique des services d’urgences (75 ans et plus)
 ====================================================================================
+
 ```{r pop75, echo=FALSE}
 n.jours <- length(unique(as.Date(dx$ENTREE))) # nb de jours pour la période
 n.rpu <- nrow(dx)
@@ -1287,6 +1287,7 @@ chiffres <- c(chiffres, val)
 
 Les chiffres clés de l’activité AVC des services d’urgences
 ===========================================================
+
 
 ```{r init_avc, echo=FALSE}
 # load("../../../Stat Resural/Codes_regroupement_ORUMIP/d3.Rda") # fichier mergé d3
@@ -1823,7 +1824,7 @@ Doublons ?
 - Répartition par tranche heure en pourcentage, année N
 
 ```{r enregistre_chiffres, echo=FALSE}
- write.csv(chiffres, row.names = names(chiffres), file = paste("chiffres_", anc, ".csv", sep = ""))
+write.csv(chiffres, row.names = names(chiffres), file = paste("chiffres_", anc, ".csv", sep = ""))
 ```
 
 
@@ -1846,4 +1847,3 @@ Information de session
 sessionInfo()
 
 citation()
-```
