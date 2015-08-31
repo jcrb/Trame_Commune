@@ -23,6 +23,7 @@ n.sae <- NA # passages.2014.SAE.hag
 titre <- "CH Haguenau"
 max.date <- max(as.Date(dx$ENTREE))
 n.jour <- as.numeric(max.date - min(as.Date(dx$ENTREE)))
+hop <- "Hag"
 ```
 
 Date de point: `r format(max.date, "%d/%m/%Y")`
@@ -102,8 +103,10 @@ g <- summary.ccmu(dx$GRAVITE)
 Diagnostic Principal
 --------------------
 ```{r hag_dp, echo=FALSE}
-load("../../../Stat Resural/Codes_regroupement_ORUMIP/Regroupement_ORUMIP/Regroupement_ORUMIP/merge2015.Rda")
-t <- table(merge2015$CODE_URGENCE)
+# load("../../../Stat Resural/Codes_regroupement_ORUMIP/Regroupement_ORUMIP/Regroupement_ORUMIP/merge2015.Rda")
+load("../../../Stat Resural/Rpu_Codes/merge2015.Rda")
+
+t <- table(merge2015$CODE_URGENCE[merge2015$FINESS == hop])
 sum <- sum(t)
 p.medchir <- round(t['MED-CHIR']*100 / sum, 2)
 p.trauma <- round(t['TRAUMA']*100 / sum, 2)

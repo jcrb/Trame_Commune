@@ -13,7 +13,7 @@ output: html_document
 # - le TARRU (ligne 53)
 ```
 
-Chiffres Clés du CH SELESTAT en `r anc`
+Chiffres Clés du CH Mulhouse en `r anc`
 ================================
 
 ```{r date, echo=FALSE}
@@ -25,6 +25,7 @@ titre <- "CH Mulhouse"
 
 max.date <- max(as.Date(dx$ENTREE))
 n.jour <- as.numeric(max.date - min(as.Date(dx$ENTREE)))
+hop <- "Mul"
 ```
 
 Date de point: `r format(max.date, "%d/%m/%Y")`
@@ -104,8 +105,10 @@ g <- summary.ccmu(dx$GRAVITE)
 Diagnostic Principal
 --------------------
 ```{r sav_dp, echo=FALSE}
-load("../../../Stat Resural/Codes_regroupement_ORUMIP/Regroupement_ORUMIP/Regroupement_ORUMIP/merge2015.Rda")
-t <- table(merge2015$CODE_URGENCE)
+#load("../../../Stat Resural/Codes_regroupement_ORUMIP/Regroupement_ORUMIP/Regroupement_ORUMIP/merge2015.Rda")
+load("../../../Stat Resural/Rpu_Codes/merge2015.Rda")
+
+t <- table(merge2015$CODE_URGENCE[merge2015$FINESS == hop])
 sum <- sum(t)
 p.medchir <- round(t['MED-CHIR']*100 / sum, 2)
 p.trauma <- round(t['TRAUMA']*100 / sum, 2)

@@ -96,7 +96,9 @@ g <- summary.ccmu(dx$GRAVITE)
 Diagnostic Principal
 --------------------
 ```{r dp, echo=FALSE}
-load("../../../Stat Resural/Codes_regroupement_ORUMIP/Regroupement_ORUMIP/Regroupement_ORUMIP/merge2015.Rda")
+# load("../../../Stat Resural/Codes_regroupement_ORUMIP/Regroupement_ORUMIP/Regroupement_ORUMIP/merge2015.Rda")
+
+load("../../../Stat Resural/Rpu_Codes/merge2015.Rda")
 t <- table(merge2015$CODE_URGENCE)
 sum <- sum(t)
 p.medchir <- round(t['MED-CHIR']*100 / sum, 2)
