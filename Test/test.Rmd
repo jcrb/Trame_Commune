@@ -33,10 +33,18 @@ if(host == "MacBook-Air-de-JCB.local" | host == "Air-de-JCB"){
     path <- "../../../Stat Resural/RPU_2014/"
     # path <- paste0("../../../Stat Resural/RPU_", anc, "/")
     source("../../../Stat Resural/RPU_Doc/mes_constantes.R")
+    
 }else if(host == "XPS"){#XPS
-    path <- "../../Stat Resural/RPU_2014/"
-    # path <- paste0("../../Stat Resural/RPU_", anc, "/")
-    source("../../Stat Resural/RPU_Doc/mes_constantes.R")
+    path <- "../../../Stat Resural/RPU_2014/"
+    source("../../../Stat Resural/RPU_Doc/mes_constantes.R")
+    
+    load("../../Codes_regroupement_ORUMIP/Analyse_regroupements/d3.Rda") # d3 contient les données mergées
+    source('../../Codes_regroupement_ORUMIP/Analyse_regroupements/regroupement.R')
+    
+    #load("../../../Stat Resural/Codes_regroupement_ORUMIP/d3.Rda") # fichier mergé d3
+    # ajout d'une colonne durée de passage. Nécessite la librairie passage.R
+    source('../../../Stat Resural/RPU_2014/Analyse/Temps_passage/passage.R')# pour MAC
+    
 }else if(host == "P171I16"){# HUS
     path <- paste0("../RPU_", anc, "-master/")
 }

@@ -2,7 +2,7 @@
 title: "Chiffres Clés"
 author: "jcb"
 date: "21 août 2015"
-output: html_document
+output: word_document
 ---
 
 ```{r test, child = '../Test/test.Rmd'}

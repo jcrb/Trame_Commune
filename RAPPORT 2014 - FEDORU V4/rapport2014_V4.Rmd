@@ -3,17 +3,17 @@ title: 'Activité des structures d’urgences : panorama 2014 de la région ALSA
 author: "RESURAL (JcB)"
 date: "28/01/2015"
 output:
+  pdf_document:
+    keep_tex: yes
+    number_sections: yes
+    toc: yes
+    toc_depth: 3
   html_document:
     highlight: pygments
     keep_md: yes
     number_sections: yes
     theme: cerulean
     toc: yes
-  pdf_document:
-    keep_tex: yes
-    number_sections: yes
-    toc: yes
-    toc_depth: 3
 ---
 
 Version mse à jour le: __`r date()`__
@@ -62,9 +62,24 @@ if(host == "MacBook-Air-de-JCB.local" | host == "Air-de-JCB"){
     # path <- "../../Stat Resural/RPU_2014/"
     # source("../../Stat Resural/RPU_Doc/mes_constantes.R")
     
+    load("~/Documents/Stat Resural/Codes_regroupement_ORUMIP/d3.Rda") # d3 contient les données mergées
+    source('~/Documents/Stat Resural/Codes_regroupement_ORUMIP/regroupement.R')
+    
+    load("../../../Stat Resural/Codes_regroupement_ORUMIP/d3.Rda") # fichier mergé d3
+    # ajout d'une colonne durée de passage. Nécessite la librairie passage.R
+    source('~/Documents/Stat Resural/RPU_2014/Analyse/Temps_passage/passage.R')# pour MAC
+    
 }else if(host == "XPS"){#XPS
-    path <- "../../Stat Resural/RPU_2014/"
-    source("../../Stat Resural/RPU_Doc/mes_constantes.R")
+    path <- "../../../Stat Resural/RPU_2014/"
+    source("../../../Stat Resural/RPU_Doc/mes_constantes.R")
+    
+    load("../../Codes_regroupement_ORUMIP/Analyse_regroupements/d3.Rda") # d3 contient les données mergées
+    source('../../Codes_regroupement_ORUMIP/Analyse_regroupements/regroupement.R')
+    
+    #load("../../../Stat Resural/Codes_regroupement_ORUMIP/d3.Rda") # fichier mergé d3
+    # ajout d'une colonne durée de passage. Nécessite la librairie passage.R
+    source('../../../Stat Resural/RPU_2014/Analyse/Temps_passage/passage.R')# pour MAC
+    
 }else if(host == "P171I16"){# HUS
     path <- "../RPU_2014-master/"
 }
@@ -410,7 +425,7 @@ chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 ```
 
-- Passages en horaire de PDSA: __`r p.pds * 100` %__ [N = `r format.n(n.pds)`](Remarque: ne tient pas compte des jours fériés survenant en semaine)
+- Passages en horaire de PDSA: __`r p.pds * 100` %__ N = `r format.n(n.pds)` (Remarque: ne tient pas compte des jours fériés survenant en semaine)
 
 ### Variations saisonnières
 ```{r saison, echo=FALSE}
@@ -432,17 +447,17 @@ Variation du nombre de RPU entre les mois d'été (juillet-août) et les autres 
 ```{r transpport, echo=FALSE, comment=""}
 s <- summary.transport(dx$TRANSPORT)
 n.transport <- s['n.rens'] # nb de moyens de transport renseignés
-n.transport.perso <- s['PERSO']
+n.transport.perso <- s['n.perso']
 p.transport.perso <- n.transport.perso / n.transport
-n.transport.ambu <- s['AMBU']
+n.transport.ambu <- s['n.ambu']
 p.transport.ambu <- n.transport.ambu / n.transport
-n.transport.fo <- s['FO']
+n.transport.fo <- s['n.fo']
 p.transport.fo <- n.transport.fo / n.transport
-n.transport.heli <- s['HELI']
+n.transport.heli <- s['n.heli']
 p.transport.heli <- n.transport.heli / n.transport
-n.transport.smur <- s['SMUR']
+n.transport.smur <- s['n.smur']
 p.transport.smur <- n.transport.smur / n.transport
-n.transport.vsab <- s['VSAB']
+n.transport.vsab <- s['n.vsav']
 p.transport.vsab <- n.transport.vsab / n.transport
 
 #---------------------- Chiffres ---------------------------------------------------------------
@@ -466,34 +481,34 @@ s <- summary.ccmu(dx$GRAVITE)
 n.ccmu <- s['n.rens']
 ```
 ```{r}
-n.ccmu1 <- s['CCMU1']
+n.ccmu1 <- s['n.ccmu1']
 p.ccmu1 <- n.ccmu1 / n.ccmu
 
-n.ccmu2 <- s['CCMU2']
+n.ccmu2 <- s['n.ccmu2']
 p.ccmu2 <- n.ccmu2 / n.ccmu
 
 n.ccmu12 <- n.ccmu1 + n.ccmu2
 p.ccmu12 <- p.ccmu1 + p.ccmu2
 
-n.ccmu3 <- s['CCMU3']
+n.ccmu3 <- s['n.ccmu3']
 p.ccmu3 <- n.ccmu3 / n.ccmu
 ```
 ```{r}
-n.ccmu4 <- s['CCMU4']
+n.ccmu4 <- s['n.ccmu4']
 p.ccmu4 <- n.ccmu4 / n.ccmu
 
-n.ccmu5 <- s['CCMU5']
+n.ccmu5 <- s['n.ccmu5']
 p.ccmu5 <- n.ccmu5 / n.ccmu
 
 n.ccmu45 <- n.ccmu4 + n.ccmu5
 p.ccmu45 <- p.ccmu4 + p.ccmu5
 ```
 ```{r}
-n.ccmu.d <- s['CCMU D']
+n.ccmu.d <- s['n.ccmud']
 p.ccmu.d <- n.ccmu.d / n.ccmu
 ```
 ```{r}
-n.ccmu.p <- s['CCMU P']
+n.ccmu.p <- s['n.ccmup']
 ```
 ```{r}
 p.ccmu.p <- n.ccmu.p / n.ccmu
@@ -807,7 +822,6 @@ val <- c(NA)
 names(val) <- c("")
 chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
-```
 
 # par tranche d'age de 5 ans, borne sup exclue: [0-5[ ans
 p <- pyramide.age(pop18, cut = 1, gap = 0.3)
@@ -1125,28 +1139,24 @@ chiffres <- c(chiffres, val)
 ### Diagnostic principal
 
 ```{r dp, echo=FALSE}
-load("~/Documents/Stat Resural/Codes_regroupement_ORUMIP/d3.Rda") # d3 contient les données mergées
-source('~/Documents/Stat Resural/Codes_regroupement_ORUMIP/regroupement.R')
+# load("~/Documents/Stat Resural/Codes_regroupement_ORUMIP/d3.Rda") # d3 contient les données mergées
+# source('~/Documents/Stat Resural/Codes_regroupement_ORUMIP/regroupement.R')
 
 # levels(d3$TYPE.URGENCES)
 # "Autre recours", "Médico-chirurgical", "Psychiatrique", "Toxicologique", "Traumatologique"
-
 s <- summary.type.urgence(d3$TYPE.URGENCES)
 
-rm(d3)
 ```
-
-
 - % Médico-chirurgical: `r round(s['p.medico.chir']*100, 2)` %
-        - dont :
+    - dont :
     - % cardio vasculaire
-    - % neuro
-    - % digestif
-    - % respiratoire
+- % neuro
+- % digestif
+- % respiratoire
 - %  Traumatologique: `r round(s['p.traumato']*100, 2)` %
-- %  Psychiatrique: `r round(s['p.psy']*100, 2)` %
-- %  Toxicologique: `r round(s['p.tox']*100, 2)` %
-- %  Autres recours: `r round(s['p.autres.recours']*100, 2)` %
+    - %  Psychiatrique: `r round(s['p.psy']*100, 2)` %
+    - %  Toxicologique: `r round(s['p.tox']*100, 2)` %
+    - %  Autres recours: `r round(s['p.autres.recours']*100, 2)` %
 
 ### DURÉE
 
@@ -1279,9 +1289,9 @@ Les chiffres clés de l’activité AVC des services d’urgences
 ===========================================================
 
 ```{r init_avc, echo=FALSE}
-load("../../../Stat Resural/Codes_regroupement_ORUMIP/d3.Rda") # fichier mergé d3
-# ajout d'une colonne durée de passage. Nécessite la librairie passage.R
-source('~/Documents/Stat Resural/RPU_2014/Analyse/Temps_passage/passage.R')# pour MAC
+# load("../../../Stat Resural/Codes_regroupement_ORUMIP/d3.Rda") # fichier mergé d3
+# # ajout d'une colonne durée de passage. Nécessite la librairie passage.R
+# source('~/Documents/Stat Resural/RPU_2014/Analyse/Temps_passage/passage.R')# pour MAC
 d3$DPAS <- duree.passage(d3$ENTREE, d3$SORTIE)
 
 #---------------------- Chiffres ---------------------------------------------------------------
@@ -1512,7 +1522,7 @@ Voir ligne 333
 Voir les routines de RPU_2014/Analyse/Temps_passage/passage.R et notamment __temps de passage__.
 
 ```{r avc_passage}
-source('~/Documents/Stat Resural/RPU_2014/Analyse/Temps_passage/passage.R')# pour MAC
+# source('~/Documents/Stat Resural/RPU_2014/Analyse/Temps_passage/passage.R')# pour MAC
 # on ne garde que les durées de passage non nulles et < 48H
 ts.avc <- AVC[!is.na(AVC$DPAS) & AVC$DPAS > 0 & AVC$DPAS <= 2*24*60, "DPAS"]
 mean.ts.avc <- mean(as.numeric(ts.avc))
@@ -1612,33 +1622,33 @@ Un seul établissement __HUS__ avec 3 SU:
 es <- dx[dx$FINESS == "Hus",]
 a <- analyse_type_etablissement(es)
 
-#     # nombre de passages déclarés
-#     nrow(es)
-#     # Nombre de RPU avec un âge renseigné
-#     summary.age(es$AGE)
-#     # Nombre de RPU avec un code postal renseigné
-#     summary.cp(es$CODE_POSTAL)
-#     
-#     # par jour de semaine
-#     summary.wday(es$ENTREE)
+    # nombre de passages déclarés
+    nrow(es)
+    # Nombre de RPU avec un âge renseigné
+    summary.age(es$AGE)
+    # Nombre de RPU avec un code postal renseigné
+    summary.cp(es$CODE_POSTAL)
+    
+    # par jour de semaine
+    summary.wday(es$ENTREE)
 
-#     summary.age(es$AGE)
+    summary.age(es$AGE)
 
-#     # passages de nuit
-#     passage(horaire(es$ENTREE), "nuit")
+    # passages de nuit
+    passage(horaire(es$ENTREE), "nuit")
 
-#     # passage en PDS
-#     table(pdsa(es$ENTREE))
-#     #Nombre de RPU avec une date et heure d'entrée renseignées
-#     summary.dateheure(es$ENTREE)
-#     # nombre avec moyen de transport renseigné
-#     summary.transport(es$TRANSPORT)
-#     # nombre avec CCMU renseigné
-#     summary.ccmu(es$GRAVITE)
-#     # nombre de sorties conformes
-#     summary.passages(duree.passage2(es))
-#     # Nombre de RPU avec un mode de sortie renseigné
-#     summary.mode.sortie(es$MODE_SORTIE)
+    # passage en PDS
+    table(pdsa(es$ENTREE))
+    #Nombre de RPU avec une date et heure d'entrée renseignées
+    summary.dateheure(es$ENTREE)
+    # nombre avec moyen de transport renseigné
+    summary.transport(es$TRANSPORT)
+    # nombre avec CCMU renseigné
+    summary.ccmu(es$GRAVITE)
+    # nombre de sorties conformes
+    summary.passages(duree.passage2(es))
+    # Nombre de RPU avec un mode de sortie renseigné
+    summary.mode.sortie(es$MODE_SORTIE)
 ```
 
 - Nombre de passages déclarés: `r format.n(a['n.passages'])` en `r anc`.
@@ -1785,20 +1795,20 @@ summary.mode.sortie(es$MODE_SORTIE)
 Test de la routine et tableau compact
 
 ```{r tableauSU, echo=FALSE}
-# es <- dx[dx$FINESS %in% c("Wis","Hag","Sav","Sel","Col"),]
-# es.smur <- analyse_type_etablissement(es)
-# es <- dx[dx$FINESS == "Hus",]
-# es.chu <- analyse_type_etablissement(es)
-# es <- dx[dx$FINESS == "Mul",]
-# es.samu <- analyse_type_etablissement(es)
-# es <- dx[dx$FINESS  %in% c("Ane","Odi","Dts","Geb","Alk","3Fr","Ros","Dia"),]
-# es.simple <- analyse_type_etablissement(es)
-# 
-# t <- cbind(es.chu, es.samu, es.smur, es.simple)
-# t
-# 
-# colnames(t) <- c("CHU", "SU non CHU siège de SAMU","SU non SAMU siège de SMUR","Autre SU")
-# rownames(t) <- c("Nombre de RPU", "Nombre d'âges renseignés", "Nombre de moins de 1 an", "Nombre de moins de 15 ans", "Nombre de 75 ans et plus", "Nombre de RPU avec un code postal renseigné", "Nombre de patients ne venant pas de la région (étranger compris)", "Nombre de passages les lundis", "Nombre de passages les mardis", "Nombre de passages les mercredis", "Nombre de passages les jeudis", "Nombre de passages les vendredis", "Nombre de passages les samedis", "Nombre de passages les dimanchess", "Nombre de RPU la nuit (20h-8h)", "Nombre de RPU en horaire de PDS", "Nombre de RPU avec une date et heure d'entrée renseignées", "Nombre de RPU avec un moyen de transport renseigné", "Amené par la police", "Arrivés par hélicoptère", "Nombre de moyen personnel", "Nombre de SMUR", "Nombre de VSAV", "Nombre d'ambulances", "Nombre de RPU avec une CCMU renseignée", "CCMU 1", "CCMU 2", "CCMU 3", "CCMU 4", "CCMU 5", "CCMU P", "CCMU D", "CCMU 4 et 5", "Nombre de RPU avec une heure de sortie conforme (]0-72h[", "Durée moyenne de passage (en min)", "Durée médiane de passage (en min)", "Nombre de RPU dont la durée de passage est inférieure à 4h", "Nombre de RPU dont la durée de passage est inférieure à 4h lors d'une hospitalisation post-urgences", "Nombre de RPU dont la durée de passage est inférieure à 4h lors d'une retour au domicile", "Nombre de RPU lors d'un retour au domicile", "Nombre de RPU lors d'une hospitalisation post-urgences",  "Nombre de RPU avec transfert", "Nombre de RPU avec décès", "Nombre de RPU avec un mode de sortie renseigné", "Nombre de RPU avec mutation")
+es <- dx[dx$FINESS %in% c("Wis","Hag","Sav","Sel","Col"),]
+es.smur <- analyse_type_etablissement(es)
+es <- dx[dx$FINESS == "Hus",]
+es.chu <- analyse_type_etablissement(es)
+es <- dx[dx$FINESS == "Mul",]
+es.samu <- analyse_type_etablissement(es)
+es <- dx[dx$FINESS  %in% c("Ane","Odi","Dts","Geb","Alk","3Fr","Ros","Dia"),]
+es.simple <- analyse_type_etablissement(es)
+
+t <- cbind(es.chu, es.samu, es.smur, es.simple)
+t
+
+colnames(t) <- c("CHU", "SU non CHU siège de SAMU","SU non SAMU siège de SMUR","Autre SU")
+rownames(t) <- c("Nombre de RPU", "Nombre d'âges renseignés", "Nombre de moins de 1 an", "Nombre de moins de 15 ans", "Nombre de 75 ans et plus", "Nombre de RPU avec un code postal renseigné", "Nombre de patients ne venant pas de la région (étranger compris)", "Nombre de passages les lundis", "Nombre de passages les mardis", "Nombre de passages les mercredis", "Nombre de passages les jeudis", "Nombre de passages les vendredis", "Nombre de passages les samedis", "Nombre de passages les dimanchess", "Nombre de RPU la nuit (20h-8h)", "Nombre de RPU en horaire de PDS", "Nombre de RPU avec une date et heure d'entrée renseignées", "Nombre de RPU avec un moyen de transport renseigné", "Amené par la police", "Arrivés par hélicoptère", "Nombre de moyen personnel", "Nombre de SMUR", "Nombre de VSAV", "Nombre d'ambulances", "Nombre de RPU avec une CCMU renseignée", "CCMU 1", "CCMU 2", "CCMU 3", "CCMU 4", "CCMU 5", "CCMU P", "CCMU D", "CCMU 4 et 5", "Nombre de RPU avec une heure de sortie conforme (]0-72h[", "Durée moyenne de passage (en min)", "Durée médiane de passage (en min)", "Nombre de RPU dont la durée de passage est inférieure à 4h", "Nombre de RPU dont la durée de passage est inférieure à 4h lors d'une hospitalisation post-urgences", "Nombre de RPU dont la durée de passage est inférieure à 4h lors d'une retour au domicile", "Nombre de RPU lors d'un retour au domicile", "Nombre de RPU lors d'une hospitalisation post-urgences",  "Nombre de RPU avec transfert", "Nombre de RPU avec décès", "Nombre de RPU avec un mode de sortie renseigné", "Nombre de RPU avec mutation")
 ```
 
 
@@ -1813,7 +1823,7 @@ Doublons ?
 - Répartition par tranche heure en pourcentage, année N
 
 ```{r enregistre_chiffres, echo=FALSE}
-write.csv(chiffres, row.names = names(chiffres), file = paste("chiffres_", anc, ".csv", sep = ""))
+ write.csv(chiffres, row.names = names(chiffres), file = paste("chiffres_", anc, ".csv", sep = ""))
 ```
 
 

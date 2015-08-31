@@ -326,6 +326,7 @@ passage <- function(he, horaire = "nuit"){
 #'@usage e <- datetime(dx$ENTREE); he <- horaire(e)
 #'
 horaire <- function(date){
+    library(lubridate)
     return(hms(substr(date, 12, 20)))
 }
 
@@ -383,7 +384,8 @@ datetime <- function(date){
 #'         136    35    52 
 
 pdsa <- function(dx){
-    j <- as.Date(dx)
+    # j <- as.Date(dx)
+    j <- tolower(weekdays(as.Date(dx)))
     h <- horaire(dx)
     
     # un vecteur vide
@@ -393,18 +395,20 @@ pdsa <- function(dx){
     temp[is.na(j)] = NA
     
     # Horaires de PDS le WE
-    temp[weekdays(j)=="Dimanche" | 
-             weekdays(j)=="Samedi" & h > hms("11:59:59") & h <= hms("23:59:59") |
-             weekdays(j)=="Lundi" & h < hms("08:00:00")] = "PDSWE"
+    temp[j =="dimanche" | 
+             j =="samedi" & h > hms("11:59:59") & h <= hms("23:59:59") |
+             j =="lundi" & h < hms("08:00:00")] = "PDSWE"
     
     # horaires de PDS en semaine
-    temp[weekdays(j) %in% c("Mardi","Mercredi","Jeudi","Vendredi") &
+    temp[j %in% c("mardi","mercredi","jeudi","vendredi") &
              (h > hms("19:59:59") | h < hms("08:00:00"))]= "PDSS"
-    temp[weekdays(j) == "Lundi" & h > hms("19:59:59")]= "PDSS"
-    temp[weekdays(j) == "Samedi" & h < hms("08:00:00")]= "PDSS"
+    temp[j == "lundi" & h > hms("19:59:59")]= "PDSS"
+    temp[j == "samedi" & h < hms("08:00:00")]= "PDSS"
     
     return(temp)
 }
+
+# REM sur xps les jours commencent par une minuscule alors que sur le Mac c'est une majuscule ?
 
 #===============================================
 #
