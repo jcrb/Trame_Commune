@@ -1116,23 +1116,23 @@ analyse_type_etablissement <- function(es){
     # nombre avec moyen de transport renseigné
     s <- summary.transport(es$TRANSPORT)
     n.trans.rens <- s["n.rens"]
-    n.fo <- s["FO"]
-    n.heli <- s["HELI"]
-    n.perso <- s["PERSO"]
-    n.smur <- s["SMUR"]
-    n.vsav <- s["VSAB"]
-    n.ambu <- s["AMBU"]
+    n.fo <- s["n.fo"]
+    n.heli <- s["n.heli"]
+    n.perso <- s["n.perso"]
+    n.smur <- s["n.smur"]
+    n.vsav <- s["n.vsav"]
+    n.ambu <- s["n.ambu"]
     
     # nombre avec CCMU renseigné
     s <- summary.ccmu(es$GRAVITE)
     n.ccmu.rens <- s["n.rens"]
-    n.ccmu1 <- s["CCMU1"]
-    n.ccmu2 <- s["CCMU2"]
-    n.ccmu3 <- s["CCMU3"]
-    n.ccmu4 <- s["CCMU4"]
-    n.ccmu5 <- s["CCMU5"]
-    n.ccmuP <- s["CCMU P"]
-    n.ccmuD <- s["CCMU D"]
+    n.ccmu1 <- s["n.ccmu1"]
+    n.ccmu2 <- s["n.ccmu2"]
+    n.ccmu3 <- s["n.ccmu3"]
+    n.ccmu4 <- s["n.ccmu4"]
+    n.ccmu5 <- s["n.ccmu5"]
+    n.ccmuP <- s["n.ccmup"]
+    n.ccmuD <- s["n.ccmud"]
     n.ccmu45 <- n.ccmu4 + n.ccmu5
     
     # nombre de sorties conformes
