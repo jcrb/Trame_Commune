@@ -205,10 +205,10 @@ source(file)
 # on renomme les 2 premières colonnes qui sont mal titrées
 # on rajoute une colonne supplémentaire qui est lasomme de chaque ligne (sauf la date)
 # rpu <- read.csv("../../../Stat Resural/RPU_2014/rpu.jour_31-07-2015.csv")
-rpu <- read.csv(paste("../../../Stat Resural/RPU_2014/rpu_jour_", anc, ".csv"))
+rpu <- read.csv(paste0("../../../Stat Resural/RPU_2014/rpu_jour_", anc, ".csv"))
 colnames(rpu)[1] <- "date"
 colnames(rpu)[2] <- "3Fr"
-rpu$tot.jour <- apply(rpu[2:18], 1, sum)
+rpu$tot.jour <- apply(rpu[2:ncol(rpu)], 1, sum)
 
 ```
 Représentation graphique du nombre de RPU transmis par jour, avec le seuil d'alerte en dessous duquel le nombre de RPU transmis est considéré comme anormal.
