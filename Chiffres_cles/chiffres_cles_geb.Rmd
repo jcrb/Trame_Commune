@@ -28,12 +28,14 @@ Chiffres Clés du CH Guebwiller en `r anc`
 hop <- "Geb"
 titre <- "CH Guebwiller"
 
-n.rpu.anp <- n.rpu.2013.geb
-n.sae <- passages.2014.SAE.geb
-
+#-----------------------------------------------------
+n.rpu.anp <- rpu[hop, paste0("X",anp)] # nombre de RPU année précédente
+n.sae <- sae[hop, paste0("X",anc)] # données SAE année courante
 dx <- dx[dx$FINESS == hop,]
 max.date <- max(as.Date(dx$ENTREE))
+min.date <- min(as.Date(dx$ENTREE))
 n.jour <- as.numeric(max.date - min(as.Date(dx$ENTREE)))
+#------------------------------------------------------
 ```
 
 Date de point: `r format(max.date, "%d/%m/%Y")`
@@ -204,11 +206,11 @@ source(file)
 ```{r, echo=FALSE}
 # récupère le fichier RPU_2014/rpu.jour_31-07-2015.csv créé par rpu.par.jour de quot.utils.R
 # on renomme les 2 premières colonnes qui sont mal titrées
-# on rajoute une colonne supplémentaire qui est lasomme de chaque ligne (sauf la date)
-rpu <- read.csv("../../../Stat Resural/RPU_2014/rpu.jour_31-07-2015.csv")
+# rpu <- read.csv("../../../Stat Resural/RPU_2014/rpu.jour_31-07-2015.csv")
+rpu <- read.csv(paste0("../../../Stat Resural/RPU_2014/rpu_jour_", anc, ".csv"))
 colnames(rpu)[1] <- "date"
 colnames(rpu)[2] <- "3Fr"
-rpu$tot.jour <- apply(rpu[2:18], 1, sum)
+rpu$tot.jour <- apply(rpu[2:ncol(rpu)], 1, sum)
 
 ```
 Représentation graphique du nombre de RPU transmis par jour, avec le seuil d'alerte en dessous duquel le nombre de RPU transmis est considéré comme anormal.
