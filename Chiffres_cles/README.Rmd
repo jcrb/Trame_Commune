@@ -1,0 +1,29 @@
+---
+title: "Chiffres clés - Readme"
+author: "JcB"
+date: "06/09/2015"
+output: html_document
+---
+
+Les chiffres clé sont ceux proposés par la FEDORU. Ils sont extraits des fichiers RPU annuels. Il y a un fichier Rmd appelé __chiffres_cles_xxx.Rmd__ par Finess géographique où __xxx__ désigne un établissement de santé produisant des RPU.
+
+Le fichier _chiffres_cles_xxx.Rmd_ est générique sauf 2 lignes utilisées pour identifier l'établissement.
+
+Chaque fichier appelle __test.Rmd__ qui est de type _child_. Ce fichier identifie automatiquement la machine de compilation et les fichiers de données à appeler. L'année d'analyse doit être adaptée dans ce fichier en modifiant la variable __anc__.
+
+Pour l'année d'analyse, chaque fichier _chiffres_cles_xxx.Rmd_ doit avoir accès aux éléments suivants:
+
+- rpu_YYYY
+- aux valeurs des RPU de l'année précédente: __RPU_Doc/mes_constantes2_rpu.csv__
+- aux valeurs des SAE de l'année courante: __RPU_Doc/mes_constantes2_sae.csv__
+
+En pratique:
+
+- s'assurer que le fichier _test.Rmd_ correspond à l'année souhaitée (au besoin ajuster anc)
+- lancer le ou les fichiers _chiffres_cles_xxx.Rmd_ souhaités
+- stocker les fichiers _.pdf_ ou _.html_ produits dans un dossier spécifique
+- conserver les fichiers _chiffres_cles_xxx.Rmd_ en l'état.
+
+TODO
+
+Utiliser la cpmmande system et pandoc pour automatiser la production de fichiers multiples.
