@@ -1,8 +1,13 @@
 ---
 title: "Chiffres clés - CH Altkirch"
-author: "jcb"
+author: "RESURAL"
 date: "27 août 2015"
-output: html_document
+output:
+  pdf_document:
+    number_sections: yes
+  html_document:
+    keep_md: yes
+    number_sections: yes
 ---
 
 ```{r test, child = '../Test/test.Rmd'}
@@ -18,14 +23,16 @@ Chiffres Clés du CH d'Altkirch en `r anc`
 
 ```{r date, echo=FALSE}
 # à adapter:
-dx <- dx[dx$FINESS == "Alk",]
-n.rpu.anp <- n.rpu.2014.alk
-n.sae <- NA # passages.2014.SAE.alk
+hop <- "Alk"
 titre <- "CH Altkirch"
 
+n.rpu.anp <- n.rpu.2013.alk
+n.sae <- passages.2014.SAE.alk
+
+dx <- dx[dx$FINESS == hop,]
 max.date <- max(as.Date(dx$ENTREE))
 n.jour <- as.numeric(max.date - min(as.Date(dx$ENTREE)))
-hop <- "Alk"
+
 ```
 
 Date de point: `r format(max.date, "%d/%m/%Y")`
@@ -181,4 +188,37 @@ Diagramme de complétude
 -----------------------
 ```{r sav_completude, echo=FALSE}
 radar.completude(completude(dx), titre)
+```
+
+Courbe de production quotidienne de RPU
+=======================================
+
+```{r prod_rpu, echo=FALSE}
+# récupérer la routine graphique
+file <- "../../../Stat Resural/RPU_2014/Analyse/RecoRPU2015/reco.R"
+source(file)
+
+```
+
+```{r, echo=FALSE}
+# récupère le fichier RPU_2014/rpu.jour_31-07-2015.csv créé par rpu.par.jour de quot.utils.R
+# on renomme les 2 premières colonnes qui sont mal titrées
+# on rajoute une colonne supplémentaire qui est lasomme de chaque ligne (sauf la date)
+rpu <- read.csv("../../../Stat Resural/RPU_2014/rpu.jour_31-07-2015.csv")
+colnames(rpu)[1] <- "date"
+colnames(rpu)[2] <- "3Fr"
+rpu$tot.jour <- apply(rpu[2:18], 1, sum)
+
+```
+Représentation graphique du nombre de RPU transmis par jour, avec le seuil d'alerte en dessous duquel le nombre de RPU transmis est considéré comme anormal.
+
+```{r, message=FALSE}
+
+# transformation en Xts
+library(xts)
+rpu.xts <- xts(rpu, order.by = as.Date(rpu$date))
+
+# avec la routine graphe.rpu.seuil (reco.R): idem plus compact
+graphe.rpu.seuil(rpu.xts, hop, titre )
+
 ```

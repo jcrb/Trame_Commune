@@ -1,8 +1,13 @@
 ---
 title: "Chiffres Clés"
-author: "jcb"
+author: "RESSURAL"
 date: "21 août 2015"
-output: word_document
+output:
+  html_document:
+    keep_md: yes
+    number_sections: yes
+  pdf_document:
+    number_sections: yes
 ---
 
 ```{r test, child = '../Test/test.Rmd'}
@@ -172,5 +177,54 @@ Diagramme de complétude
 -----------------------
 ```{r completude, echo=FALSE}
 radar.completude(completude(dx), "SU Alsace")
+```
+
+Courbe de production quotidienne de RPU
+---------------------------------------
+
+```{r prod_rpu, echo=FALSE}
+# récupérer la routine graphique
+file <- "../../../Stat Resural/RPU_2014/Analyse/RecoRPU2015/reco.R"
+source(file)
+
+```
+
+```{r, echo=FALSE}
+# récupère le fichier RPU_2014/rpu.jour_31-07-2015.csv créé par rpu.par.jour de quot.utils.R
+# on renomme les 2 premières colonnes qui sont mal titrées
+# on rajoute une colonne supplémentaire qui est lasomme de chaque ligne (sauf la date)
+rpu <- read.csv("../../../Stat Resural/RPU_2014/rpu.jour_31-07-2015.csv")
+colnames(rpu)[1] <- "date"
+colnames(rpu)[2] <- "3Fr"
+rpu$tot.jour <- apply(rpu[2:18], 1, sum)
+
+```
+Représentation graphique du nombre de RPU transmis par jour, avec le seuil d'alerte en dessous duquel le nombre de RPU transmis est considéré comme anormal.
+
+```{r, message=FALSE}
+
+# transformation en Xts
+library(xts)
+rpu.xts <- xts(rpu, order.by = as.Date(rpu$date))
+
+# avec la méthode seuil.graphe
+# calcul du seuil
+s <- seuil(rpu$tot.jour)
+# graphique
+seuil.graphe(rpu.xts$tot.jour, seuil(rpu$tot.jour), "SU d'Alsace")
+legend("bottomleft", legend = "seuil d'alerte", col = "blue", lty = 2, bty = "n", cex = 0.8)
+
+# avec la routine graphe.rpu.seuil (reco.R): idem plus compact
+graphe.rpu.seuil(rpu.xts, "Sel", "CH Sélestat" )
+
+```
+Représentation avec PerformanceAnalytics
+
+```{r}
+# avec PerformanceAnalytics
+library(PerformanceAnalytics)
+PerformanceAnalytics::chart.TimeSeries(rpu.xts[, 2:18], ylim = c(0, 350), las = 2, date.format = "%d/%m/%Y")
+PerformanceAnalytics::chart.TimeSeries(rpu.xts[, 2], ylim = c(0, 90), las = 2, date.format = "%d/%m/%Y")
+
 ```
 

@@ -335,6 +335,13 @@ horaire2 <- function(date){
     return(paste(as.POSIXlt(date)$hour, as.POSIXlt(date)$min, as.POSIXlt(date)$sec, sep=":"))
 }
 
+# solution avec strsplit
+# usage: d <- horaire3(d14$ENTREE)
+horaire3 <- function(date){
+    return(hms(strsplit(date, " ")[[1]][2]))
+    # return(ymd(strsplit(date, " ")[[1]][1])) retourne la date
+}
+
 #===============================================
 #
 # datetime
@@ -604,14 +611,14 @@ summary.passages <- function(dp){
     tmax <- 4 * 60 + 1 # < 4 heures
     
     n.conforme <- nrow(dp)
-    duree.moyenne.passage <- mean(dp$duree)
-    duree.mediane.passage <- median(dp$duree)
+    duree.moyenne.passage <- mean(dp$duree, na.rm = TRUE)
+    duree.mediane.passage <- median(dp$duree, na.rm = TRUE)
     # durée de passage moyenne si retour à domicile
-    duree.moyenne.passage.dom <- mean(dp$duree[dp$MODE_SORTIE == "Domicile"])
-    duree.mediane.passage.dom <- median(dp$duree[dp$MODE_SORTIE == "Domicile"])
+    duree.moyenne.passage.dom <- mean(dp$duree[dp$MODE_SORTIE == "Domicile"], na.rm = TRUE)
+    duree.mediane.passage.dom <- median(dp$duree[dp$MODE_SORTIE == "Domicile"], na.rm = TRUE)
     # durée de passage moyenne si hospitalisation
-    duree.moyenne.passage.hosp <- mean(dp$duree[dp$MODE_SORTIE %in% c("Mutation","Transfert")])
-    duree.mediane.passage.hosp <- median(dp$duree[dp$MODE_SORTIE %in% c("Mutation","Transfert")])
+    duree.moyenne.passage.hosp <- mean(dp$duree[dp$MODE_SORTIE %in% c("Mutation","Transfert")], na.rm = TRUE)
+    duree.mediane.passage.hosp <- median(dp$duree[dp$MODE_SORTIE %in% c("Mutation","Transfert")], na.rm = TRUE)
     
     s.mode.sortie <- summary(as.factor(dp$MODE_SORTIE))
     

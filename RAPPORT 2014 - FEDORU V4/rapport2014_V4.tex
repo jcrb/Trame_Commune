@@ -24,6 +24,29 @@
 \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
 }{}
 \usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{{#1}}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{{#1}}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{{#1}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{{#1}}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\RegionMarkerTok}[1]{{#1}}
+\newcommand{\ErrorTok}[1]{\textbf{{#1}}}
+\newcommand{\NormalTok}[1]{{#1}}
 \usepackage{longtable,booktabs}
 \usepackage{graphicx}
 \makeatletter
@@ -93,7 +116,7 @@
 \setcounter{tocdepth}{3}
 \tableofcontents
 }
-Version mse à jour le: \textbf{Sun Aug 30 13:28:03 2015}
+Version mse à jour le: \textbf{01/09/2015}
 
 Ajout de la dernière version de Gilles
 
@@ -142,7 +165,7 @@ rapport inter région (V4).docx)
 FEDORU}\label{le-mot-du-president-de-la-fedoru}
 
 La publication du panorama des urgences de la région
-\_\_ALSACE\_\_constitue une excellente occasion pour présenter la
+\textbf{ALSACE}constitue une excellente occasion pour présenter la
 fédération des observatoires régionaux des urgences (FEDORU) qui compte
 \textbf{RESURAL} parmi ses membres actifs.
 
@@ -386,7 +409,7 @@ Exhaustivité CCMU :
 \subsubsection{Diadnostic principal}\label{diadnostic-principal}
 
 Remarque: les chiffres sont dans le document
-\emph{Codes\_regroupement\_ORUMIP} =\textgreater{} à rajouter.
+\emph{Codes}regroupement\_ORUMIP\_ =\textgreater{} à rajouter.
 
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
@@ -440,10 +463,10 @@ Remarque: les chiffres sont dans le document
   \begin{itemize}
   \itemsep1pt\parskip0pt\parsep0pt
   \item
-    moyenne durée de passage en cas de retour à domicile: \textbf{NA
+    moyenne durée de passage en cas de retour à domicile: \textbf{145.66
     mn}.
   \item
-    médiane durée de passage en cas de retour à domicile: \textbf{NA
+    médiane durée de passage en cas de retour à domicile: \textbf{103
     mn}.
   \end{itemize}
 \end{itemize}
@@ -496,17 +519,24 @@ SAMU}\label{les-chiffres-cles-de-lactivite-des-samu}
 Nombre de colonnes SMUR:
 
 \begin{longtable}[c]{@{}lll@{}}
-\toprule
-SMUR & Jour & Nuit\tabularnewline
-\midrule
-\endhead
-Wissembourg & 1 & 1\tabularnewline
-Haguenau & 1 & 1\tabularnewline
-Saverne & 1 & 1\tabularnewline
-Strasbourg & 4 & 3\tabularnewline
-Sélestat & 1 & 1\tabularnewline
-Colmar & 2 & 2\tabularnewline
-Mulhouse & 2 & 2\tabularnewline
+\toprule\addlinespace
+SMUR & Jour & Nuit
+\\\addlinespace
+\midrule\endhead
+Wissembourg & 1 & 1
+\\\addlinespace
+Haguenau & 1 & 1
+\\\addlinespace
+Saverne & 1 & 1
+\\\addlinespace
+Strasbourg & 4 & 3
+\\\addlinespace
+Sélestat & 1 & 1
+\\\addlinespace
+Colmar & 2 & 2
+\\\addlinespace
+Mulhouse & 2 & 2
+\\\addlinespace
 \bottomrule
 \end{longtable}
 
@@ -521,13 +551,24 @@ ans)}\label{les-chiffres-cles-de-lactivite-pediatrique-des-services-durgences-mo
 \end{verbatim}
 
 \includegraphics{rapport2014_V4_files/figure-latex/pop18-1.pdf}
-\includegraphics{rapport2014_V4_files/figure-latex/pop18-2.pdf} RECUEIL
-DES DONNÉES ------------------- - Nombre de passages dans l'année: 119
-213 - Moyenne quotidienne de passage: 327 passages/j - Taux d'urgences
-pédiatriques {[}(Nb RPU Pédia/ Nb RPU global)x100{]}: 29 \% - TODO: \%
-d'évolution par rapport à l'année N-1(données SAE pour ceux qui n'ont
-pas d'historique RPU fiable et permettant la comparaison, préciser
-l'origine des données)
+\includegraphics{rapport2014_V4_files/figure-latex/pop18-2.pdf}
+
+\subsection{RECUEIL DES DONNÉES}\label{recueil-des-donnees-1}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  Nombre de passages dans l'année: 119 213
+\item
+  Moyenne quotidienne de passage: 327 passages/j
+\item
+  Taux d'urgences pédiatriques {[}(Nb RPU Pédia/ Nb RPU global)x100{]}:
+  29 \%
+\item
+  TODO: \% d'évolution par rapport à l'année N-1(données SAE pour ceux
+  qui n'ont pas d'historique RPU fiable et permettant la comparaison,
+  préciser l'origine des données)
+\end{itemize}
 
 \subsection{PATIENTS}\label{patients-1}
 
@@ -611,7 +652,7 @@ pédiatriques}\label{horaires-de-passages-pediatriques}
 d'urgences (75 ans et
 plus)}\label{les-chiffres-cles-de-lactivite-geriatrique-des-services-durgences-75-ans-et-plus}
 
-\subsection{RECUEIL DES DONNÉES}\label{recueil-des-donnees-1}
+\subsection{RECUEIL DES DONNÉES}\label{recueil-des-donnees-2}
 
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
@@ -639,6 +680,7 @@ plus)}\label{les-chiffres-cles-de-lactivite-geriatrique-des-services-durgences-7
 \end{verbatim}
 
 \begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
 \item
   Nombre d'hommes: 22 665
 \item
@@ -650,16 +692,24 @@ plus)}\label{les-chiffres-cles-de-lactivite-geriatrique-des-services-durgences-7
 \item
   Par sous classes d'âge:
 
-  \begin{longtable}[c]{@{}rlllc@{}}
-  \toprule
-  eff & ectif moy & enne par jour méd & iane par jour sex &
-  ratio\tabularnewline
-  \midrule
-  \endhead
-  75-84 ans & 33399 & 92 & 91 & 0.82\tabularnewline
-  85 ans et plus & 23872 & 65 & 66 & 0.47\tabularnewline
-  \bottomrule
-  \end{longtable}
+  \begin{itemize}
+  \item
+    85 ans ou moins: 33 399
+  \item
+    plus de 85 ans: 23 872
+
+    \begin{longtable}[c]{@{}rlrrl@{}}
+    \toprule\addlinespace
+    effecti & f moyenne & par jour médiane & par jour sex rat & io
+    \\\addlinespace
+    \midrule\endhead
+    75-84 ans & 33399 & 92 & 91 & 0.82
+    \\\addlinespace
+    85 ans et plus & 23872 & 65 & 66 & 0.47
+    \\\addlinespace
+    \bottomrule
+    \end{longtable}
+  \end{itemize}
 \end{itemize}
 
 \includegraphics{rapport2014_V4_files/figure-latex/sous_classe_age-1.pdf}
@@ -675,34 +725,34 @@ plus)}\label{les-chiffres-cles-de-lactivite-geriatrique-des-services-durgences-7
 \item
   \% passages la nuit: 22.38 \% (N = 12 815)
 \item
-  \% passages en horaire de PDS: NA \% (N = NA)
+  \% passages en horaire de PDS: 38.12 \% (N = 21 830)
 \end{itemize}
 
 \subsubsection{Moyens de transport}\label{moyens-de-transport}
 
 \begin{itemize}
 \item
-  nombre de moyens de transport: 57271
+  nombre de moyens de transport: 57 271
 \item
-  nombre de moyens de transport renseignés: 40878
+  nombre de moyens de transport renseignés: 40 878
 \item
-  nombre de moyens personnels: NA
+  nombre de moyens personnels: 11 962
 \item
-  nombre de SMUR: NA
+  nombre de SMUR: 698
 \item
-  nombre de VSAV: NA
+  nombre de VSAV: 6 797
 \item
-  nombre d'ambulances privées: NA
+  nombre d'ambulances privées: 21 370
 \item
-  \% d'arrivées Moyen perso: 20.89 \% (N = 11 962)
+  \% d'arrivées Moyen perso: 0.29 \% (N = 11 962)
 \item
-  \% d'arrivées SMUR: 1.22 \% (N = 698)
+  \% d'arrivées SMUR: 0.17 \% (N = 6 797)
 \item
-  \% d'arrivées VSAV: 11.87 \% (N = 6 797)
+  \% d'arrivées VSAV: 0.17 \% (N = 6 797)
 \item
-  \% d'arrivées ambulance privée: 37.31 \% (N = 21 370)
+  \% d'arrivées ambulance privée: 0.52 \% (N = 21 370)
 \item
-  \% réponses manquantes:
+  \% réponses manquantes: 28.62
 \end{itemize}
 
 NB : commentaire possible pour expliquer que la somme des 4 pourcentages
@@ -713,7 +763,7 @@ ci dessus ne fait pas 100 \%
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
 \item
-  Nombre de RPU avec une CCMU renseignée: 47408
+  Nombre de RPU avec une CCMU renseignée: 47 408
 \item
   \% CCMU 1: 4.32 \% (N = 2 472)
 \item
@@ -771,7 +821,7 @@ ci dessus ne fait pas 100 \%
 ##  Welch Two Sample t-test
 ## 
 ## data:  passages75$duree by passages75$DEVENIR
-## t = -5, df = 40000, p-value = 0.000002
+## t = -4.8, df = 41184, p-value = 0.000001585
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
 ##  -12.7  -5.3
@@ -805,25 +855,25 @@ ci dessus ne fait pas 100 \%
 
 \begin{itemize}
 \item
-  Nombre de RPU avec une heure de sortie conforme ({]}0-72h{[}: 37603
+  Nombre de RPU avec une heure de sortie conforme ({]}0-72h{[}: 37 603
 \item
   Durée moyenne de passage (en min): 246.62 mn
 \item
   Durée médiane de passage (en min): 210 mn
 \item
-  Nombre de RPU dont la durée de passage est inférieure à 4h: 21716
+  Nombre de RPU dont la durée de passage est inférieure à 4h: 21 716
 \item
   Nombre de RPU avec une heure de sortie conforme ({]}0-72h{[} lors
-  d'une hospitalisation post-urgences: 17066
+  d'une hospitalisation post-urgences: 17 066
 \item
   Nombre de RPU avec une heure de sortie conforme ({]}0-72h{[} lors d'un
-  retour au domicile: 17307
+  retour au domicile: 17 307
 \item
   Nombre de RPU dont la durée de passage est inférieure à 4h lors d'une
-  hospitalisation post-urgences: 8109
+  hospitalisation post-urgences: 8 109
 \item
   Nombre de RPU dont la durée de passage est inférieure à 4h lors d'un
-  retour au domicile: 13607
+  retour au domicile: 13 607
 \end{itemize}
 
 \subsubsection{MODE DE SORTIE}\label{mode-de-sortie-1}
@@ -876,7 +926,7 @@ ci dessus ne fait pas 100 \%
 \section{Les chiffres clés de l'activité AVC des services
 d'urgences}\label{les-chiffres-cles-de-lactivite-avc-des-services-durgences}
 
-\subsection{RECUEIL DES DONNÉES}\label{recueil-des-donnees-2}
+\subsection{RECUEIL DES DONNÉES}\label{recueil-des-donnees-3}
 
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
@@ -945,6 +995,14 @@ date-time:
   Age moyen: 71.44 ans
 \item
   Nombre d'AVC par sous classe d'âge (GT1):
+
+  \begin{itemize}
+  \itemsep1pt\parskip0pt\parsep0pt
+  \item
+    85 ans ou moins: 2 404 (81.52 \%)
+  \item
+    plus de 85 ans: 545 (18.48 \%)
+  \end{itemize}
 \end{itemize}
 
 \subsection{ARRIVÉE}\label{arrivee-2}
@@ -990,12 +1048,14 @@ date-time:
   \% passages en horaire de PDS
 
   \begin{longtable}[c]{@{}rlll@{}}
-  \toprule
-  PDS & S PDS & WE NPD & S\tabularnewline
-  \midrule
-  \endhead
-  Nombre AVC & 403 & 656 & 1890\tabularnewline
-  \% AVC & 14 & 22 & 64\tabularnewline
+  \toprule\addlinespace
+  PDS & S PDS & WE NPD & S
+  \\\addlinespace
+  \midrule\endhead
+  Nombre AVC & 403 & 656 & 1890
+  \\\addlinespace
+  \% AVC & 14 & 22 & 64
+  \\\addlinespace
   \bottomrule
   \end{longtable}
 \end{itemize}
@@ -1019,15 +1079,6 @@ hors horaire de PDS.
 \subsection{Mode d'arrivée aux
 urgences}\label{mode-darrivee-aux-urgences}
 
-\begin{verbatim}
-##          n       n.na       p.na     n.rens     p.rens       n.fo 
-## 2949.00000  554.00000    0.18786 2395.00000    0.81214    1.00000 
-##     n.heli    n.perso     n.smur     n.vsav     n.ambu       p.fo 
-##   19.00000  636.00000   58.00000  527.00000 1154.00000    0.00042 
-##     p.heli    p.perso     p.smur     p.vsav     p.ambu 
-##    0.00793    0.26555    0.02422    0.22004    0.48184
-\end{verbatim}
-
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
 \item
@@ -1037,7 +1088,7 @@ urgences}\label{mode-darrivee-aux-urgences}
 \item
   \% d'arrivées SMUR: 1.97\%
 \item
-  \% d'arrivées VSAV: NA\%
+  \% d'arrivées VSAV: 17.87\%
 \item
   \% d'arrivées ambulance privée: 39.13\% NB : commentaire possible pour
   expliquer que la somme des 4 pourcentages ci dessus ne fait pas 100 \%
@@ -1111,8 +1162,8 @@ notamment \textbf{temps de passage}.
 \end{itemize}
 
 \% Table created by stargazer v.5.2 by Marek Hlavac, Harvard University.
-E-mail: hlavac at fas.harvard.edu \% Date and time: dim., août 30, 2015
-- 13:28:48
+E-mail: hlavac at fas.harvard.edu \% Date and time: Mar, sep 01, 2015 -
+14:19:55
 
 \begin{table}[!htbp] \centering 
   \caption{Orientation des AVC} 
@@ -1145,28 +1196,6 @@ Un seul établissement \textbf{HUS} avec 3 SU:
 \item
   HTP Pédiatrie
 \end{itemize}
-
-\begin{verbatim}
-## [1] 61793
-\end{verbatim}
-
-\begin{verbatim}
-##          n       n.na       p.na     n.rens     p.rens   n.inf1an 
-##  61793.000      0.000      0.000  61793.000      1.000  15376.000 
-## n.inf15ans n.inf18ans    n.75ans    n.85ans    n.90ans   p.inf1an 
-## 103413.000 119213.000  57271.000  23872.000   9487.000      0.037 
-## p.inf15ans p.inf18ans    p.75ans    p.85ans    p.90ans   mean.age 
-##      0.248      0.286      0.137      0.057      0.023     42.400 
-##     sd.age median.age    min.age    max.age         q1         q3 
-##     29.320     41.000      0.000    110.000     16.000     68.000
-\end{verbatim}
-
-\begin{verbatim}
-##           n        n.na        p.na      n.rens      p.rens n.residents 
-##       61793           0           0       61793           1       59288 
-## n.etrangers 
-##        2505
-\end{verbatim}
 
 \begin{verbatim}
 ##  Lun  Mar  Mer  Jeu  Ven  Sam  Dim 
@@ -1221,9 +1250,9 @@ Un seul établissement \textbf{HUS} avec 3 SU:
 ##                 n.conforme      duree.moyenne.passage 
 ##                      26416                        254 
 ##      duree.mediane.passage  duree.moyenne.passage.dom 
-##                        141                         NA 
+##                        141                        827 
 ##  duree.mediane.passage.dom duree.moyenne.passage.hosp 
-##                         NA                        346 
+##                        664                        346 
 ## duree.mediane.passage.hosp                 n.passage4 
 ##                        312                      17899 
 ##            n.hosp.passage4             n.dom.passage4 
@@ -1246,7 +1275,6 @@ Un seul établissement \textbf{HUS} avec 3 SU:
 \end{verbatim}
 
 \begin{itemize}
-\itemsep1pt\parskip0pt\parsep0pt
 \item
   Nombre de passages déclarés: 61 793 en 2014.
 \item
@@ -1254,12 +1282,25 @@ Un seul établissement \textbf{HUS} avec 3 SU:
 \item
   Nombre de RPU avec un code postal renseigné: 61 793.
 \item
-  Nombre de passages par jour de la semaine: - Lundi: 9 211 - Mardi: 8
-  980 - Mercredi: 8 527 - Jeudi: 8 667 - Vendredi: 9 170 - Samedi: 8 806
-  - Dimanche: 8 432
+  Nombre de passages par jour de la semaine:
+
+\begin{verbatim}
+- Lundi: 9 211
+- Mardi: 8 980
+- Mercredi: 8 527
+- Jeudi: 8 667
+- Vendredi: 9 170
+- Samedi: 8 806
+- Dimanche: 8 432
+\end{verbatim}
 \item
-  Nombre d'âges renseignés: NA - moins d'un an: 15 376 - moins de 15
-  ans: NA - 75 ans et plus: 57 271
+  Nombre d'âges renseignés: 61 793
+
+\begin{verbatim}
+- moins d'un an: 15 376
+- moins de 15 ans: 103 413
+- 75 ans et plus: 57 271
+\end{verbatim}
 \end{itemize}
 
 \subsection{SU d'ES siège de SAMU, non
@@ -1275,9 +1316,26 @@ Un seul établissement: CH de Mulhouse avec 2 implantations:
   Hasenrain (Pédiatrie médicale)
 \end{itemize}
 
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{es <-}\StringTok{ }\NormalTok{dx[dx$FINESS ==}\StringTok{ "Mul"}\NormalTok{,]}
+\CommentTok{# analyse_type_etablissement(es)}
+
+    \CommentTok{# nombre de passages déclarés}
+    \KeywordTok{nrow}\NormalTok{(es)}
+\end{Highlighting}
+\end{Shaded}
+
 \begin{verbatim}
 [1] 59471
 \end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+    \CommentTok{# Nombre de RPU avec un âge renseigné}
+    \KeywordTok{summary.age}\NormalTok{(es$AGE)}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
          n       n.na       p.na     n.rens     p.rens   n.inf1an 
@@ -1289,6 +1347,13 @@ p.inf15ans p.inf18ans    p.75ans    p.85ans    p.90ans   mean.age
     sd.age median.age    min.age    max.age         q1         q3 
     28.078     30.000      0.000    113.000      8.000     57.000 
 \end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+    \CommentTok{# Nombre de RPU avec un code postal renseigné}
+    \KeywordTok{summary.cp}\NormalTok{(es$CODE_POSTAL)}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
           n        n.na        p.na      n.rens      p.rens n.residents 
@@ -1297,10 +1362,23 @@ n.etrangers
        1519 
 \end{verbatim}
 
+\begin{Shaded}
+\begin{Highlighting}[]
+    \CommentTok{# par jour de semaine}
+    \KeywordTok{summary.wday}\NormalTok{(es$ENTREE)}
+\end{Highlighting}
+\end{Shaded}
+
 \begin{verbatim}
  Lun  Mar  Mer  Jeu  Ven  Sam  Dim 
 8868 7885 8130 7931 8270 8854 9533 
 \end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+    \KeywordTok{summary.age}\NormalTok{(es$AGE)}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
          n       n.na       p.na     n.rens     p.rens   n.inf1an 
@@ -1313,9 +1391,23 @@ p.inf15ans p.inf18ans    p.75ans    p.85ans    p.90ans   mean.age
     28.078     30.000      0.000    113.000      8.000     57.000 
 \end{verbatim}
 
+\begin{Shaded}
+\begin{Highlighting}[]
+    \CommentTok{# passages de nuit}
+    \KeywordTok{passage}\NormalTok{(}\KeywordTok{horaire}\NormalTok{(es$ENTREE), }\StringTok{"nuit"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
 \begin{verbatim}
 [1] 18349.00     0.31
 \end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+    \CommentTok{# passage en PDS}
+    \KeywordTok{table}\NormalTok{(}\KeywordTok{pdsa}\NormalTok{(es$ENTREE))}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
 
@@ -1323,10 +1415,24 @@ p.inf15ans p.inf18ans    p.75ans    p.85ans    p.90ans   mean.age
 30530 12634 16307 
 \end{verbatim}
 
+\begin{Shaded}
+\begin{Highlighting}[]
+    \CommentTok{#Nombre de RPU avec une date et heure d'entrée renseignées}
+    \KeywordTok{summary.dateheure}\NormalTok{(es$ENTREE)}
+\end{Highlighting}
+\end{Shaded}
+
 \begin{verbatim}
      n   n.na   p.na n.rens p.rens 
  59471      0      0  59471      1 
 \end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+    \CommentTok{# nombre avec moyen de transport renseigné}
+    \KeywordTok{summary.transport}\NormalTok{(es$TRANSPORT)}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
          n       n.na       p.na     n.rens     p.rens       n.fo 
@@ -1336,6 +1442,13 @@ p.inf15ans p.inf18ans    p.75ans    p.85ans    p.90ans   mean.age
     p.heli    p.perso     p.smur     p.vsav     p.ambu 
     0.0022     0.6466     0.0040     0.1267     0.2119 
 \end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+    \CommentTok{# nombre avec CCMU renseigné}
+    \KeywordTok{summary.ccmu}\NormalTok{(es$GRAVITE)}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
          n       n.na       p.na     n.rens     p.rens    n.ccmu1 
@@ -1348,13 +1461,20 @@ p.inf15ans p.inf18ans    p.75ans    p.85ans    p.90ans   mean.age
         NA 
 \end{verbatim}
 
+\begin{Shaded}
+\begin{Highlighting}[]
+    \CommentTok{# nombre de sorties conformes}
+    \KeywordTok{summary.passages}\NormalTok{(}\KeywordTok{duree.passage2}\NormalTok{(es))}
+\end{Highlighting}
+\end{Shaded}
+
 \begin{verbatim}
                 n.conforme      duree.moyenne.passage 
                      47518                        184 
      duree.mediane.passage  duree.moyenne.passage.dom 
-                       151                         NA 
+                       151                        172 
  duree.mediane.passage.dom duree.moyenne.passage.hosp 
-                        NA                        244 
+                       141                        244 
 duree.mediane.passage.hosp                 n.passage4 
                        219                      34593 
            n.hosp.passage4             n.dom.passage4 
@@ -1366,6 +1486,13 @@ duree.mediane.passage.hosp                 n.passage4
                    n.deces 
                          0 
 \end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+    \CommentTok{# Nombre de RPU avec un mode de sortie renseigné}
+    \KeywordTok{summary.mode.sortie}\NormalTok{(es$MODE_SORTIE)}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
           n        n.na        p.na      n.rens      p.rens       n.dom 
@@ -1395,9 +1522,26 @@ SU abec SMUR sans SAMU, 5 établissements:
   CH Colmar
 \end{itemize}
 
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{es <-}\StringTok{ }\NormalTok{dx[dx$FINESS %in%}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"Wis"}\NormalTok{,}\StringTok{"Hag"}\NormalTok{,}\StringTok{"Sav"}\NormalTok{,}\StringTok{"Sel"}\NormalTok{,}\StringTok{"Col"}\NormalTok{),]}
+\CommentTok{# analyse_type_etablissement(es)}
+
+\CommentTok{# nombre de passages déclarés}
+    \KeywordTok{nrow}\NormalTok{(es)}
+\end{Highlighting}
+\end{Shaded}
+
 \begin{verbatim}
 [1] 177747
 \end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+    \CommentTok{# Nombre de RPU avec un âge renseigné}
+    \KeywordTok{summary.age}\NormalTok{(es$AGE)}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
          n       n.na       p.na     n.rens     p.rens   n.inf1an 
@@ -1409,6 +1553,13 @@ p.inf15ans p.inf18ans    p.75ans    p.85ans    p.90ans   mean.age
     sd.age median.age    min.age    max.age         q1         q3 
     27.737     33.000      0.000    120.000     13.000     59.000 
 \end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+    \CommentTok{# Nombre de RPU avec un code postal renseigné}
+    \KeywordTok{summary.cp}\NormalTok{(es$CODE_POSTAL)}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
           n        n.na        p.na      n.rens      p.rens n.residents 
@@ -1417,10 +1568,23 @@ n.etrangers
       11071 
 \end{verbatim}
 
+\begin{Shaded}
+\begin{Highlighting}[]
+    \CommentTok{# par jour de semaine}
+    \KeywordTok{summary.wday}\NormalTok{(es$ENTREE)}
+\end{Highlighting}
+\end{Shaded}
+
 \begin{verbatim}
   Lun   Mar   Mer   Jeu   Ven   Sam   Dim 
 27415 24007 24628 24099 24688 25896 27014 
 \end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+    \KeywordTok{summary.age}\NormalTok{(es$AGE)}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
          n       n.na       p.na     n.rens     p.rens   n.inf1an 
@@ -1433,9 +1597,23 @@ p.inf15ans p.inf18ans    p.75ans    p.85ans    p.90ans   mean.age
     27.737     33.000      0.000    120.000     13.000     59.000 
 \end{verbatim}
 
+\begin{Shaded}
+\begin{Highlighting}[]
+    \CommentTok{# passages de nuit}
+    \KeywordTok{passage}\NormalTok{(}\KeywordTok{horaire}\NormalTok{(es$ENTREE), }\StringTok{"nuit"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
 \begin{verbatim}
 [1] 46677.00     0.26
 \end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+    \CommentTok{# passage en PDS}
+    \KeywordTok{table}\NormalTok{(}\KeywordTok{pdsa}\NormalTok{(es$ENTREE))}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
 
@@ -1443,10 +1621,24 @@ p.inf15ans p.inf18ans    p.75ans    p.85ans    p.90ans   mean.age
 98847 32166 46734 
 \end{verbatim}
 
+\begin{Shaded}
+\begin{Highlighting}[]
+    \CommentTok{#Nombre de RPU avec une date et heure d'entrée renseignées}
+    \KeywordTok{summary.dateheure}\NormalTok{(es$ENTREE)}
+\end{Highlighting}
+\end{Shaded}
+
 \begin{verbatim}
      n   n.na   p.na n.rens p.rens 
 177747      0      0 177747      1 
 \end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+    \CommentTok{# nombre avec moyen de transport renseigné}
+    \KeywordTok{summary.transport}\NormalTok{(es$TRANSPORT)}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
           n        n.na        p.na      n.rens      p.rens        n.fo 
@@ -1456,6 +1648,13 @@ p.inf15ans p.inf18ans    p.75ans    p.85ans    p.90ans   mean.age
      p.heli     p.perso      p.smur      p.vsav      p.ambu 
      0.0007      0.7140      0.0117      0.1085      0.1595 
 \end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+    \CommentTok{# nombre avec CCMU renseigné}
+    \KeywordTok{summary.ccmu}\NormalTok{(es$GRAVITE)}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
            n         n.na         p.na       n.rens       p.rens 
@@ -1468,13 +1667,20 @@ p.inf15ans p.inf18ans    p.75ans    p.85ans    p.90ans   mean.age
      0.00991      0.00247      0.00816      0.00013 
 \end{verbatim}
 
+\begin{Shaded}
+\begin{Highlighting}[]
+    \CommentTok{# nombre de sorties conformes}
+    \KeywordTok{summary.passages}\NormalTok{(}\KeywordTok{duree.passage2}\NormalTok{(es))}
+\end{Highlighting}
+\end{Shaded}
+
 \begin{verbatim}
                 n.conforme      duree.moyenne.passage 
                     158099                        164 
      duree.mediane.passage  duree.moyenne.passage.dom 
-                       120                         NA 
+                       120                        144 
  duree.mediane.passage.dom duree.moyenne.passage.hosp 
-                        NA                        245 
+                       107                        245 
 duree.mediane.passage.hosp                 n.passage4 
                        206                     126600 
            n.hosp.passage4             n.dom.passage4 
@@ -1486,6 +1692,13 @@ duree.mediane.passage.hosp                 n.passage4
                    n.deces 
                          1 
 \end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+    \CommentTok{# Nombre de RPU avec un mode de sortie renseigné}
+    \KeywordTok{summary.mode.sortie}\NormalTok{(es$MODE_SORTIE)}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
             n          n.na          p.na        n.rens        p.rens 
@@ -1606,9 +1819,9 @@ n.etrangers
                 n.conforme      duree.moyenne.passage 
                     106689                        120 
      duree.mediane.passage  duree.moyenne.passage.dom 
-                        87                         NA 
+                        87                        114 
  duree.mediane.passage.dom duree.moyenne.passage.hosp 
-                        NA                        174 
+                        84                        174 
 duree.mediane.passage.hosp                 n.passage4 
                        135                      96529 
            n.hosp.passage4             n.dom.passage4 
@@ -1711,17 +1924,12 @@ RPU}\label{annexe-2-diagramme-de-completude-des-rpu}
 \section{Information de session}\label{information-de-session}
 
 \begin{verbatim}
-R version 3.2.2 (2015-08-14)
-Platform: x86_64-pc-linux-gnu (64-bit)
-Running under: Ubuntu 14.04.3 LTS
+R version 3.1.3 (2015-03-09)
+Platform: x86_64-apple-darwin13.4.0 (64-bit)
+Running under: OS X 10.10.5 (Yosemite)
 
 locale:
- [1] LC_CTYPE=fr_FR.UTF-8       LC_NUMERIC=C              
- [3] LC_TIME=fr_FR.UTF-8        LC_COLLATE=fr_FR.UTF-8    
- [5] LC_MONETARY=fr_FR.UTF-8    LC_MESSAGES=fr_FR.UTF-8   
- [7] LC_PAPER=fr_FR.UTF-8       LC_NAME=C                 
- [9] LC_ADDRESS=C               LC_TELEPHONE=C            
-[11] LC_MEASUREMENT=fr_FR.UTF-8 LC_IDENTIFICATION=C       
+[1] fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/fr_FR.UTF-8/fr_FR.UTF-8
 
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
@@ -1729,17 +1937,17 @@ attached base packages:
 other attached packages:
  [1] openintro_1.4     xtable_1.7-4      stargazer_5.2    
  [4] epicalc_2.15.1.0  nnet_7.3-10       MASS_7.3-43      
- [7] survival_2.38-3   foreign_0.8-66    R.utils_2.1.0    
+ [7] survival_2.38-3   foreign_0.8-65    R.utils_2.1.0    
 [10] R.oo_1.19.0       R.methodsS3_1.7.0 xts_0.9-7        
 [13] zoo_1.7-12        plotrix_3.5-12    lubridate_1.3.3  
-[16] knitr_1.11       
+[16] knitr_1.10.5     
 
 loaded via a namespace (and not attached):
- [1] Rcpp_0.12.0     magrittr_1.5    splines_3.2.2   lattice_0.20-33
- [5] highr_0.5       stringr_1.0.0   plyr_1.8.3      tools_3.2.2    
- [9] grid_3.2.2      htmltools_0.2.6 yaml_2.1.13     digest_0.6.8   
-[13] formatR_1.2     memoise_0.2.1   evaluate_0.7.2  rmarkdown_0.7  
-[17] stringi_0.5-5  
+ [1] digest_0.6.8    evaluate_0.7.2  formatR_1.2     grid_3.1.3     
+ [5] highr_0.5       htmltools_0.2.6 lattice_0.20-33 magrittr_1.5   
+ [9] memoise_0.2.1   plyr_1.8.3      Rcpp_0.12.0     rmarkdown_0.7  
+[13] splines_3.1.3   stringi_0.5-5   stringr_1.0.0   tools_3.1.3    
+[17] yaml_2.1.13    
 \end{verbatim}
 
 \begin{verbatim}
@@ -1748,7 +1956,7 @@ To cite R in publications use:
 
   R Core Team (2015). R: A language and environment for
   statistical computing. R Foundation for Statistical Computing,
-  Vienna, Austria. URL https://www.R-project.org/.
+  Vienna, Austria. URL http://www.R-project.org/.
 
 A BibTeX entry for LaTeX users is
 
@@ -1758,7 +1966,7 @@ A BibTeX entry for LaTeX users is
     organization = {R Foundation for Statistical Computing},
     address = {Vienna, Austria},
     year = {2015},
-    url = {https://www.R-project.org/},
+    url = {http://www.R-project.org/},
   }
 
 We have invested a lot of time and effort in creating R, please
