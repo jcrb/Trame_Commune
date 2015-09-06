@@ -1762,7 +1762,9 @@ ES avec SU isolé (pas de SMUR associé): 8 établissements
 - Roosvelt
 - Fonderie
 
-```{r esnsns, echo=FALSE, comment=""}
+```{r esnsns, echo= TRUE, comment=""}
+
+es <- NULL
 es <- dx[dx$FINESS  %in% c("Ane","Odi","Dts","Geb","Alk","3Fr","Ros","Dia"),]
 
 # nombre de passages déclarés

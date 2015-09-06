@@ -895,23 +895,23 @@ summary.age <- function(vx){
     s <- summary(vx)
     sd <- sd(vx, na.rm = TRUE)
     # age sans les NA
-    n.inf1an <- sum(dx$AGE < 1, na.rm = TRUE) #nb de moins d'un an
-    p.inf1an <- mean(dx$AGE < 1, na.rm = TRUE)
+    n.inf1an <- sum(vx < 1, na.rm = TRUE) #nb de moins d'un an
+    p.inf1an <- mean(vx < 1, na.rm = TRUE)
     
-    n.inf15an <- sum(dx$AGE < 15, na.rm = TRUE) #nb de moins de 15 ans
-    p.inf15an <- mean(dx$AGE < 15, na.rm = TRUE)
+    n.inf15an <- sum(vx < 15, na.rm = TRUE) #nb de moins de 15 ans
+    p.inf15an <- mean(vx < 15, na.rm = TRUE)
     
-    n.inf18an <- sum(dx$AGE < 18, na.rm = TRUE)
-    p.inf18an <- mean(dx$AGE < 18, na.rm = TRUE)
+    n.inf18an <- sum(vx < 18, na.rm = TRUE)
+    p.inf18an <- mean(vx < 18, na.rm = TRUE)
     
-    n.75ans <- sum(dx$AGE > 74, na.rm = TRUE)  #nb de 75 ans et plus
-    p.75ans <- mean(dx$AGE > 74, na.rm = TRUE)
+    n.75ans <- sum(vx > 74, na.rm = TRUE)  #nb de 75 ans et plus
+    p.75ans <- mean(vx > 74, na.rm = TRUE)
     
-    n.85ans <- sum(dx$AGE > 84, na.rm = TRUE)  #nb de 85 ans et plus
-    p.85ans <- mean(dx$AGE > 84, na.rm = TRUE)
+    n.85ans <- sum(vx > 84, na.rm = TRUE)  #nb de 85 ans et plus
+    p.85ans <- mean(vx > 84, na.rm = TRUE)
     
-    n.90ans <- sum(dx$AGE > 89, na.rm = TRUE)  #nb de 90 ans et plus
-    p.90ans <- mean(dx$AGE > 89, na.rm = TRUE)
+    n.90ans <- sum(vx > 89, na.rm = TRUE)  #nb de 90 ans et plus
+    p.90ans <- mean(vx > 89, na.rm = TRUE)
     
     a <- c(n, n.na, p.na, n.rens, p.rens, n.inf1an, n.inf15an, n.inf18an, n.75ans, n.85ans, n.90ans,
            p.inf1an, p.inf15an, p.inf18an, p.75ans, p.85ans, p.90ans,

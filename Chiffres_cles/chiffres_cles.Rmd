@@ -95,25 +95,7 @@ g <- summary.ccmu(dx$GRAVITE)
 
 Diagnostic Principal
 --------------------
-```{r dp, echo=FALSE}
-load("../../../Stat Resural/Codes_regroupement_ORUMIP/Regroupement_ORUMIP/Regroupement_ORUMIP/merge2015.Rda")
-t <- table(merge2015$CODE_URGENCE)
-sum <- sum(t)
-p.medchir <- round(t['MED-CHIR']*100 / sum, 2)
-p.trauma <- round(t['TRAUMA']*100 / sum, 2)
-p.psy <- round(t['PSY']*100 / sum, 2)
-p.tox <- round(t['TOXICO']*100 / sum, 2)
-p.autre <- round(t['AUTRE']*100 / sum, 2)
-```
 
-
-|  Recours  |  %  |
-|-----|:-----|
-|  médico-chirurgical  |  `r p.medchir` %  |
-|  traumatologique  |  `r p.trauma` %  |
-|  psychiatrique  |  `r p.psy` %  |
-|  toxicologique  |  `r p.tox` %  |
-|  autres recours  |  `r p.autre` %  |
 
 
 Mode de sortie
