@@ -1,8 +1,13 @@
 ---
 title: "Chiffres clés - CH Wissembourg"
-author: "jcb"
-date: "27 août 2015"
-output: html_document
+author: "RESURAL"
+date: "Août 2015"
+output:
+  html_document:
+    highlight: pygments
+    keep_md: yes
+    number_sections: yes
+
 ---
 
 ```{r test, child = '../Test/test.Rmd'}
@@ -11,6 +16,8 @@ output: html_document
 # - les données source (ligne 21)
 # - infos SAE (ligne 26)
 # - le TARRU (ligne 53)
+
+# system("pandoc -s chiffres_cles_wis.md -o chiffres_cles_wis.odt")
 ```
 
 Chiffres Clés du CH WISSEMBOURG en `r anc`
@@ -25,6 +32,7 @@ titre <- "CH Wissembourg"
 
 max.date <- max(as.Date(dx$ENTREE))
 n.jour <- as.numeric(max.date - min(as.Date(dx$ENTREE)))
+hop <- "Wis"
 ```
 
 Date de point: `r format(max.date, "%d/%m/%Y")`
@@ -104,8 +112,10 @@ g <- summary.ccmu(dx$GRAVITE)
 Diagnostic Principal
 --------------------
 ```{r dp, echo=FALSE}
-load("../../../Stat Resural/Codes_regroupement_ORUMIP/Regroupement_ORUMIP/Regroupement_ORUMIP/merge2015.Rda")
-t <- table(merge2015$CODE_URGENCE)
+# load("../../../Stat Resural/Codes_regroupement_ORUMIP/Regroupement_ORUMIP/Regroupement_ORUMIP/merge2015.Rda")
+load("../../../Stat Resural/Rpu_Codes/merge2015.Rda")
+
+t <- table(merge2015$CODE_URGENCE[merge2015$FINESS == hop])
 sum <- sum(t)
 p.medchir <- round(t['MED-CHIR']*100 / sum, 2)
 p.trauma <- round(t['TRAUMA']*100 / sum, 2)
@@ -175,7 +185,41 @@ s <- summary.passages(duree.passage2(pop75))
 |  lors d'un retour à domicile  |  `r round(s['n.dom.passage4']*100/s['n.conforme'], 2)` %  |
 
 Diagramme de complétude
------------------------
+=======================
+
 ```{r completude, echo=FALSE}
 radar.completude(completude(dx), titre)
+```
+
+Courbe de production quotidienne de RPU
+=======================================
+
+```{r prod_rpu, echo=FALSE}
+# récupérer la routine graphique
+file <- "../../../Stat Resural/RPU_2014/Analyse/RecoRPU2015/reco.R"
+source(file)
+
+```
+
+```{r, echo=FALSE}
+# récupère le fichier RPU_2014/rpu.jour_31-07-2015.csv créé par rpu.par.jour de quot.utils.R
+# on renomme les 2 premières colonnes qui sont mal titrées
+# on rajoute une colonne supplémentaire qui est lasomme de chaque ligne (sauf la date)
+rpu <- read.csv("../../../Stat Resural/RPU_2014/rpu.jour_31-07-2015.csv")
+colnames(rpu)[1] <- "date"
+colnames(rpu)[2] <- "3Fr"
+rpu$tot.jour <- apply(rpu[2:18], 1, sum)
+
+```
+Représentation graphique du nombre de RPU transmis par jour, avec le seuil d'alerte en dessous duquel le nombre de RPU transmis est considéré comme anormal.
+
+```{r, message=FALSE}
+
+# transformation en Xts
+library(xts)
+rpu.xts <- xts(rpu, order.by = as.Date(rpu$date))
+
+# avec la routine graphe.rpu.seuil (reco.R): idem plus compact
+graphe.rpu.seuil(rpu.xts, hop, titre )
+
 ```

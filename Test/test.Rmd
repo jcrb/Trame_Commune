@@ -5,10 +5,10 @@ date: "20 juin 2015"
 output: html_document
 ---
 
-Version mse à jour le: __`r date()`__
+Version mise à jour le: __`r format(Sys.Date(), "%d/%m/%Y")`__
 
 ```{r titre, echo=FALSE}
-anc <- 2015 # année courante
+anc <- 2014 # année courante
 anp <- anc - 1
 ```
 
@@ -30,9 +30,13 @@ opts_chunk$set(echo = FALSE, cache=FALSE, warning=FALSE, message = FALSE, tidy=F
 # Quelle est la machine active ?
 host <- System$getHostname()
 if(host == "MacBook-Air-de-JCB.local" | host == "Air-de-JCB"){
-    path <- "../../../Stat Resural/RPU_2014/"
+    path <- paste0("../../../Stat Resural/RPU_2014/")
     # path <- paste0("../../../Stat Resural/RPU_", anc, "/")
     source("../../../Stat Resural/RPU_Doc/mes_constantes.R")
+    rpu <- read.csv("../../../Stat Resural/RPU_Doc/mes_constantes2_rpu.csv")
+    rownames(rpu) <- rpu[, 1]
+    sae <- read.csv("../../../Stat Resural/RPU_Doc/mes_constantes2_sae.csv")
+    rownames(sae) <- sae[, 1]
     
 }else if(host == "XPS"){#XPS
     path <- "../../../Stat Resural/RPU_2014/"

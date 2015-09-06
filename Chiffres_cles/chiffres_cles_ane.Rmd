@@ -1,0 +1,225 @@
+---
+title: "Chiffres clés - Clinique Ste Anne"
+author: "RESURAL"
+date: "27 août 2015"
+output:
+  pdf_document: default
+  html_document:
+    keep_md: yes
+    number_sections: yes
+---
+
+```{r test, child = '../Test/test.Rmd'}
+# modifier
+# - le nom du CH dans le titre 
+# - les données source (ligne 21)
+# - infos SAE (ligne 26)
+# - le TARRU (ligne 53)
+```
+
+Chiffres Clés de la clinique Sainte Anne en `r anc`
+================================
+```{r date, echo=FALSE}
+# à adapter:
+hop <- "Ane"
+titre <- "Clinique Sainte Anne"
+
+n.rpu.anp <- rpu[hop, paste0("X",anp)] # n.rpu.2013.hag
+n.sae <- sae[hop, paste0("X",anc)] # passages.2014.SAE.hag
+
+dx <- dx[dx$FINESS == hop,]
+max.date <- max(as.Date(dx$ENTREE))
+min.date <- min(as.Date(dx$ENTREE))
+n.jour <- as.numeric(max.date - min(as.Date(dx$ENTREE)))
+
+```
+
+- Date de point: `r format(max.date, "%d/%m/%Y")`
+- Date de début: `r format(min.date, "%d/%m/%Y")`
+
+Recueil des données
+-------------------
+
+```{r, echo=FALSE}
+n.rpu <- nrow(dx)
+```  
+
+  Nombre de passages  |   n     
+------------- | -------------:
+Nombre de RPU transmis  | `r format.n(n.rpu)`
+Evolution `r anp`/`r anc`  |  `r round(evolution(n.rpu, n.rpu.anp) * 100, 2)` %  |
+Moyenne quotidienne de passage  | `r format.n(n.rpu/n.jour)`
+Nombre de passages (SAE)  |  `r format.n(n.sae)`
+Exhaustivité  |  `r format.n(round(100 * n.rpu/n.sae, 2))`%
+
+
+Patients
+-------------------
+```{r hag_patients, echo=FALSE}
+age <- summary.age(dx$AGE)
+sexe <- summary.sexe(dx$SEXE)
+cp <- summary.cp(dx$CODE_POSTAL)
+```
+
+
+|  Caractéristiques  |  n  |
+|-----|:-----|
+|  sex-ratio  |  `r sexe['sex.ratio']`  |
+|  age moyen  |  `r age['mean.age']` ans |
+|  moins de 1 ans  |  `r round(age['p.inf1an']*100, 2)` %  |
+|  moins de 15 ans  |  `r round(age['p.inf15ans']*100, 2)` %  |
+|  75 ans et plus  |  `r round(age['p.75ans']*100, 2)` %  |
+|  patients hors région  |  `r round(cp['n.etrangers']*100/n.rpu, 2)` %  |
+
+<!-- Manque la population du secteur
+|  taux de recours régional  |  `r tarru(dx$CODE_POSTAL, pop.als.tot.2014)` %  |
+-->
+
+Arrivées
+-------------------
+```{r hag_arrivee, echo=FALSE}
+a <- pdsa(dx$ENTREE)
+pds <- length(a[a %in% c('PDSWE','PDSS')]) / length(a)
+
+s <- summary.transport(dx$TRANSPORT)
+
+g <- summary.ccmu(dx$GRAVITE)
+```
+
+
+|  Passages  |  %  |
+|-----|:-----|
+|  la nuit (20h-8h)  |  `r round(100*passages2(dx$ENTREE, "nuit")[2], 2)` %  |
+|  en soirée (20h-0H)  |  `r round(100*passages2(dx$ENTREE, "soir")[2], 2)` %  |
+|  en horaire de PDS  |  `r round(pds * 100, 2)`%  |
+
+|  Modes d'arrivée  |  %  |
+|-----|:-----|
+|  moyens personnels  |  `r round(s['p.perso']*100, 2)`%  |
+|  SMUR  |  `r round(s['p.smur']*100, 2)` %  |
+|  VSAV  |  `r round(s['p.vsav']*100, 2)` %  |
+|  Ambulances privées  |  `r round(s['p.ambu']*100, 2)` %`  |
+
+|  Gravité  |  %  |
+|-----|:-----|
+|  CCMU 1  |  `r round(g['p.ccmu1']*100, 2)` %  |
+|  CCMU 2  |  `r round(g['p.ccmu2']*100, 2)` %  |
+|  CCMU 3  |  `r round(g['p.ccmu3']*100, 2)` %  |
+|  CCMU 4 et 5  |  `r round((g['p.ccmu4']+g['p.ccmu5'])*100, 2)` %  |
+|  CCMU P  |  `r round(g['p.ccmup']*100, 2)` %  |
+|  CCMU D  |  `r round(g['p.ccmud']*100, 2)` %  |
+
+Diagnostic Principal
+--------------------
+```{r hag_dp, echo=FALSE}
+# load("../../../Stat Resural/Codes_regroupement_ORUMIP/Regroupement_ORUMIP/Regroupement_ORUMIP/merge2015.Rda")
+load("../../../Stat Resural/Rpu_Codes/merge2015.Rda")
+
+t <- table(merge2015$CODE_URGENCE[merge2015$FINESS == hop])
+sum <- sum(t)
+p.medchir <- round(t['MED-CHIR']*100 / sum, 2)
+p.trauma <- round(t['TRAUMA']*100 / sum, 2)
+p.psy <- round(t['PSY']*100 / sum, 2)
+p.tox <- round(t['TOXICO']*100 / sum, 2)
+p.autre <- round(t['AUTRE']*100 / sum, 2)
+```
+
+
+|  Recours  |  %  |
+|-----|:-----|
+|  médico-chirurgical  |  `r p.medchir` %  |
+|  traumatologique  |  `r p.trauma` %  |
+|  psychiatrique  |  `r p.psy` %  |
+|  toxicologique  |  `r p.tox` %  |
+|  autres recours  |  `r p.autre` %  |
+
+
+Mode de sortie
+-------------------
+```{r hag_mode_sortie, echo=FALSE}
+s <- summary.mode.sortie(dx$MODE_SORTIE)
+o <- summary.orientation(dx)
+```
+
+
+  Recours  |  -  |  %  |
+|-----|:-----|--------|
+|  Hospitalisation  |  Mutation  |  `r round(s['p.mutation']*100, 2)` %  |
+|                   |  Transfert  |  `r round(s['p.transfert']*100, 2)` %  |
+|                   |  dont UHCD  |  `r round(o['p.uhcd']*100, 2)` %  |
+|  Domicile         |            |  `r round(s['p.dom']*100, 2)` %  |
+
+Durée
+-------------------
+```{r hag_passages, echo = FALSE}
+s <- summary.passages(duree.passage2(dx))
+```
+
+### Tous âge
+
+  Durée de passage  |  heures  |
+|-----|:-----|
+|  moyenne  |  `r mn2h(s['duree.moyenne.passage'])`  |
+|  médiane  |  `r mn2h(s['duree.mediane.passage'])`  |
+
+  Passages de moins de 4 heures  |  %  |
+|-----|:-----|
+|  lors d'une hospitalisation  |  `r round(s['n.hosp.passage4']*100/s['n.conforme'], 2)` %  |
+|  lors d'un retour à domicile  |  `r round(s['n.dom.passage4']*100/s['n.conforme'], 2)` %  |
+
+### Pour les 75 ans ou plus
+
+```{r hag_pop75, echo=FALSE}
+pop75 <- dx[!is.na(dx$AGE) & dx$AGE > 74,]
+s <- summary.passages(duree.passage2(pop75))
+```
+
+  Durée de passage  |  heures  |
+|-----|:-----|
+|  moyenne  |  `r mn2h(s['duree.moyenne.passage'])`  |
+|  médiane  |  `r mn2h(s['duree.mediane.passage'])`  |
+
+  Passages de moins de 4 heures  |  %  |
+|-----|:-----|
+|  lors d'une hospitalisation  |  `r round(s['n.hosp.passage4']*100/s['n.conforme'], 2)` %  |
+|  lors d'un retour à domicile  |  `r round(s['n.dom.passage4']*100/s['n.conforme'], 2)` %  |
+
+Diagramme de complétude
+-----------------------
+```{r hag_completude, echo=FALSE, fig.width= 8}
+radar.completude(completude(dx), titre)
+```
+
+Courbe de production quotidienne de RPU
+=======================================
+
+```{r prod_rpu, echo=FALSE}
+# récupérer la routine graphique
+file <- "../../../Stat Resural/RPU_2014/Analyse/RecoRPU2015/reco.R"
+source(file)
+
+```
+
+```{r, echo=FALSE}
+# récupère le fichier RPU_2014/rpu.jour_31-07-2015.csv créé par rpu.par.jour de quot.utils.R
+# on renomme les 2 premières colonnes qui sont mal titrées
+# on rajoute une colonne supplémentaire qui est lasomme de chaque ligne (sauf la date)
+# rpu <- read.csv("../../../Stat Resural/RPU_2014/rpu.jour_31-07-2015.csv")
+rpu <- read.csv(paste("../../../Stat Resural/RPU_2014/rpu_jour_", anc, ".csv"))
+colnames(rpu)[1] <- "date"
+colnames(rpu)[2] <- "3Fr"
+rpu$tot.jour <- apply(rpu[2:18], 1, sum)
+
+```
+Représentation graphique du nombre de RPU transmis par jour, avec le seuil d'alerte en dessous duquel le nombre de RPU transmis est considéré comme anormal.
+
+```{r, message=FALSE}
+
+# transformation en Xts
+library(xts)
+rpu.xts <- xts(rpu, order.by = as.Date(rpu$date))
+
+# avec la routine graphe.rpu.seuil (reco.R): idem plus compact
+graphe.rpu.seuil(rpu.xts, hop, titre )
+
+```
