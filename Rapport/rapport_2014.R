@@ -902,23 +902,23 @@ summary.age <- function(vx){
     s <- summary(vx)
     sd <- sd(vx, na.rm = TRUE)
     # age sans les NA
-    n.inf1an <- sum(dx$AGE < 1, na.rm = TRUE) #nb de moins d'un an
-    p.inf1an <- mean(dx$AGE < 1, na.rm = TRUE)
+    n.inf1an <- sum(vx < 1, na.rm = TRUE) #nb de moins d'un an
+    p.inf1an <- mean(vx < 1, na.rm = TRUE)
     
-    n.inf15an <- sum(dx$AGE < 15, na.rm = TRUE) #nb de moins de 15 ans
-    p.inf15an <- mean(dx$AGE < 15, na.rm = TRUE)
+    n.inf15an <- sum(vx < 15, na.rm = TRUE) #nb de moins de 15 ans
+    p.inf15an <- mean(vx < 15, na.rm = TRUE)
     
-    n.inf18an <- sum(dx$AGE < 18, na.rm = TRUE)
-    p.inf18an <- mean(dx$AGE < 18, na.rm = TRUE)
+    n.inf18an <- sum(vx < 18, na.rm = TRUE)
+    p.inf18an <- mean(vx < 18, na.rm = TRUE)
     
-    n.75ans <- sum(dx$AGE > 74, na.rm = TRUE)  #nb de 75 ans et plus
-    p.75ans <- mean(dx$AGE > 74, na.rm = TRUE)
+    n.75ans <- sum(vx > 74, na.rm = TRUE)  #nb de 75 ans et plus
+    p.75ans <- mean(vx > 74, na.rm = TRUE)
     
-    n.85ans <- sum(dx$AGE > 84, na.rm = TRUE)  #nb de 85 ans et plus
-    p.85ans <- mean(dx$AGE > 84, na.rm = TRUE)
+    n.85ans <- sum(vx > 84, na.rm = TRUE)  #nb de 85 ans et plus
+    p.85ans <- mean(vx > 84, na.rm = TRUE)
     
-    n.90ans <- sum(dx$AGE > 89, na.rm = TRUE)  #nb de 90 ans et plus
-    p.90ans <- mean(dx$AGE > 89, na.rm = TRUE)
+    n.90ans <- sum(vx > 89, na.rm = TRUE)  #nb de 90 ans et plus
+    p.90ans <- mean(vx > 89, na.rm = TRUE)
     
     a <- c(n, n.na, p.na, n.rens, p.rens, n.inf1an, n.inf15an, n.inf18an, n.75ans, n.85ans, n.90ans,
            p.inf1an, p.inf15an, p.inf18an, p.75ans, p.85ans, p.90ans,
@@ -1116,23 +1116,23 @@ analyse_type_etablissement <- function(es){
     # nombre avec moyen de transport renseigné
     s <- summary.transport(es$TRANSPORT)
     n.trans.rens <- s["n.rens"]
-    n.fo <- s["FO"]
-    n.heli <- s["HELI"]
-    n.perso <- s["PERSO"]
-    n.smur <- s["SMUR"]
-    n.vsav <- s["VSAB"]
-    n.ambu <- s["AMBU"]
+    n.fo <- s["n.fo"]
+    n.heli <- s["n.heli"]
+    n.perso <- s["n.perso"]
+    n.smur <- s["n.smur"]
+    n.vsav <- s["n.vsav"]
+    n.ambu <- s["n.ambu"]
     
     # nombre avec CCMU renseigné
     s <- summary.ccmu(es$GRAVITE)
     n.ccmu.rens <- s["n.rens"]
-    n.ccmu1 <- s["CCMU1"]
-    n.ccmu2 <- s["CCMU2"]
-    n.ccmu3 <- s["CCMU3"]
-    n.ccmu4 <- s["CCMU4"]
-    n.ccmu5 <- s["CCMU5"]
-    n.ccmuP <- s["CCMU P"]
-    n.ccmuD <- s["CCMU D"]
+    n.ccmu1 <- s["n.ccmu1"]
+    n.ccmu2 <- s["n.ccmu2"]
+    n.ccmu3 <- s["n.ccmu3"]
+    n.ccmu4 <- s["n.ccmu4"]
+    n.ccmu5 <- s["n.ccmu5"]
+    n.ccmuP <- s["n.ccmup"]
+    n.ccmuD <- s["n.ccmud"]
     n.ccmu45 <- n.ccmu4 + n.ccmu5
     
     # nombre de sorties conformes

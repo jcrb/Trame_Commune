@@ -116,7 +116,7 @@
 \setcounter{tocdepth}{3}
 \tableofcontents
 }
-Version mse à jour le: \textbf{01/09/2015}
+Version mse à jour le: \textbf{06/09/2015}
 
 Ajout de la dernière version de Gilles
 
@@ -165,7 +165,7 @@ rapport inter région (V4).docx)
 FEDORU}\label{le-mot-du-president-de-la-fedoru}
 
 La publication du panorama des urgences de la région
-\textbf{ALSACE}constitue une excellente occasion pour présenter la
+\_\_ALSACE\_\_constitue une excellente occasion pour présenter la
 fédération des observatoires régionaux des urgences (FEDORU) qui compte
 \textbf{RESURAL} parmi ses membres actifs.
 
@@ -275,11 +275,11 @@ commun à toutes les régions membres de la FEDORU.
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
 \item
-  Nombre de passages dans l'année: 432 170 (données SAE 2014)
+  Nombre de passages dans l'année: 521 129 (données SAE 2014)
 \item
   Nombre de RPU déclarés: \textbf{416 733 RPU}
 \item
-  Exhaustivité du recueil: \textbf{96.43 \%}
+  Exhaustivité du recueil: \textbf{79.97 \%}
 \item
   Moyenne quotidienne de passages: \textbf{1 142 RPU/jour}
 \item
@@ -409,7 +409,7 @@ Exhaustivité CCMU :
 \subsubsection{Diadnostic principal}\label{diadnostic-principal}
 
 Remarque: les chiffres sont dans le document
-\emph{Codes}regroupement\_ORUMIP\_ =\textgreater{} à rajouter.
+\emph{Codes\_regroupement\_ORUMIP} =\textgreater{} à rajouter.
 
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
@@ -508,10 +508,11 @@ SAMU}\label{les-chiffres-cles-de-lactivite-des-samu}
   \begin{itemize}
   \itemsep1pt\parskip0pt\parsep0pt
   \item
-    dont primaires: format.n(19714)
+    dont primaires: 19 714
   \end{itemize}
 \item
-  Nombre d'ambulances privées à la demande du SAMU: format.n(46031)
+  Nombre d'ambulances privées à la demande du SAMU:
+  \texttt{format.n(r assu)}
 \end{itemize}
 
 \subsection{Organisation}\label{organisation}
@@ -519,26 +520,32 @@ SAMU}\label{les-chiffres-cles-de-lactivite-des-samu}
 Nombre de colonnes SMUR:
 
 \begin{longtable}[c]{@{}lll@{}}
-\toprule\addlinespace
-SMUR & Jour & Nuit
-\\\addlinespace
-\midrule\endhead
-Wissembourg & 1 & 1
-\\\addlinespace
-Haguenau & 1 & 1
-\\\addlinespace
-Saverne & 1 & 1
-\\\addlinespace
-Strasbourg & 4 & 3
-\\\addlinespace
-Sélestat & 1 & 1
-\\\addlinespace
-Colmar & 2 & 2
-\\\addlinespace
-Mulhouse & 2 & 2
-\\\addlinespace
+\toprule
+SMUR & Jour & Nuit\tabularnewline
+\midrule
+\endhead
+Wissembourg & 1 & 1\tabularnewline
+Haguenau & 1 & 1\tabularnewline
+Saverne & 1 & 1\tabularnewline
+Strasbourg & 5 & 3\tabularnewline
+Sélestat & 1 & 1\tabularnewline
+Colmar & 2 & 2\tabularnewline
+Mulhouse & 2 & 2\tabularnewline
 \bottomrule
 \end{longtable}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  Nombre de SAMU par bassin populationnel (pour 100 000): 0.11
+\item
+  Nombre de dossier de régulation médicale pour 100.000 h: 25 702
+\item
+  Nombre de lignes SMUR par bassin populationnel (pour 100 000): 0.7
+\item
+  Nombre de SU géographiques par bassin populationnel (pour 100 000):
+  1.02
+\end{itemize}
 
 \section{Les chiffres clés de l'activité pédiatrique des services
 d'urgences (moins de 18
@@ -652,12 +659,16 @@ pédiatriques}\label{horaires-de-passages-pediatriques}
 d'urgences (75 ans et
 plus)}\label{les-chiffres-cles-de-lactivite-geriatrique-des-services-durgences-75-ans-et-plus}
 
+En 2014, l'Alsace recense 155 281 personne de 75 ans ou plus.
+
 \subsection{RECUEIL DES DONNÉES}\label{recueil-des-donnees-2}
 
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
 \item
   Nombre de passages dans l'année: 57 271
+\item
+  Taux de recours aux SU de la population gériatrique: 36.88 \%
 \item
   Moyenne quotidienne de passage: 157 passages/j
 \item
@@ -699,14 +710,13 @@ plus)}\label{les-chiffres-cles-de-lactivite-geriatrique-des-services-durgences-7
     plus de 85 ans: 23 872
 
     \begin{longtable}[c]{@{}rlrrl@{}}
-    \toprule\addlinespace
-    effecti & f moyenne & par jour médiane & par jour sex rat & io
-    \\\addlinespace
-    \midrule\endhead
-    75-84 ans & 33399 & 92 & 91 & 0.82
-    \\\addlinespace
-    85 ans et plus & 23872 & 65 & 66 & 0.47
-    \\\addlinespace
+    \toprule
+    effecti & f moyenne & par jour médiane & par jour sex rat &
+    io\tabularnewline
+    \midrule
+    \endhead
+    75-84 ans & 33399 & 92 & 91 & 0.82\tabularnewline
+    85 ans et plus & 23872 & 65 & 66 & 0.47\tabularnewline
     \bottomrule
     \end{longtable}
   \end{itemize}
@@ -821,7 +831,7 @@ ci dessus ne fait pas 100 \%
 ##  Welch Two Sample t-test
 ## 
 ## data:  passages75$duree by passages75$DEVENIR
-## t = -4.8, df = 41184, p-value = 0.000001585
+## t = -5, df = 40000, p-value = 0.000002
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
 ##  -12.7  -5.3
@@ -1014,11 +1024,20 @@ date-time:
   midi, fin d'après midi, soirée, nuit profonde)
 \end{itemize}
 
-\begin{verbatim}
-##      nuit profonde matinée  début après-midi fin après-midi soirée   
-## [1,] "[0,8)"       "[8,12)" "[12,16)"        "[16,20)"      "[20,24)"
-## [2,] "272"         "900"    "865"            "619"          "293"
-\end{verbatim}
+\begin{table}[ht]
+\centering
+\begin{tabular}{rlllll}
+  \hline
+ & nuit profonde & matinée & début après-midi & fin après-midi & soirée \\ 
+  \hline
+Heures & [0,8) & [8,12) & [12,16) & [16,20) & [20,24) \\ 
+  Nombre & 272 & 900 & 865 & 619 & 293 \\ 
+  \% & 9.22 & 30.52 & 29.33 & 20.99 & 9.94 \\ 
+   \hline
+\end{tabular}
+\caption{Arrivées des AVC} 
+\label{avc.arrive}
+\end{table}
 
 \includegraphics{rapport2014_V4_files/figure-latex/avc_periode-1.pdf}
 
@@ -1036,26 +1055,43 @@ date-time:
 \item
   Nombre de passages AVC urgences, déclinaison par département,
   établissement, année N
-\end{itemize}
 
-\begin{verbatim}
-## 3Fr Alk Ane Col Dia Dts Geb Hag Hus Mul Odi Ros Sav Sel Wis 
-##  63  30  NA 741  NA  NA  30 500 580 682  NA  NA  NA 238  85
-\end{verbatim}
-
-\begin{itemize}
+  \begin{table}[ht]
+  \centering
+  \begin{tabular}{rrr}
+    \hline
+   & Nombre d'AVC & \% des diagnostics \\ 
+    \hline
+  3Fr & 63.00 & 0.57 \\ 
+    Alk & 30.00 & 0.43 \\ 
+    Ane &  &  \\ 
+    Col & 741.00 & 1.25 \\ 
+    Dia &  &  \\ 
+    Dts &  &  \\ 
+    Geb & 30.00 & 0.19 \\ 
+    Hag & 500.00 & 1.48 \\ 
+    Hus & 580.00 & 2.06 \\ 
+    Mul & 682.00 & 1.45 \\ 
+    Odi &  &  \\ 
+    Ros &  &  \\ 
+    Sav &  &  \\ 
+    Sel & 238.00 & 0.86 \\ 
+    Wis & 85.00 & 0.78 \\ 
+     \hline
+  \end{tabular}
+  \caption{Nombre d'AVC par établissement et pourcentage des diagnostics d'AVC parmis l'ensemble des diagnostics principaux évoqués par établissement de santé.} 
+  \label{avcParES}
+  \end{table}
 \item
   \% passages en horaire de PDS
 
   \begin{longtable}[c]{@{}rlll@{}}
-  \toprule\addlinespace
-  PDS & S PDS & WE NPD & S
-  \\\addlinespace
-  \midrule\endhead
-  Nombre AVC & 403 & 656 & 1890
-  \\\addlinespace
-  \% AVC & 14 & 22 & 64
-  \\\addlinespace
+  \toprule
+  PDS & S PDS & WE NPD & S\tabularnewline
+  \midrule
+  \endhead
+  Nombre AVC & 403 & 656 & 1890\tabularnewline
+  \% AVC & 14 & 22 & 64\tabularnewline
   \bottomrule
   \end{longtable}
 \end{itemize}
@@ -1162,8 +1198,8 @@ notamment \textbf{temps de passage}.
 \end{itemize}
 
 \% Table created by stargazer v.5.2 by Marek Hlavac, Harvard University.
-E-mail: hlavac at fas.harvard.edu \% Date and time: Mar, sep 01, 2015 -
-14:19:55
+E-mail: hlavac at fas.harvard.edu \% Date and time: dim., sept. 06, 2015
+- 20:19:10
 
 \begin{table}[!htbp] \centering 
   \caption{Orientation des AVC} 
@@ -1204,11 +1240,11 @@ Un seul établissement \textbf{HUS} avec 3 SU:
 
 \begin{verbatim}
 ##          n       n.na       p.na     n.rens     p.rens   n.inf1an 
-##  61793.000      0.000      0.000  61793.000      1.000  15376.000 
+##  61793.000      0.000      0.000  61793.000      1.000   2888.000 
 ## n.inf15ans n.inf18ans    n.75ans    n.85ans    n.90ans   p.inf1an 
-## 103413.000 119213.000  57271.000  23872.000   9487.000      0.037 
+##  14472.000  16314.000  12337.000   5489.000   2366.000      0.047 
 ## p.inf15ans p.inf18ans    p.75ans    p.85ans    p.90ans   mean.age 
-##      0.248      0.286      0.137      0.057      0.023     42.400 
+##      0.234      0.264      0.200      0.089      0.038     42.400 
 ##     sd.age median.age    min.age    max.age         q1         q3 
 ##     29.320     41.000      0.000    110.000     16.000     68.000
 \end{verbatim}
@@ -1297,9 +1333,9 @@ Un seul établissement \textbf{HUS} avec 3 SU:
   Nombre d'âges renseignés: 61 793
 
 \begin{verbatim}
-- moins d'un an: 15 376
-- moins de 15 ans: 103 413
-- 75 ans et plus: 57 271
+- moins d'un an: 2 888
+- moins de 15 ans: 14 472
+- 75 ans et plus: 12 337
 \end{verbatim}
 \end{itemize}
 
@@ -1339,11 +1375,11 @@ Un seul établissement: CH de Mulhouse avec 2 implantations:
 
 \begin{verbatim}
          n       n.na       p.na     n.rens     p.rens   n.inf1an 
- 59471.000      0.000      0.000  59471.000      1.000  15376.000 
+ 59471.000      0.000      0.000  59471.000      1.000   4715.000 
 n.inf15ans n.inf18ans    n.75ans    n.85ans    n.90ans   p.inf1an 
-103413.000 119213.000  57271.000  23872.000   9487.000      0.037 
+ 19015.000  20847.000   7480.000   3152.000   1226.000      0.079 
 p.inf15ans p.inf18ans    p.75ans    p.85ans    p.90ans   mean.age 
-     0.248      0.286      0.137      0.057      0.023     34.600 
+     0.320      0.351      0.126      0.053      0.021     34.600 
     sd.age median.age    min.age    max.age         q1         q3 
     28.078     30.000      0.000    113.000      8.000     57.000 
 \end{verbatim}
@@ -1382,11 +1418,11 @@ n.etrangers
 
 \begin{verbatim}
          n       n.na       p.na     n.rens     p.rens   n.inf1an 
- 59471.000      0.000      0.000  59471.000      1.000  15376.000 
+ 59471.000      0.000      0.000  59471.000      1.000   4715.000 
 n.inf15ans n.inf18ans    n.75ans    n.85ans    n.90ans   p.inf1an 
-103413.000 119213.000  57271.000  23872.000   9487.000      0.037 
+ 19015.000  20847.000   7480.000   3152.000   1226.000      0.079 
 p.inf15ans p.inf18ans    p.75ans    p.85ans    p.90ans   mean.age 
-     0.248      0.286      0.137      0.057      0.023     34.600 
+     0.320      0.351      0.126      0.053      0.021     34.600 
     sd.age median.age    min.age    max.age         q1         q3 
     28.078     30.000      0.000    113.000      8.000     57.000 
 \end{verbatim}
@@ -1545,11 +1581,11 @@ SU abec SMUR sans SAMU, 5 établissements:
 
 \begin{verbatim}
          n       n.na       p.na     n.rens     p.rens   n.inf1an 
-177747.000      0.000      0.000 177747.000      1.000  15376.000 
+177747.000      0.000      0.000 177747.000      1.000   7110.000 
 n.inf15ans n.inf18ans    n.75ans    n.85ans    n.90ans   p.inf1an 
-103413.000 119213.000  57271.000  23872.000   9487.000      0.037 
+ 48795.000  55583.000  25444.000  10810.000   4308.000      0.040 
 p.inf15ans p.inf18ans    p.75ans    p.85ans    p.90ans   mean.age 
-     0.248      0.286      0.137      0.057      0.023     37.300 
+     0.275      0.313      0.143      0.061      0.024     37.300 
     sd.age median.age    min.age    max.age         q1         q3 
     27.737     33.000      0.000    120.000     13.000     59.000 
 \end{verbatim}
@@ -1588,11 +1624,11 @@ n.etrangers
 
 \begin{verbatim}
          n       n.na       p.na     n.rens     p.rens   n.inf1an 
-177747.000      0.000      0.000 177747.000      1.000  15376.000 
+177747.000      0.000      0.000 177747.000      1.000   7110.000 
 n.inf15ans n.inf18ans    n.75ans    n.85ans    n.90ans   p.inf1an 
-103413.000 119213.000  57271.000  23872.000   9487.000      0.037 
+ 48795.000  55583.000  25444.000  10810.000   4308.000      0.040 
 p.inf15ans p.inf18ans    p.75ans    p.85ans    p.90ans   mean.age 
-     0.248      0.286      0.137      0.057      0.023     37.300 
+     0.275      0.313      0.143      0.061      0.024     37.300 
     sd.age median.age    min.age    max.age         q1         q3 
     27.737     33.000      0.000    120.000     13.000     59.000 
 \end{verbatim}
@@ -1737,110 +1773,30 @@ ES avec SU isolé (pas de SMUR associé): 8 établissements
 \end{itemize}
 
 \begin{verbatim}
-[1] 117722
-\end{verbatim}
-
-\begin{verbatim}
-            n          n.na          p.na        n.rens        p.rens 
-117722.000000      4.000000      0.000034 117718.000000      0.999966 
-     n.inf1an    n.inf15ans    n.inf18ans       n.75ans       n.85ans 
- 15376.000000 103413.000000 119213.000000  57271.000000  23872.000000 
-      n.90ans      p.inf1an    p.inf15ans    p.inf18ans       p.75ans 
-  9487.000000      0.036897      0.248154      0.286068      0.137430 
-      p.85ans       p.90ans      mean.age        sd.age    median.age 
-     0.057284      0.022765     38.500000     23.926814     35.000000 
-      min.age       max.age            q1            q3 
-     0.000000    108.000000     19.000000     56.000000 
-\end{verbatim}
-
-\begin{verbatim}
-          n        n.na        p.na      n.rens      p.rens n.residents 
-     117722           0           0      117722           1      114350 
-n.etrangers 
-       3372 
-\end{verbatim}
-
-\begin{verbatim}
-  Lun   Mar   Mer   Jeu   Ven   Sam   Dim 
-18645 15880 16232 16002 16456 17567 16940 
-\end{verbatim}
-
-\begin{verbatim}
-            n          n.na          p.na        n.rens        p.rens 
-117722.000000      4.000000      0.000034 117718.000000      0.999966 
-     n.inf1an    n.inf15ans    n.inf18ans       n.75ans       n.85ans 
- 15376.000000 103413.000000 119213.000000  57271.000000  23872.000000 
-      n.90ans      p.inf1an    p.inf15ans    p.inf18ans       p.75ans 
-  9487.000000      0.036897      0.248154      0.286068      0.137430 
-      p.85ans       p.90ans      mean.age        sd.age    median.age 
-     0.057284      0.022765     38.500000     23.926814     35.000000 
-      min.age       max.age            q1            q3 
-     0.000000    108.000000     19.000000     56.000000 
-\end{verbatim}
-
-\begin{verbatim}
-[1] 27711.00     0.24
-\end{verbatim}
-
-\begin{verbatim}
-
- NPDS  PDSS PDSWE 
-68659 19254 29809 
-\end{verbatim}
-
-\begin{verbatim}
-     n   n.na   p.na n.rens p.rens 
-117722      0      0 117722      1 
-\end{verbatim}
-
-\begin{verbatim}
-            n          n.na          p.na        n.rens        p.rens 
-117722.000000  28900.000000      0.245494  88822.000000      0.754506 
-         n.fo        n.heli       n.perso        n.smur        n.vsav 
-   264.000000      1.000000  74095.000000    602.000000   5825.000000 
-       n.ambu          p.fo        p.heli       p.perso        p.smur 
-  8035.000000      0.002972      0.000011      0.834196      0.006778 
-       p.vsav        p.ambu 
-     0.065581      0.090462 
-\end{verbatim}
-
-\begin{verbatim}
-            n          n.na          p.na        n.rens        p.rens 
-117722.000000  12916.000000      0.109716 104806.000000      0.890284 
-      n.ccmu1       n.ccmu2       n.ccmu3       n.ccmu4       n.ccmu5 
-  8482.000000  85521.000000  10593.000000    147.000000     24.000000 
-      n.ccmup       n.ccmud       p.ccmu1       p.ccmu2       p.ccmu3 
-    34.000000      5.000000      0.080930      0.815993      0.101072 
-      p.ccmu4       p.ccmu5       p.ccmup       p.ccmud 
-     0.001403      0.000229      0.000324      0.000048 
-\end{verbatim}
-
-\begin{verbatim}
-                n.conforme      duree.moyenne.passage 
-                    106689                        120 
-     duree.mediane.passage  duree.moyenne.passage.dom 
-                        87                        114 
- duree.mediane.passage.dom duree.moyenne.passage.hosp 
-                        84                        174 
-duree.mediane.passage.hosp                 n.passage4 
-                       135                      96529 
-           n.hosp.passage4             n.dom.passage4 
-                      7050                      89478 
-                     n.dom                     n.hosp 
-                     86531                       9031 
-               n.transfert                 n.mutation 
-                      2575                       6456 
-                   n.deces 
-                         1 
-\end{verbatim}
-
-\begin{verbatim}
-           n         n.na         p.na       n.rens       p.rens 
-117722.00000  18046.00000      0.15329  99676.00000      0.84671 
-       n.dom       n.hosp  n.transfert   n.mutation      n.deces 
- 89036.00000  10639.00000   2770.00000   7869.00000      1.00000 
-       p.dom       p.hosp  p.transfert   p.mutation      p.deces 
-     0.89325      0.10674      0.02779      0.07895      0.00001 
+     n.passages       n.age.ren        n.inf1an      n.inf15ans 
+         117722          117718             663           21131 
+        n.75ans       n.cp.rens     n.etrangers           n.lun 
+          12010          117722            3372           18645 
+          n.mar           n.mer           n.jeu           n.ven 
+          15880           16232           16002           16456 
+          n.sam           n.dim          n.nuit           n.pds 
+          17567           16940           27711           49063 
+       n.h.rens    n.trans.rens            n.fo          n.heli 
+         117722           88822             264               1 
+        n.perso          n.smur          n.vsav          n.ambu 
+          74095             602            5825            8035 
+    n.ccmu.rens         n.ccmu1         n.ccmu2         n.ccmu3 
+         104806            8482           85521           10593 
+        n.ccmu4         n.ccmu5         n.ccmuP         n.ccmuD 
+            147              24              34               5 
+       n.ccmu45  n.sorties.conf    mean.passage  median.passage 
+            171          106689             120              87 
+     n.passage4 n.hosp.passage4  n.dom.passage4           n.dom 
+          96529            7050           89478           86531 
+         n.hosp     n.transfert         n.deces   n.mode.sortie 
+           9031            2575               1           99676 
+    n.mutation2 
+           7869 
 \end{verbatim}
 
 Test de la routine et tableau compact
@@ -1849,9 +1805,9 @@ Test de la routine et tableau compact
 ##                 es.chu es.samu es.smur es.simple
 ## n.passages       61793   59471  177747    117722
 ## n.age.ren        61793   59471  177747    117718
-## n.inf1an         15376   15376   15376     15376
-## n.inf15ans      103413  103413  103413    103413
-## n.75ans          57271   57271   57271     57271
+## n.inf1an          2888    4715    7110       663
+## n.inf15ans       14472   19015   48795     21131
+## n.75ans          12337    7480   25444     12010
 ## n.cp.rens        61793   59471  177747    117722
 ## n.etrangers       2505    1519   11071      3372
 ## n.lun             9211    8868   27415     18645
@@ -1865,21 +1821,21 @@ Test de la routine et tableau compact
 ## n.pds            31550   28941   78900     49063
 ## n.h.rens         61793   59471  177747    117722
 ## n.trans.rens      8317   55635  136534     88822
-## n.fo                NA      NA      NA        NA
-## n.heli              NA      NA      NA        NA
-## n.perso             NA      NA      NA        NA
-## n.smur              NA      NA      NA        NA
-## n.vsav              NA      NA      NA        NA
-## n.ambu              NA      NA      NA        NA
+## n.fo                47     478     760       264
+## n.heli               2     122      95         1
+## n.perso           1214   35973   97489     74095
+## n.smur             274     223    1603       602
+## n.vsav            2262    7051   14816      5825
+## n.ambu            4518   11788   21771      8035
 ## n.ccmu.rens      33495   45428  156098    104806
-## n.ccmu1             NA      NA      NA        NA
-## n.ccmu2             NA      NA      NA        NA
-## n.ccmu3             NA      NA      NA        NA
-## n.ccmu4             NA      NA      NA        NA
-## n.ccmu5             NA      NA      NA        NA
-## n.ccmuP             NA      NA      NA        NA
-## n.ccmuD             NA      NA      NA        NA
-## n.ccmu45            NA      NA      NA        NA
+## n.ccmu1           8743    7349   27108      8482
+## n.ccmu2          17870   30451  101455     85521
+## n.ccmu3           6178    6094   24309     10593
+## n.ccmu4            503    1235    1547       147
+## n.ccmu5            201     299     385        24
+## n.ccmuP             NA      NA    1273        34
+## n.ccmuD             NA      NA      21         5
+## n.ccmu45           704    1534    1932       171
 ## n.sorties.conf   26416   47518  158099    106689
 ## mean.passage       254     184     164       120
 ## median.passage     141     151     120        87
@@ -1924,12 +1880,17 @@ RPU}\label{annexe-2-diagramme-de-completude-des-rpu}
 \section{Information de session}\label{information-de-session}
 
 \begin{verbatim}
-R version 3.1.3 (2015-03-09)
-Platform: x86_64-apple-darwin13.4.0 (64-bit)
-Running under: OS X 10.10.5 (Yosemite)
+R version 3.2.2 (2015-08-14)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Ubuntu 14.04.3 LTS
 
 locale:
-[1] fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/fr_FR.UTF-8/fr_FR.UTF-8
+ [1] LC_CTYPE=fr_FR.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=fr_FR.UTF-8        LC_COLLATE=fr_FR.UTF-8    
+ [5] LC_MONETARY=fr_FR.UTF-8    LC_MESSAGES=fr_FR.UTF-8   
+ [7] LC_PAPER=fr_FR.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=fr_FR.UTF-8 LC_IDENTIFICATION=C       
 
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
@@ -1937,17 +1898,17 @@ attached base packages:
 other attached packages:
  [1] openintro_1.4     xtable_1.7-4      stargazer_5.2    
  [4] epicalc_2.15.1.0  nnet_7.3-10       MASS_7.3-43      
- [7] survival_2.38-3   foreign_0.8-65    R.utils_2.1.0    
+ [7] survival_2.38-3   foreign_0.8-66    R.utils_2.1.0    
 [10] R.oo_1.19.0       R.methodsS3_1.7.0 xts_0.9-7        
 [13] zoo_1.7-12        plotrix_3.5-12    lubridate_1.3.3  
-[16] knitr_1.10.5     
+[16] knitr_1.11       
 
 loaded via a namespace (and not attached):
- [1] digest_0.6.8    evaluate_0.7.2  formatR_1.2     grid_3.1.3     
- [5] highr_0.5       htmltools_0.2.6 lattice_0.20-33 magrittr_1.5   
- [9] memoise_0.2.1   plyr_1.8.3      Rcpp_0.12.0     rmarkdown_0.7  
-[13] splines_3.1.3   stringi_0.5-5   stringr_1.0.0   tools_3.1.3    
-[17] yaml_2.1.13    
+ [1] Rcpp_0.12.0     magrittr_1.5    splines_3.2.2   lattice_0.20-33
+ [5] highr_0.5       stringr_1.0.0   plyr_1.8.3      tools_3.2.2    
+ [9] grid_3.2.2      htmltools_0.2.6 yaml_2.1.13     digest_0.6.8   
+[13] formatR_1.2     memoise_0.2.1   evaluate_0.7.2  rmarkdown_0.7  
+[17] stringi_0.5-5  
 \end{verbatim}
 
 \begin{verbatim}
@@ -1956,7 +1917,7 @@ To cite R in publications use:
 
   R Core Team (2015). R: A language and environment for
   statistical computing. R Foundation for Statistical Computing,
-  Vienna, Austria. URL http://www.R-project.org/.
+  Vienna, Austria. URL https://www.R-project.org/.
 
 A BibTeX entry for LaTeX users is
 
@@ -1966,7 +1927,7 @@ A BibTeX entry for LaTeX users is
     organization = {R Foundation for Statistical Computing},
     address = {Vienna, Austria},
     year = {2015},
-    url = {http://www.R-project.org/},
+    url = {https://www.R-project.org/},
   }
 
 We have invested a lot of time and effort in creating R, please
