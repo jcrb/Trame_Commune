@@ -1876,6 +1876,32 @@ Doublons ?
  write.csv(chiffres, row.names = names(chiffres), file = paste("chiffres_", anc, ".csv", sep = ""))
 ```
 
+Comparaison à hôpitaux constants
+--------------------------------
+Introduit dans le rapoort 2014: pour évaluer le taux de progression 2013-2014, on compare uniquement les hôpitaux de 2014 qui transmettaient déjà des données en 2013:
+```{r}
+# données 2013
+load("~/Documents/Resural/Stat Resural/RPU_2013/rpu2013d0112_2.Rda")
+t <- table(d1$FINESS)
+hop2013 <- names(t) # liste des hôpitaux de référence
+# données 2014
+load("~/Documents/Resural/Stat Resural/RPU_2014/rpu2014d0112_c2.Rda")
+# RPU 2014 récupérés sur la base des ES actifs en 2013
+rpu2014.hop.constants <- d14[d14$FINESS %in% hop2013,]
+# taux de progression
+c6 <- nrow(rpu2014.hop.constants)
+c7 <- nrow(d1)
+(c6-c7)/c7
+# progression pour les moins de 18 ans
+age18 <- rpu2014.hop.constants$AGE[rpu2014.hop.constants$AGE < 18]
+length(age18)
+# progression pour les 75 ans et 9lus
+age75 <- rpu2014.hop.constants$AGE[rpu2014.hop.constants$AGE > 74]
+length(age75)
+
+```
+
+
 
 ANNEXES
 =======
@@ -1896,4 +1922,11 @@ Information de session
 sessionInfo()
 
 citation()
+```
+
+Temps de calcul
+===============
+
+```{r end}
+proc.time() - ptm
 ```

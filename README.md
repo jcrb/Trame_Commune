@@ -15,9 +15,32 @@ Dossier Trame_commune
 
 ### Horaires_pds.Rda
 Fichiers où les heures de passages ont été transcodées en horaires de PDS. Ce fichier est produit par [à compléter]. Le temps de calcul est très long: 30 à 60 mn pour 2014.
+Ce fichier est obsolète. Remplacé par une routine de __rapport2014.R__ beaucoup plus rapide.
 
 ### Structures_fedoru.ods
 Géolocalisation des structures d'urgence dans les régions affiliées à la Fedoru. [source](https://docs.google.com/spreadsheets/d/1m6vgG0A-4BAQPHr_HNZehpZ5A8EkEDgoE5JlUFcNXv8/edit#gid=1468842289)
 
+Dernière mise à jour enregistrée: 16/09/2015 (structures_fedoru.ods).
+
 Dossier Rapport
 ---------------
+Le contenu de ce dossier est obsolète sauf le fichier __rapport2014.R__ qui rassemble toutes les routines utilisées pour produire le rapport 2014.
+
+Dossier RAPPORT 2014 - FEDORU V4
+--------------------------------
+Dossier actif pour la création du rapport 2014, intitulé chiffres-clés pour l'Alsace. Sert également à compléter le classeur des chiffres clés de la [FEDORU](https://docs.google.com/spreadsheets/d/1mkfWrClzdjiHRHGJvq_5NhZDVmX2z5SLJ28ZhClqXJM/edit#gid=1198327730) sauvegardé sous le nom de __Panorama FEDORU __Données à remplir.xlsx__ (dernier téléchargement: 16/09/2015).
+
+offre_soins_alsace.pdf
+----------------------
+Carte de l'offre de soins d'urgence en Alsace. Manque Helismur Strasbourg.
+
+Fichier Test
+-------------
+Contient le mot du président de la FEDORU. Appelé ainsi car a servi de test pour la méthode _child_.
+
+Fichiers pour dessiner une pyramide des ages
+--------------------------------------------
+
+- age1.csv
+- avc.pyramide.csv
+
