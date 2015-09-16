@@ -6,12 +6,6 @@ RESSURAL
 
 Version mise à jour le: __04/09/2015__
 
-
-
-
-
-
-
 Chiffres Clés de la région Alsace en 2014
 ================================
 
