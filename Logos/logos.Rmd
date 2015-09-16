@@ -1,0 +1,20 @@
+---
+title: "Logos"
+author: "jcb"
+date: "12 septembre 2015"
+output: html_document
+---
+
+Logos pour la cartographie
+==========================
+
+source: 
+
+- ambulances: http://www.flaticon.com/free-icons/ambulance_225
+- hélicos: http://www.flaticon.com/search/helicopters
+- hospitals: http://www.flaticon.com/free-icon/hospital-buildings_33777
+- SAMI, SDIS: http://www.flaticon.com/free-icon/male-telemarketer_81523
+- déconta: http://www.flaticon.com/free-icon/man-showering_76657
+- sang: http://www.flaticon.com/free-icon/blood-perfusion_69691
+
+Licence: Icon made by [Freepick](http://www.flaticon.com/authors/freepik) from www.flaticon.com 
