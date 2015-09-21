@@ -75,7 +75,7 @@ format.n <- function(x){
 #'@keywords complétude
 #'@family RPU
 #'@param dx Un dataframe
-#'#'@param calcul 2 options "percent" (défaut) ou "somme". Somme = nb de réponses
+#'@param calcul 2 options "percent" (défaut) ou "somme". Somme = nb de réponses
 #'        non nulles. Percent = % de réponses non nulles.
 #'@param tri si tri = TRUE (defaut) les colonnes sont triées par ordre croissant.
 #'@return vecteur des taux de complétude

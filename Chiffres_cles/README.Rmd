@@ -27,3 +27,21 @@ En pratique:
 TODO
 
 Utiliser la cpmmande system et pandoc pour automatiser la production de fichiers multiples.
+
+Completude automatique
+======================
+
+__ddply__ Split data frame, apply function, and return results in a data frame. Ex. avec Saverne: calcul de la completude mensuelle en 2015.
+
+```{r}
+library(lubridate)
+library(plyr)
+
+source("rapport.R") # completude
+load("~/Documents/Resural/Stat Resural/RPU_2014/rpu2015d0112_provisoire.Rda")
+sav <- d15[d15$FINESS == "Sav",] # Saverne 2015
+
+t3 <- ddply(sav, .(month(as.Date(sav$ENTREE))), completude) # completude par mois
+
+```
+
