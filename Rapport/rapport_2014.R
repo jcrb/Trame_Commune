@@ -212,6 +212,48 @@ synthese.completude <- function(dx){
 
 #===============================================
 #
+# completude.time
+#
+#===============================================
+# Pour un établissement donné, calcule le aux de complétude par mois, semaine, jours
+# Au départ on dispose d'un dataframe de type RPU. Ce dataframe est splité en sous groupes sur une base temporelle (mois,
+# jour, semaine...). Sur chacun des sous-groupes on applique la fonction "completude". Retourne un dataframe
+# où chaque ligne correspond à une période et chaque colonne à un élément du RPU.
+# Utilise "ddply" qui fonctionne comme tapply mais s'applique à un DF au lieu d'un vecteur et retourne un DF.
+# TODO: exension à plusieurs établissements simultannéent; limitation à certaines colonnes.
+
+#' @param dx un dataframe de type RPU
+#' @param finess établissement concerné ('Wis', 'Hag', 'Sav', ...)
+#' @param time factor de découpage
+#' @param t un dataframe
+#' @usage load("~/Documents/Resural/Stat Resural/RPU_2014/rpu2015d0112_provisoire.Rda")
+#'        # old
+#'        sav <- d15[d15$FINESS == "Sav",] # Saverne 2015
+#'        t3 <- ddply(sav, .(month(as.Date(sav$ENTREE))), completude) # completude par mois
+#'        # new
+#'        library(xts)
+#'        t3 <- completude.time(d15, "Sav", "day")
+#'        a <- seq(as.Date("2015-01-01"), length.out = nrow(t3), by = 1)
+#'        x <- xts(t3, order.by = a)
+#'        plot(x[, "DP"], main = "CH Saverne - DIAGNOSTIC PRINCIPAL", ylab = "% de complétude")
+#' 
+completude.time <- function(dx, finess,  time = "month"){
+    library(lubridate)
+    library(plyr)
+    
+    df <- dx[dx$FINESS == finess,] # Saverne 2015
+    
+    if(time == "month") t <- ddply(df, .(month(as.Date(df$ENTREE))), completude) # completude par période
+    if(time == "day")   t <- ddply(df, .(yday(as.Date(df$ENTREE))), completude)
+    if(time == "wday")  t <- ddply(df, .(wday(as.Date(df$ENTREE))), completude)
+    if(time == "year")  t <- ddply(df, .(year(as.Date(df$ENTREE))), completude)
+    if(time == "week")  t <- ddply(df, .(week(as.Date(df$ENTREE))), completude)
+    
+    return(t)
+}
+
+#===============================================
+#
 # Ordonner les colonnes du dataframe
 #
 #===============================================
