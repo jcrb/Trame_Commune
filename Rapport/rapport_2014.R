@@ -236,7 +236,10 @@ synthese.completude <- function(dx){
 #'        a <- seq(as.Date("2015-01-01"), length.out = nrow(t3), by = 1)
 #'        x <- xts(t3, order.by = a)
 #'        plot(x[, "DP"], main = "CH Saverne - DIAGNOSTIC PRINCIPAL", ylab = "% de complétude")
-#' 
+#'        # TODO: tableau de complétude par mois et par Finess:
+#'        t3 <- ddply(dx, .(dx$FINESS, month(as.Date(dx$ENTREE))), completude)
+#'        # Application: rpu2014/Analyse/Completude/Analyse_completude
+
 completude.time <- function(dx, finess,  time = "month"){
     library(lubridate)
     library(plyr)
