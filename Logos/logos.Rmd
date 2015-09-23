@@ -8,6 +8,10 @@ output: html_document
 Logos pour la cartographie
 ==========================
 
+Dossier Trame_Commune/Logos
+
+Les logos sont préférentiellement au format .png
+
 source: 
 
 - ambulances: http://www.flaticon.com/free-icons/ambulance_225
@@ -18,3 +22,71 @@ source:
 - sang: http://www.flaticon.com/free-icon/blood-perfusion_69691
 
 Licence: Icon made by [Freepick](http://www.flaticon.com/authors/freepik) from www.flaticon.com 
+
+Le dossier __Logos/data__ contient un certain nombre d'images à difféents niveaux de résolution:
+
+- ambulance15
+- shopper5 (hélicoptère)
+- hospital11
+- man253 (douche mobile)
+- men39 (douche fixe)
+- perfusion
+- transport51 (ambulance)
+
+Afficher une image PNG dans un graphe
+-------------------------------------
+
+- source: http://stackoverflow.com/questions/4975681/r-creating-graphs-where-the-nodes-are-images
+- source: https://ryouready.wordpress.com/2014/09/12/using-colorized-png-pictograms-in-r-base-plots/
+```{}
+library(png)
+img <- readPNG(system.file("img", "Rlogo.png", package="png"))
+# une zone graphique
+plot(c(100, 250), c(300, 450), type = "n", xlab = "", ylab = "")
+
+rasterImage(img, 150, 300, 200, 350, interpolate = TRUE)
+rasterImage(img, 100, 400, 110, 410, angle = 90, interpolate = TRUE)
+
+file <- "rat.png"
+rat <- readPNG(file)
+rasterImage(rat, 100, 400, 134, 428, interpolate = TRUE)
+
+```
+
+Ambulance
+---------
+
+```{r}
+library(png)
+# amb <- readPNG("Logos/data/transport51(8).png")
+amb <- readPNG("data/transport51(8).png")
+class(amb)
+dim(amb)
+
+```
+L'objet __amb__ est un tableau numérique de 64 lignes et 64 colonnes avec quatre couches (red, green, blue, alpha; short RGBA).
+
+Let’s have a look at the first layer (red) and replace all non-zero entries by a one and the zeros by a dot. This will show us the pattern of non-zero values and we already see the contours.
+
+```{r}
+l4 <- amb[,,1]
+l4[l4 > 0] <- 1
+l4[l4 == 0] <- "."
+d <- apply(l4, 1, function(x) {
+ cat(paste0(x, collapse=""), "\n") 
+})
+```
+To display the image in R one way is to raster the image (i.e. the RGBA layers are collapsed into a layer of single HEX value) and print it using rasterImage.
+
+```{r}
+rimg <- as.raster(amb) # raster multilayer object
+r <- nrow(rimg) / ncol(rimg) # image ratio
+plot(c(0,10), c(0,10), type = "n", xlab = "", ylab = "", asp=1) # une zone graphique vide
+rasterImage(rimg, 0, 0, 1, r) # img, x1, y1, x2, y2
+rasterImage(rimg, 5, 2, 6, 3)
+
+smur <- as.raster(readPNG("data/ambulance15(14).png"))
+rasterImage(smur, 4, 2, 5, 3)
+rasterImage(smur, 6, 4, 8, 6)
+```
+
