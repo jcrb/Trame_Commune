@@ -40,6 +40,7 @@
 #
 #===============================================
 #'@author JcB - 2015-03-12
+#'@title format.n
 #'@description formate un nombre en ajoutant un espace pour les milliers
 #'                                           une virgule décimale
 #'                                           pas de notation scientifique
