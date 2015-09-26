@@ -19,22 +19,10 @@ output:
 
 Version mse à jour le: __`r format(Sys.Date(), "%d/%m/%Y")`__
 
-Ajout de la dernière version de Gilles 
-
-- nombre de passages pour 10.000 hab.
-- nombre de SU pour 10.000 hab.
-- nombre de lignes SMUR financées par une MIG
-- nombre de siège de SMUR dont SMUR saisonnier dont antenne SMUR dont hélismur
-- séparer privés lucratifs et ESPIC
-- nombre de logicels et nombre de SU par région
-- SAE 2014 ?
-- augmentation par rapport année N-1 en tenant compte uniquement des établissements "stables"
-- séparer chu et non chu, samu de chu et de non chu
-- retour attendu pour le 4/9
-
 ```{r titre, echo=FALSE}
 anc <- 2014 # année courante
 anp <- 2013 # année précédente
+xtable.type <- "latex"
 ```
 
 ```{r Declarations, echo=FALSE, include=FALSE}
@@ -135,6 +123,42 @@ LE MOT DU PRÉSIDENT DE LA FEDORU
 Description de l’offre de soins
 ===============================
 
+Etablissements d'Alsace ayant une autorisation de structure d'urgence
+---------------------------------------------------------------------
+Sites gégraphiques d'accueil des urgences:
+
+- Territoire de santé 1
+
+        - CH de Wissembourg (SU polyvalent + SMUR)
+        - CH de Haguenau (SU polyvalent + SMUR)
+        - CH de Saverne  (SU polyvalent + SMUR)
+- Territoire de santé 2
+
+        - CHU de Strasbourg
+                - NHC (SU adulte)
+                - Hôpital de Hautepierre (SU adulte + SU pédiatrique)
+                - Pôle logistique (SAMU + SMUR + Hélismur)
+        - Clinique Sainte Odile (SU polyvalent)
+        - Clinique Sainte Anne (SU polyvalent)
+        - Clinique du Diaconat (SU Mains)
+- Territoire de santé 3
+
+        - CH de Sélestat (SU polyvalent + SMUR)
+        - CH de Colmar 
+                - Hôpital Pasteur (SU polyvalent + SMUR)
+                - Hôpital du parc (SU pédiatrique)
+        - CH de Guebwiller (SU polyvalent)
+- Territoire de santé 4
+
+        - CH de Thann (SU polyvalent)
+        - CH d'Altkirch (SU polyvalent)
+        - CH de Mulhouse
+                - Hôpital Emile Muller (SU polyvalent + SAMU + SMUR + Hélismur)
+                - Hôpital du Hasenrain (SU pédiatrique)
+        - Clinique des 3 frontières (SU polyvalent)
+        - Clinique du Diaconat-Fonderie (SU polyvalent)
+        - Clinique du Diacinat-Roosvelt (SU Mains)
+
 Qualité des données 
 -------------------
 Réalisation d’un diagramme radar présentant l’exhaustivité des items RPU.
@@ -153,17 +177,21 @@ rm(dx2)
 # barplot
 par(mar = c(4,6,3,1))
 barplot(sort(comp), horiz = TRUE, las = 1, cex.names = 0.8, xlab = "% de complétude", main = "Complétude des champs RPU", col = "light green")
-abline(v = 90, lty = 2, col = "red")
+abline(v = 80, lty = 2, col = "red")
+```
 
+```{r radar, echo = FALSE, fig.width=10}
 # Tracé du diagrame en étoile
 par(mar =c (0,0,0,0))
 radar.completude(completude(dx))
 ```
 
-Complétude en valeur absolue et en pourcentages:`
-```{r, echo=FALSE}
+Complétude en valeur absolue:
+```{r, echo=FALSE, comment=""}
 s.comp
-
+```
+Complétude en pourcentages:
+```{r, echo=FALSE, comment=""}
 comp
 ```
 
@@ -202,8 +230,11 @@ names(chiffres) <- c("anc", "periode.debut", "periode.fin", "n.jours", "n.su.ped
 n.sae.2014 <- sum(sae[!(sae$HOP %in% c('Htp','Nhc','Pas','Prc','Emr','Hsr')), paste0("X", anc)], na.rm = TRUE)
 
 ```
+- Population alsacienne au 1er janvier 2014: `r format.n(pop.als.tot.2014)` [INSEE]()
 - Nombre de passages dans l'année: `r format.n(n.sae.2014)` (données SAE 2014)
+- Nombre de passages pour 10.000 habitants: `r format.n(round(n.sae.2014*10000/pop.als.tot.2014, 0))`
 - Nombre de RPU déclarés: __`r format.n(n.rpu)` RPU__
+- Nombre de RPU pour 10.000 habitants: `r format.n(round(n.rpu*10000/pop.als.tot.2014, 0))`
 - Exhaustivité du recueil: __`r round(n.rpu * 100 / n.sae.2014, 2)` %__
 - Moyenne quotidienne de passages: __`r format.n(mean.rpu.quot)` RPU/jour__
 - %(N) d'évolution par rapport à année `r anp`: __`r round(evolution(n.rpu, n.rpu.2013)*100, 0)` %__.
@@ -211,7 +242,7 @@ n.sae.2014 <- sum(sae[!(sae$HOP %in% c('Htp','Nhc','Pas','Prc','Emr','Hsr')), pa
 - Données renseignées (données à partir desquelles tout le reste de l’analyse sera effectuée) = Nombre de RPU transmis: `r format.n(n.rpu)` RPU
     
 
-PATIENTS
+Patients
 --------
 ### Sexe
 ```{r sexe, echo=FALSE, comment=""}
@@ -319,7 +350,7 @@ tarru <- tarru(dx$CODE_POSTAL, pop.region)
 
 TARRU: __`r tarru`%__ (ref: population alsacienne `r anc`)
 
-### Pourcentage  de patients ne venant pas de la région (étranger compris)
+### Pourcentage  de Patients ne venant pas de la région (étranger compris)
 ```{r etrangers, echo=FALSE}
 x <- as.character(dx$CODE_POSTAL)
 b <- substr(x,1,2)
@@ -334,7 +365,7 @@ chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 ```
 
-Part des non résidents: __`r (1 - p.org_als) * 100`%__ (N = format.n(`r n.rpu - n.org_als`))
+Part des non résidents: __`r (1 - p.org_als) * 100`%__ (N = `r format.n(n.rpu - n.org_als)`)
 
 ARRIVÉE
 -------
@@ -539,15 +570,15 @@ Exhaustivité CCMU :
 
 - Nombre de RPU 2014 hors orientation = FUGUE, PSA et REO ayant un élément transmis pour la CCMU: __`r format.n(n.ccmu.conforme)`__.
 
-### Diadnostic principal 
+### Diagnostic principal 
 
 Remarque: les chiffres sont dans le document _Codes_regroupement_ORUMIP_ => à rajouter.
 
-- %  Médico-chirurgical: __`r format.n(136816)`__
-- %  Traumatologique: __`r format.n(91907)`__
-- %  Psychiatrique: __`r format.n(6185)`__
-- %  Toxicologique: __`r format.n(4847)`__
-- %  Autres recours: __`r format.n(7441)`__
+- %  Médico-chirurgical: __`r round(136816*100/247196, 2)` %__ (`r format.n(136816)`)
+- %  Traumatologique: __`r round(91907*100/247196, 2)` %__ (`r format.n(91907)`)
+- %  Psychiatrique: __`r round(6185*100/247196, 2)` %__ (`r format.n(6185)`)
+- %  Toxicologique: __`r round(4847*100/247196, 2)` %__ (`r format.n(4847)`)
+- %  Autres recours: __`r round(7441*100/247196, 2)` %__ (`r format.n(7441)`)
 
 ### Durées de passage
 
@@ -778,18 +809,34 @@ chiffres <- c(chiffres, val)
 
 Organisation
 ------------
-Nombre de colonnes SMUR:
+### Nombre de colonnes SMUR terrestres:
 
 SMUR  |  Jour  |  Nuit   
 ------|--------|------
 Wissembourg  |  1  |  1   
 Haguenau  |  1  |  1   
 Saverne  |  1  |  1   
-Strasbourg  |  5  |  3   
+Strasbourg  |  4  |  3   
 Sélestat  |  1  |  1   
 Colmar  |  2  |  2     
 Mulhouse  |  2  |  2   
 
+### Nombre de SMUR héliportés:
+
+SMUR  |  Jour  |  Nuit   |  Remarques
+------|--------|---------|------------
+Strasbourg  |  1  |  1   |  convention avec la sécurité civile
+Mulhouse  |  1  |  1   |  colonne mutualisée avec le SMUR terrestre
+
+### Nombre de SMUR pédiatriques:
+
+SMUR  |  Jour  |  Nuit   
+------|--------|------
+Strasbourg (HTP)  |  1  |  1   
+
+   
+### SAMU
+- Nombre de SAMU: 2
 - Nombre de SAMU par bassin populationnel (pour 100 000): `r round(2/pop.als.2014*100000, 2)`
 - Nombre de dossier de régulation médicale pour 100.000 h: `r format.n(round(drm/pop.als.2014*100000, 2))`
 - Nombre de lignes SMUR par bassin populationnel (pour 100 000): `r round(13/pop.als.2014*100000, 2)`
@@ -799,7 +846,7 @@ Mulhouse  |  2  |  2
 Les chiffres clés de l’activité pédiatrique des services d’urgences (moins de 18 ans)
 =====================================================================================
 
-```{r pop18, echo=FALSE}
+```{r pop18, echo=FALSE, comment=""}
 n.jours <- length(unique(as.Date(dx$ENTREE))) # nb de jours pour la période
 n.rpu <- nrow(dx)
 
@@ -818,9 +865,6 @@ ped_jours <- c(1, 28, c(1, 5, 10, 15, 18) * 365) # bornes pour la pédiatrie en 
 lab <- c("<28j", "28j-1an[", "1-5ans[", "5-10ans[", "10-15ans[", "15-18ans[")
 ped <- cut(age2, ped_jours, include.lowest = TRUE, right = FALSE, labels = lab)
 
-table(ped)
-barplot(table(ped), main = "Pédiatrie")
-
 # nombre
 n.rpu18 <- nrow(pop18)
 n.pop18 <- nrow(pop18) # conserver plutôt que n.rpu18
@@ -832,17 +876,12 @@ p.rpu18 <- n.rpu18 * 100 / n.rpu # Taux d'urgences gériatriques
 val <- c(NA)
 names(val) <- c("")
 chiffres <- c(chiffres, val)
-#---------------------- Chiffres ---------------------------------------------------------------
+#---------------------- Chiffres end ---------------------------------------------------------------
 
-# par tranche d'age de 5 ans, borne sup exclue: [0-5[ ans
-p <- pyramide.age(pop18, cut = 1, gap = 0.3)
-
-#---------------------- Chiffres ---------------------------------------------------------------
-#---------------------- Chiffres end -----------------------------------------------------------
 
 ```
 
-RECUEIL DES DONNÉES
+Recueil des données
 -------------------
 
 - Nombre de passages dans l'année: `r format.n(n.rpu18)`
@@ -850,8 +889,27 @@ RECUEIL DES DONNÉES
 - Taux d'urgences pédiatriques [(Nb RPU Pédia/ Nb RPU global)x100]: `r format.n(p.rpu18)` %
 - TODO: % d'évolution par rapport à l'année N-1(données SAE pour ceux qui n’ont pas d’historique RPU fiable et permettant la comparaison, préciser l’origine des données)
 
-PATIENTS
+Patients
 --------
+
+### Répartition par tranches d'âge
+```{r, echo=FALSE, results='asis'}
+t.ped <- table(ped)
+caption <- paste0("Nombre de RPU pédiatriques en ", anc," par grandes classes d'âge")
+#print.xtable(xtable(t.ped, caption = paste0("Nombre de RPU pédiatriques en ", anc," par grandes classes d'âge")), type = xtable.type, format.args=list(big.mark = " ", decimal.mark = ","))
+
+print.table.rpu(t.ped, caption, type = xtable.type)
+
+barplot(table(ped), main = "Pédiatrie")
+```
+
+### Pyramide des âges
+```{r, echo=FALSE}
+# par tranche d'age de 5 ans, borne sup exclue: [0-5[ ans
+p <- pyramide.age(pop18, cut = 1, gap = 0.3)
+```
+
+
 ```{r sexe18, echo=FALSE, comment=""}
 sexe <- table(as.factor(pop18$SEXE))
 p.femme18 <- sexe['F']*100/(sexe['F'] + sexe['M']) # % de femmes
@@ -886,14 +944,16 @@ tx.masculinite18 <- n.hommes18 / (n.hommes18 + n.femmes18)
 # a
 
 # moyen de transport
-summary(pop18$TRANSPORT)
+t.transport.ped <- factor2table(pop18$TRANSPORT)
 # Nombre de RPU avec un moyen de transport renseigné
-sum(!is.na(pop18$TRANSPORT))
-# Nombre de RPU avec une CCMU renseignée
-sum(!is.na(pop18$GRAVITE))
-# nombre de CCMU
-summary(pop18$GRAVITE)
+n.transport.ped.rens <- sum(!is.na(pop18$TRANSPORT))
+p.transport.ped.rens <- mean(!is.na(pop18$TRANSPORT))
 
+# Nombre de RPU avec une CCMU renseignée
+n.gravite.ped.rens <- sum(!is.na(pop18$GRAVITE))
+p.gravite.ped.rens <- mean(!is.na(pop18$GRAVITE))
+# nombre de CCMU
+t.ccmu.ped <- factor2table(pop18$GRAVITE, TRUE)
 
 #---------------------- Chiffres ---------------------------------------------------------------
 val <- c(NA)
@@ -901,14 +961,33 @@ names(val) <- c("")
 chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 ```
-- nombre de garçons: `r n.hommes18`
-- nombre de filles: `r n.femmes18`
+- nombre de garçons: `r format.n(n.hommes18)`
+- nombre de filles: `r format.n(n.femmes18)`
 - Sex ratio: `r sex.ratio18`
 - Pyramide des âges (âge par année, borne supérieure toujours exclue)
 - Par sous classes d’âge:
 ```{r sous_classe_age_ped, echo=FALSE}
  # kable(a)
 ```
+
+### mode de transport pédiatrique
+
+nombre de RPU pédiatriques avec un moyen de transport renseigné: `r format.n(n.transport.ped.rens)` (p = `r round(p.transport.ped.rens*100, 2)` %)
+
+```{r, echo=FALSE, comment="", results='asis'}
+caption <- "Modes de transports pédiatriques"
+print.table.rpu(t.transport.ped, caption, type = xtable.type)
+``` 
+
+### Gravité des RPU pédiatriques
+
+nombre de CCMU pédiatriques renseignés: `r format.n(n.gravite.ped.rens)` (p = `r round(p.gravite.ped.rens*100, 2)` %)
+```{r, echo=FALSE, comment="", results='asis'}
+caption <- paste0("Gravité des RPU pédiatriques en ", anc, ".")
+print.table.rpu(t.ccmu.ped, caption, type = xtable.type)
+
+```
+
 
 ### horaires de passages pédiatriques
 ```{r passages_ped, echo=FALSE}
@@ -924,8 +1003,8 @@ names(val) <- c("")
 chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 ```
-- nombre de passages la nuit: `r n.passages.nuit` (p = `r p.passages.nuit * 100` %)
-- nombre de passages en nuit profonde: `r n.passages.nuit.profonde` (p = `r p.passages.nuit.profonde * 100` %)
+- nombre de passages la nuit: `r format.n(n.passages.nuit)` (p = `r round(p.passages.nuit * 100, 2)` %)
+- nombre de passages en nuit profonde: `r format.n(n.passages.nuit.profonde)` (p = `r round(p.passages.nuit.profonde * 100, 2)` %)
 
 ### Durée de passage
 
@@ -951,19 +1030,19 @@ n.ped.transfert <- s.mode.sortie["Transfert"]
 n.ped.domicile <- s.mode.sortie["Domicile"]
 
 ```
-- Nombre de RPU avec une heure de sortie conforme (]0-72h[: `r nrow(ped.dp)`
+- Nombre de RPU avec une heure de sortie conforme (]0-72h[: `r format.n(nrow(ped.dp))`
 - Durée moyenne de passage (en min): `r ped.duree.moyenne.passage` mn
 - Durée médiane de passage (en min): `r ped.duree.mediane.passage` mn
-- Nombre de RPU dont la durée de passage est inférieure à 4h: `r ped.passage4`
-- Nombre de RPU avec une heure de sortie conforme (]0-72h[ lors d'une hospitalisation post-urgences: `r s.ped.mode.sortie["Mutation"] + s.ped.mode.sortie["Transfert"]`
-- Nombre de RPU avec une heure de sortie conforme (]0-72h[ lors d'un retour au domicile: `r s.ped.mode.sortie["Domicile"]`
-- Nombre de RPU dont la durée de passage est inférieure à 4h lors d'une hospitalisation post-urgences: `r ped.hosp.passage4`
-- Nombre de RPU dont la durée de passage est inférieure à 4h lors d'un retour au domicile: `r ped.dom.passage4`
+- Nombre de RPU dont la durée de passage est inférieure à 4h: `r format.n(ped.passage4)`
+- Nombre de RPU avec une heure de sortie conforme (]0-72h[ lors d'une hospitalisation post-urgences: `r format.n(s.ped.mode.sortie["Mutation"] + s.ped.mode.sortie["Transfert"])`
+- Nombre de RPU avec une heure de sortie conforme (]0-72h[ lors d'un retour au domicile: `r format.n(s.ped.mode.sortie["Domicile"])`
+- Nombre de RPU dont la durée de passage est inférieure à 4h lors d'une hospitalisation post-urgences: `r format.n(ped.hosp.passage4)`
+- Nombre de RPU dont la durée de passage est inférieure à 4h lors d'un retour au domicile: `r format.n(ped.dom.passage4)`
 
-- Nombre de RPU avec un mode de sortie renseigné: `r sum(!is.na(pop18$MODE_SORTIE))`
-- Nombre de mutation interne: `r n.ped.mutation`
-- Nombre de transfert externe: `r n.ped.transfert`
-- nombre de retours à domicile: `r n.ped.domicile`
+- Nombre de RPU avec un mode de sortie renseigné: `r format.n(sum(!is.na(pop18$MODE_SORTIE)))`
+- Nombre de mutation interne: `r format.n(n.ped.mutation)`
+- Nombre de transfert externe: `r format.n(n.ped.transfert)`
+- nombre de retours à domicile: `r format.n(n.ped.domicile)`
 
 Les chiffres clés de l’activité gériatrique des services d’urgences (75 ans et plus)
 ====================================================================================
@@ -989,17 +1068,17 @@ chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 
 ```
-RECUEIL DES DONNÉES
+Recueil des données
 -------------------
-- Nombre de passages dans l'année: `r format.n(n.rpu75)`
-- Taux de recours aux SU de la population gériatrique: `r round(n.rpu75*100/155281, 2)` %
-- Moyenne quotidienne de passage: `r format.n(mean.rpu75)` passages/j
-- Taux d'urgences gériatriques [(Nb RPU Géria/ Nb RPU global)x100]: `r p.rpu75` %
+- Nombre de passages dans l'année: __`r format.n(n.rpu75)`__
+- Taux de recours aux SU de la population gériatrique: __`r round(n.rpu75*100/155281, 2)` %__
+- Moyenne quotidienne de passage: __`r format.n(mean.rpu75)` passages/j__
+- Taux d'urgences gériatriques [(Nb RPU Géria/ Nb RPU global)x100]: __`r p.rpu75` %__
 - TODO: % d'évolution par rapport à l'année N-1(données SAE pour ceux qui n’ont pas d’historique RPU fiable et permettant la comparaison, préciser l’origine des données)
 
-PATIENTS
+Patients
 --------
-```{r sexe75, echo=FALSE, comment=""}
+```{r sexe75, echo=FALSE, comment="", results='asis'}
 s.sexe75 <- summary.sexe(pop75$SEXE)
 
 # sexe <- table(as.factor(pop75$SEXE))
@@ -1032,7 +1111,8 @@ sr2 <- n.sexe2[2,"M"]/n.sexe2[2,"F"] # plus de 85 ans
 a <- data.frame(n.rpu2,mean.rpu.jour, median.rpu2.jour, c(sr1,sr2) )
 rownames(a) <- c("75-84 ans","85 ans et plus")
 colnames(a) <- c("effectif", "moyenne par jour ","médiane par jour", "sex ratio")
-a
+
+print.table.rpu(a, "", xtable.type)
 
 #---------------------- Chiffres ---------------------------------------------------------------
 val <- c(NA)
@@ -1340,7 +1420,7 @@ chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 
 ```
-RECUEIL DES DONNÉES
+Recueil des données
 -------------------
 
 - Nombre d’AVC dans l'année (+ rappeler le pourcentage d’exhaustivité du DP par rapport au nombre de RPU): __`r format.n(n.avc)`__
@@ -1363,9 +1443,9 @@ hist(as.Date(AVC$ENTREE), breaks = "months", freq = TRUE, xlab = "Mois", ylab = 
 ```
 
 
-PATIENTS
+Patients
 --------
-```{r patients, echo=FALSE}
+```{r Patients, echo=FALSE}
 avc.sexe <- summary.sexe(AVC$SEXE)
 avc.age <- summary.age(AVC$AGE)
 
@@ -1577,8 +1657,8 @@ chiffres <- c(chiffres, val)
 ```
 
 - Nombre de RPU avec une heure de sortie conforme (]0-72h[: `r format.n(s.dp.avc['n.conforme'])`
-- Durée moyenne de passage des patients PEC pour AVC (en min): `r format.n(s.dp.avc['duree.moyenne.passage'])`
-- Durée médiane de passage des patients PEC pour AVC (en min): `r format.n(s.dp.avc['duree.mediane.passage'])`
+- Durée moyenne de passage des Patients PEC pour AVC (en min): `r format.n(s.dp.avc['duree.moyenne.passage'])`
+- Durée médiane de passage des Patients PEC pour AVC (en min): `r format.n(s.dp.avc['duree.mediane.passage'])`
 - Nombre de RPU ac diag AVC dont la durée de passage est inférieure à 4h: `r format.n(s.dp.avc['n.passage4'])`
 
 - Durée de passage (HORS UHCD) année N: moyenne __`r mean.ts.avc`__ minutes, et médiane __`r median.ts.avc`__ minutes.
@@ -1856,7 +1936,7 @@ es.simple <- analyse_type_etablissement(es)
 t <- cbind(es.chu, es.samu, es.smur, es.simple)
 
 # colnames(t) <- c("CHU", "SU non CHU siège de SAMU","SU non SAMU siège de SMUR","Autre SU")
-# rownames(t) <- c("Nombre de RPU", "Nombre d'âges renseignés", "Nombre de moins de 1 an", "Nombre de moins de 15 ans", "Nombre de 75 ans et plus", "Nombre de RPU avec un code postal renseigné", "Nombre de patients ne venant pas de la région (étranger compris)", "Nombre de passages les lundis", "Nombre de passages les mardis", "Nombre de passages les mercredis", "Nombre de passages les jeudis", "Nombre de passages les vendredis", "Nombre de passages les samedis", "Nombre de passages les dimanchess", "Nombre de RPU la nuit (20h-8h)", "Nombre de RPU en horaire de PDS", "Nombre de RPU avec une date et heure d'entrée renseignées", "Nombre de RPU avec un moyen de transport renseigné", "Amené par la police", "Arrivés par hélicoptère", "Nombre de moyen personnel", "Nombre de SMUR", "Nombre de VSAV", "Nombre d'ambulances", "Nombre de RPU avec une CCMU renseignée", "CCMU 1", "CCMU 2", "CCMU 3", "CCMU 4", "CCMU 5", "CCMU P", "CCMU D", "CCMU 4 et 5", "Nombre de RPU avec une heure de sortie conforme (]0-72h[", "Durée moyenne de passage (en min)", "Durée médiane de passage (en min)", "Nombre de RPU dont la durée de passage est inférieure à 4h", "Nombre de RPU dont la durée de passage est inférieure à 4h lors d'une hospitalisation post-urgences", "Nombre de RPU dont la durée de passage est inférieure à 4h lors d'une retour au domicile", "Nombre de RPU lors d'un retour au domicile", "Nombre de RPU lors d'une hospitalisation post-urgences",  "Nombre de RPU avec transfert", "Nombre de RPU avec décès", "Nombre de RPU avec un mode de sortie renseigné", "Nombre de RPU avec mutation")
+# rownames(t) <- c("Nombre de RPU", "Nombre d'âges renseignés", "Nombre de moins de 1 an", "Nombre de moins de 15 ans", "Nombre de 75 ans et plus", "Nombre de RPU avec un code postal renseigné", "Nombre de Patients ne venant pas de la région (étranger compris)", "Nombre de passages les lundis", "Nombre de passages les mardis", "Nombre de passages les mercredis", "Nombre de passages les jeudis", "Nombre de passages les vendredis", "Nombre de passages les samedis", "Nombre de passages les dimanchess", "Nombre de RPU la nuit (20h-8h)", "Nombre de RPU en horaire de PDS", "Nombre de RPU avec une date et heure d'entrée renseignées", "Nombre de RPU avec un moyen de transport renseigné", "Amené par la police", "Arrivés par hélicoptère", "Nombre de moyen personnel", "Nombre de SMUR", "Nombre de VSAV", "Nombre d'ambulances", "Nombre de RPU avec une CCMU renseignée", "CCMU 1", "CCMU 2", "CCMU 3", "CCMU 4", "CCMU 5", "CCMU P", "CCMU D", "CCMU 4 et 5", "Nombre de RPU avec une heure de sortie conforme (]0-72h[", "Durée moyenne de passage (en min)", "Durée médiane de passage (en min)", "Nombre de RPU dont la durée de passage est inférieure à 4h", "Nombre de RPU dont la durée de passage est inférieure à 4h lors d'une hospitalisation post-urgences", "Nombre de RPU dont la durée de passage est inférieure à 4h lors d'une retour au domicile", "Nombre de RPU lors d'un retour au domicile", "Nombre de RPU lors d'une hospitalisation post-urgences",  "Nombre de RPU avec transfert", "Nombre de RPU avec décès", "Nombre de RPU avec un mode de sortie renseigné", "Nombre de RPU avec mutation")
 
 t
 ```

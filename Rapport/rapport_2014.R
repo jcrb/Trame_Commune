@@ -1439,3 +1439,61 @@ summary.rpu <- function(dx){
     
     return(a)
 }
+
+##############################################################################################
+
+#    IMPRESSION DE TABLEAU
+
+##############################################################################################
+
+#===============================================
+#
+# print.table.rpu
+#
+#===============================================
+#' 
+#' @description imprime une table avec xtable. Par défaut l'environnement est du type latex, le
+#'              séparateur de milliers est l'espace et la virgule décimale
+#'              
+#' @param t un objet de type table
+#' @param caption une légende. Mettre c("légende", "sommaire") si nécessaire
+#' @param type "latex" ou "html"
+#' 
+#' @usage   print.table.rpu(t)
+#'          print.table.rpu(t, "table de test")
+#'          print.table.rpu(t, "table de test", "html")
+
+print.table.rpu <- function(t, caption = "", type = "latex"){
+    print.xtable(xtable(t, caption = caption), type = type, format.args=list(big.mark = " ", decimal.mark = ","), comment = FALSE)
+}
+
+#===============================================
+#
+# factor2table
+#
+#===============================================
+#' 
+#' @description crée un résumé sous forme de table à 2 colonnes: fréquence et pourcentage
+#' @param vx un vecteur de facteurs ou d'entiers
+#' @param pc si TRUE crée une colonne de %
+#' @usage a <- c(1,2,3,4,5,5,5,5,1,1,2); factor2table(a); print.table.rpu(a)
+#'              Fréq.     %
+#'            1     3 27.27
+#'            2     2 18.18
+#'            3     1  9.09
+#'            4     1  9.09
+#'            5     4 36.36
+#'            
+#'            factor2table(pop18$GRAVITE, TRUE)
+#' 
+factor2table <- function(vx, pc = TRUE){
+    if(class(vx) == "factor")
+        t <- table(factor(vx), dnn = "Fréq.")
+    else t <- table(vx, dnn = "Fréq.")
+    if(pc == "TRUE"){
+        t2 <- prop.table(t)
+        t <- cbind(t, round(t2 * 100, 2))
+        colnames(t) <- c("Fréq.", "%")
+    }
+    return(t)
+}
