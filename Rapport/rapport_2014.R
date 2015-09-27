@@ -1459,13 +1459,18 @@ summary.rpu <- function(dx){
 #' @param t un objet de type table
 #' @param caption une légende. Mettre c("légende", "sommaire") si nécessaire
 #' @param type "latex" ou "html"
+#' @param label référence du tableau (latex)
 #' 
 #' @usage   print.table.rpu(t)
 #'          print.table.rpu(t, "table de test")
 #'          print.table.rpu(t, "table de test", "html")
 
-print.table.rpu <- function(t, caption = "", type = "latex"){
-    print.xtable(xtable(t, caption = caption), type = type, format.args=list(big.mark = " ", decimal.mark = ","), comment = FALSE)
+print.table.rpu <- function(t, caption = "", type = "latex", ref = ""){
+    print.xtable(xtable(t, caption = caption), 
+                 type = type, 
+                 format.args=list(big.mark = " ", decimal.mark = ","), 
+                 label = ref, 
+                 comment = FALSE)
 }
 
 #===============================================
