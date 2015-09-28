@@ -188,8 +188,8 @@ source(file)
 ```{r, echo=FALSE}
 # récupère le fichier RPU_2014/rpu.jour_31-07-2015.csv créé par rpu.par.jour de quot.utils.R
 # on renomme les 2 premières colonnes qui sont mal titrées
-# on rajoute une colonne supplémentaire qui est lasomme de chaque ligne (sauf la date)
-rpu <- read.csv("../../../Stat Resural/RPU_2014/rpu.jour_31-07-2015.csv")
+# on rajoute une colonne supplémentaire qui est la somme de chaque ligne (sauf la date)
+rpu <- read.csv("../../../Stat Resural/RPU_2014/rpu.jour_31-08-2015.csv")
 colnames(rpu)[1] <- "date"
 colnames(rpu)[2] <- "3Fr"
 rpu$tot.jour <- apply(rpu[2:18], 1, sum)
