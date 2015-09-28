@@ -116,35 +116,7 @@
 \setcounter{tocdepth}{3}
 \tableofcontents
 }
-Version mse à jour le: \textbf{06/09/2015}
-
-Ajout de la dernière version de Gilles
-
-\begin{itemize}
-\itemsep1pt\parskip0pt\parsep0pt
-\item
-  nombre de passages pour 10.000 hab.
-\item
-  nombre de SU pour 10.000 hab.
-\item
-  nombre de lignes SMUR financées par une MIG
-\item
-  nombre de siège de SMUR dont SMUR saisonnier dont antenne SMUR dont
-  hélismur
-\item
-  séparer privés lucratifs et ESPIC
-\item
-  nombre de logicels et nombre de SU par région
-\item
-  SAE 2014 ?
-\item
-  augmentation par rapport année N-1 en tenant compte uniquement des
-  établissements ``stables''
-\item
-  séparer chu et non chu, samu de chu et de non chu
-\item
-  retour attendu pour le 4/9
-\end{itemize}
+Version mse à jour le: \textbf{27/09/2015}
 
 \section{Activité des structures d'urgences : panorama 2014 de la région
 ALSACE}\label{activite-des-structures-durgences-panorama-2014-de-la-region-alsace}
@@ -228,40 +200,94 @@ pour le fastidieux mais si précieux travail de collecte sur le terrain.
 \section{Description de l'offre de
 soins}\label{description-de-loffre-de-soins}
 
+\subsection{Etablissements d'Alsace ayant une autorisation de structure
+d'urgence}\label{etablissements-dalsace-ayant-une-autorisation-de-structure-durgence}
+
+Sites gégraphiques d'accueil des urgences:
+
+\begin{itemize}
+\item
+  Territoire de santé 1
+
+\begin{verbatim}
+- CH de Wissembourg (SU polyvalent + SMUR)
+- CH de Haguenau (SU polyvalent + SMUR)
+- CH de Saverne  (SU polyvalent + SMUR)
+\end{verbatim}
+\item
+  Territoire de santé 2
+
+\begin{verbatim}
+- CHU de Strasbourg
+        - NHC (SU adulte)
+        - Hôpital de Hautepierre (SU adulte + SU pédiatrique)
+        - Pôle logistique (SAMU + SMUR + Hélismur)
+- Clinique Sainte Odile (SU polyvalent)
+- Clinique Sainte Anne (SU polyvalent)
+- Clinique du Diaconat (SU Mains)
+\end{verbatim}
+\item
+  Territoire de santé 3
+
+\begin{verbatim}
+- CH de Sélestat (SU polyvalent + SMUR)
+- CH de Colmar 
+        - Hôpital Pasteur (SU polyvalent + SMUR)
+        - Hôpital du parc (SU pédiatrique)
+- CH de Guebwiller (SU polyvalent)
+\end{verbatim}
+\item
+  Territoire de santé 4
+
+\begin{verbatim}
+- CH de Thann (SU polyvalent)
+- CH d'Altkirch (SU polyvalent)
+- CH de Mulhouse
+        - Hôpital Emile Muller (SU polyvalent + SAMU + SMUR + Hélismur)
+        - Hôpital du Hasenrain (SU pédiatrique)
+- Clinique des 3 frontières (SU polyvalent)
+- Clinique du Diaconat-Fonderie (SU polyvalent)
+- Clinique du Diacinat-Roosvelt (SU Mains)
+\end{verbatim}
+\end{itemize}
+
 \subsection{Qualité des données}\label{qualite-des-donnees}
 
 Réalisation d'un diagramme radar présentant l'exhaustivité des items
 RPU.
 
 \includegraphics{rapport2014_V4_files/figure-latex/completude-1.pdf}
-\includegraphics{rapport2014_V4_files/figure-latex/completude-2.pdf}
 
-Complétude en valeur absolue et en pourcentages:`
+\includegraphics{rapport2014_V4_files/figure-latex/radar-1.pdf}
+
+Complétude en valeur absolue:
 
 \begin{verbatim}
-##           FINESS               ID          EXTRACT      CODE POSTAL 
-##           416733           416733           415731           416733 
-##          COMMUNE        NAISSANCE             SEXE    DATE D'ENTREE 
-##           416716           416733           416733           416733 
-##    MODE D'ENTREE       PROVENANCE        TRANSPORT    TRANSPORT PEC 
-##           391370           239122           289308           283189 
-##   DATE DE SORTIE   MODE DE SORTIE      DESTINATION      ORIENTATION 
-##           374349           338878            82635            72898 
-## MOTIF DE RECOURS             CCMU               DP 
-##           270962           339827           245974
+          FINESS               ID          EXTRACT      CODE POSTAL 
+          416733           416733           415731           416733 
+         COMMUNE        NAISSANCE             SEXE    DATE D'ENTREE 
+          416716           416733           416733           416733 
+   MODE D'ENTREE       PROVENANCE        TRANSPORT    TRANSPORT PEC 
+          391370           239122           289308           283189 
+  DATE DE SORTIE   MODE DE SORTIE      DESTINATION      ORIENTATION 
+          374349           338878            82635            72898 
+MOTIF DE RECOURS             CCMU               DP 
+          270962           339827           245974 
 \end{verbatim}
 
+Complétude en pourcentages:
+
 \begin{verbatim}
-##           FINESS               ID          EXTRACT      CODE POSTAL 
-##              100              100              100              100 
-##          COMMUNE        NAISSANCE             SEXE    DATE D'ENTREE 
-##              100              100              100              100 
-##    MODE D'ENTREE       PROVENANCE        TRANSPORT    TRANSPORT PEC 
-##               94               57               69               68 
-##   DATE DE SORTIE   MODE DE SORTIE      DESTINATION      ORIENTATION 
-##               90               81              100               88 
-## MOTIF DE RECOURS             CCMU               DP 
-##               65               82               60
+          FINESS               ID          EXTRACT      CODE POSTAL 
+             100              100              100              100 
+         COMMUNE        NAISSANCE             SEXE    DATE D'ENTREE 
+             100              100              100              100 
+   MODE D'ENTREE       PROVENANCE        TRANSPORT    TRANSPORT PEC 
+              94               57               69               68 
+  DATE DE SORTIE   MODE DE SORTIE      DESTINATION      ORIENTATION 
+              90               81              100               88 
+MOTIF DE RECOURS             CCMU               DP 
+              65               82               60 
 \end{verbatim}
 
 \section{Les chiffres clés de l'activité des services
@@ -275,9 +301,15 @@ commun à toutes les régions membres de la FEDORU.
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
 \item
+  Population alsacienne au 1er janvier 2014: 1 868 773 \href{}{INSEE}
+\item
   Nombre de passages dans l'année: 521 129 (données SAE 2014)
 \item
+  Nombre de passages pour 10.000 habitants: 2 789
+\item
   Nombre de RPU déclarés: \textbf{416 733 RPU}
+\item
+  Nombre de RPU pour 10.000 habitants: 2 230
 \item
   Exhaustivité du recueil: \textbf{79.97 \%}
 \item
@@ -292,7 +324,7 @@ commun à toutes les régions membres de la FEDORU.
   l'analyse sera effectuée) = Nombre de RPU transmis: 416 733 RPU
 \end{itemize}
 
-\subsection{PATIENTS}\label{patients}
+\subsection{Patients}\label{patients}
 
 \subsubsection{Sexe}\label{sexe}
 
@@ -338,11 +370,11 @@ Le taux de recours régional est calculé à partir des données de l'INSEE.
 
 TARRU: \textbf{21.31\%} (ref: population alsacienne 2014)
 
-\subsubsection{Pourcentage de patients ne venant pas de la région
+\subsubsection{Pourcentage de Patients ne venant pas de la région
 (étranger
 compris)}\label{pourcentage-de-patients-ne-venant-pas-de-la-region-etranger-compris}
 
-Part des non résidents: \textbf{4.43\%} (N = format.n(18467))
+Part des non résidents: \textbf{4.43\%} (N = 18 467)
 
 \subsection{ARRIVÉE}\label{arrivee}
 
@@ -406,23 +438,33 @@ Exhaustivité CCMU :
   élément transmis pour la CCMU: \textbf{335 889}.
 \end{itemize}
 
-\subsubsection{Diadnostic principal}\label{diadnostic-principal}
+\subsubsection{Diagnostic principal}\label{diagnostic-principal}
 
 Remarque: les chiffres sont dans le document
 \emph{Codes\_regroupement\_ORUMIP} =\textgreater{} à rajouter.
 
 \begin{itemize}
-\itemsep1pt\parskip0pt\parsep0pt
 \item
-  \% Médico-chirurgical: \textbf{136 816}
+  \% Médico-chirurgical: \textbf{55.35 \%} (136 816)
 \item
-  \% Traumatologique: \textbf{91 907}
+  \% Traumatologique: \textbf{37.18 \%} (91 907)
 \item
-  \% Psychiatrique: \textbf{6 185}
+  \% Psychiatrique: \textbf{2.5 \%} (6 185)
 \item
-  \% Toxicologique: \textbf{4 847}
+  \% Toxicologique: \textbf{1.96 \%} (4 847)
 \item
-  \% Autres recours: \textbf{7 441}
+  \% Autres recours: \textbf{3.01 \%} (7 441)
+\item
+  \% Médico-chirurgical: 55.35 \% - dont : - \% cardio vasculaire: - \%
+  neuro: - \% digestif: - \% respiratoire:
+\item
+  \% Traumatologique: 37.18 \%
+\item
+  \% Psychiatrique: 2.5 \%
+\item
+  \% Toxicologique: 1.96 \%
+\item
+  \% Autres recours: 3.01 \%
 \end{itemize}
 
 \subsubsection{Durées de passage}\label{durees-de-passage}
@@ -517,7 +559,8 @@ SAMU}\label{les-chiffres-cles-de-lactivite-des-samu}
 
 \subsection{Organisation}\label{organisation}
 
-Nombre de colonnes SMUR:
+\subsubsection{Nombre de colonnes SMUR
+terrestres:}\label{nombre-de-colonnes-smur-terrestres}
 
 \begin{longtable}[c]{@{}lll@{}}
 \toprule
@@ -527,15 +570,45 @@ SMUR & Jour & Nuit\tabularnewline
 Wissembourg & 1 & 1\tabularnewline
 Haguenau & 1 & 1\tabularnewline
 Saverne & 1 & 1\tabularnewline
-Strasbourg & 5 & 3\tabularnewline
+Strasbourg & 4 & 3\tabularnewline
 Sélestat & 1 & 1\tabularnewline
 Colmar & 2 & 2\tabularnewline
 Mulhouse & 2 & 2\tabularnewline
 \bottomrule
 \end{longtable}
 
+\subsubsection{Nombre de SMUR
+héliportés:}\label{nombre-de-smur-heliportes}
+
+\begin{longtable}[c]{@{}llll@{}}
+\toprule
+SMUR & Jour & Nuit & Remarques\tabularnewline
+\midrule
+\endhead
+Strasbourg & 1 & 1 & convention avec la sécurité civile\tabularnewline
+Mulhouse & 1 & 1 & colonne mutualisée avec le SMUR
+terrestre\tabularnewline
+\bottomrule
+\end{longtable}
+
+\subsubsection{Nombre de SMUR
+pédiatriques:}\label{nombre-de-smur-pediatriques}
+
+\begin{longtable}[c]{@{}lll@{}}
+\toprule
+SMUR & Jour & Nuit\tabularnewline
+\midrule
+\endhead
+Strasbourg (HTP) & 1 & 1\tabularnewline
+\bottomrule
+\end{longtable}
+
+\subsubsection{SAMU}\label{samu}
+
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
+\item
+  Nombre de SAMU: 2
 \item
   Nombre de SAMU par bassin populationnel (pour 100 000): 0.11
 \item
@@ -551,16 +624,7 @@ Mulhouse & 2 & 2\tabularnewline
 d'urgences (moins de 18
 ans)}\label{les-chiffres-cles-de-lactivite-pediatrique-des-services-durgences-moins-de-18-ans}
 
-\begin{verbatim}
-## ped
-##      <28j  28j-1an[   1-5ans[  5-10ans[ 10-15ans[ 15-18ans[ 
-##      1791     13554     36287     24738     27012     15800
-\end{verbatim}
-
-\includegraphics{rapport2014_V4_files/figure-latex/pop18-1.pdf}
-\includegraphics{rapport2014_V4_files/figure-latex/pop18-2.pdf}
-
-\subsection{RECUEIL DES DONNÉES}\label{recueil-des-donnees-1}
+\subsection{Recueil des données}\label{recueil-des-donnees-1}
 
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
@@ -577,32 +641,40 @@ ans)}\label{les-chiffres-cles-de-lactivite-pediatrique-des-services-durgences-mo
   préciser l'origine des données)
 \end{itemize}
 
-\subsection{PATIENTS}\label{patients-1}
+\subsection{Patients}\label{patients-1}
 
-\begin{verbatim}
- AMBU    FO  HELI PERSO  SMUR  VSAB        NA's 
- 2024    81    17 71809   706  3053     0 41523 
-\end{verbatim}
+\subsubsection{Répartition par tranches
+d'âge}\label{repartition-par-tranches-dage}
 
-\begin{verbatim}
-[1] 77690
-\end{verbatim}
+\begin{table}[ht]
+\centering
+\begin{tabular}{rr}
+  \hline
+ & ped \\ 
+  \hline
+$<$28j & 1 791 \\ 
+  28j-1an[ & 13 554 \\ 
+  1-5ans[ & 36 287 \\ 
+  5-10ans[ & 24 738 \\ 
+  10-15ans[ & 27 012 \\ 
+  15-18ans[ & 15 800 \\ 
+   \hline
+\end{tabular}
+\caption{Nombre de RPU pédiatriques en 2014 par grandes classes d'âge} 
+\end{table}
 
-\begin{verbatim}
-[1] 94706
-\end{verbatim}
+\includegraphics{rapport2014_V4_files/figure-latex/unnamed-chunk-9-1.pdf}
 
-\begin{verbatim}
-    1     2     3     4     5     D     P        NA's 
-24353 63361  6678   211    23     2    78     0 24507 
-\end{verbatim}
+\subsubsection{Pyramide des âges}\label{pyramide-des-ages}
+
+\includegraphics{rapport2014_V4_files/figure-latex/unnamed-chunk-10-1.pdf}
 
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
 \item
-  nombre de garçons: 65619
+  nombre de garçons: 65 619
 \item
-  nombre de filles: 53590
+  nombre de filles: 53 590
 \item
   Sex ratio: 1.22
 \item
@@ -611,87 +683,139 @@ ans)}\label{les-chiffres-cles-de-lactivite-pediatrique-des-services-durgences-mo
   Par sous classes d'âge:
 \end{itemize}
 
+\subsubsection{mode de transport
+pédiatrique}\label{mode-de-transport-pediatrique}
+
+nombre de RPU pédiatriques avec un moyen de transport renseigné: 77 690
+(p = 65.17 \%)
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{rrr}
+  \hline
+ & Fréq. & \% \\ 
+  \hline
+AMBU & 2 024,00 & 2,61 \\ 
+  FO & 81,00 & 0,10 \\ 
+  HELI & 17,00 & 0,02 \\ 
+  PERSO & 71 809,00 & 92,43 \\ 
+  SMUR & 706,00 & 0,91 \\ 
+  VSAB & 3 053,00 & 3,93 \\ 
+   \hline
+\end{tabular}
+\caption{Modes de transports pédiatriques} 
+\end{table}
+
+\subsubsection{Gravité des RPU
+pédiatriques}\label{gravite-des-rpu-pediatriques}
+
+nombre de CCMU pédiatriques renseignés: 94 706 (p = 79.44 \%)
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{rrr}
+  \hline
+ & Fréq. & \% \\ 
+  \hline
+1 & 24 353,00 & 25,71 \\ 
+  2 & 63 361,00 & 66,90 \\ 
+  3 & 6 678,00 & 7,05 \\ 
+  4 & 211,00 & 0,22 \\ 
+  5 & 23,00 & 0,02 \\ 
+  D & 2,00 & 0,00 \\ 
+  P & 78,00 & 0,08 \\ 
+   \hline
+\end{tabular}
+\caption{Gravité des RPU pédiatriques en 2014.} 
+\end{table}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  \% Médico-chirurgical: 51.59 \% - dont : - \% cardio vasculaire: - \%
+  neuro: - \% digestif: - \% respiratoire:
+\item
+  \% Traumatologique: 44.27 \%
+\item
+  \% Psychiatrique: 0.94 \%
+\item
+  \% Toxicologique: 0.71 \%
+\item
+  \% Autres recours: 2.5 \%
+\end{itemize}
+
 \subsubsection{horaires de passages
 pédiatriques}\label{horaires-de-passages-pediatriques}
 
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
 \item
-  nombre de passages la nuit: 32677, 0.27 (p = 27.41, 0 \%)
+  nombre de passages la nuit: 32 677,00, 0,27 (p = 27.41, 0 \%)
 \item
-  nombre de passages en nuit profonde: 8660, 0.07 (p = 7.26, 0 \%)
+  nombre de passages en nuit profonde: 8 660,000, 0,073 (p = 7.26, 0 \%)
 \end{itemize}
 
 \subsubsection{Durée de passage}\label{duree-de-passage}
 
 \begin{itemize}
 \item
-  Nombre de RPU avec une heure de sortie conforme ({]}0-72h{[}: 106660
+  Nombre de RPU avec une heure de sortie conforme ({]}0-72h{[}: 106 660
 \item
   Durée moyenne de passage (en min): 120.76 mn
 \item
   Durée médiane de passage (en min): 86 mn
 \item
-  Nombre de RPU dont la durée de passage est inférieure à 4h: 99128
+  Nombre de RPU dont la durée de passage est inférieure à 4h: 99 128
 \item
   Nombre de RPU avec une heure de sortie conforme ({]}0-72h{[} lors
-  d'une hospitalisation post-urgences: 9537
+  d'une hospitalisation post-urgences: 9 537
 \item
   Nombre de RPU avec une heure de sortie conforme ({]}0-72h{[} lors d'un
-  retour au domicile: 83458
+  retour au domicile: 83 458
 \item
   Nombre de RPU dont la durée de passage est inférieure à 4h lors d'une
-  hospitalisation post-urgences: 8532
+  hospitalisation post-urgences: 8 532
 \item
   Nombre de RPU dont la durée de passage est inférieure à 4h lors d'un
-  retour au domicile: 90595
+  retour au domicile: 90 595
 \item
-  Nombre de RPU avec un mode de sortie renseigné: 96860
+  Nombre de RPU avec un mode de sortie renseigné: 96 860
 \item
-  Nombre de mutation interne: 11996
+  Nombre de mutation interne: 11 996
 \item
   Nombre de transfert externe: 556
 \item
-  nombre de retours à domicile: 84307
+  nombre de retours à domicile: 84 307
 \end{itemize}
 
 \section{Les chiffres clés de l'activité gériatrique des services
 d'urgences (75 ans et
 plus)}\label{les-chiffres-cles-de-lactivite-geriatrique-des-services-durgences-75-ans-et-plus}
 
-En 2014, l'Alsace recense 155 281 personne de 75 ans ou plus.
+En 2014, l'Alsace recense 155 281 personnes de 75 ans ou plus.
 
-\subsection{RECUEIL DES DONNÉES}\label{recueil-des-donnees-2}
+\subsection{Recueil des données}\label{recueil-des-donnees-2}
 
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
 \item
-  Nombre de passages dans l'année: 57 271
+  Nombre de passages dans l'année: \textbf{57 271}
 \item
-  Taux de recours aux SU de la population gériatrique: 36.88 \%
+  Taux de recours aux SU de la population gériatrique: \textbf{36.88 \%}
 \item
-  Moyenne quotidienne de passage: 157 passages/j
+  Moyenne quotidienne de passage: \textbf{157 passages/j}
 \item
   Taux d'urgences gériatriques {[}(Nb RPU Géria/ Nb RPU global)x100{]}:
-  13.74 \%
+  \textbf{13.74 \%}
 \item
-  TODO: \% d'évolution par rapport à l'année N-1(données SAE pour ceux
-  qui n'ont pas d'historique RPU fiable et permettant la comparaison,
-  préciser l'origine des données)
+  \% d'évolution par rapport à l'année N-1: \emph{données non fiables}.
 \end{itemize}
 
-\subsection{PATIENTS}\label{patients-2}
+\subsection{Patients}\label{patients-2}
 
 \includegraphics{rapport2014_V4_files/figure-latex/sexe75-1.pdf}
 
-\begin{verbatim}
-               effectif moyenne par jour  médiane par jour sex ratio
-75-84 ans         33399                92               91      0.82
-85 ans et plus    23872                65               66      0.47
-\end{verbatim}
-
 \begin{itemize}
-\itemsep1pt\parskip0pt\parsep0pt
 \item
   Nombre d'hommes: 22 665
 \item
@@ -701,28 +825,33 @@ En 2014, l'Alsace recense 155 281 personne de 75 ans ou plus.
 \item
   Pyramide des âges (âge par année, borne supérieure toujours exclue)
 \item
-  Par sous classes d'âge:
+  Par sous classes d'âge (voir \ref{table.synthese.75}):
 
   \begin{itemize}
+  \itemsep1pt\parskip0pt\parsep0pt
   \item
     85 ans ou moins: 33 399
   \item
     plus de 85 ans: 23 872
-
-    \begin{longtable}[c]{@{}rlrrl@{}}
-    \toprule
-    effecti & f moyenne & par jour médiane & par jour sex rat &
-    io\tabularnewline
-    \midrule
-    \endhead
-    75-84 ans & 33399 & 92 & 91 & 0.82\tabularnewline
-    85 ans et plus & 23872 & 65 & 66 & 0.47\tabularnewline
-    \bottomrule
-    \end{longtable}
   \end{itemize}
 \end{itemize}
 
-\includegraphics{rapport2014_V4_files/figure-latex/sous_classe_age-1.pdf}
+\begin{table}[ht]
+\centering
+\begin{tabular}{rrrrr}
+  \hline
+ & effectif & moyenne par jour  & médiane par jour & sex ratio \\ 
+  \hline
+75-84 ans & 33 399 & 91,50 &  91 & 0,82 \\ 
+  85 ans et plus & 23 872 & 65,40 &  66 & 0,47 \\ 
+   \hline
+\end{tabular}
+\caption{Caractéristiques des patients de 75 ans et plus, répartis en deux classes d'âge} 
+\end{table}
+
+\subsubsection{Pyramides des ages}\label{pyramides-des-ages}
+
+\includegraphics{rapport2014_V4_files/figure-latex/unnamed-chunk-13-1.pdf}
 
 \subsection{ARRIVÉE}\label{arrivee-1}
 
@@ -731,11 +860,11 @@ En 2014, l'Alsace recense 155 281 personne de 75 ans ou plus.
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
 \item
-  Nb de RPU avec date/heure d'entrée renseignés: 57 271
+  Nb de RPU avec date/heure d'entrée renseignés: \textbf{57 271}
 \item
-  \% passages la nuit: 22.38 \% (N = 12 815)
+  \% passages la nuit: \textbf{22.38 \%} (N = 12 815)
 \item
-  \% passages en horaire de PDS: 38.12 \% (N = 21 830)
+  \% passages en horaire de PDS: \textbf{38.12 \%} (N = 21 830)
 \end{itemize}
 
 \subsubsection{Moyens de transport}\label{moyens-de-transport}
@@ -754,15 +883,15 @@ En 2014, l'Alsace recense 155 281 personne de 75 ans ou plus.
 \item
   nombre d'ambulances privées: 21 370
 \item
-  \% d'arrivées Moyen perso: 0.29 \% (N = 11 962)
+  \% d'arrivées Moyen perso: \_\textbf{0.29 \%} (N = 11 962)
 \item
-  \% d'arrivées SMUR: 0.17 \% (N = 6 797)
+  \% d'arrivées SMUR: \textbf{0.17 \%} (N = 6 797)
 \item
-  \% d'arrivées VSAV: 0.17 \% (N = 6 797)
+  \% d'arrivées VSAV: \textbf{0.17 \%} (N = 6 797)
 \item
-  \% d'arrivées ambulance privée: 0.52 \% (N = 21 370)
+  \% d'arrivées ambulance privée: \textbf{0.52 \%} (N = 21 370)
 \item
-  \% réponses manquantes: 28.62
+  \% réponses manquantes: \textbf{28.62 \%}
 \end{itemize}
 
 NB : commentaire possible pour expliquer que la somme des 4 pourcentages
@@ -775,43 +904,26 @@ ci dessus ne fait pas 100 \%
 \item
   Nombre de RPU avec une CCMU renseignée: 47 408
 \item
-  \% CCMU 1: 4.32 \% (N = 2 472)
+  \% CCMU 1: \textbf{4.32 \%} (N = 2 472)
 \item
-  \% CCMU 4 et 5: 3.14 \% (N = 1 797)
+  \% CCMU 4 et 5: \textbf{3.14 \%} (N = 1 797)
 \end{itemize}
 
-\subsubsection{Diagnostic principal}\label{diagnostic-principal}
+\subsubsection{Diagnostic principal}\label{diagnostic-principal-1}
 
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
 \item
-  \% Médico-chirurgical: 55.35 \%
-
-  \begin{itemize}
-  \itemsep1pt\parskip0pt\parsep0pt
-  \item
-    dont :
-  \item
-    \% cardio vasculaire
-  \end{itemize}
+  \% Médico-chirurgical: 71.51 \% - dont : - \% cardio vasculaire: - \%
+  neuro: - \% digestif: - \% respiratoire:
 \item
-  \% neuro
+  \% Traumatologique: 25.03 \%
 \item
-  \% digestif
+  \% Psychiatrique: 1.23 \%
 \item
-  \% respiratoire
+  \% Toxicologique: 0.57 \%
 \item
-  \% Traumatologique: 37.18 \%
-
-  \begin{itemize}
-  \itemsep1pt\parskip0pt\parsep0pt
-  \item
-    \% Psychiatrique: 2.5 \%
-  \item
-    \% Toxicologique: 1.96 \%
-  \item
-    \% Autres recours: 3.01 \%
-  \end{itemize}
+  \% Autres recours: 1.66 \%
 \end{itemize}
 
 \subsubsection{DURÉE}\label{duree}
@@ -936,7 +1048,7 @@ ci dessus ne fait pas 100 \%
 \section{Les chiffres clés de l'activité AVC des services
 d'urgences}\label{les-chiffres-cles-de-lactivite-avc-des-services-durgences}
 
-\subsection{RECUEIL DES DONNÉES}\label{recueil-des-donnees-3}
+\subsection{Recueil des données}\label{recueil-des-donnees-3}
 
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
@@ -971,7 +1083,7 @@ date-time:
 
 \includegraphics{rapport2014_V4_files/figure-latex/hist_avc-1.pdf}
 
-\subsection{PATIENTS}\label{patients-3}
+\subsection{Patients}\label{patients-3}
 
 \begin{verbatim}
 ## c.age
@@ -985,7 +1097,7 @@ date-time:
 ##         1         1         0
 \end{verbatim}
 
-\includegraphics{rapport2014_V4_files/figure-latex/patients-1.pdf}
+\includegraphics{rapport2014_V4_files/figure-latex/Patients-1.pdf}
 
 \begin{verbatim}
 ## c.age
@@ -995,7 +1107,7 @@ date-time:
 ##      579      889      635
 \end{verbatim}
 
-\includegraphics{rapport2014_V4_files/figure-latex/patients-2.pdf}
+\includegraphics{rapport2014_V4_files/figure-latex/Patients-2.pdf}
 
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
@@ -1130,7 +1242,7 @@ urgences}\label{mode-darrivee-aux-urgences}
   expliquer que la somme des 4 pourcentages ci dessus ne fait pas 100 \%
 \end{itemize}
 
-\subsection{Diagnostic principal}\label{diagnostic-principal-1}
+\subsection{Diagnostic principal}\label{diagnostic-principal-2}
 
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
@@ -1158,9 +1270,9 @@ notamment \textbf{temps de passage}.
 \item
   Nombre de RPU avec une heure de sortie conforme ({]}0-72h{[}: 1 899
 \item
-  Durée moyenne de passage des patients PEC pour AVC (en min): 290
+  Durée moyenne de passage des Patients PEC pour AVC (en min): 290
 \item
-  Durée médiane de passage des patients PEC pour AVC (en min): 255
+  Durée médiane de passage des Patients PEC pour AVC (en min): 255
 \item
   Nombre de RPU ac diag AVC dont la durée de passage est inférieure à
   4h: 878
@@ -1198,8 +1310,8 @@ notamment \textbf{temps de passage}.
 \end{itemize}
 
 \% Table created by stargazer v.5.2 by Marek Hlavac, Harvard University.
-E-mail: hlavac at fas.harvard.edu \% Date and time: dim., sept. 06, 2015
-- 20:19:10
+E-mail: hlavac at fas.harvard.edu \% Date and time: dim., sept. 27, 2015
+- 16:00:08
 
 \begin{table}[!htbp] \centering 
   \caption{Orientation des AVC} 
@@ -1868,6 +1980,25 @@ Test de la routine et tableau compact
   Répartition par tranche heure en pourcentage, année N
 \end{itemize}
 
+\subsection{Comparaison à hôpitaux
+constants}\label{comparaison-a-hopitaux-constants}
+
+Introduit dans le rapoort 2014: pour évaluer le taux de progression
+2013-2014, on compare uniquement les hôpitaux de 2014 qui transmettaient
+déjà des données en 2013:
+
+\begin{verbatim}
+## [1] 0.17
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 115051
+\end{verbatim}
+
+\begin{verbatim}
+## [1] 56061
+\end{verbatim}
+
 \section{ANNEXES}\label{annexes}
 
 \subsection{ANNEXE 1 : Définitions}\label{annexe-1-definitions}
@@ -1897,17 +2028,17 @@ attached base packages:
 
 other attached packages:
  [1] openintro_1.4     xtable_1.7-4      stargazer_5.2    
- [4] epicalc_2.15.1.0  nnet_7.3-10       MASS_7.3-43      
+ [4] epicalc_2.15.1.0  nnet_7.3-11       MASS_7.3-44      
  [7] survival_2.38-3   foreign_0.8-66    R.utils_2.1.0    
 [10] R.oo_1.19.0       R.methodsS3_1.7.0 xts_0.9-7        
 [13] zoo_1.7-12        plotrix_3.5-12    lubridate_1.3.3  
 [16] knitr_1.11       
 
 loaded via a namespace (and not attached):
- [1] Rcpp_0.12.0     magrittr_1.5    splines_3.2.2   lattice_0.20-33
- [5] highr_0.5       stringr_1.0.0   plyr_1.8.3      tools_3.2.2    
+ [1] Rcpp_0.12.1     magrittr_1.5    splines_3.2.2   lattice_0.20-33
+ [5] highr_0.5.1     stringr_1.0.0   plyr_1.8.3      tools_3.2.2    
  [9] grid_3.2.2      htmltools_0.2.6 yaml_2.1.13     digest_0.6.8   
-[13] formatR_1.2     memoise_0.2.1   evaluate_0.7.2  rmarkdown_0.7  
+[13] formatR_1.2.1   memoise_0.2.1   evaluate_0.8    rmarkdown_0.8  
 [17] stringi_0.5-5  
 \end{verbatim}
 
@@ -1933,6 +2064,13 @@ A BibTeX entry for LaTeX users is
 We have invested a lot of time and effort in creating R, please
 cite it when using it for data analysis. See also
 'citation("pkgname")' for citing R packages.
+\end{verbatim}
+
+\section{Temps de calcul}\label{temps-de-calcul}
+
+\begin{verbatim}
+##    user  system elapsed 
+##    82.4     2.3    84.7
 \end{verbatim}
 
 \end{document}

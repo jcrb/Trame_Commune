@@ -40,6 +40,7 @@
 #
 #===============================================
 #'@author JcB - 2015-03-12
+#'@title format.n
 #'@description formate un nombre en ajoutant un espace pour les milliers
 #'                                           une virgule décimale
 #'                                           pas de notation scientifique
@@ -75,7 +76,7 @@ format.n <- function(x){
 #'@keywords complétude
 #'@family RPU
 #'@param dx Un dataframe
-#'#'@param calcul 2 options "percent" (défaut) ou "somme". Somme = nb de réponses
+#'@param calcul 2 options "percent" (défaut) ou "somme". Somme = nb de réponses
 #'        non nulles. Percent = % de réponses non nulles.
 #'@param tri si tri = TRUE (defaut) les colonnes sont triées par ordre croissant.
 #'@return vecteur des taux de complétude
@@ -212,6 +213,51 @@ synthese.completude <- function(dx){
 
 #===============================================
 #
+# completude.time
+#
+#===============================================
+# Pour un établissement donné, calcule le aux de complétude par mois, semaine, jours
+# Au départ on dispose d'un dataframe de type RPU. Ce dataframe est splité en sous groupes sur une base temporelle (mois,
+# jour, semaine...). Sur chacun des sous-groupes on applique la fonction "completude". Retourne un dataframe
+# où chaque ligne correspond à une période et chaque colonne à un élément du RPU.
+# Utilise "ddply" qui fonctionne comme tapply mais s'applique à un DF au lieu d'un vecteur et retourne un DF.
+# TODO: exension à plusieurs établissements simultannéent; limitation à certaines colonnes.
+
+#' @param dx un dataframe de type RPU
+#' @param finess établissement concerné ('Wis', 'Hag', 'Sav', ...)
+#' @param time factor de découpage
+#' @param t un dataframe
+#' @usage load("~/Documents/Resural/Stat Resural/RPU_2014/rpu2015d0112_provisoire.Rda")
+#'        # old
+#'        sav <- d15[d15$FINESS == "Sav",] # Saverne 2015
+#'        t3 <- ddply(sav, .(month(as.Date(sav$ENTREE))), completude) # completude par mois
+#'        # new
+#'        library(xts)
+#'        t3 <- completude.time(d15, "Sav", "day")
+#'        a <- seq(as.Date("2015-01-01"), length.out = nrow(t3), by = 1)
+#'        x <- xts(t3, order.by = a)
+#'        plot(x[, "DP"], main = "CH Saverne - DIAGNOSTIC PRINCIPAL", ylab = "% de complétude")
+#'        # TODO: tableau de complétude par mois et par Finess:
+#'        t3 <- ddply(dx, .(dx$FINESS, month(as.Date(dx$ENTREE))), completude)
+#'        # Application: rpu2014/Analyse/Completude/Analyse_completude
+
+completude.time <- function(dx, finess,  time = "month"){
+    library(lubridate)
+    library(plyr)
+    
+    df <- dx[dx$FINESS == finess,] # Saverne 2015
+    
+    if(time == "month") t <- ddply(df, .(month(as.Date(df$ENTREE))), completude) # completude par période
+    if(time == "day")   t <- ddply(df, .(yday(as.Date(df$ENTREE))), completude)
+    if(time == "wday")  t <- ddply(df, .(wday(as.Date(df$ENTREE))), completude)
+    if(time == "year")  t <- ddply(df, .(year(as.Date(df$ENTREE))), completude)
+    if(time == "week")  t <- ddply(df, .(week(as.Date(df$ENTREE))), completude)
+    
+    return(t)
+}
+
+#===============================================
+#
 # Ordonner les colonnes du dataframe
 #
 #===============================================
@@ -230,8 +276,12 @@ reorder.dataframe.fedoru <- function(dx){
 # Ordonner les variable d'un vecteur
 #
 #===============================================
-#' On part d'un vecteur contenant les intitulés du RPU et on le réordonne pour que
+#' @title Réordonne les colonnes pour être contorme à l'ordre RPU
+#' @description On part d'un vecteur contenant les intitulés du RPU et on le réordonne pour que
 #' les intitulés doient mis dans l'ordre du rapport FEDORU (proposition de GillesFaugeras)
+#' @param dx un dataframe du typr RPU
+#' @export
+#' @return un dataframe
 #' 
 reorder.vector.fedoru <- function(dx){
     dx <- dx[c("FINESS","id","EXTRACT","CODE_POSTAL","COMMUNE","NAISSANCE",
@@ -251,7 +301,10 @@ reorder.vector.fedoru <- function(dx){
 # teste.radar
 #
 #===============================================
-# data pour créer automatiquement un radar RPU et faire des test
+#' @title  data pour créer automatiquement un radar RPU et faire des test
+#' @export
+#' @usage teste.radar()
+#' 
 teste.radar <- function(){
   n <- c("FINESS","id","EXTRACT","CODE_POSTAL","COMMUNE","NAISSANCE", "SEXE","ENTREE","MODE_ENTREE","PROVENANCE","TRANSPORT",
          "TRANSPORT_PEC","SORTIE","MODE_SORTIE","DESTINATION","ORIENTATION","MOTIF","GRAVITE","DP")
@@ -269,13 +322,13 @@ teste.radar <- function(){
 # count.CIM10
 #
 #===============================================
-#' 
-#' examine un vecteur de caractères et compte le nombre de mots compatibles avec un code CIM10
+#' @title Combien de codes CIM10
+#' @description examine un vecteur de caractères et compte le nombre de mots compatibles avec un code CIM10
 #' NA n'est pas compté comme un code CIM10
 #' @author JcB
 #' @param vx un vecteur de character
 #' @return n nombre de codes CIM1
-#' @example count.CIM10(dx[dx$FINESS == "Col", "MOTIF"])
+#' @usage count.CIM10(dx[dx$FINESS == "Col", "MOTIF"])
 #'
 count.CIM10 <- function(vx){
     Encoding(vx) <- "latin1" # suprime les caractères bloquants pour grep. Il s'agit de Colmar avec des caractères window du type \x9
@@ -299,6 +352,7 @@ count.CIM10 <- function(vx){
 #'        fonction de la période (jour, nuit)
 #'@seealso horaire
 #'@usage e <- datetime(dx$ENTREE); he <- horaire(e); nuit <- passage(he, "nuit")
+#'@export
 #'
 passage <- function(he, horaire = "nuit"){
     if(horaire == "nuit")
@@ -324,6 +378,7 @@ passage <- function(he, horaire = "nuit"){
 #'@param date une date ou un vecteur au format DATE
 #'@return un vecteur d'heures au format HH:MM:SS
 #'@usage e <- datetime(dx$ENTREE); he <- horaire(e)
+#'@export
 #'
 horaire <- function(date){
     library(lubridate)
@@ -356,6 +411,7 @@ horaire3 <- function(date){
 #'@usage Transforme des rubriques ENTREE et SORTIE en objet datetime
 #'@usage e <- datetime(dx$ENTREE)
 #'@seealso horaire, passage.nuit
+#'@export
 #'
 datetime <- function(date){
     return(ymd_hms(date))
@@ -366,11 +422,12 @@ datetime <- function(date){
 # pdsa
 #
 #===============================================
-#' Détermine si on est en horaire de PDS de WE (PDSWE) ou de semaine (PDSS) 
+#' 
+#' @title Détermine si on est en horaire de PDS
+#' @name pdsa
+#' @description Détermine si on est en horaire de PDS de WE (PDSWE) ou de semaine (PDSS) 
 #' ou hors horaire de PDS (NPDS)
 #' à partir d'une date.
-#' @title
-#' @name
 #' @param dx vecteur date/heure au format YYYY-MM-DD HH:MM:SS
 #' @return un vecteur de factor NPDS, PDSS, PDSW
 #' @usage x <- "2009-09-02 12:23:33"; weekdays(as.Date(x)); pds(x) # NPDS
@@ -389,6 +446,8 @@ datetime <- function(date){
 #'        
 #'        NPDS  PDSS PDSWE 
 #'         136    35    52 
+#' @export
+#' @details REM sur xps les jours commencent par une minuscule alors que sur le Mac c'est une majuscule ?
 
 pdsa <- function(dx){
     # j <- as.Date(dx)
@@ -415,15 +474,14 @@ pdsa <- function(dx){
     return(temp)
 }
 
-# REM sur xps les jours commencent par une minuscule alors que sur le Mac c'est une majuscule ?
-
 #===============================================
 #
 # tab.completude
 #
 #===============================================
-# faire un tableau de complétude par jour pendant une période donnée
-# Permetde suivre les taux de complétude pour une structure et par période
+#' @description faire un tableau de complétude par jour pendant une période donnée
+#' Permet de suivre les taux de complétude pour une structure et par période
+#' @title tableau de complétude par jour
 #'@param dx dataframe de type RPU
 #'@param d1 date de début
 #'@param d2 date de fin
@@ -438,6 +496,7 @@ pdsa <- function(dx){
 #'       plot(xts(t.zoo$DP, order.by = as.Date(rownames(t.zoo))), las = 2, 
 #'              main = "Diagnostic principal", ylab = "Taux de completude", cex.axis = 0.8)
 #'      boxplot(t, las = 2, cex.axis = 0.8, ylab = "% de completude", main = "Complétude RPU")
+#' @export
 
 
 
@@ -464,8 +523,8 @@ tab.completude <- function(dx, d1, d2, finess = NULL){
 # passages2 (nombre de passages)
 #
 #===============================================
-#'
-#' Détermine le nombre de RPU sur une plage horaire donnée
+#' @title Nombre de RPU sur une plage horaire donnée
+#' @description Détermine le nombre de RPU sur une plage horaire donnée
 #' @author jcb
 #' @description nécessite lubridate library(lubridate)
 #' @param vx vecteur de type datetime (dx$ENTREE, dx$SORTIE par exemple). Transformé par ymd_hms
@@ -475,6 +534,7 @@ tab.completude <- function(dx, d1, d2, finess = NULL){
 #' @param h2 char heure de fin. h2 doit être > h1
 #' @usage n.passages.nuit <- passages2(pop18$ENTREE, "nuit")
 #' @return integer
+#' @export
 #' 
 passages2 <- function(vx, h1, h2 = NULL){
     e <- ymd_hms(vx) # vecteur des entrées
@@ -513,17 +573,18 @@ passages2 <- function(vx, h1, h2 = NULL){
 # duree.passage2
 #
 #===============================================
-#'
+#' @title Calcul de la rurée de passage
 #' @param dx dataframe RPU
 #' @param h1 durée minimale en minutes (par défaut > 0)
 #' @param h2 durée maximale en minutes (par défaut 4320 = 72 heures)
 #' @param hors_uhcd si TRUE (défaut) on retire les engegistrements où ORIENTATION = UHCD
 #' @return dataframe à 4 colonnes: entree, sortie, mode_sortie, duree (en mn),
 #'                                 he (heure d'entrée), hs (heure de sortie)
+#' @export
 #' 
 duree.passage2 <- function(dx, h1 = 0, h2 = 4320, hors_uhcd = TRUE){
     # On forme un dataframe avec les heures d'entrées et de sortie auxquelle on rajoute 
-    #pour certains calculs: MODE_SORTIE et ORIENTATION (Uhcd)
+    # pour certains calculs: MODE_SORTIE et ORIENTATION (Uhcd)
     # dataframe entrées-sorties, mode de sortie, orientation
     passages <- dx[, c("ENTREE", "SORTIE", "MODE_SORTIE", "ORIENTATION")] 
     # on ne conserve que les couples ENTREE-SORTIE complets
@@ -540,7 +601,7 @@ duree.passage2 <- function(dx, h1 = 0, h2 = 4320, hors_uhcd = TRUE){
     passages <- passages[passages$duree > 0 & passages$duree < 3 * 24 * 60 + 1,]
     # passages hors UHCD
     if(hors_uhcd == TRUE){
-        # un peu compliqliqué mais il faut éliminer les NA dans Orientation sinon
+        # un peu compliqué mais il faut éliminer les NA dans Orientation sinon
         # les résultats sont faux
         passages$ORIENTATION <- as.character(passages$ORIENTATION)
         passages$ORIENTATION[is.na(passages$ORIENTATION)] <- "na"
@@ -557,8 +618,8 @@ duree.passage2 <- function(dx, h1 = 0, h2 = 4320, hors_uhcd = TRUE){
 # summary.duree.passage
 #
 #===============================================
-#'
-#' Résumé de dp. dp est produit par duree.passages2 et se présente sous forme d'un 
+#' @title Durée de passage résumé
+#' @description Résumé de dp. dp est produit par duree.passages2 et se présente sous forme d'un 
 #' data.frame à 4 colonnes
 #' @name summary.duree.passage
 #' @description analyse de la colonne durée 
@@ -571,7 +632,8 @@ duree.passage2 <- function(dx, h1 = 0, h2 = 4320, hors_uhcd = TRUE){
 #'         - écart-type
 #'         - 1er quartile
 #'         - 3ème quartile
-#'         
+#' @export
+#' 
 summary.duree.passage <- function(dp){
     n <- nrow(dp) # nb de valeurs
     s <- summary(dp$duree) # summary de la colonne durée
@@ -588,7 +650,7 @@ summary.duree.passage <- function(dp){
 # summary.passages
 #
 #===============================================
-#'
+#' @title analyse un objet de type duree.passage2
 #' @description analyse un objet de type duree.passage2
 #' @param dp un objet de type duree.passage2. Correspond à un dataframe d'éléments du RPU dont
 #'        la rurée de passage est conforme cad non nulle et inférieure à 72 heures
@@ -605,6 +667,8 @@ summary.duree.passage <- function(dp){
 #'         n.domicile               nombre de retours à domicile
 #'         n.dom.passage4           nombre de passages de moins de 4 heures suivi d'un retour à domicile
 #'         n.dom                    nombre de retours à domicile
+#' @export
+#' 
 summary.passages <- function(dp){
     # dp <- duree.passage2(dx)
     
@@ -1393,4 +1457,114 @@ summary.rpu <- function(dx){
                   "p.t1", "p.t2", "p.t3", "p.t4")
     
     return(a)
+}
+
+##############################################################################################
+
+#    IMPRESSION DE TABLEAU
+
+##############################################################################################
+
+#===============================================
+#
+# print.table.rpu
+#
+#===============================================
+#' 
+#' @description imprime une table avec xtable. Par défaut l'environnement est du type latex, le
+#'              séparateur de milliers est l'espace et la virgule décimale
+#'              
+#' @param t un objet de type table
+#' @param caption une légende. Mettre c("légende", "sommaire") si nécessaire
+#' @param type "latex" ou "html"
+#' @param label référence du tableau (latex)
+#' 
+#' @usage   print.table.rpu(t)
+#'          print.table.rpu(t, "table de test")
+#'          print.table.rpu(t, "table de test", "html")
+
+print.table.rpu <- function(t, caption = "", type = "latex", ref = ""){
+    print.xtable(xtable(t, caption = caption), 
+                 type = type, 
+                 format.args=list(big.mark = " ", decimal.mark = ","), 
+                 label = ref, 
+                 comment = FALSE)
+}
+
+#===============================================
+#
+# factor2table
+#
+#===============================================
+#' 
+#' @description crée un résumé sous forme de table à 2 colonnes: fréquence et pourcentage
+#' @param vx un vecteur de facteurs ou d'entiers
+#' @param pc si TRUE crée une colonne de %
+#' @usage a <- c(1,2,3,4,5,5,5,5,1,1,2); factor2table(a); print.table.rpu(a)
+#'              Fréq.     %
+#'            1     3 27.27
+#'            2     2 18.18
+#'            3     1  9.09
+#'            4     1  9.09
+#'            5     4 36.36
+#'            
+#'            factor2table(pop18$GRAVITE, TRUE)
+#' 
+factor2table <- function(vx, pc = TRUE){
+    if(class(vx) == "factor")
+        t <- table(factor(vx), dnn = "Fréq.")
+    else t <- table(vx, dnn = "Fréq.")
+    if(pc == "TRUE"){
+        t2 <- prop.table(t)
+        t <- cbind(t, round(t2 * 100, 2))
+        colnames(t) <- c("Fréq.", "%")
+    }
+    return(t)
+}
+
+#===============================================
+#
+# passages.en.moins.de.4h
+#
+#===============================================
+#' @title analyse les passages de moins de 4 heures
+#' @description analyse les durée de passage de moins de 4 heures par rapport aux durées de passage conformes
+#'  (c'est à dire de mons de 72 heures). 
+#' @name  passages.en.moins.de.4h
+#' @param dx un dataframe de type RPU
+#' 
+passages.en.moins.de.4h <- function(dx){
+    so <- dx[!is.na(dx$SORTIE), c("ENTREE","SORTIE", "MODE_SORTIE")]
+    e <- ymd_hms(so$ENTREE)
+    s <- ymd_hms(so$SORTIE)
+    so$duree <- as.numeric(difftime(s, e, units = "mins"))
+    # sortie conforme = > 0 et < 72h
+    so <- so[so$duree > 0,]
+    so <- so[so$duree < 60*24*3,]
+    # heure de sortie conforme et retour à domicile
+    so.conforme.dom <- so[!is.na(so$MODE_SORTIE) & so$MODE_SORTIE == "Domicile",]
+    n.so.conforme.dom <- nrow(so.conforme.dom)
+    # durée de passage < 4h et retour à domicile
+    duree.passage.inf4h.dom <- so[!is.na(so$MODE_SORTIE) & so$MODE_SORTIE == "Domicile" & so$duree < 4*60,]
+    n.duree.passage.inf4h.dom <- nrow(duree.passage.inf4h.dom)
+    # pourcentage
+    p.passages.en.moins.de.4h.dom <- n.duree.passage.inf4h.dom / n.so.conforme.dom
+    
+    # heure de sortie conforme et hospitalisation
+    so.conforme.hosp <- so[!is.na(so$MODE_SORTIE) & so$MODE_SORTIE %in% c("Transfert", "Mutation") ,]
+    n.so.conforme.hosp <- nrow(so.conforme.hosp)
+    
+    # durée de passage < 4h et hospitalisation
+    duree.passage.inf4h.hosp <- so[!is.na(so$MODE_SORTIE) & so$MODE_SORTIE %in% c("Transfert", "Mutation") & so$duree < 4*60,]
+    n.duree.passage.inf4h.hosp <- nrow(duree.passage.inf4h.hosp)
+    
+    # pourcentage de passages de moins de 4h suivis d'hospitalisation
+    p.duree.passage.inf4h.hosp <- n.duree.passage.inf4h.hosp / n.so.conforme.hosp
+    
+    a <- c(n.so.conforme.dom, n.duree.passage.inf4h.dom, p.passages.en.moins.de.4h.dom, n.so.conforme.hosp,
+           n.duree.passage.inf4h.hosp, p.duree.passage.inf4h.hosp)
+    
+    return(a)
+    
+    
 }
