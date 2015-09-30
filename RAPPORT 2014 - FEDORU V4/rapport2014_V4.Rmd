@@ -42,6 +42,7 @@ options(xtable.comment = FALSE)
 opts_chunk$set(echo = FALSE, cache=FALSE, warning=FALSE, message = FALSE, tidy=FALSE, fig.width=8, fig.height=6, scipen= 6, digits = 2)
 ```
 
+
 ```{r prerequis, echo=FALSE, comment="", message=FALSE}
 # Quelle est la machine active ?
 host <- System$getHostname()
@@ -61,20 +62,16 @@ if(host == "MacBook-Air-de-JCB.local" | host == "Air-de-JCB"){
     sae <- read.csv("../../../Stat Resural/RPU_Doc/mes_constantes2_sae.csv")
     
 }else if(host == "XPS"){#XPS
+    
     path <- "../../../Stat Resural/RPU_2014/"
-    source("../../../Stat Resural/RPU_Doc/mes_constantes.R")
     sae <- read.csv("../../../Stat Resural/RPU_Doc/mes_constantes2_sae.csv")
-    
-    load("../../Codes_regroupement_ORUMIP/Analyse_regroupements/d3.Rda") # d3 contient les données mergées
-    source('../../Codes_regroupement_ORUMIP/Analyse_regroupements/regroupement.R')
-    
-    #load("../../../Stat Resural/Codes_regroupement_ORUMIP/d3.Rda") # fichier mergé d3
-    # ajout d'une colonne durée de passage. Nécessite la librairie passage.R
-    source('../../../Stat Resural/RPU_2014/Analyse/Temps_passage/passage.R')# pour MAC
+    source("../../../Stat Resural/RPU_Doc/mes_constantes.R")
+      load("../../Codes_regroupement_ORUMIP/Analyse_regroupements/d3.Rda") # d3 contient les données mergées
+    source("../../Codes_regroupement_ORUMIP/Analyse_regroupements/regroupement.R")
+    source('../../../Stat Resural/RPU_2014/Analyse/Temps_passage/passage.R')
     
 }else if(host == "P171I16"){# HUS
-    path <- "../RPU_2014-master/"
-}
+    path <- "../RPU_2014-master/"}
 
 source('../Rapport/rapport_2014.R') # routines pour le rapport d'activité
 # en mode console source('Rapport/rapport_2014.R')
@@ -2019,20 +2016,21 @@ Comparaison à hôpitaux constants
 Introduit dans le rapoort 2014: pour évaluer le taux de progression 2013-2014, on compare uniquement les hôpitaux de 2014 qui transmettaient déjà des données en 2013:
 ```{r}
 # données 2013 
-if(host == "MacBook-Air-de-JCB.local" | host == "Air-de-JCB")
+if(host == "MacBook-Air-de-JCB.local" | host == "Air-de-JCB"){
     load("../../../Stat Resural/RPU_2013/rpu2013d0112_2.Rda")
-else 
-    load("~/Documents/Resural/Stat Resural/RPU_2013/rpu2013d0112_2.Rda") # XPS
+}else{
+    load("~/Documents/Resural/Stat Resural/RPU_2013/rpu2013d0112_2.Rda")} # XPS
+
 t <- table(d1$FINESS)
 hop2013 <- names(t) # liste des hôpitaux de référence
 ```
 
 ```{r}
 # données 2014
-if(host == "MacBook-Air-de-JCB.local" | host == "Air-de-JCB")
+if(host == "MacBook-Air-de-JCB.local" | host == "Air-de-JCB"){
     load("../../../Stat Resural/RPU_2014/rpu2014d0112_c2.Rda")
-else
-    load("~/Documents/Resural/Stat Resural/RPU_2014/rpu2014d0112_c2.Rda") # XPS
+}else{
+    load("~/Documents/Resural/Stat Resural/RPU_2014/rpu2014d0112_c2.Rda")} # XPS
 
 # RPU 2014 récupérés sur la base des ES actifs en 2013
 rpu2014.hop.constants <- d14[d14$FINESS %in% hop2013,]

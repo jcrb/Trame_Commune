@@ -725,10 +725,13 @@ summary.passages <- function(dp){
 # summary.sexe
 #
 #===============================================
-#'
-#' @description analyse un vecteur formé d'une suite de H, F, ou I
+#' @title analyse un vecteur formé d'une suite de H, F, ou I
+#' @description retourne: le nombre d'éléments du vcteur (NA inclus), le nombre de NA, nombre et pourcentage de valeurs renseignées,
+#' nombre et pourcentage d'hommes et de femmes, sex ratio et taux de masculinité.
 #' @param vx vecteur de Char (sexe)
-#' @return vecteur nommé
+#' @return vecteur nommé: "N", "n.na", "n.rens", "p.rens", "n.hommes", "n.femmes", "p.hommes", "p.femmes",
+#'          "sex.ratio", "tx.masculinité"
+#' @export
 #' 
 summary.sexe <- function(vx){
     sexe <- table(as.factor(vx))
@@ -756,11 +759,13 @@ summary.sexe <- function(vx){
 # summary.entree
 #
 #===============================================
-#'
+#' @title analyse du vecteur ENTREE ou SORTIE
 #' @description analyse du vecteur ENTREE ou SORTIE
 #' @param vx vecteur de Date ou de DateTime
 #' @usage summary.entree(as.Date(pop75$ENTREE))
-#' @TODO min et max ne s'affiche pas sous formr de date. Que donne hms
+#' @return vecteur nommé: "n", "n.na", "n.rens", "p.rens", "min", "max", "range"
+#' @note min et max ne s'affichent pas sous forme de date. Que donne hms
+#' @export
 #' 
 summary.entree <- function(vx){
     n <- length(vx) # nb de valeurs
@@ -781,8 +786,12 @@ summary.entree <- function(vx){
 #
 #===============================================
 #' @description analyse du vecteur TRANSPORT
+#' @title analyse du vecteur TRANSPORT
 #' @p vx vecteur de Factor
+#' @return "n", "n.na", "p.na", "n.rens", "p.rens", "n.fo", "n.heli", "n.perso", "n.smur",
+#'          "n.vsav", "n.ambu", "p.fo", "p.heli", "p.perso", "p.smur", "p.vsav", "p.ambu"
 #' @usage summary.transport(pop75$TRANSPORT)
+#' @export
 
 summary.transport <- function(vx){
     n <- length(vx) # nb de valeurs
@@ -821,9 +830,12 @@ summary.transport <- function(vx){
 #
 #===============================================
 #' @description résumé du vecteur vx des CCMU
+#' @title résumé du vecteur vx des CCMU
 #' @param vx vecteur de factor CCMU
 #' @usage summary.ccmu(dx$GRAVITE)
-#' @return
+#' @return "n", "n.na", "p.na", "n.rens", "p.rens", "n.ccmu1", "n.ccmu2", "n.ccmu3", 
+#' "n.ccmu4", "n.ccmu5", "n.ccmup", "n.ccmud", "p.ccmu1", "p.ccmu2", "p.ccmu3", "p.ccmu4", "p.ccmu5", "p.ccmup", "p.ccmud")
+#' @export
 #' 
 summary.ccmu <- function(vx){
     n <- length(vx) # nb de valeurs
