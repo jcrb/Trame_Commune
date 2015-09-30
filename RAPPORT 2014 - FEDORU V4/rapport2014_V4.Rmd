@@ -58,6 +58,7 @@ if(host == "MacBook-Air-de-JCB.local" | host == "Air-de-JCB"){
     load("../../../Stat Resural/Codes_regroupement_ORUMIP/d3.Rda") # fichier mergé d3
     # ajout d'une colonne durée de passage. Nécessite la librairie passage.R
     source('~/Documents/Stat Resural/RPU_2014/Analyse/Temps_passage/passage.R')# pour MAC
+    sae <- read.csv("../../../Stat Resural/RPU_Doc/mes_constantes2_sae.csv")
     
 }else if(host == "XPS"){#XPS
     path <- "../../../Stat Resural/RPU_2014/"
@@ -157,7 +158,9 @@ Sites gégraphiques d'accueil des urgences:
                 - Hôpital du Hasenrain (SU pédiatrique)
         - Clinique des 3 frontières (SU polyvalent)
         - Clinique du Diaconat-Fonderie (SU polyvalent)
-        - Clinique du Diacinat-Roosvelt (SU Mains)
+        - Clinique du Diaconat-Roosvelt (SU Mains)
+
+En `r anc` tous ces établissements ont fourni des RPU sauf le CH THANN.
 
 Qualité des données 
 -------------------
@@ -590,7 +593,9 @@ s <- summary.type.urgence(d3$TYPE.URGENCES)
 
 ```
 - % Médico-chirurgical: `r round(s['p.medico.chir']*100, 2)` %
+
         - dont :
+        
                 - % cardio vasculaire:
                 - % neuro:
                 - % digestif:
@@ -1344,8 +1349,11 @@ passages75$duree <- as.numeric((s-e)/60) # vecteur des durées de passage en min
 
 # on ne garde que les durées > 0 et < ou = 48 heures
 passages75 <- passages75[passages75$duree > 0 & passages75$duree < 2 * 24 * 60 + 1,]
-tapply(passages75$duree, passages75$MODE_SORTIE, mean)
-tapply(passages75$duree, passages75$MODE_SORTIE, median)
+t.mean <- tapply(passages75$duree, factor(passages75$MODE_SORTIE), mean)
+t.median <- tapply(passages75$duree, factor(passages75$MODE_SORTIE), median)
+t <- rbind(t.mean, t.median)
+rownames(t) <- c("Durée moyenne", "Durée médiane")
+t
 
 # on regroupe mutation et transfert
 passages75$DEVENIR <- as.character(passages75$MODE_SORTIE)
@@ -2010,12 +2018,22 @@ Comparaison à hôpitaux constants
 --------------------------------
 Introduit dans le rapoort 2014: pour évaluer le taux de progression 2013-2014, on compare uniquement les hôpitaux de 2014 qui transmettaient déjà des données en 2013:
 ```{r}
-# données 2013
-load("~/Documents/Resural/Stat Resural/RPU_2013/rpu2013d0112_2.Rda")
+# données 2013 
+if(host == "MacBook-Air-de-JCB.local" | host == "Air-de-JCB")
+    load("../../../Stat Resural/RPU_2013/rpu2013d0112_2.Rda")
+else 
+    load("~/Documents/Resural/Stat Resural/RPU_2013/rpu2013d0112_2.Rda") # XPS
 t <- table(d1$FINESS)
 hop2013 <- names(t) # liste des hôpitaux de référence
+```
+
+```{r}
 # données 2014
-load("~/Documents/Resural/Stat Resural/RPU_2014/rpu2014d0112_c2.Rda")
+if(host == "MacBook-Air-de-JCB.local" | host == "Air-de-JCB")
+    load("../../../Stat Resural/RPU_2014/rpu2014d0112_c2.Rda")
+else
+    load("~/Documents/Resural/Stat Resural/RPU_2014/rpu2014d0112_c2.Rda") # XPS
+
 # RPU 2014 récupérés sur la base des ES actifs en 2013
 rpu2014.hop.constants <- d14[d14$FINESS %in% hop2013,]
 # taux de progression

@@ -24,39 +24,6 @@
 \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
 }{}
 \usepackage[margin=1in]{geometry}
-\usepackage{color}
-\usepackage{fancyvrb}
-\newcommand{\VerbBar}{|}
-\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
-\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
-% Add ',fontsize=\small' for more characters per line
-\usepackage{framed}
-\definecolor{shadecolor}{RGB}{248,248,248}
-\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
-\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{{#1}}}}
-\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{{#1}}}
-\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
-\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
-\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
-\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
-\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
-\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{{#1}}}}
-\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{{#1}}}
-\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{{#1}}}
-\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
-\newcommand{\RegionMarkerTok}[1]{{#1}}
-\newcommand{\ErrorTok}[1]{\textbf{{#1}}}
-\newcommand{\NormalTok}[1]{{#1}}
-\usepackage{longtable,booktabs}
-\usepackage{graphicx}
-\makeatletter
-\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
-\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
-\makeatother
-% Scale images if necessary, so that they will not overflow the page
-% margins by default, and it is still possible to overwrite the defaults
-% using explicit options in \includegraphics[width, height, ...]{}
-\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
 \ifxetex
   \usepackage[setpagesize=false, % page size defined by xetex
               unicode=false, % unicode breaks when used with xetex
@@ -74,9 +41,61 @@
             linkcolor=magenta,
             pdfborder={0 0 0}}
 \urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{{#1}}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{{#1}}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
+\newcommand{\ImportTok}[1]{{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{{#1}}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{{#1}}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{{#1}}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{{#1}}}}
+\newcommand{\BuiltInTok}[1]{{#1}}
+\newcommand{\ExtensionTok}[1]{{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{{#1}}}
+\newcommand{\RegionMarkerTok}[1]{{#1}}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{{#1}}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{{#1}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{{#1}}}}
+\newcommand{\NormalTok}[1]{{#1}}
+\usepackage{longtable,booktabs}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{6pt plus 2pt minus 1pt}
 \setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 \setcounter{secnumdepth}{5}
 
 %%% Use protect on footnotes to avoid problems with footnotes in titles
@@ -105,18 +124,25 @@
   \date{28/01/2015}
 
 
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
 
 \begin{document}
-
 \maketitle
-
 
 {
 \hypersetup{linkcolor=black}
 \setcounter{tocdepth}{3}
 \tableofcontents
 }
-Version mse à jour le: \textbf{27/09/2015}
+Version mse à jour le: \textbf{29/09/2015}
 
 \section{Activité des structures d'urgences : panorama 2014 de la région
 ALSACE}\label{activite-des-structures-durgences-panorama-2014-de-la-region-alsace}
@@ -147,7 +173,7 @@ point commun est le trait d'origine de la FEDORU et donne son empreinte
 à l'objet de notre association que je cite ici :
 
 \begin{itemize}
-\itemsep1pt\parskip0pt\parsep0pt
+\tightlist
 \item
   promouvoir les observatoires régionaux des urgences et les structures
   ayant une activité similaire ;
@@ -164,7 +190,7 @@ Les premières publications de la FEDORU (disponibles sur le site :
 \url{http://www.fedoru.fr}) abordent les thèmes techniques suivants :
 
 \begin{itemize}
-\itemsep1pt\parskip0pt\parsep0pt
+\tightlist
 \item
   Recommandations pour la création d'un ORU
 \item
@@ -247,9 +273,11 @@ Sites gégraphiques d'accueil des urgences:
         - Hôpital du Hasenrain (SU pédiatrique)
 - Clinique des 3 frontières (SU polyvalent)
 - Clinique du Diaconat-Fonderie (SU polyvalent)
-- Clinique du Diacinat-Roosvelt (SU Mains)
+- Clinique du Diaconat-Roosvelt (SU Mains)
 \end{verbatim}
 \end{itemize}
+
+En 2014 tous ces établissements ont fourni des RPU sauf le CH THANN.
 
 \subsection{Qualité des données}\label{qualite-des-donnees}
 
@@ -299,7 +327,7 @@ commun à toutes les régions membres de la FEDORU.
 \subsection{Recueil des données}\label{recueil-des-donnees}
 
 \begin{itemize}
-\itemsep1pt\parskip0pt\parsep0pt
+\tightlist
 \item
   Population alsacienne au 1er janvier 2014: 1 868 773 \href{}{INSEE}
 \item
@@ -329,7 +357,7 @@ commun à toutes les régions membres de la FEDORU.
 \subsubsection{Sexe}\label{sexe}
 
 \begin{itemize}
-\itemsep1pt\parskip0pt\parsep0pt
+\tightlist
 \item
   \%(N) Femme: 47.78 \% (217 617)
 \item
@@ -401,7 +429,7 @@ autres mois de l'année: \textbf{-5.82 \%}.
 \subsubsection{Moyens d'arrivée}\label{moyens-darrivee}
 
 \begin{itemize}
-\itemsep1pt\parskip0pt\parsep0pt
+\tightlist
 \item
   \%(N) d'arrivée personnel: \textbf{72.16 \%} (N = 208 771)
 \item
@@ -418,7 +446,7 @@ ci dessus ne fait pas 100 \%
 \subsubsection{Gravité (CCMU)}\label{gravite-ccmu}
 
 \begin{itemize}
-\itemsep1pt\parskip0pt\parsep0pt
+\tightlist
 \item
   nombre de CCMU renseignés: 339 827.
 \item
@@ -432,7 +460,7 @@ ci dessus ne fait pas 100 \%
 Exhaustivité CCMU :
 
 \begin{itemize}
-\itemsep1pt\parskip0pt\parsep0pt
+\tightlist
 \item
   Nombre de RPU 2014 hors orientation = FUGUE, PSA et REO ayant un
   élément transmis pour la CCMU: \textbf{335 889}.
@@ -455,8 +483,16 @@ Remarque: les chiffres sont dans le document
 \item
   \% Autres recours: \textbf{3.01 \%} (7 441)
 \item
-  \% Médico-chirurgical: 55.35 \% - dont : - \% cardio vasculaire: - \%
-  neuro: - \% digestif: - \% respiratoire:
+  \% Médico-chirurgical: 55.35 \%
+
+\begin{verbatim}
+- dont :
+
+        - % cardio vasculaire:
+        - % neuro:
+        - % digestif:
+        - % respiratoire:
+\end{verbatim}
 \item
   \% Traumatologique: 37.18 \%
 \item
@@ -492,7 +528,7 @@ Remarque: les chiffres sont dans le document
   transfert)
 
   \begin{itemize}
-  \itemsep1pt\parskip0pt\parsep0pt
+  \tightlist
   \item
     moyenne durée de passage en cas d'hospitalisation: \textbf{238.69
     mn}.
@@ -503,7 +539,7 @@ Remarque: les chiffres sont dans le document
   Lors d'un retour au domicile
 
   \begin{itemize}
-  \itemsep1pt\parskip0pt\parsep0pt
+  \tightlist
   \item
     moyenne durée de passage en cas de retour à domicile: \textbf{145.66
     mn}.
@@ -518,7 +554,7 @@ Remarque: les chiffres sont dans le document
 \subsubsection{Mode de sortie}\label{mode-de-sortie}
 
 \begin{itemize}
-\itemsep1pt\parskip0pt\parsep0pt
+\tightlist
 \item
   \% (N) de retour à domicile: \textbf{75.5 \%} (N = 255 852)
 \item
@@ -541,20 +577,20 @@ SAMU}\label{les-chiffres-cles-de-lactivite-des-samu}
 (à partir des données SRVA ``officielles'')
 
 \begin{itemize}
-\itemsep1pt\parskip0pt\parsep0pt
+\tightlist
 \item
   Nombre de dossiers de régulation médicale (DRM): 480303
 \item
   Nombre de SMUR : 25 321
 
   \begin{itemize}
-  \itemsep1pt\parskip0pt\parsep0pt
+  \tightlist
   \item
     dont primaires: 19 714
   \end{itemize}
 \item
   Nombre d'ambulances privées à la demande du SAMU:
-  \texttt{format.n(r assu)}
+  \texttt{format.n(r\ assu)}
 \end{itemize}
 
 \subsection{Organisation}\label{organisation}
@@ -606,7 +642,7 @@ Strasbourg (HTP) & 1 & 1\tabularnewline
 \subsubsection{SAMU}\label{samu}
 
 \begin{itemize}
-\itemsep1pt\parskip0pt\parsep0pt
+\tightlist
 \item
   Nombre de SAMU: 2
 \item
@@ -627,7 +663,7 @@ ans)}\label{les-chiffres-cles-de-lactivite-pediatrique-des-services-durgences-mo
 \subsection{Recueil des données}\label{recueil-des-donnees-1}
 
 \begin{itemize}
-\itemsep1pt\parskip0pt\parsep0pt
+\tightlist
 \item
   Nombre de passages dans l'année: 119 213
 \item
@@ -670,7 +706,7 @@ $<$28j & 1 791 \\
 \includegraphics{rapport2014_V4_files/figure-latex/unnamed-chunk-10-1.pdf}
 
 \begin{itemize}
-\itemsep1pt\parskip0pt\parsep0pt
+\tightlist
 \item
   nombre de garçons: 65 619
 \item
@@ -730,7 +766,7 @@ nombre de CCMU pédiatriques renseignés: 94 706 (p = 79.44 \%)
 \end{table}
 
 \begin{itemize}
-\itemsep1pt\parskip0pt\parsep0pt
+\tightlist
 \item
   \% Médico-chirurgical: 51.59 \% - dont : - \% cardio vasculaire: - \%
   neuro: - \% digestif: - \% respiratoire:
@@ -748,7 +784,7 @@ nombre de CCMU pédiatriques renseignés: 94 706 (p = 79.44 \%)
 pédiatriques}\label{horaires-de-passages-pediatriques}
 
 \begin{itemize}
-\itemsep1pt\parskip0pt\parsep0pt
+\tightlist
 \item
   nombre de passages la nuit: 32 677,00, 0,27 (p = 27.41, 0 \%)
 \item
@@ -797,7 +833,7 @@ En 2014, l'Alsace recense 155 281 personnes de 75 ans ou plus.
 \subsection{Recueil des données}\label{recueil-des-donnees-2}
 
 \begin{itemize}
-\itemsep1pt\parskip0pt\parsep0pt
+\tightlist
 \item
   Nombre de passages dans l'année: \textbf{57 271}
 \item
@@ -828,7 +864,7 @@ En 2014, l'Alsace recense 155 281 personnes de 75 ans ou plus.
   Par sous classes d'âge (voir \ref{table.synthese.75}):
 
   \begin{itemize}
-  \itemsep1pt\parskip0pt\parsep0pt
+  \tightlist
   \item
     85 ans ou moins: 33 399
   \item
@@ -858,7 +894,7 @@ En 2014, l'Alsace recense 155 281 personnes de 75 ans ou plus.
 \subsubsection{Horaires de passage}\label{horaires-de-passage-1}
 
 \begin{itemize}
-\itemsep1pt\parskip0pt\parsep0pt
+\tightlist
 \item
   Nb de RPU avec date/heure d'entrée renseignés: \textbf{57 271}
 \item
@@ -900,7 +936,7 @@ ci dessus ne fait pas 100 \%
 \subsubsection{Gravité}\label{gravite}
 
 \begin{itemize}
-\itemsep1pt\parskip0pt\parsep0pt
+\tightlist
 \item
   Nombre de RPU avec une CCMU renseignée: 47 408
 \item
@@ -912,10 +948,16 @@ ci dessus ne fait pas 100 \%
 \subsubsection{Diagnostic principal}\label{diagnostic-principal-1}
 
 \begin{itemize}
-\itemsep1pt\parskip0pt\parsep0pt
 \item
-  \% Médico-chirurgical: 71.51 \% - dont : - \% cardio vasculaire: - \%
-  neuro: - \% digestif: - \% respiratoire:
+  \% Médico-chirurgical: 71.51 \%
+
+\begin{verbatim}
+- dont :
+        - % cardio vasculaire:
+        - % neuro:
+        - % digestif:
+        - % respiratoire:
+\end{verbatim}
 \item
   \% Traumatologique: 25.03 \%
 \item
@@ -943,7 +985,7 @@ ci dessus ne fait pas 100 \%
 ##  Welch Two Sample t-test
 ## 
 ## data:  passages75$duree by passages75$DEVENIR
-## t = -5, df = 40000, p-value = 0.000002
+## t = -4.8, df = 41184, p-value = 0.000001585
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
 ##  -12.7  -5.3
@@ -959,7 +1001,7 @@ ci dessus ne fait pas 100 \%
 \includegraphics{rapport2014_V4_files/figure-latex/duree_passage_75-1.pdf}
 
 \begin{itemize}
-\itemsep1pt\parskip0pt\parsep0pt
+\tightlist
 \item
   Durée moyenne de passage (HORS UHCD) : 220 minutes
 \item
@@ -1016,12 +1058,12 @@ ci dessus ne fait pas 100 \%
 \end{verbatim}
 
 \begin{itemize}
-\itemsep1pt\parskip0pt\parsep0pt
+\tightlist
 \item
   \% d'hospitalisation: 50.13 \% (N = 28 710)
 
   \begin{itemize}
-  \itemsep1pt\parskip0pt\parsep0pt
+  \tightlist
   \item
     \% de mutation:47.49 \% (N = 27 196)
   \item
@@ -1034,7 +1076,7 @@ ci dessus ne fait pas 100 \%
 \paragraph{rapport régional}\label{rapport-regional}
 
 \begin{itemize}
-\itemsep1pt\parskip0pt\parsep0pt
+\tightlist
 \item
   Nombre de RPU avec un mode de sortie renseigné: 46 841
 \item
@@ -1051,7 +1093,7 @@ d'urgences}\label{les-chiffres-cles-de-lactivite-avc-des-services-durgences}
 \subsection{Recueil des données}\label{recueil-des-donnees-3}
 
 \begin{itemize}
-\itemsep1pt\parskip0pt\parsep0pt
+\tightlist
 \item
   Nombre d'AVC dans l'année (+ rappeler le pourcentage d'exhaustivité du
   DP par rapport au nombre de RPU): \textbf{2 949}
@@ -1067,7 +1109,7 @@ Exemple d'utilisation de la méthode \emph{hist} appliquée aux objets
 date-time:
 
 \begin{itemize}
-\itemsep1pt\parskip0pt\parsep0pt
+\tightlist
 \item
   \emph{x} = as.Date(AVC\$ENTREE)
 \item
@@ -1110,7 +1152,7 @@ date-time:
 \includegraphics{rapport2014_V4_files/figure-latex/Patients-2.pdf}
 
 \begin{itemize}
-\itemsep1pt\parskip0pt\parsep0pt
+\tightlist
 \item
   Sex ratio: 0.95
 \item
@@ -1119,7 +1161,7 @@ date-time:
   Nombre d'AVC par sous classe d'âge (GT1):
 
   \begin{itemize}
-  \itemsep1pt\parskip0pt\parsep0pt
+  \tightlist
   \item
     85 ans ou moins: 2 404 (81.52 \%)
   \item
@@ -1130,7 +1172,7 @@ date-time:
 \subsection{ARRIVÉE}\label{arrivee-2}
 
 \begin{itemize}
-\itemsep1pt\parskip0pt\parsep0pt
+\tightlist
 \item
   Nombre d'AVC et \% par tranche d'heure GT1 (matinée, début d'après
   midi, fin d'après midi, soirée, nuit profonde)
@@ -1212,7 +1254,7 @@ PDSS = horaires de PDS en semaine, PDSWE = horaires de PDS le WE, NPDS =
 hors horaire de PDS.
 
 \begin{itemize}
-\itemsep1pt\parskip0pt\parsep0pt
+\tightlist
 \item
   nombre d'AVC aux horaires de PDS en semaine: 13.67 \%
 \item
@@ -1228,7 +1270,7 @@ hors horaire de PDS.
 urgences}\label{mode-darrivee-aux-urgences}
 
 \begin{itemize}
-\itemsep1pt\parskip0pt\parsep0pt
+\tightlist
 \item
   Nombre de RPU avec moyens de transport précisé: 2 395
 \item
@@ -1245,7 +1287,7 @@ urgences}\label{mode-darrivee-aux-urgences}
 \subsection{Diagnostic principal}\label{diagnostic-principal-2}
 
 \begin{itemize}
-\itemsep1pt\parskip0pt\parsep0pt
+\tightlist
 \item
   Nombre d'AVC ischémiques et \%: 1 021 (34.62 \%)
 \item
@@ -1288,7 +1330,7 @@ notamment \textbf{temps de passage}.
 \includegraphics{rapport2014_V4_files/figure-latex/avc_mode_sortie-1.pdf}
 
 \begin{itemize}
-\itemsep1pt\parskip0pt\parsep0pt
+\tightlist
 \item
   Nombre de RPU ac diag. AVC avec un mode de sortie renseigné: 2626
 \item
@@ -1304,14 +1346,14 @@ notamment \textbf{temps de passage}.
 \subsection{Orientation}\label{orientation}
 
 \begin{itemize}
-\itemsep1pt\parskip0pt\parsep0pt
+\tightlist
 \item
   Répartition par orientation en pourcentage, année N
 \end{itemize}
 
 \% Table created by stargazer v.5.2 by Marek Hlavac, Harvard University.
-E-mail: hlavac at fas.harvard.edu \% Date and time: dim., sept. 27, 2015
-- 16:00:08
+E-mail: hlavac at fas.harvard.edu \% Date and time: Mar, sep 29, 2015 -
+18:32:08
 
 \begin{table}[!htbp] \centering 
   \caption{Orientation des AVC} 
@@ -1336,7 +1378,7 @@ Voir routine \textbf{analyse-type\_etablissement} (rapport\_2014.R).
 Un seul établissement \textbf{HUS} avec 3 SU:
 
 \begin{itemize}
-\itemsep1pt\parskip0pt\parsep0pt
+\tightlist
 \item
   NHC
 \item
@@ -1457,7 +1499,7 @@ CHU}\label{su-des-siege-de-samu-non-chu}
 Un seul établissement: CH de Mulhouse avec 2 implantations:
 
 \begin{itemize}
-\itemsep1pt\parskip0pt\parsep0pt
+\tightlist
 \item
   Emile Muller (Adultes + Pédiatrie traumatique)
 \item
@@ -1657,7 +1699,7 @@ SAMU}\label{su-avec-smur-non-siege-de-samu}
 SU abec SMUR sans SAMU, 5 établissements:
 
 \begin{itemize}
-\itemsep1pt\parskip0pt\parsep0pt
+\tightlist
 \item
   CH Wissembourg
 \item
@@ -1863,7 +1905,7 @@ CHU}\label{su-non-smur-non-samu-non-chu}
 ES avec SU isolé (pas de SMUR associé): 8 établissements
 
 \begin{itemize}
-\itemsep1pt\parskip0pt\parsep0pt
+\tightlist
 \item
   Ste Anne
 \item
@@ -1965,7 +2007,7 @@ Test de la routine et tableau compact
 \subsection{Doublons ?}\label{doublons}
 
 \begin{itemize}
-\itemsep1pt\parskip0pt\parsep0pt
+\tightlist
 \item
   Age moyen, année N
 \item
@@ -2011,35 +2053,30 @@ RPU}\label{annexe-2-diagramme-de-completude-des-rpu}
 \section{Information de session}\label{information-de-session}
 
 \begin{verbatim}
-R version 3.2.2 (2015-08-14)
-Platform: x86_64-pc-linux-gnu (64-bit)
-Running under: Ubuntu 14.04.3 LTS
+R version 3.1.3 (2015-03-09)
+Platform: x86_64-apple-darwin13.4.0 (64-bit)
+Running under: OS X 10.10.5 (Yosemite)
 
 locale:
- [1] LC_CTYPE=fr_FR.UTF-8       LC_NUMERIC=C              
- [3] LC_TIME=fr_FR.UTF-8        LC_COLLATE=fr_FR.UTF-8    
- [5] LC_MONETARY=fr_FR.UTF-8    LC_MESSAGES=fr_FR.UTF-8   
- [7] LC_PAPER=fr_FR.UTF-8       LC_NAME=C                 
- [9] LC_ADDRESS=C               LC_TELEPHONE=C            
-[11] LC_MEASUREMENT=fr_FR.UTF-8 LC_IDENTIFICATION=C       
+[1] fr_FR.UTF-8/fr_FR.UTF-8/fr_FR.UTF-8/C/fr_FR.UTF-8/fr_FR.UTF-8
 
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
  [1] openintro_1.4     xtable_1.7-4      stargazer_5.2    
- [4] epicalc_2.15.1.0  nnet_7.3-11       MASS_7.3-44      
- [7] survival_2.38-3   foreign_0.8-66    R.utils_2.1.0    
+ [4] epicalc_2.15.1.0  nnet_7.3-10       MASS_7.3-43      
+ [7] survival_2.38-3   foreign_0.8-65    R.utils_2.1.0    
 [10] R.oo_1.19.0       R.methodsS3_1.7.0 xts_0.9-7        
 [13] zoo_1.7-12        plotrix_3.5-12    lubridate_1.3.3  
-[16] knitr_1.11       
+[16] knitr_1.10.5     
 
 loaded via a namespace (and not attached):
- [1] Rcpp_0.12.1     magrittr_1.5    splines_3.2.2   lattice_0.20-33
- [5] highr_0.5.1     stringr_1.0.0   plyr_1.8.3      tools_3.2.2    
- [9] grid_3.2.2      htmltools_0.2.6 yaml_2.1.13     digest_0.6.8   
-[13] formatR_1.2.1   memoise_0.2.1   evaluate_0.8    rmarkdown_0.8  
-[17] stringi_0.5-5  
+ [1] digest_0.6.8    evaluate_0.7.2  formatR_1.2     grid_3.1.3     
+ [5] highr_0.5       htmltools_0.2.6 lattice_0.20-33 magrittr_1.5   
+ [9] memoise_0.2.1   plyr_1.8.3      Rcpp_0.12.1     rmarkdown_0.7  
+[13] splines_3.1.3   stringi_0.5-5   stringr_1.0.0   tools_3.1.3    
+[17] yaml_2.1.13    
 \end{verbatim}
 
 \begin{verbatim}
@@ -2048,7 +2085,7 @@ To cite R in publications use:
 
   R Core Team (2015). R: A language and environment for
   statistical computing. R Foundation for Statistical Computing,
-  Vienna, Austria. URL https://www.R-project.org/.
+  Vienna, Austria. URL http://www.R-project.org/.
 
 A BibTeX entry for LaTeX users is
 
@@ -2058,7 +2095,7 @@ A BibTeX entry for LaTeX users is
     organization = {R Foundation for Statistical Computing},
     address = {Vienna, Austria},
     year = {2015},
-    url = {https://www.R-project.org/},
+    url = {http://www.R-project.org/},
   }
 
 We have invested a lot of time and effort in creating R, please
@@ -2070,7 +2107,7 @@ cite it when using it for data analysis. See also
 
 \begin{verbatim}
 ##    user  system elapsed 
-##    82.4     2.3    84.7
+##     257      12     273
 \end{verbatim}
 
 \end{document}
