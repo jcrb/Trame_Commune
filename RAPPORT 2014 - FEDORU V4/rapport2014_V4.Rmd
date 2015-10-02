@@ -1787,7 +1787,7 @@ Un seul établissement __HUS__ avec 3 SU:
 - HTP Adultes
 - HTP Pédiatrie
 
-```{r chu, echo=FALSE}
+```{r chu, echo=TRUE}
 es <- dx[dx$FINESS == "Hus",]
 
 # à gerder ou supprimer mais redondant
@@ -1795,31 +1795,36 @@ es <- dx[dx$FINESS == "Hus",]
 
     # nombre de passages déclarés
     n.passages <- nrow(es)
+
     # Nombre de RPU avec un âge renseigné
     age <- summary.age(es$AGE)
 
     # Nombre de RPU avec un code postal renseigné
     cp <- summary.cp(es$CODE_POSTAL)
     
-    # par jour de semaine
-    summary.wday(es$ENTREE)
-
-    summary.age(es$AGE)
-
     # passages de nuit
-    passage(horaire(es$ENTREE), "nuit")
+    nuit <- passage(horaire(es$ENTREE), "nuit")
 
     # passage en PDS
-    table(pdsa(es$ENTREE))
+    pds <- table(pdsa(es$ENTREE))
 
     #Nombre de RPU avec une date et heure d'entrée renseignées
-    summary.dateheure(es$ENTREE)
+    entree <- summary.dateheure(es$ENTREE)
+    sortie <- summary.dateheure(es$SORTIE)
 
     # nombre avec moyen de transport renseigné
-    summary.transport(es$TRANSPORT)
+    s <- summary.transport(es$TRANSPORT)
+    sn <- c(s['n.na'], s['n.rens'], s['n.perso'], s['n.ambu'], s['n.vsav'], s['n.smur'], s['n.heli'], s['n.fo'])
+    sp <- c(s['p.na'], s['p.rens'], s['p.perso'], s['p.ambu'], s['p.vsav'], s['p.smur'], s['p.heli'], s['p.fo'])
+    r <- rbind(sn, round(sp*100,2))
+    r <- t(r)
+    colnames(r) <- c("n", "%")
+    rownames(r) <- c("Non Renseignés","Renseignés","Moyen personnel","Ambulance","VSAV","SMUR","Hélicoptère", "Forces de l'ordre")
+    transport <- r
 
+    
     # nombre avec CCMU renseigné
-    summary.ccmu(es$GRAVITE)
+    s <- summary.ccmu(es$GRAVITE)
 
     # nombre de sorties conformes
     summary.passages(duree.passage2(es))
@@ -1833,18 +1838,36 @@ es <- dx[dx$FINESS == "Hus",]
 - Nombre de RPU avec un code postal renseigné: `r format.n(cp['n.rens'])`.
 - Nombre de passages par jour de la semaine:
 
-        - Lundi: `r format.n(a['n.lun'])`
-        - Mardi: `r format.n(a['n.mar'])`
-        - Mercredi: `r format.n(a['n.mer'])`
-        - Jeudi: `r format.n(a['n.jeu'])`
-        - Vendredi: `r format.n(a['n.ven'])`
-        - Samedi: `r format.n(a['n.sam'])`
-        - Dimanche: `r format.n(a['n.dim'])`
+```{r, echo=FALSE, results='asis'}
+# par jour de semaine
+    print.summary.rpu(summary.wday(es$ENTREE), cnames = c("Jour","n","%"), caption = "Nombre de RPU par jour de semaine")
+```
+        
 - Nombre d'âges renseignés: `r format.n(age['n.rens'])`
+        
+```{r, echo=FALSE, results='asis'}
+    s <- summary.age(es$AGE)
+    a <- s[c('n.inf1an', 'n.inf15ans', 'n.75ans')]
+    print.summary.rpu(a, cnames = c("Tranches d'âge","n", "%"), rnames = c("Moins de 1 an", "Moins de 15 ans", "75 ans et plus"), caption = "Nombre de RPU par tranches d'âge")
+```
 
-        - moins d'un an: `r format.n(age['n.inf1an'])`
-        - moins de 15 ans: `r format.n(a['n.inf15ans'])`
-        - 75 ans et plus: `r format.n(a['n.75ans'])`
+- Nombre de passages la nuit: `r format.n(nuit[1])` (`r round(nuit[2]*100, 2)` %)
+
+- Nombre de passages en horaire de PDS:
+```{r, echo=FALSE, results='asis'}
+# par jour de semaine
+    print.summary.rpu(pds, cnames = c("Jour","n","%"), caption = "Passages aux urgences aux horaires de permanence des soins: Passages totaux (NPDS), passages  en semaine (PDSS), passages le week-end (PDSWE)")
+```
+
+-  Nombre de RPU avec une date-heure d'entrée renseignés: `r format.n(entree["n.rens"])` (`r round(entree['p.rens']*100, 2)` %)
+-  Nombre de RPU avec une date-heure de sortie renseignés: `r format.n(sortie['n.rens'])` (`r round(sortie['p.rens']*100, 2)` %)
+
+- Moyen de transport utilisé pour se rendre aux urgences:
+```{r, echo=FALSE, results='asis'}
+print.table.rpu(transport, caption = "Moyens de transport")
+```
+
+
 
 SU d'ES siège de SAMU, non CHU
 ------------------------------

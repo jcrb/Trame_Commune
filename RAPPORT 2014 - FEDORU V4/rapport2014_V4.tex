@@ -116,7 +116,7 @@
 \setcounter{tocdepth}{3}
 \tableofcontents
 }
-Version mse à jour le: \textbf{30/09/2015}
+Version mse à jour le: \textbf{02/10/2015}
 
 \section{Activité des structures d'urgences : panorama 2014 de la région
 ALSACE}\label{activite-des-structures-durgences-panorama-2014-de-la-region-alsace}
@@ -1322,8 +1322,8 @@ notamment \textbf{temps de passage}.
 \end{itemize}
 
 \% Table created by stargazer v.5.2 by Marek Hlavac, Harvard University.
-E-mail: hlavac at fas.harvard.edu \% Date and time: mer., sept. 30, 2015
-- 18:58:22
+E-mail: hlavac at fas.harvard.edu \% Date and time: ven., oct. 02, 2015
+- 12:04:23
 
 \begin{table}[!htbp] \centering 
   \caption{Orientation des AVC} 
@@ -1357,45 +1357,48 @@ Un seul établissement \textbf{HUS} avec 3 SU:
   HTP Pédiatrie
 \end{itemize}
 
-\begin{verbatim}
-##  Lun  Mar  Mer  Jeu  Ven  Sam  Dim 
-## 9211 8980 8527 8667 9170 8806 8432
-\end{verbatim}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{es <-}\StringTok{ }\NormalTok{dx[dx$FINESS ==}\StringTok{ "Hus"}\NormalTok{,]}
 
-\begin{verbatim}
-##          n       n.na       p.na     n.rens     p.rens   n.inf1an 
-##  61793.000      0.000      0.000  61793.000      1.000   2888.000 
-## n.inf15ans n.inf18ans    n.75ans    n.85ans    n.90ans   p.inf1an 
-##  14472.000  16314.000  12337.000   5489.000   2366.000      0.047 
-## p.inf15ans p.inf18ans    p.75ans    p.85ans    p.90ans   mean.age 
-##      0.234      0.264      0.200      0.089      0.038     42.400 
-##     sd.age median.age    min.age    max.age         q1         q3 
-##     29.320     41.000      0.000    110.000     16.000     68.000
-\end{verbatim}
+\CommentTok{# à gerder ou supprimer mais redondant}
+ \NormalTok{a <-}\StringTok{ }\KeywordTok{analyse_type_etablissement}\NormalTok{(es)}
 
-\begin{verbatim}
-## [1] 22681.00     0.37
-\end{verbatim}
+    \CommentTok{# nombre de passages déclarés}
+    \NormalTok{n.passages <-}\StringTok{ }\KeywordTok{nrow}\NormalTok{(es)}
 
-\begin{verbatim}
-## 
-##  NPDS  PDSS PDSWE 
-## 30243 16016 15534
-\end{verbatim}
+    \CommentTok{# Nombre de RPU avec un âge renseigné}
+    \NormalTok{age <-}\StringTok{ }\KeywordTok{summary.age}\NormalTok{(es$AGE)}
 
-\begin{verbatim}
-##      n   n.na   p.na n.rens p.rens 
-##  61793      0      0  61793      1
-\end{verbatim}
+    \CommentTok{# Nombre de RPU avec un code postal renseigné}
+    \NormalTok{cp <-}\StringTok{ }\KeywordTok{summary.cp}\NormalTok{(es$CODE_POSTAL)}
+    
+    \CommentTok{# passages de nuit}
+    \NormalTok{nuit <-}\StringTok{ }\KeywordTok{passage}\NormalTok{(}\KeywordTok{horaire}\NormalTok{(es$ENTREE), }\StringTok{"nuit"}\NormalTok{)}
 
-\begin{verbatim}
-##           n        n.na        p.na      n.rens      p.rens        n.fo 
-## 61793.00000 53476.00000     0.86541  8317.00000     0.13459    47.00000 
-##      n.heli     n.perso      n.smur      n.vsav      n.ambu        p.fo 
-##     2.00000  1214.00000   274.00000  2262.00000  4518.00000     0.00565 
-##      p.heli     p.perso      p.smur      p.vsav      p.ambu 
-##     0.00024     0.14597     0.03294     0.27197     0.54322
-\end{verbatim}
+    \CommentTok{# passage en PDS}
+    \NormalTok{pds <-}\StringTok{ }\KeywordTok{table}\NormalTok{(}\KeywordTok{pdsa}\NormalTok{(es$ENTREE))}
+
+    \CommentTok{#Nombre de RPU avec une date et heure d'entrée renseignées}
+    \NormalTok{entree <-}\StringTok{ }\KeywordTok{summary.dateheure}\NormalTok{(es$ENTREE)}
+    \NormalTok{sortie <-}\StringTok{ }\KeywordTok{summary.dateheure}\NormalTok{(es$SORTIE)}
+
+    \CommentTok{# nombre avec moyen de transport renseigné}
+    \NormalTok{s <-}\StringTok{ }\KeywordTok{summary.transport}\NormalTok{(es$TRANSPORT)}
+    \NormalTok{sn <-}\StringTok{ }\KeywordTok{c}\NormalTok{(s[}\StringTok{'n.na'}\NormalTok{], s[}\StringTok{'n.rens'}\NormalTok{], s[}\StringTok{'n.perso'}\NormalTok{], s[}\StringTok{'n.ambu'}\NormalTok{], s[}\StringTok{'n.vsav'}\NormalTok{], s[}\StringTok{'n.smur'}\NormalTok{], s[}\StringTok{'n.heli'}\NormalTok{], s[}\StringTok{'n.fo'}\NormalTok{])}
+    \NormalTok{sp <-}\StringTok{ }\KeywordTok{c}\NormalTok{(s[}\StringTok{'p.na'}\NormalTok{], s[}\StringTok{'p.rens'}\NormalTok{], s[}\StringTok{'p.perso'}\NormalTok{], s[}\StringTok{'p.ambu'}\NormalTok{], s[}\StringTok{'p.vsav'}\NormalTok{], s[}\StringTok{'p.smur'}\NormalTok{], s[}\StringTok{'p.heli'}\NormalTok{], s[}\StringTok{'p.fo'}\NormalTok{])}
+    \NormalTok{r <-}\StringTok{ }\KeywordTok{rbind}\NormalTok{(sn, }\KeywordTok{round}\NormalTok{(sp*}\DecValTok{100}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+    \NormalTok{r <-}\StringTok{ }\KeywordTok{t}\NormalTok{(r)}
+    \KeywordTok{colnames}\NormalTok{(r) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"n"}\NormalTok{, }\StringTok{"%"}\NormalTok{)}
+    \KeywordTok{rownames}\NormalTok{(r) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"Renseignés"}\NormalTok{,}\StringTok{"Non renseignés"}\NormalTok{,}\StringTok{"Moyen personnel"}\NormalTok{,}\StringTok{"Ambulance"}\NormalTok{,}\StringTok{"VSAV"}\NormalTok{,}\StringTok{"SMUR"}\NormalTok{,}\StringTok{"Hélicoptère"}\NormalTok{, }\StringTok{"Forces de l'ordre"}\NormalTok{)}
+    \NormalTok{transport <-}\StringTok{ }\NormalTok{r}
+
+    
+
+    \CommentTok{# nombre avec CCMU renseigné}
+    \KeywordTok{summary.ccmu}\NormalTok{(es$GRAVITE)}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
 ##         n      n.na      p.na    n.rens    p.rens   n.ccmu1   n.ccmu2 
@@ -1405,6 +1408,13 @@ Un seul établissement \textbf{HUS} avec 3 SU:
 ##   p.ccmu3   p.ccmu4   p.ccmu5   p.ccmup   p.ccmud 
 ##     0.184     0.015     0.006        NA        NA
 \end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+    \CommentTok{# nombre de sorties conformes}
+    \KeywordTok{summary.passages}\NormalTok{(}\KeywordTok{duree.passage2}\NormalTok{(es))}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
 ##                 n.conforme      duree.moyenne.passage 
@@ -1425,6 +1435,13 @@ Un seul établissement \textbf{HUS} avec 3 SU:
 ##                          0
 \end{verbatim}
 
+\begin{Shaded}
+\begin{Highlighting}[]
+    \CommentTok{# Nombre de RPU avec un mode de sortie renseigné}
+    \KeywordTok{summary.mode.sortie}\NormalTok{(es$MODE_SORTIE)}
+\end{Highlighting}
+\end{Shaded}
+
 \begin{verbatim}
 ##           n        n.na        p.na      n.rens      p.rens       n.dom 
 ##  61793.0000  35337.0000      0.5719  26456.0000      0.4281   3122.0000 
@@ -1435,6 +1452,7 @@ Un seul établissement \textbf{HUS} avec 3 SU:
 \end{verbatim}
 
 \begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
 \item
   Nombre de passages déclarés: 61 793 en 2014.
 \item
@@ -1443,24 +1461,91 @@ Un seul établissement \textbf{HUS} avec 3 SU:
   Nombre de RPU avec un code postal renseigné: 61 793.
 \item
   Nombre de passages par jour de la semaine:
+\end{itemize}
 
-\begin{verbatim}
-- Lundi: 9 211
-- Mardi: 8 980
-- Mercredi: 8 527
-- Jeudi: 8 667
-- Vendredi: 9 170
-- Samedi: 8 806
-- Dimanche: 8 432
-\end{verbatim}
+\begin{table}[ht]
+\centering
+\begin{tabular}{rlll}
+  \hline
+ & Jour & n & \% \\ 
+  \hline
+1 & Lun & 9 211 & 14.91 \\ 
+  2 & Mar & 8 980 & 14.53 \\ 
+  3 & Mer & 8 527 & 13.8 \\ 
+  4 & Jeu & 8 667 & 14.03 \\ 
+  5 & Ven & 9 170 & 14.84 \\ 
+  6 & Sam & 8 806 & 14.25 \\ 
+  7 & Dim & 8 432 & 13.65 \\ 
+   \hline
+\end{tabular}
+\caption{Nombre de RPU par jour de semaine} 
+\end{table}
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
 \item
   Nombre d'âges renseignés: 61 793
+\end{itemize}
 
-\begin{verbatim}
-- moins d'un an: 2 888
-- moins de 15 ans: 14 472
-- 75 ans et plus: 12 337
-\end{verbatim}
+\begin{table}[ht]
+\centering
+\begin{tabular}{rlll}
+  \hline
+ & Tranches d'âge & n & \% \\ 
+  \hline
+Moins de 1 an & n.inf1an &  2 888 & 9.72 \\ 
+  Moins de 15 ans & n.inf15ans & 14 472 & 48.73 \\ 
+  75 ans et plus & n.75ans & 12 337 & 41.54 \\ 
+   \hline
+\end{tabular}
+\caption{Nombre de RPU par tranches d'âge} 
+\end{table}
+
+\begin{itemize}
+\item
+  Nombre de passages la nuit: 22 681 (36.7 \%)
+\item
+  Nombre de passages en horaire de PDS:
+
+  \begin{table}[ht]
+  \centering
+  \begin{tabular}{rlll}
+    \hline
+   & Jour & n & \% \\ 
+    \hline
+  1 & NPDS & 30 243 & 48.94 \\ 
+    2 & PDSS & 16 016 & 25.92 \\ 
+    3 & PDSWE & 15 534 & 25.14 \\ 
+     \hline
+  \end{tabular}
+  \caption{Passages aux urgences aux horaires de permanence des soins: Passages totaux (NPDS), passages  en semaine (PDSS), passages le week-end (PDSWE)} 
+  \end{table}
+\item
+  Nombre de RPU avec une date-heure d'entrée renseignés: 61 793 (100 \%)
+\item
+  Nombre de RPU avec une date-heure de sortie renseignés: 48 631 (78.7
+  \%)
+\item
+  Moyen de transport utilisé pour se rendre aux urgences:
+
+  \begin{table}[ht]
+  \centering
+  \begin{tabular}{rrr}
+    \hline
+   & n & \% \\ 
+    \hline
+  Renseignés & 53 476,00 & 86,54 \\ 
+    Non renseignés & 8 317,00 & 13,46 \\ 
+    Moyen personnel & 1 214,00 & 14,60 \\ 
+    Ambulance & 4 518,00 & 54,32 \\ 
+    VSAV & 2 262,00 & 27,20 \\ 
+    SMUR & 274,00 & 3,29 \\ 
+    Hélicoptère & 2,00 & 0,02 \\ 
+    Forces de l'ordre & 47,00 & 0,57 \\ 
+     \hline
+  \end{tabular}
+  \caption{Moyens de transport} 
+  \end{table}
 \end{itemize}
 
 \subsection{SU d'ES siège de SAMU, non
@@ -2082,7 +2167,7 @@ cite it when using it for data analysis. See also
 
 \begin{verbatim}
 ##    user  system elapsed 
-##    84.5     2.3    86.9
+##    81.3     2.4    83.7
 \end{verbatim}
 
 \end{document}

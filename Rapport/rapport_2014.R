@@ -1529,6 +1529,41 @@ print.table.rpu <- function(t, caption = "", type = "latex", ref = ""){
 
 #===============================================
 #
+# print.summary.rpu
+#
+#===============================================
+#' 
+#' @title imprime un summary.rpu
+#' @description imprime un objet de type summary.rpu, en ligne eou en colonne (défaut)
+#' @param x un vecteur nommé
+#' @param sens 'colonne' = vertical, 'ligne' = horizontal
+#' @cnames  noms des colonnes
+#' @rnames  noms des lignes
+#' @usage x <- ummary.wday(es$ENTREE))
+#'        print.summary.rpu(x, names = c("Jour","n"), caption = "Nombre de RPU par jour de semaine")
+#' 
+print.summary.rpu <- function(x, sens = "colonne", cnames = NULL, rnames = NULL, caption = "", type = "latex", ref = ""){
+    y <- names(x)
+    z <- as.numeric(x)
+    p <- z/sum(z) # pourcentage
+    if(sens == "colonne"){
+        t <- cbind(y, format.n(z), round(p*100,2))
+    }else{
+        t <- rbind(y, format.n(z))
+    }
+    if(!is.null(cnames)) colnames(t) <- cnames
+    if(!is.null(rnames)) rownames(t) <- rnames
+       
+    print.xtable(xtable(t, caption = caption), 
+             type = type, 
+             format.args=list(big.mark = " ", decimal.mark = ","), 
+             label = ref, 
+             comment = FALSE)
+
+}
+
+#===============================================
+#
 # factor2table
 #
 #===============================================
