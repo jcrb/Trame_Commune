@@ -876,10 +876,11 @@ summary.ccmu <- function(vx){
 # summary.dateheure
 #
 #===============================================
+#' @title résumé du vecteur des ENTREE ou SORTIE
 #' @description résumé du vecteur vx des ENTREE ou SORTIE
 #' @param vx vecteur ENTREE ou SORTIE
 #' @usage summary.ccmu(dx$SORTIE)
-#' @return
+#' @return "n", "n.na", "p.na", "n.rens", "p.rens"
 #' 
 summary.dateheure <- function(vx){
     n <- length(vx) # nb de valeurs
@@ -900,10 +901,12 @@ summary.dateheure <- function(vx){
 # summary.mode.sortie
 #
 #===============================================
+#' @title résumé du vecteur vx des MODE_SORTIE
 #' @description résumé du vecteur vx des MODE_SORTIE
 #' @param vx vecteur char MODE_SORTIE
 #' @usage summary.mode.sortie(dx$MODE_SORTIE)
-#' @return
+#' @return "n", "n.na", "p.na", "n.rens", "p.rens", 
+#' "n.dom", "n.hosp", "n.transfert", "n.mutation", "n.deces", "p.dom", "p.hosp", "p.transfert", "p.mutation", "p.deces")
 #' 
 summary.mode.sortie <- function(vx){
     n <- length(vx) # nb de valeurs
@@ -939,10 +942,11 @@ summary.mode.sortie <- function(vx){
 # summary.dp
 #
 #===============================================
+#' @title résumé du vecteur DP (diagnostic principal)
 #' @description résumé du vecteur vx des DP (diagnostic principal)
 #' @param vx vecteur char DP
 #' @usage summary.dp(dx$DP)
-#' @return
+#' @return "n", "n.na", "p.na", "n.rens", "p.rens"
 #' 
 summary.dp <- function(vx){
     n <- length(vx) # nb de valeurs
@@ -962,10 +966,13 @@ summary.dp <- function(vx){
 # summary.age
 #
 #===============================================
+#' @title résumé du vecteur des AGE
 #' @description résumé du vecteur vx des AGE
 #' @param vx vecteur char AGE
 #' @usage summary.dp(dx$AGE)
-#' @return
+#' @return "n", "n.na", "p.na", "n.rens", "p.rens","n.inf1an", "n.inf15ans", "n.inf18ans", "n.75ans", "n.85ans", "n.90ans",
+#' "p.inf1an", "p.inf15ans", "p.inf18ans", "p.75ans", "p.85ans", "p.90ans",
+#' "mean.age", "sd.age", "median.age", "min.age", "max.age", "q1", "q3")
 #' 
 summary.age <- function(vx){
     n <- length(vx) # nb de valeurs
@@ -1013,6 +1020,7 @@ summary.age <- function(vx){
 # summary.age.sexe
 #
 #===============================================
+#' @title résumé des vecteurs AGE et SEXE
 #' @description résumé des vecteurs AGE et SEXE
 #' @param dx dataframe RPU
 #' @usage summary.age.sexe(dx)
@@ -1045,6 +1053,7 @@ summary.age.sexe <- function(dx){
 # pyramide.age
 #
 #===============================================
+#' @title pyramide des ages
 #' @description pyramide des ages
 #' @param dx datafrae RPU ou DF à 2 colonnes: AGE et SEXE
 #' @param cut intervalles. Par défaut tranche d'age de 5 ans, borne sup exclue: [0-5[ ans
@@ -1078,11 +1087,14 @@ pyramide.age <- function(dx, cut = 5, gap = 1, cex = 0.8,col.h = "light green", 
 # tarru
 #
 #===============================================
-#' @description Taux de Recours régional aux Urgences
+#' @title Taux de Recours régional aux Urgences
+#' @description Les RPU générés par les habitants de la région sont comptés à partir du vecteur des codes postaux.
+#'              Le rapport est calculé en divisant le nombre de RPU régionaux par la population de la région.
 #' @param pop.region population régionale de référence
 #' @param cp vecteur des codes postaux. Détermine le nb de RPU générés par des Alsaciens
 #' @usage pop.region <- pop.als.tot.2014 <- 1868773
 #'        tarru(dx$CODE_POSTAL, pop.als.tot.2014)
+#' @return un pourcentage
 
 tarru <- function(cp, pop.region, rpu.region){
     rpu.region <- sum(sapply(cp, is.cpals))
@@ -1095,11 +1107,13 @@ tarru <- function(cp, pop.region, rpu.region){
 # summary.wday
 #
 #===============================================
+#' @title Nombre de RPU par jour de semaine
 #' @description à partir du vecteur vx des ENTREE, retourne le nombre de RPU
 #'                  pour chaque jour de la semaine
 #' @param vx vecteur datetime
-#' @ return vecteur nommé commençant le lundi
+#' @return vecteur nommé commençant le lundi
 #' @usage summary.wday(dx$ENTREE)
+#' @details La semaine américaine est modifiée pour correspondre à la semaine française commençant un lundi.
 #' 
 summary.wday <- function(vx){
     a <- tapply(as.Date(vx), wday(as.Date(vx), label = TRUE), length)
@@ -1114,6 +1128,7 @@ summary.wday <- function(vx){
 # summary.cp
 #
 #===============================================
+#' @title résumé du vecteur CODE_POSTAL (cp)
 #' @description résumé du vecteur vx des CODE_POSTAL (cp)
 #' @param vx vecteur char CODE_POSTAL
 #' @details NECESSITE LA BIBLIOTHEQUE RPU_Doc/mes.constantes
@@ -1143,12 +1158,22 @@ summary.cp <- function(vx){
 # analyse_type_etablissement
 #
 #===============================================
+#' @title Analyse établissement
 #' @description fournit une liste d'indicateur à partir des données d'un établissement
 #'              ou d'un groupe d'établissements. Voir rapport 2014: Analyse par type d'étblissement
 #' @param es dataframe RPU (es = établissement de santé)
 #' @usage # es non SAMU, siège de SMUR
 #'          es <- dx[dx$FINESS %in% c("Wis","Hag","Sav","Sel","Col"),]
 #'          analyse_type_etablissement(es)
+#' @return "n.passages", "n.age.ren", "n.inf1an", "n.inf15ans", "n.75ans", "n.cp.rens",
+#' "n.etrangers", "n.lun", "n.mar", "n.mer", "n.jeu", "n.ven", "n.sam", "n.dim", 
+#' "n.nuit", "n.pds", "n.h.rens", "n.trans.rens", "n.fo",
+#' "n.heli", "n.perso", "n.smur", "n.vsav", "n.ambu", "n.ccmu.rens", "n.ccmu1", 
+#' "n.ccmu2", "n.ccmu3", "n.ccmu4",
+#' "n.ccmu5", "n.ccmuP", "n.ccmuD", "n.ccmu45", "n.sorties.conf", "mean.passage", 
+#' "median.passage", "n.passage4", "n.hosp.passage4", "n.dom.passage4", "n.dom", 
+#' "n.hosp", "n.transfert", "n.deces", "n.mode.sortie",
+#' "n.mutation2"
 #' 
 analyse_type_etablissement <- function(es){
     # nombre de passages déclarés
@@ -1259,11 +1284,14 @@ analyse_type_etablissement <- function(es){
 # summary.destination
 #
 #===============================================
-#' @description résumé du vecteur vx des DESTINATION
+#' @title Résumé de la DESTINATION
+#' @description résumé du vecteur vx des DESTINATION. En cas d'hospitalisation, il y a quatre destinations possibles:
+#' MCO, SSR, SLD et PSY. En ca  de sortie au domicile: HAD et Structure médico-sociale (EHPAD)
 #' @param dx dataframe RPU
 #' @param correction = TRUE: on ne retient que les destinations 
 #'                           correspondant à une hospitalisation
-#'
+#' @return "n", "n.na", "p.na", "n.rens", "p.rens"
+#' @details: MANQUE LE SUMMARY DU VECTEUR.
 
 summary.destination <- function(dx, correction = TRUE){
     if(correction == TRUE){
@@ -1289,11 +1317,16 @@ summary.destination <- function(dx, correction = TRUE){
 # summary.orientation
 #
 #===============================================
+#' @title Résumé de ORIENTATION
 #' @description résumé du vecteur vx des ORIENTATION
 #' @param dx dataframe RPU
 #' @param correction = TRUE: on ne retient que les orientation 
 #'                           correspondant à une hospitalisation
-#'
+#' @return "n", "n.na", "p.na", "n.rens", "p.rens",
+#' "n.chir", "n.med", "n.obst", "n.si", "n.sc", "n.rea", "n.uhcd", "n.ho", "n.hdt", 
+#' "n.reo", "n.scam", "n.psa",
+#' "p.chir", "p.med", "p.obst", "p.si", "p.sc", "p.rea", "p.uhcd", "p.ho", "p.hdt", 
+#' "p.reo", "p.scam", "p.psa"
 
 summary.orientation <- function(dx, correction = TRUE){
     if(correction == TRUE){
@@ -1353,19 +1386,10 @@ summary.orientation <- function(dx, correction = TRUE){
 
 #===============================================
 #
-# summary.cp
-#
-#===============================================
-#' @description résumé du vecteur vx des CODE_POSTAL (cp)
-#' 
-#' TODO
-#' 
-
-#===============================================
-#
 # evolution
 #
 #===============================================
+#' @title Evolution d'une années sur l'autre
 #' @description calcule l'évolution entre 2 chiffres
 #' @param a chiffre de l'année courante
 #' @param b chiffre de l'année précédente
