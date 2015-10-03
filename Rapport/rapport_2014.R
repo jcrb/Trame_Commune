@@ -1598,12 +1598,14 @@ factor2table <- function(vx, pc = TRUE){
 # passages.en.moins.de.4h
 #
 #===============================================
-#' @title analyse les passages de moins de 4 heures
-#' @description analyse les durée de passage de moins de 4 heures par rapport aux durées de passage conformes
-#'  (c'est à dire de mons de 72 heures). 
+#' @title Analyse les passages de moins de 4 heures.
+#' @description analyse les durée de passage de moins de 4 heures par rapport
+#'   aux durées de passage conformes (c'est à dire de mons de 72 heures).
 #' @name  passages.en.moins.de.4h
 #' @param dx un dataframe de type RPU
-#' 
+#' @section Warning:
+#' Cette fonction n'est pas terminée.
+#'   
 passages.en.moins.de.4h <- function(dx){
     so <- dx[!is.na(dx$SORTIE), c("ENTREE","SORTIE", "MODE_SORTIE")]
     e <- ymd_hms(so$ENTREE)
@@ -1639,3 +1641,4 @@ passages.en.moins.de.4h <- function(dx){
     
     
 }
+
