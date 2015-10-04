@@ -675,6 +675,13 @@ summary.passages <- function(dp){
     tmax <- 4 * 60 + 1 # < 4 heures
     
     n.conforme <- nrow(dp)
+    
+    n.mode_sortie.rens <- sum(!is.na(dp$MODE_SORTIE))
+    p.mode_sortie.rens <- mean(!is.na(dp$MODE_SORTIE))
+    
+    n.orientation.rens <- sum(!is.na(dp$ORIENTATION))
+    p.orientation.rens <- mean(!is.na(dp$ORIENTATION))
+
     duree.moyenne.passage <- mean(dp$duree, na.rm = TRUE)
     duree.mediane.passage <- median(dp$duree, na.rm = TRUE)
     # durée de passage moyenne si retour à domicile
@@ -687,34 +694,51 @@ summary.passages <- function(dp){
     s.mode.sortie <- summary(as.factor(dp$MODE_SORTIE))
     
     n.passage4 <- length(dp$duree[dp$duree < tmax]) #nb passages < 4h
+    p.passage4 <- n.passage4/n.conforme
     
     # Nombre de RPU avec une heure de sortie conforme (]0-72h[ lors d'un retour au domicile:
     n.dom <- s.mode.sortie["Domicile"]
+    p.dom <- n.dom/n.mode_sortie.rens
+    
     # Nombre de RPU avec une heure de sortie conforme (]0-72h[ lors d'une hospitalisation
     # post-urgences:
-    n.hosp <- s.mode.sortie["Mutation"] + s.mode.sortie["Transfert"] 
+    n.hosp <- s.mode.sortie["Mutation"] + s.mode.sortie["Transfert"]
+    p.hosp <- n.hosp/n.mode_sortie.rens
     
     n.transfert <- s.mode.sortie["Transfert"]   # nb de transfert
+    p.transfert <- n.transfert/n.mode_sortie.rens
+    
     n.mutation <- s.mode.sortie["Mutation"]     # Nombre de mutation interne
+    p.mutation <- n.mutation/n.mode_sortie.rens
+    
     n.deces <- s.mode.sortie["Décès"]           # nombre de décès
+    p.deces <- n.deces/n.mode_sortie.rens
     
     n.hosp.passage4 <- length(dp$duree[dp$duree < tmax & 
           dp$MODE_SORTIE %in% c("Mutation","Transfert")]) #nb passages < 4h et hospitalisation
+    p.hosp.passage4 <- n.hosp.passage4/n.passage4
     
     n.dom.passage4 <- length(dp$duree[dp$duree < tmax & 
                       dp$MODE_SORTIE == "Domicile"]) #nb passages < 4h et retourà domicile
+    p.dom.passage4 <- n.dom.passage4/n.passage4
     
     a <- c(n.conforme, duree.moyenne.passage, duree.mediane.passage, duree.moyenne.passage.dom,
            duree.mediane.passage.dom, duree.moyenne.passage.hosp, duree.mediane.passage.hosp,
-           n.passage4, n.hosp.passage4,
-           n.dom.passage4, n.dom, n.hosp, n.transfert, n.mutation, n.deces)
+           
+           n.mode_sortie.rens, n.orientation.rens, n.passage4, n.hosp.passage4,
+           n.dom.passage4, n.dom, n.hosp, n.transfert, n.mutation, n.deces,
+           
+           p.mode_sortie.rens, p.orientation.rens, p.passage4, p.hosp.passage4, 
+           p.dom.passage4, p.dom, p.hosp, p.transfert, p.mutation, p.deces)
 
     names(a) <- c("n.conforme", "duree.moyenne.passage", "duree.mediane.passage",
                   "duree.moyenne.passage.dom", "duree.mediane.passage.dom",
                   "duree.moyenne.passage.hosp", "duree.mediane.passage.hosp",
-                  "n.passage4",
+                  "n.mode_sortie.rens", "n.orientation.rens", "n.passage4",
                   "n.hosp.passage4", "n.dom.passage4",  "n.dom", "n.hosp", "n.transfert", 
-                  "n.mutation", "n.deces")
+                  "n.mutation", "n.deces",
+                  "p.mode_sortie.rens", "p.orientation.rens", "p.passage4", "p.hosp.passage4", 
+                  "p.dom.passage4", "p.dom", "p.hosp", "p.transfert", "p.mutation", "p.deces")
     
     return(a)
 }
@@ -1281,6 +1305,131 @@ analyse_type_etablissement <- function(es){
 
 #===============================================
 #
+# analyse_type_etablissement_p
+#
+#===============================================
+#' @title Analyse établissement
+#' @description fournit une liste d'indicateur sous forme de POURCENTAGES à 
+#' partir des données d'un établissement ou d'un groupe d'établissements. 
+#' Voir rapport 2014: Analyse par type d'étblissement
+#' @param es dataframe RPU (es = établissement de santé)
+#' @usage # es non SAMU, siège de SMUR
+#'          es <- dx[dx$FINESS %in% c("Wis","Hag","Sav","Sel","Col"),]
+#'          analyse_type_etablissement(es)
+#' @return "p.passages", "p.age.ren", "p.inf1an", "p.inf15ans", "p.75ans", "p.cp.rens",
+#' "p.etrangers", "p.lun", "p.mar", "p.mer", "p.jeu", "p.ven", "p.sam", "p.dim", 
+#' "p.nuit", "p.pds", "p.h.rens", "p.trans.rens", "p.fo",
+#' "p.heli", "p.perso", "p.smur", "p.vsav", "p.ambu", "p.ccmu.rens", "p.ccmu1", 
+#' "p.ccmu2", "p.ccmu3", "p.ccmu4",
+#' "p.ccmu5", "p.ccmuP", "p.ccmuD", "p.ccmu45", "p.sorties.conf", "meap.passage", 
+#' "mediap.passage", "p.passage4", "p.hosp.passage4", "p.dom.passage4", "p.dom", 
+#' "p.hosp", "p.transfert", "p.deces", "p.mode.sortie",
+#' "p.mutation2"
+#' 
+analyse_type_etablissement_p <- function(es){
+    # nombre de passages déclarés
+    n.passages <- nrow(es)
+    
+    s <- summary.age(es$AGE)# summary
+    # Nombre de RPU avec un âge renseigné
+    p.age.ren <- s["p.rens"]
+    p.inf1an <- s["p.inf1an"]
+    p.inf15ans <- s["p.inf15ans"]
+    p.75ans <- s["p.75ans"]
+    
+    s <- summary.cp(es$CODE_POSTAL)
+    # Nombre de RPU avec un code postal renseigné
+    p.cp.rens <- s["p.rens"]
+    # Nombre ne veant pas de la région
+    p.etrangers <- s["p.etrangers"]
+    
+    # par jour de semaine
+    s <- summary.wday(es$ENTREE)
+    p.lun <- s[1]
+    p.mar <- s[2]
+    p.mer <- s[3]
+    p.jeu <- s[4]
+    p.ven <- s[5]
+    p.sam <- s[6]
+    p.dim <- s[7]
+    
+    # passages de nuit
+    p.nuit <- passage(horaire(es$ENTREE), "nuit")[1]
+    # p.nuit <- passage(horaire(es$ENTREE), "nuit")[2]
+    
+    # passage en PDS
+    t <- table(pdsa(es$ENTREE))
+    p.pds <- t["PDSS"] + t["PDSWE"]
+    
+    #Nombre de RPU avec une date et heure d'entrée renseignées
+    s <- summary.dateheure(es$ENTREE)
+    p.h.rens <- s["p.rens"]
+    
+    # nombre avec moyen de transport renseigné
+    s <- summary.transport(es$TRANSPORT)
+    p.trans.rens <- s["p.rens"]
+    p.fo <- s["p.fo"]
+    p.heli <- s["p.heli"]
+    p.perso <- s["p.perso"]
+    p.smur <- s["p.smur"]
+    p.vsav <- s["p.vsav"]
+    p.ambu <- s["p.ambu"]
+    
+    # nombre avec CCMU renseigné
+    s <- summary.ccmu(es$GRAVITE)
+    p.ccmu.rens <- s["p.rens"]
+    p.ccmu1 <- s["p.ccmu1"]
+    p.ccmu2 <- s["p.ccmu2"]
+    p.ccmu3 <- s["p.ccmu3"]
+    p.ccmu4 <- s["p.ccmu4"]
+    p.ccmu5 <- s["p.ccmu5"]
+    p.ccmuP <- s["p.ccmup"]
+    p.ccmuD <- s["p.ccmud"]
+    p.ccmu45 <- p.ccmu4 + p.ccmu5
+    
+    # nombre de sorties conformes
+    s <- summary.passages(duree.passage2(es))
+    p.sorties.conf <- s["p.conforme"]
+    
+    p.passage4 <- s["p.passage4"] # nb de passages de moins de 4 heures
+    p.hosp.passage4 <- s["p.hosp.passage4"] # nb de passages de moins de 4 heures suivi hospit.
+    p.dom.passage4 <- s["p.dom.passage4"] # nb de passages de moins de 4 heures suivi retour dom.
+    p.dom  <- s["p.dom"] # nb total de retour à domicile
+    p.hosp  <- s["p.hosp"]
+    p.transfert  <- s["p.transfert"]
+    p.deces <- s["p.deces"]
+    
+    # Nombre de RPU avec un mode de sortie renseigné
+    s <- summary.mode.sortie(es$MODE_SORTIE)
+    p.mode.sortie <- s["p.rens"]
+    p.dom2 <- s["p.dom"]
+    p.transfert2 <- s["p.transfert"]
+    p.mutation2 <- s["p.mutation"]
+    p.deces2 <- s["p.deces"]
+    p.hosp2 <- s["p.hosp"]
+    
+    a <- c(p.age.ren, p.inf1an, p.inf15ans, p.75ans, p.cp.rens, p.etrangers, p.lun,
+           p.mar, p.mer, p.jeu, p.ven, p.sam, p.dim, p.nuit, p.pds, p.h.rens, p.trans.rens, p.fo,
+           p.heli, p.perso, p.smur, p.vsav, p.ambu, p.ccmu.rens, p.ccmu1, p.ccmu2, p.ccmu3, p.ccmu4,
+           p.ccmu5, p.ccmuP, p.ccmuD, p.ccmu45, p.sorties.conf,
+           p.passage4, p.hosp.passage4, p.dom.passage4, p.dom, p.hosp, p.transfert, p.deces, p.mode.sortie,
+           p.mutation2)
+    
+    names(a) <- c( "p.age.ren", "p.inf1an", "p.inf15ans", "p.75ans", "p.cp.rens",
+                  "p.etrangers", "p.lun", "p.mar", "p.mer", "p.jeu", "p.ven", "p.sam", "p.dim", 
+                  "p.nuit", "p.pds", "p.h.rens", "p.trans.rens", "p.fo",
+                  "p.heli", "p.perso", "p.smur", "p.vsav", "p.ambu", "p.ccmu.rens", "p.ccmu1", 
+                  "p.ccmu2", "p.ccmu3", "p.ccmu4",
+                  "p.ccmu5", "p.ccmuP", "p.ccmuD", "p.ccmu45", "p.sorties.conf", 
+                  "p.passage4", "p.hosp.passage4", "p.dom.passage4", "p.dom", 
+                  "p.hosp", "p.transfert", "p.deces", "p.mode.sortie",
+                  "p.mutation2")
+    
+    return(a)
+}
+
+#===============================================
+#
 # summary.destination
 #
 #===============================================
@@ -1395,6 +1544,7 @@ summary.orientation <- function(dx, correction = TRUE){
 #' @param b chiffre de l'année précédente
 #' @return pourcentage d'augmentation ou de diminution
 #' @usage evolution(n.rpu, n.rpu.2013)
+#' @export
 
 evolution <- function(a, b){
     return((a - b)/b)
@@ -1405,10 +1555,12 @@ evolution <- function(a, b){
 # mn2h
 #
 #===============================================
+#' @title transforme des minutes en heure/mn
 #' @description transforme des minutes en heure/mn
 #' @param x integer = nombre de minutes
 #' @return char
 #' @usage 
+#' @export
 #' 
 
 mn2h <- function(x){
@@ -1424,12 +1576,14 @@ mn2h <- function(x){
 # summary.rpu
 #
 #===============================================
-#'@author JcB - 2015-08-24
-#'@source summary_rpu.R
-#'@details v1.0 24/08/2015
+#' @title calcule le nombre de RPU par SU, territoire de sante et
+#'              département.
 #'@description calcule le nombre de RPU par SU, territoire de santé et
 #'              département à partir d'un dataframe RPU. Deux colonnes sont
 #'              indispensables: ENTREE et FINESS
+#'@author JcB - 2015-08-24
+#'@source summary_rpu.R
+#'@details v1.0 24/08/2015
 #'@param dx un dataframe RPU ou un dataframe réduit à 2 colonnes: ENTREE et
 #'          FINESS
 #'@return un objet "list"
@@ -1440,6 +1594,7 @@ mn2h <- function(x){
 #'        n.xxx total pour le Finess xxx
 #'        p.tx  % pour territoire x
 #'@usage s <- summary.rpu(d15); s[1]; s$debut; s$n
+#'@export
 
 summary.rpu <- function(dx){
     
@@ -1506,7 +1661,7 @@ summary.rpu <- function(dx){
 # print.table.rpu
 #
 #===============================================
-#' 
+#' @title Imprime une table avec xtable.
 #' @description imprime une table avec xtable. Par défaut l'environnement est du type latex, le
 #'              séparateur de milliers est l'espace et la virgule décimale
 #'              
@@ -1518,6 +1673,7 @@ summary.rpu <- function(dx){
 #' @usage   print.table.rpu(t)
 #'          print.table.rpu(t, "table de test")
 #'          print.table.rpu(t, "table de test", "html")
+#' @export
 
 print.table.rpu <- function(t, caption = "", type = "latex", ref = ""){
     print.xtable(xtable(t, caption = caption), 
@@ -1541,6 +1697,7 @@ print.table.rpu <- function(t, caption = "", type = "latex", ref = ""){
 #' @rnames  noms des lignes
 #' @usage x <- ummary.wday(es$ENTREE))
 #'        print.summary.rpu(x, names = c("Jour","n"), caption = "Nombre de RPU par jour de semaine")
+#' @export
 #' 
 print.summary.rpu <- function(x, sens = "colonne", cnames = NULL, rnames = NULL, caption = "", type = "latex", ref = ""){
     y <- names(x)

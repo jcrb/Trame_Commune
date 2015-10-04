@@ -24,29 +24,6 @@
 \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
 }{}
 \usepackage[margin=1in]{geometry}
-\usepackage{color}
-\usepackage{fancyvrb}
-\newcommand{\VerbBar}{|}
-\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
-\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
-% Add ',fontsize=\small' for more characters per line
-\usepackage{framed}
-\definecolor{shadecolor}{RGB}{248,248,248}
-\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
-\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{{#1}}}}
-\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{{#1}}}
-\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
-\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
-\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{{#1}}}
-\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
-\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{{#1}}}
-\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{{#1}}}}
-\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{{#1}}}
-\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{{#1}}}
-\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{{#1}}}
-\newcommand{\RegionMarkerTok}[1]{{#1}}
-\newcommand{\ErrorTok}[1]{\textbf{{#1}}}
-\newcommand{\NormalTok}[1]{{#1}}
 \usepackage{longtable,booktabs}
 \usepackage{graphicx}
 \makeatletter
@@ -116,7 +93,7 @@
 \setcounter{tocdepth}{3}
 \tableofcontents
 }
-Version mse à jour le: \textbf{02/10/2015}
+Version mse à jour le: \textbf{04/10/2015}
 
 \section{Activité des structures d'urgences : panorama 2014 de la région
 ALSACE}\label{activite-des-structures-durgences-panorama-2014-de-la-region-alsace}
@@ -1322,8 +1299,8 @@ notamment \textbf{temps de passage}.
 \end{itemize}
 
 \% Table created by stargazer v.5.2 by Marek Hlavac, Harvard University.
-E-mail: hlavac at fas.harvard.edu \% Date and time: ven., oct. 02, 2015
-- 12:04:23
+E-mail: hlavac at fas.harvard.edu \% Date and time: dim., oct. 04, 2015
+- 18:18:37
 
 \begin{table}[!htbp] \centering 
   \caption{Orientation des AVC} 
@@ -1341,8 +1318,6 @@ $75$ & $1$ & $1$ & $720$ & $68$ & $46$ & $9$ & $361$ & $919$ & $749$ \\
 \section{Analyse par type
 d'étblissement}\label{analyse-par-type-detblissement}
 
-Voir routine \textbf{analyse-type\_etablissement} (rapport\_2014.R).
-
 \subsection{SU de CHU}\label{su-de-chu}
 
 Un seul établissement \textbf{HUS} avec 3 SU:
@@ -1357,99 +1332,12 @@ Un seul établissement \textbf{HUS} avec 3 SU:
   HTP Pédiatrie
 \end{itemize}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{es <-}\StringTok{ }\NormalTok{dx[dx$FINESS ==}\StringTok{ "Hus"}\NormalTok{,]}
-
-\CommentTok{# à gerder ou supprimer mais redondant}
- \NormalTok{a <-}\StringTok{ }\KeywordTok{analyse_type_etablissement}\NormalTok{(es)}
-
-    \CommentTok{# nombre de passages déclarés}
-    \NormalTok{n.passages <-}\StringTok{ }\KeywordTok{nrow}\NormalTok{(es)}
-
-    \CommentTok{# Nombre de RPU avec un âge renseigné}
-    \NormalTok{age <-}\StringTok{ }\KeywordTok{summary.age}\NormalTok{(es$AGE)}
-
-    \CommentTok{# Nombre de RPU avec un code postal renseigné}
-    \NormalTok{cp <-}\StringTok{ }\KeywordTok{summary.cp}\NormalTok{(es$CODE_POSTAL)}
-    
-    \CommentTok{# passages de nuit}
-    \NormalTok{nuit <-}\StringTok{ }\KeywordTok{passage}\NormalTok{(}\KeywordTok{horaire}\NormalTok{(es$ENTREE), }\StringTok{"nuit"}\NormalTok{)}
-
-    \CommentTok{# passage en PDS}
-    \NormalTok{pds <-}\StringTok{ }\KeywordTok{table}\NormalTok{(}\KeywordTok{pdsa}\NormalTok{(es$ENTREE))}
-
-    \CommentTok{#Nombre de RPU avec une date et heure d'entrée renseignées}
-    \NormalTok{entree <-}\StringTok{ }\KeywordTok{summary.dateheure}\NormalTok{(es$ENTREE)}
-    \NormalTok{sortie <-}\StringTok{ }\KeywordTok{summary.dateheure}\NormalTok{(es$SORTIE)}
-
-    \CommentTok{# nombre avec moyen de transport renseigné}
-    \NormalTok{s <-}\StringTok{ }\KeywordTok{summary.transport}\NormalTok{(es$TRANSPORT)}
-    \NormalTok{sn <-}\StringTok{ }\KeywordTok{c}\NormalTok{(s[}\StringTok{'n.na'}\NormalTok{], s[}\StringTok{'n.rens'}\NormalTok{], s[}\StringTok{'n.perso'}\NormalTok{], s[}\StringTok{'n.ambu'}\NormalTok{], s[}\StringTok{'n.vsav'}\NormalTok{], s[}\StringTok{'n.smur'}\NormalTok{], s[}\StringTok{'n.heli'}\NormalTok{], s[}\StringTok{'n.fo'}\NormalTok{])}
-    \NormalTok{sp <-}\StringTok{ }\KeywordTok{c}\NormalTok{(s[}\StringTok{'p.na'}\NormalTok{], s[}\StringTok{'p.rens'}\NormalTok{], s[}\StringTok{'p.perso'}\NormalTok{], s[}\StringTok{'p.ambu'}\NormalTok{], s[}\StringTok{'p.vsav'}\NormalTok{], s[}\StringTok{'p.smur'}\NormalTok{], s[}\StringTok{'p.heli'}\NormalTok{], s[}\StringTok{'p.fo'}\NormalTok{])}
-    \NormalTok{r <-}\StringTok{ }\KeywordTok{rbind}\NormalTok{(sn, }\KeywordTok{round}\NormalTok{(sp*}\DecValTok{100}\NormalTok{,}\DecValTok{2}\NormalTok{))}
-    \NormalTok{r <-}\StringTok{ }\KeywordTok{t}\NormalTok{(r)}
-    \KeywordTok{colnames}\NormalTok{(r) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"n"}\NormalTok{, }\StringTok{"%"}\NormalTok{)}
-    \KeywordTok{rownames}\NormalTok{(r) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"Renseignés"}\NormalTok{,}\StringTok{"Non renseignés"}\NormalTok{,}\StringTok{"Moyen personnel"}\NormalTok{,}\StringTok{"Ambulance"}\NormalTok{,}\StringTok{"VSAV"}\NormalTok{,}\StringTok{"SMUR"}\NormalTok{,}\StringTok{"Hélicoptère"}\NormalTok{, }\StringTok{"Forces de l'ordre"}\NormalTok{)}
-    \NormalTok{transport <-}\StringTok{ }\NormalTok{r}
-
-    
-
-    \CommentTok{# nombre avec CCMU renseigné}
-    \KeywordTok{summary.ccmu}\NormalTok{(es$GRAVITE)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##         n      n.na      p.na    n.rens    p.rens   n.ccmu1   n.ccmu2 
-## 61793.000 28298.000     0.458 33495.000     0.542  8743.000 17870.000 
-##   n.ccmu3   n.ccmu4   n.ccmu5   n.ccmup   n.ccmud   p.ccmu1   p.ccmu2 
-##  6178.000   503.000   201.000        NA        NA     0.261     0.534 
-##   p.ccmu3   p.ccmu4   p.ccmu5   p.ccmup   p.ccmud 
-##     0.184     0.015     0.006        NA        NA
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-    \CommentTok{# nombre de sorties conformes}
-    \KeywordTok{summary.passages}\NormalTok{(}\KeywordTok{duree.passage2}\NormalTok{(es))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##                 n.conforme      duree.moyenne.passage 
-##                      26416                        254 
-##      duree.mediane.passage  duree.moyenne.passage.dom 
-##                        141                        827 
-##  duree.mediane.passage.dom duree.moyenne.passage.hosp 
-##                        664                        346 
-## duree.mediane.passage.hosp                 n.passage4 
-##                        312                      17899 
-##            n.hosp.passage4             n.dom.passage4 
-##                       1225                      16674 
-##                      n.dom                     n.hosp 
-##                       2958                       3320 
-##                n.transfert                 n.mutation 
-##                        115                       3205 
-##                    n.deces 
-##                          0
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-    \CommentTok{# Nombre de RPU avec un mode de sortie renseigné}
-    \KeywordTok{summary.mode.sortie}\NormalTok{(es$MODE_SORTIE)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-##           n        n.na        p.na      n.rens      p.rens       n.dom 
-##  61793.0000  35337.0000      0.5719  26456.0000      0.4281   3122.0000 
-##      n.hosp n.transfert  n.mutation     n.deces       p.dom      p.hosp 
-##  23334.0000    115.0000  23219.0000      0.0000      0.1180      0.8820 
-## p.transfert  p.mutation     p.deces 
-##      0.0043      0.8776      0.0000
-\end{verbatim}
+\textbf{AVERTISSEMENT}: \emph{Les chiffres des HUS sont très
+difficilement interprétables en 2014. Du fait d'une anomalie du logiciel
+récupérant les RPU avant de les transmettre au concentrateur régional,
+le nombreux RPU sont manquants ou incomplet. L'erreur a été corrigée au
+mois d'octobre 2014 et seul les deux derniers mois de 2014 sont
+fiables.}
 
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
@@ -1498,7 +1386,7 @@ Moins de 1 an & n.inf1an &  2 888 & 9.72 \\
   75 ans et plus & n.75ans & 12 337 & 41.54 \\ 
    \hline
 \end{tabular}
-\caption{Nombre de RPU par tranches d'âge} 
+\caption{CHU Alsace 2014 - Nombre de RPU par tranches d'âge} 
 \end{table}
 
 \begin{itemize}
@@ -1534,8 +1422,8 @@ Moins de 1 an & n.inf1an &  2 888 & 9.72 \\
     \hline
    & n & \% \\ 
     \hline
-  Renseignés & 53 476,00 & 86,54 \\ 
-    Non renseignés & 8 317,00 & 13,46 \\ 
+  Non Renseignés & 53 476,00 & 86,54 \\ 
+    Renseignés & 8 317,00 & 13,46 \\ 
     Moyen personnel & 1 214,00 & 14,60 \\ 
     Ambulance & 4 518,00 & 54,32 \\ 
     VSAV & 2 262,00 & 27,20 \\ 
@@ -1544,7 +1432,76 @@ Moins de 1 an & n.inf1an &  2 888 & 9.72 \\
     Forces de l'ordre & 47,00 & 0,57 \\ 
      \hline
   \end{tabular}
-  \caption{Moyens de transport} 
+  \caption{CHU Alsace 2014 - Moyens de transport} 
+  \end{table}
+\item
+  Gravité des RPU évaluée selon la classification CCMU:
+
+  \begin{table}[ht]
+  \centering
+  \begin{tabular}{rrr}
+    \hline
+   & n & \% \\ 
+    \hline
+  Non Renseignés & 28 298,00 & 45,79 \\ 
+    Renseignés & 33 495,00 & 54,21 \\ 
+    CCMU1 & 8 743,00 & 26,10 \\ 
+    CCMU2 & 17 870,00 & 53,35 \\ 
+    CCMU3 & 6 178,00 & 18,44 \\ 
+    CCMU4 & 503,00 & 1,50 \\ 
+    CCMU5 & 201,00 & 0,60 \\ 
+    CCMU PSY &  &  \\ 
+    CCMU DCD &  &  \\ 
+     \hline
+  \end{tabular}
+  \caption{CHU Alsace 2014 - Gravité des RPU évaluée selon la classification CCMU} 
+  \end{table}
+\end{itemize}
+
+\subsubsection{Durée de passages}\label{duree-de-passages}
+
+La durée de passage aux urgences est la différence entre l'heure de
+sortie et l'heure d'entrée au SU. Dans les calculs qui suivent ne sont
+retenus que les RPU qui disposent d'une heure d'entrée et de sortie. Une
+durée de passage est considérée comme \textbf{conforme} si elle est
+positive et inférieure à 72 heures (FEDORU).
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  Nombre de durées de passage conformes: 26 416 (42.75 \%)
+\item
+  Durée moyenne de passage: 254 mn
+\item
+  Durée médiane de passage: 141 mn
+\item
+  Durée moyenne de passage en cas de retour à domicile: 827 mn
+\item
+  Durée médiane de passage en cas de retour à domicile: 664 mn
+\item
+  Durée moyenne de passage en cas d'hospitalisation: 346 mn
+\item
+  Durée médiane de passage en cas d'hospitalisation: 312 mn
+
+  \begin{table}[ht]
+  \centering
+  \begin{tabular}{rrr}
+    \hline
+   & n & \% \\ 
+    \hline
+  Nombre de modes de sortie renseignés & 6 278,00 & 23,77 \\ 
+    Nombre de modes d'orientation renseignés & 3 170,00 & 12,00 \\ 
+    Passages de moins de 4 heures & 17 899,00 & 67,76 \\ 
+    Passages $<$ 4h puis hospitalisation & 1 225,00 & 6,84 \\ 
+    Passages $<$ 4h puis retour à domicile & 16 674,00 & 93,16 \\ 
+    Nombre total de retours à domicile & 2 958,00 & 47,12 \\ 
+    Nombre total d'hospitalisations & 3 320,00 & 52,88 \\ 
+    nombre total de transferts & 115,00 & 1,83 \\ 
+    Nombre total de mutations & 3 205,00 & 51,05 \\ 
+    Nombre de déçès & 0,00 & 0,00 \\ 
+     \hline
+  \end{tabular}
+  \caption{CHU Alsace 2014 - Durées de passage selon le devenir du patient} 
   \end{table}
 \end{itemize}
 
@@ -1554,207 +1511,180 @@ CHU}\label{su-des-siege-de-samu-non-chu}
 Un seul établissement: CH de Mulhouse avec 2 implantations:
 
 \begin{itemize}
-\itemsep1pt\parskip0pt\parsep0pt
 \item
   Emile Muller (Adultes + Pédiatrie traumatique)
 \item
   Hasenrain (Pédiatrie médicale)
+\item
+  Nombre de passages déclarés: 61 793 en 2014.
+\item
+  Nombre de RPU avec un âge renseigné: 61 793.
+\item
+  Nombre de RPU avec un code postal renseigné: 61 793.
+\item
+  Nombre de passages par jour de la semaine:
 \end{itemize}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{es <-}\StringTok{ }\NormalTok{dx[dx$FINESS ==}\StringTok{ "Mul"}\NormalTok{,]}
-\CommentTok{# analyse_type_etablissement(es)}
+\begin{table}[ht]
+\centering
+\begin{tabular}{rlll}
+  \hline
+ & Jour & n & \% \\ 
+  \hline
+1 & Lun & 9 211 & 14.91 \\ 
+  2 & Mar & 8 980 & 14.53 \\ 
+  3 & Mer & 8 527 & 13.8 \\ 
+  4 & Jeu & 8 667 & 14.03 \\ 
+  5 & Ven & 9 170 & 14.84 \\ 
+  6 & Sam & 8 806 & 14.25 \\ 
+  7 & Dim & 8 432 & 13.65 \\ 
+   \hline
+\end{tabular}
+\caption{Nombre de RPU par jour de semaine} 
+\end{table}
 
-    \CommentTok{# nombre de passages déclarés}
-    \KeywordTok{nrow}\NormalTok{(es)}
-\end{Highlighting}
-\end{Shaded}
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  Nombre d'âges renseignés: 61 793
+\end{itemize}
 
-\begin{verbatim}
-[1] 59471
-\end{verbatim}
+\begin{table}[ht]
+\centering
+\begin{tabular}{rlll}
+  \hline
+ & Tranches d'âge & n & \% \\ 
+  \hline
+Moins de 1 an & n.inf1an &  2 888 & 9.72 \\ 
+  Moins de 15 ans & n.inf15ans & 14 472 & 48.73 \\ 
+  75 ans et plus & n.75ans & 12 337 & 41.54 \\ 
+   \hline
+\end{tabular}
+\caption{ES non CHU siège de SAMU 2014 - Nombre de RPU par tranches d'âge} 
+\end{table}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-    \CommentTok{# Nombre de RPU avec un âge renseigné}
-    \KeywordTok{summary.age}\NormalTok{(es$AGE)}
-\end{Highlighting}
-\end{Shaded}
+\begin{itemize}
+\item
+  Nombre de passages la nuit: 22 681 (36.7 \%)
+\item
+  Nombre de passages en horaire de PDS:
 
-\begin{verbatim}
-         n       n.na       p.na     n.rens     p.rens   n.inf1an 
- 59471.000      0.000      0.000  59471.000      1.000   4715.000 
-n.inf15ans n.inf18ans    n.75ans    n.85ans    n.90ans   p.inf1an 
- 19015.000  20847.000   7480.000   3152.000   1226.000      0.079 
-p.inf15ans p.inf18ans    p.75ans    p.85ans    p.90ans   mean.age 
-     0.320      0.351      0.126      0.053      0.021     34.600 
-    sd.age median.age    min.age    max.age         q1         q3 
-    28.078     30.000      0.000    113.000      8.000     57.000 
-\end{verbatim}
+  \begin{table}[ht]
+  \centering
+  \begin{tabular}{rlll}
+    \hline
+   & Jour & n & \% \\ 
+    \hline
+  1 & NPDS & 30 243 & 48.94 \\ 
+    2 & PDSS & 16 016 & 25.92 \\ 
+    3 & PDSWE & 15 534 & 25.14 \\ 
+     \hline
+  \end{tabular}
+  \caption{Passages aux urgences aux horaires de permanence des soins: Passages totaux (NPDS), passages  en semaine (PDSS), passages le week-end (PDSWE)} 
+  \end{table}
+\item
+  Nombre de RPU avec une date-heure d'entrée renseignés: 61 793 (100 \%)
+\item
+  Nombre de RPU avec une date-heure de sortie renseignés: 48 631 (78.7
+  \%)
+\item
+  Moyen de transport utilisé pour se rendre aux urgences:
 
-\begin{Shaded}
-\begin{Highlighting}[]
-    \CommentTok{# Nombre de RPU avec un code postal renseigné}
-    \KeywordTok{summary.cp}\NormalTok{(es$CODE_POSTAL)}
-\end{Highlighting}
-\end{Shaded}
+  \begin{table}[ht]
+  \centering
+  \begin{tabular}{rrr}
+    \hline
+   & n & \% \\ 
+    \hline
+  Non Renseignés & 53 476,00 & 86,54 \\ 
+    Renseignés & 8 317,00 & 13,46 \\ 
+    Moyen personnel & 1 214,00 & 14,60 \\ 
+    Ambulance & 4 518,00 & 54,32 \\ 
+    VSAV & 2 262,00 & 27,20 \\ 
+    SMUR & 274,00 & 3,29 \\ 
+    Hélicoptère & 2,00 & 0,02 \\ 
+    Forces de l'ordre & 47,00 & 0,57 \\ 
+     \hline
+  \end{tabular}
+  \caption{ES non CHU siège de SAMU 2014 - Moyens de transport} 
+  \end{table}
+\item
+  Gravité des RPU évaluée selon la classification CCMU:
 
-\begin{verbatim}
-          n        n.na        p.na      n.rens      p.rens n.residents 
-      59471           0           0       59471           1       57952 
-n.etrangers 
-       1519 
-\end{verbatim}
+  \begin{table}[ht]
+  \centering
+  \begin{tabular}{rrr}
+    \hline
+   & n & \% \\ 
+    \hline
+  Non Renseignés & 28 298,00 & 45,79 \\ 
+    Renseignés & 33 495,00 & 54,21 \\ 
+    CCMU1 & 8 743,00 & 26,10 \\ 
+    CCMU2 & 17 870,00 & 53,35 \\ 
+    CCMU3 & 6 178,00 & 18,44 \\ 
+    CCMU4 & 503,00 & 1,50 \\ 
+    CCMU5 & 201,00 & 0,60 \\ 
+    CCMU PSY &  &  \\ 
+    CCMU DCD &  &  \\ 
+     \hline
+  \end{tabular}
+  \caption{ES non CHU siège de SAMU 2014 - Gravité des RPU évaluée selon la classification CCMU} 
+  \end{table}
+\end{itemize}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-    \CommentTok{# par jour de semaine}
-    \KeywordTok{summary.wday}\NormalTok{(es$ENTREE)}
-\end{Highlighting}
-\end{Shaded}
+\subsubsection{Durée de passages}\label{duree-de-passages-1}
 
-\begin{verbatim}
- Lun  Mar  Mer  Jeu  Ven  Sam  Dim 
-8868 7885 8130 7931 8270 8854 9533 
-\end{verbatim}
+La durée de passage aux urgences est la différence entre l'heure de
+sortie et l'heure d'entrée au SU. Dans les calculs qui suivent ne sont
+retenus que les RPU qui disposent d'une heure d'entrée et de sortie. Une
+durée de passage est considérée comme \textbf{conforme} si elle est
+positive et inférieure à 72 heures (FEDORU).
 
-\begin{Shaded}
-\begin{Highlighting}[]
-    \KeywordTok{summary.age}\NormalTok{(es$AGE)}
-\end{Highlighting}
-\end{Shaded}
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  Nombre de durées de passage conformes: 26 416 (42.75 \%)
+\item
+  Durée moyenne de passage: 254 mn
+\item
+  Durée médiane de passage: 141 mn
+\item
+  Durée moyenne de passage en cas de retour à domicile: 827 mn
+\item
+  Durée médiane de passage en cas de retour à domicile: 664 mn
+\item
+  Durée moyenne de passage en cas d'hospitalisation: 346 mn
+\item
+  Durée médiane de passage en cas d'hospitalisation: 312 mn
 
-\begin{verbatim}
-         n       n.na       p.na     n.rens     p.rens   n.inf1an 
- 59471.000      0.000      0.000  59471.000      1.000   4715.000 
-n.inf15ans n.inf18ans    n.75ans    n.85ans    n.90ans   p.inf1an 
- 19015.000  20847.000   7480.000   3152.000   1226.000      0.079 
-p.inf15ans p.inf18ans    p.75ans    p.85ans    p.90ans   mean.age 
-     0.320      0.351      0.126      0.053      0.021     34.600 
-    sd.age median.age    min.age    max.age         q1         q3 
-    28.078     30.000      0.000    113.000      8.000     57.000 
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-    \CommentTok{# passages de nuit}
-    \KeywordTok{passage}\NormalTok{(}\KeywordTok{horaire}\NormalTok{(es$ENTREE), }\StringTok{"nuit"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-[1] 18349.00     0.31
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-    \CommentTok{# passage en PDS}
-    \KeywordTok{table}\NormalTok{(}\KeywordTok{pdsa}\NormalTok{(es$ENTREE))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-
- NPDS  PDSS PDSWE 
-30530 12634 16307 
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-    \CommentTok{#Nombre de RPU avec une date et heure d'entrée renseignées}
-    \KeywordTok{summary.dateheure}\NormalTok{(es$ENTREE)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-     n   n.na   p.na n.rens p.rens 
- 59471      0      0  59471      1 
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-    \CommentTok{# nombre avec moyen de transport renseigné}
-    \KeywordTok{summary.transport}\NormalTok{(es$TRANSPORT)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-         n       n.na       p.na     n.rens     p.rens       n.fo 
-59471.0000  3836.0000     0.0645 55635.0000     0.9355   478.0000 
-    n.heli    n.perso     n.smur     n.vsav     n.ambu       p.fo 
-  122.0000 35973.0000   223.0000  7051.0000 11788.0000     0.0086 
-    p.heli    p.perso     p.smur     p.vsav     p.ambu 
-    0.0022     0.6466     0.0040     0.1267     0.2119 
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-    \CommentTok{# nombre avec CCMU renseigné}
-    \KeywordTok{summary.ccmu}\NormalTok{(es$GRAVITE)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-         n       n.na       p.na     n.rens     p.rens    n.ccmu1 
-59471.0000 14043.0000     0.2361 45428.0000     0.7639  7349.0000 
-   n.ccmu2    n.ccmu3    n.ccmu4    n.ccmu5    n.ccmup    n.ccmud 
-30451.0000  6094.0000  1235.0000   299.0000         NA         NA 
-   p.ccmu1    p.ccmu2    p.ccmu3    p.ccmu4    p.ccmu5    p.ccmup 
-    0.1618     0.6703     0.1341     0.0272     0.0066         NA 
-   p.ccmud 
-        NA 
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-    \CommentTok{# nombre de sorties conformes}
-    \KeywordTok{summary.passages}\NormalTok{(}\KeywordTok{duree.passage2}\NormalTok{(es))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-                n.conforme      duree.moyenne.passage 
-                     47518                        184 
-     duree.mediane.passage  duree.moyenne.passage.dom 
-                       151                        172 
- duree.mediane.passage.dom duree.moyenne.passage.hosp 
-                       141                        244 
-duree.mediane.passage.hosp                 n.passage4 
-                       219                      34593 
-           n.hosp.passage4             n.dom.passage4 
-                      4159                      30434 
-                     n.dom                     n.hosp 
-                     35746                       7543 
-               n.transfert                 n.mutation 
-                       135                       7408 
-                   n.deces 
-                         0 
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-    \CommentTok{# Nombre de RPU avec un mode de sortie renseigné}
-    \KeywordTok{summary.mode.sortie}\NormalTok{(es$MODE_SORTIE)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-          n        n.na        p.na      n.rens      p.rens       n.dom 
- 59471.0000  14257.0000      0.2397  45214.0000      0.7603  36717.0000 
-     n.hosp n.transfert  n.mutation     n.deces       p.dom      p.hosp 
-  8497.0000    150.0000   8347.0000      0.0000      0.8121      0.1879 
-p.transfert  p.mutation     p.deces 
-     0.0033      0.1846      0.0000 
-\end{verbatim}
+  \begin{table}[ht]
+  \centering
+  \begin{tabular}{rrr}
+    \hline
+   & n & \% \\ 
+    \hline
+  Nombre de modes de sortie renseignés & 6 278,00 & 23,77 \\ 
+    Nombre de modes d'orientation renseignés & 3 170,00 & 12,00 \\ 
+    Passages de moins de 4 heures & 17 899,00 & 67,76 \\ 
+    Passages $<$ 4h puis hospitalisation & 1 225,00 & 6,84 \\ 
+    Passages $<$ 4h puis retour à domicile & 16 674,00 & 93,16 \\ 
+    Nombre total de retours à domicile & 2 958,00 & 47,12 \\ 
+    Nombre total d'hospitalisations & 3 320,00 & 52,88 \\ 
+    nombre total de transferts & 115,00 & 1,83 \\ 
+    Nombre total de mutations & 3 205,00 & 51,05 \\ 
+    Nombre de déçès & 0,00 & 0,00 \\ 
+     \hline
+  \end{tabular}
+  \caption{ES non CHU siège de SAMU 2014 - Durées de passage selon le devenir du patient} 
+  \end{table}
+\end{itemize}
 
 \subsection{SU avec SMUR non siège de
 SAMU}\label{su-avec-smur-non-siege-de-samu}
 
-SU abec SMUR sans SAMU, 5 établissements:
+Les SU non sièges de SAMU, avec SMUR représentent cinq établissements:
 
 \begin{itemize}
-\itemsep1pt\parskip0pt\parsep0pt
 \item
   CH Wissembourg
 \item
@@ -1765,194 +1695,170 @@ SU abec SMUR sans SAMU, 5 établissements:
   CH Sélestat
 \item
   CH Colmar
+\item
+  Nombre de passages déclarés: 177 747 en 2014.
+\item
+  Nombre de RPU avec un âge renseigné: 177 747.
+\item
+  Nombre de RPU avec un code postal renseigné: 177 747.
+\item
+  Nombre de passages par jour de la semaine:
 \end{itemize}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{es <-}\StringTok{ }\NormalTok{dx[dx$FINESS %in%}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"Wis"}\NormalTok{,}\StringTok{"Hag"}\NormalTok{,}\StringTok{"Sav"}\NormalTok{,}\StringTok{"Sel"}\NormalTok{,}\StringTok{"Col"}\NormalTok{),]}
-\CommentTok{# analyse_type_etablissement(es)}
+\begin{table}[ht]
+\centering
+\begin{tabular}{rlll}
+  \hline
+ & Jour & n & \% \\ 
+  \hline
+1 & Lun & 27 415 & 15.42 \\ 
+  2 & Mar & 24 007 & 13.51 \\ 
+  3 & Mer & 24 628 & 13.86 \\ 
+  4 & Jeu & 24 099 & 13.56 \\ 
+  5 & Ven & 24 688 & 13.89 \\ 
+  6 & Sam & 25 896 & 14.57 \\ 
+  7 & Dim & 27 014 & 15.2 \\ 
+   \hline
+\end{tabular}
+\caption{Nombre de RPU par jour de semaine} 
+\end{table}
 
-\CommentTok{# nombre de passages déclarés}
-    \KeywordTok{nrow}\NormalTok{(es)}
-\end{Highlighting}
-\end{Shaded}
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  Nombre d'âges renseignés: 177 747
+\end{itemize}
 
-\begin{verbatim}
-[1] 177747
-\end{verbatim}
+\begin{table}[ht]
+\centering
+\begin{tabular}{rlll}
+  \hline
+ & Tranches d'âge & n & \% \\ 
+  \hline
+Moins de 1 an & n.inf1an &  7 110 & 8.74 \\ 
+  Moins de 15 ans & n.inf15ans & 48 795 & 59.98 \\ 
+  75 ans et plus & n.75ans & 25 444 & 31.28 \\ 
+   \hline
+\end{tabular}
+\caption{ES non sièges de SAMU, avec SMUR 2014 - Nombre de RPU par tranches d'âge} 
+\end{table}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-    \CommentTok{# Nombre de RPU avec un âge renseigné}
-    \KeywordTok{summary.age}\NormalTok{(es$AGE)}
-\end{Highlighting}
-\end{Shaded}
+\begin{itemize}
+\item
+  Nombre de passages la nuit: 46 677 (26.26 \%)
+\item
+  Nombre de passages en horaire de PDS:
 
-\begin{verbatim}
-         n       n.na       p.na     n.rens     p.rens   n.inf1an 
-177747.000      0.000      0.000 177747.000      1.000   7110.000 
-n.inf15ans n.inf18ans    n.75ans    n.85ans    n.90ans   p.inf1an 
- 48795.000  55583.000  25444.000  10810.000   4308.000      0.040 
-p.inf15ans p.inf18ans    p.75ans    p.85ans    p.90ans   mean.age 
-     0.275      0.313      0.143      0.061      0.024     37.300 
-    sd.age median.age    min.age    max.age         q1         q3 
-    27.737     33.000      0.000    120.000     13.000     59.000 
-\end{verbatim}
+  \begin{table}[ht]
+  \centering
+  \begin{tabular}{rlll}
+    \hline
+   & Jour & n & \% \\ 
+    \hline
+  1 & NPDS & 98 847 & 55.61 \\ 
+    2 & PDSS & 32 166 & 18.1 \\ 
+    3 & PDSWE & 46 734 & 26.29 \\ 
+     \hline
+  \end{tabular}
+  \caption{Passages aux urgences aux horaires de permanence des soins: Passages totaux (NPDS), passages  en semaine (PDSS), passages le week-end (PDSWE)} 
+  \end{table}
+\item
+  Nombre de RPU avec une date-heure d'entrée renseignés: 177 747 (100
+  \%)
+\item
+  Nombre de RPU avec une date-heure de sortie renseignés: 168 547 (94.82
+  \%)
+\item
+  Moyen de transport utilisé pour se rendre aux urgences:
 
-\begin{Shaded}
-\begin{Highlighting}[]
-    \CommentTok{# Nombre de RPU avec un code postal renseigné}
-    \KeywordTok{summary.cp}\NormalTok{(es$CODE_POSTAL)}
-\end{Highlighting}
-\end{Shaded}
+  \begin{table}[ht]
+  \centering
+  \begin{tabular}{rrr}
+    \hline
+   & n & \% \\ 
+    \hline
+  Non Renseignés & 41 213,00 & 23,19 \\ 
+    Renseignés & 136 534,00 & 76,81 \\ 
+    Moyen personnel & 97 489,00 & 71,40 \\ 
+    Ambulance & 21 771,00 & 15,95 \\ 
+    VSAV & 14 816,00 & 10,85 \\ 
+    SMUR & 1 603,00 & 1,17 \\ 
+    Hélicoptère & 95,00 & 0,07 \\ 
+    Forces de l'ordre & 760,00 & 0,56 \\ 
+     \hline
+  \end{tabular}
+  \caption{ES non sièges de SAMU, avec SMUR 2014 - Moyens de transport} 
+  \end{table}
+\item
+  Gravité des RPU évaluée selon la classification CCMU:
 
-\begin{verbatim}
-          n        n.na        p.na      n.rens      p.rens n.residents 
-     177747           0           0      177747           1      166676 
-n.etrangers 
-      11071 
-\end{verbatim}
+  \begin{table}[ht]
+  \centering
+  \begin{tabular}{rrr}
+    \hline
+   & n & \% \\ 
+    \hline
+  Non Renseignés & 21 649,00 & 12,18 \\ 
+    Renseignés & 156 098,00 & 87,82 \\ 
+    CCMU1 & 27 108,00 & 17,37 \\ 
+    CCMU2 & 101 455,00 & 64,99 \\ 
+    CCMU3 & 24 309,00 & 15,57 \\ 
+    CCMU4 & 1 547,00 & 0,99 \\ 
+    CCMU5 & 385,00 & 0,25 \\ 
+    CCMU PSY & 1 273,00 & 0,82 \\ 
+    CCMU DCD & 21,00 & 0,01 \\ 
+     \hline
+  \end{tabular}
+  \caption{ES non sièges de SAMU, avec SMUR 2014 - Gravité des RPU évaluée selon la classification CCMU} 
+  \end{table}
+\end{itemize}
 
-\begin{Shaded}
-\begin{Highlighting}[]
-    \CommentTok{# par jour de semaine}
-    \KeywordTok{summary.wday}\NormalTok{(es$ENTREE)}
-\end{Highlighting}
-\end{Shaded}
+\subsubsection{Durée de passages}\label{duree-de-passages-2}
 
-\begin{verbatim}
-  Lun   Mar   Mer   Jeu   Ven   Sam   Dim 
-27415 24007 24628 24099 24688 25896 27014 
-\end{verbatim}
+La durée de passage aux urgences est la différence entre l'heure de
+sortie et l'heure d'entrée au SU. Dans les calculs qui suivent ne sont
+retenus que les RPU qui disposent d'une heure d'entrée et de sortie. Une
+durée de passage est considérée comme \textbf{conforme} si elle est
+positive et inférieure à 72 heures (FEDORU).
 
-\begin{Shaded}
-\begin{Highlighting}[]
-    \KeywordTok{summary.age}\NormalTok{(es$AGE)}
-\end{Highlighting}
-\end{Shaded}
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  Nombre de durées de passage conformes: 158 099 (88.95 \%)
+\item
+  Durée moyenne de passage: 164 mn
+\item
+  Durée médiane de passage: 120 mn
+\item
+  Durée moyenne de passage en cas de retour à domicile: 144 mn
+\item
+  Durée médiane de passage en cas de retour à domicile: 107 mn
+\item
+  Durée moyenne de passage en cas d'hospitalisation: 245 mn
+\item
+  Durée médiane de passage en cas d'hospitalisation: 206 mn
 
-\begin{verbatim}
-         n       n.na       p.na     n.rens     p.rens   n.inf1an 
-177747.000      0.000      0.000 177747.000      1.000   7110.000 
-n.inf15ans n.inf18ans    n.75ans    n.85ans    n.90ans   p.inf1an 
- 48795.000  55583.000  25444.000  10810.000   4308.000      0.040 
-p.inf15ans p.inf18ans    p.75ans    p.85ans    p.90ans   mean.age 
-     0.275      0.313      0.143      0.061      0.024     37.300 
-    sd.age median.age    min.age    max.age         q1         q3 
-    27.737     33.000      0.000    120.000     13.000     59.000 
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-    \CommentTok{# passages de nuit}
-    \KeywordTok{passage}\NormalTok{(}\KeywordTok{horaire}\NormalTok{(es$ENTREE), }\StringTok{"nuit"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-[1] 46677.00     0.26
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-    \CommentTok{# passage en PDS}
-    \KeywordTok{table}\NormalTok{(}\KeywordTok{pdsa}\NormalTok{(es$ENTREE))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-
- NPDS  PDSS PDSWE 
-98847 32166 46734 
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-    \CommentTok{#Nombre de RPU avec une date et heure d'entrée renseignées}
-    \KeywordTok{summary.dateheure}\NormalTok{(es$ENTREE)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-     n   n.na   p.na n.rens p.rens 
-177747      0      0 177747      1 
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-    \CommentTok{# nombre avec moyen de transport renseigné}
-    \KeywordTok{summary.transport}\NormalTok{(es$TRANSPORT)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-          n        n.na        p.na      n.rens      p.rens        n.fo 
-177747.0000  41213.0000      0.2319 136534.0000      0.7681    760.0000 
-     n.heli     n.perso      n.smur      n.vsav      n.ambu        p.fo 
-    95.0000  97489.0000   1603.0000  14816.0000  21771.0000      0.0056 
-     p.heli     p.perso      p.smur      p.vsav      p.ambu 
-     0.0007      0.7140      0.0117      0.1085      0.1595 
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-    \CommentTok{# nombre avec CCMU renseigné}
-    \KeywordTok{summary.ccmu}\NormalTok{(es$GRAVITE)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-           n         n.na         p.na       n.rens       p.rens 
-177747.00000  21649.00000      0.12180 156098.00000      0.87820 
-     n.ccmu1      n.ccmu2      n.ccmu3      n.ccmu4      n.ccmu5 
- 27108.00000 101455.00000  24309.00000   1547.00000    385.00000 
-     n.ccmup      n.ccmud      p.ccmu1      p.ccmu2      p.ccmu3 
-  1273.00000     21.00000      0.17366      0.64994      0.15573 
-     p.ccmu4      p.ccmu5      p.ccmup      p.ccmud 
-     0.00991      0.00247      0.00816      0.00013 
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-    \CommentTok{# nombre de sorties conformes}
-    \KeywordTok{summary.passages}\NormalTok{(}\KeywordTok{duree.passage2}\NormalTok{(es))}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-                n.conforme      duree.moyenne.passage 
-                    158099                        164 
-     duree.mediane.passage  duree.moyenne.passage.dom 
-                       120                        144 
- duree.mediane.passage.dom duree.moyenne.passage.hosp 
-                       107                        245 
-duree.mediane.passage.hosp                 n.passage4 
-                       206                     126600 
-           n.hosp.passage4             n.dom.passage4 
-                     18044                     108555 
-                     n.dom                     n.hosp 
-                    125505                      30709 
-               n.transfert                 n.mutation 
-                      2840                      27869 
-                   n.deces 
-                         1 
-\end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-    \CommentTok{# Nombre de RPU avec un mode de sortie renseigné}
-    \KeywordTok{summary.mode.sortie}\NormalTok{(es$MODE_SORTIE)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{verbatim}
-            n          n.na          p.na        n.rens        p.rens 
-177747.000000  10215.000000      0.057469 167532.000000      0.942531 
-        n.dom        n.hosp   n.transfert    n.mutation       n.deces 
-126977.000000  40554.000000   2990.000000  37564.000000      1.000000 
-        p.dom        p.hosp   p.transfert    p.mutation       p.deces 
-     0.757927      0.242067      0.017847      0.224220      0.000006 
-\end{verbatim}
+  \begin{table}[ht]
+  \centering
+  \begin{tabular}{rrr}
+    \hline
+   & n & \% \\ 
+    \hline
+  Nombre de modes de sortie renseignés & 156 215,00 & 98,81 \\ 
+    Nombre de modes d'orientation renseignés & 30 884,00 & 19,53 \\ 
+    Passages de moins de 4 heures & 126 600,00 & 80,08 \\ 
+    Passages $<$ 4h puis hospitalisation & 18 044,00 & 14,25 \\ 
+    Passages $<$ 4h puis retour à domicile & 108 555,00 & 85,75 \\ 
+    Nombre total de retours à domicile & 125 505,00 & 80,34 \\ 
+    Nombre total d'hospitalisations & 30 709,00 & 19,66 \\ 
+    nombre total de transferts & 2 840,00 & 1,82 \\ 
+    Nombre total de mutations & 27 869,00 & 17,84 \\ 
+    Nombre de déçès & 1,00 & 0,00 \\ 
+     \hline
+  \end{tabular}
+  \caption{ES non sièges de SAMU, avec SMUR 2014 - Durées de passage selon le devenir du patient} 
+  \end{table}
+\end{itemize}
 
 \subsection{SU non SMUR, non SAMU, non
 CHU}\label{su-non-smur-non-samu-non-chu}
@@ -1960,7 +1866,6 @@ CHU}\label{su-non-smur-non-samu-non-chu}
 ES avec SU isolé (pas de SMUR associé): 8 établissements
 
 \begin{itemize}
-\itemsep1pt\parskip0pt\parsep0pt
 \item
   Ste Anne
 \item
@@ -1979,87 +1884,301 @@ ES avec SU isolé (pas de SMUR associé): 8 établissements
   Roosvelt
 \item
   Fonderie
+\item
+  Nombre de passages déclarés: 117 722 en 2014.
+\item
+  Nombre de RPU avec un âge renseigné: 117 718.
+\item
+  Nombre de RPU avec un code postal renseigné: 117 722.
+\item
+  Nombre de passages par jour de la semaine:
 \end{itemize}
 
-\begin{verbatim}
-     n.passages       n.age.ren        n.inf1an      n.inf15ans 
-         117722          117718             663           21131 
-        n.75ans       n.cp.rens     n.etrangers           n.lun 
-          12010          117722            3372           18645 
-          n.mar           n.mer           n.jeu           n.ven 
-          15880           16232           16002           16456 
-          n.sam           n.dim          n.nuit           n.pds 
-          17567           16940           27711           49063 
-       n.h.rens    n.trans.rens            n.fo          n.heli 
-         117722           88822             264               1 
-        n.perso          n.smur          n.vsav          n.ambu 
-          74095             602            5825            8035 
-    n.ccmu.rens         n.ccmu1         n.ccmu2         n.ccmu3 
-         104806            8482           85521           10593 
-        n.ccmu4         n.ccmu5         n.ccmuP         n.ccmuD 
-            147              24              34               5 
-       n.ccmu45  n.sorties.conf    mean.passage  median.passage 
-            171          106689             120              87 
-     n.passage4 n.hosp.passage4  n.dom.passage4           n.dom 
-          96529            7050           89478           86531 
-         n.hosp     n.transfert         n.deces   n.mode.sortie 
-           9031            2575               1           99676 
-    n.mutation2 
-           7869 
-\end{verbatim}
+\begin{table}[ht]
+\centering
+\begin{tabular}{rlll}
+  \hline
+ & Jour & n & \% \\ 
+  \hline
+1 & Lun & 18 645 & 15.84 \\ 
+  2 & Mar & 15 880 & 13.49 \\ 
+  3 & Mer & 16 232 & 13.79 \\ 
+  4 & Jeu & 16 002 & 13.59 \\ 
+  5 & Ven & 16 456 & 13.98 \\ 
+  6 & Sam & 17 567 & 14.92 \\ 
+  7 & Dim & 16 940 & 14.39 \\ 
+   \hline
+\end{tabular}
+\caption{Nombre de RPU par jour de semaine} 
+\end{table}
 
-Test de la routine et tableau compact
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  Nombre d'âges renseignés: 117 718
+\end{itemize}
 
-\begin{verbatim}
-##                 es.chu es.samu es.smur es.simple
-## n.passages       61793   59471  177747    117722
-## n.age.ren        61793   59471  177747    117718
-## n.inf1an          2888    4715    7110       663
-## n.inf15ans       14472   19015   48795     21131
-## n.75ans          12337    7480   25444     12010
-## n.cp.rens        61793   59471  177747    117722
-## n.etrangers       2505    1519   11071      3372
-## n.lun             9211    8868   27415     18645
-## n.mar             8980    7885   24007     15880
-## n.mer             8527    8130   24628     16232
-## n.jeu             8667    7931   24099     16002
-## n.ven             9170    8270   24688     16456
-## n.sam             8806    8854   25896     17567
-## n.dim             8432    9533   27014     16940
-## n.nuit           22681   18349   46677     27711
-## n.pds            31550   28941   78900     49063
-## n.h.rens         61793   59471  177747    117722
-## n.trans.rens      8317   55635  136534     88822
-## n.fo                47     478     760       264
-## n.heli               2     122      95         1
-## n.perso           1214   35973   97489     74095
-## n.smur             274     223    1603       602
-## n.vsav            2262    7051   14816      5825
-## n.ambu            4518   11788   21771      8035
-## n.ccmu.rens      33495   45428  156098    104806
-## n.ccmu1           8743    7349   27108      8482
-## n.ccmu2          17870   30451  101455     85521
-## n.ccmu3           6178    6094   24309     10593
-## n.ccmu4            503    1235    1547       147
-## n.ccmu5            201     299     385        24
-## n.ccmuP             NA      NA    1273        34
-## n.ccmuD             NA      NA      21         5
-## n.ccmu45           704    1534    1932       171
-## n.sorties.conf   26416   47518  158099    106689
-## mean.passage       254     184     164       120
-## median.passage     141     151     120        87
-## n.passage4       17899   34593  126600     96529
-## n.hosp.passage4   1225    4159   18044      7050
-## n.dom.passage4   16674   30434  108555     89478
-## n.dom             2958   35746  125505     86531
-## n.hosp            3320    7543   30709      9031
-## n.transfert        115     135    2840      2575
-## n.deces              0       0       1         1
-## n.mode.sortie    26456   45214  167532     99676
-## n.mutation2      23219    8347   37564      7869
-\end{verbatim}
+\begin{table}[ht]
+\centering
+\begin{tabular}{rlll}
+  \hline
+ & Tranches d'âge & n & \% \\ 
+  \hline
+Moins de 1 an & n.inf1an &    663 & 1.96 \\ 
+  Moins de 15 ans & n.inf15ans & 21 131 & 62.51 \\ 
+  75 ans et plus & n.75ans & 12 010 & 35.53 \\ 
+   \hline
+\end{tabular}
+\caption{ES avec SU non SMUR2014 - Nombre de RPU par tranches d'âge} 
+\end{table}
 
-\subsection{Doublons ?}\label{doublons}
+\begin{itemize}
+\item
+  Nombre de passages la nuit: 27 711 (23.54 \%)
+\item
+  Nombre de passages en horaire de PDS:
+
+  \begin{table}[ht]
+  \centering
+  \begin{tabular}{rlll}
+    \hline
+   & Jour & n & \% \\ 
+    \hline
+  1 & NPDS & 68 659 & 58.32 \\ 
+    2 & PDSS & 19 254 & 16.36 \\ 
+    3 & PDSWE & 29 809 & 25.32 \\ 
+     \hline
+  \end{tabular}
+  \caption{Passages aux urgences aux horaires de permanence des soins: Passages totaux (NPDS), passages  en semaine (PDSS), passages le week-end (PDSWE)} 
+  \end{table}
+\item
+  Nombre de RPU avec une date-heure d'entrée renseignés: 117 722 (100
+  \%)
+\item
+  Nombre de RPU avec une date-heure de sortie renseignés: 108 873 (92.48
+  \%)
+\item
+  Moyen de transport utilisé pour se rendre aux urgences:
+
+  \begin{table}[ht]
+  \centering
+  \begin{tabular}{rrr}
+    \hline
+   & n & \% \\ 
+    \hline
+  Non Renseignés & 28 900,00 & 24,55 \\ 
+    Renseignés & 88 822,00 & 75,45 \\ 
+    Moyen personnel & 74 095,00 & 83,42 \\ 
+    Ambulance & 8 035,00 & 9,05 \\ 
+    VSAV & 5 825,00 & 6,56 \\ 
+    SMUR & 602,00 & 0,68 \\ 
+    Hélicoptère & 1,00 & 0,00 \\ 
+    Forces de l'ordre & 264,00 & 0,30 \\ 
+     \hline
+  \end{tabular}
+  \caption{ES avec SU non SMUR2014 - Moyens de transport} 
+  \end{table}
+\item
+  Gravité des RPU évaluée selon la classification CCMU:
+
+  \begin{table}[ht]
+  \centering
+  \begin{tabular}{rrr}
+    \hline
+   & n & \% \\ 
+    \hline
+  Non Renseignés & 12 916,00 & 10,97 \\ 
+    Renseignés & 104 806,00 & 89,03 \\ 
+    CCMU1 & 8 482,00 & 8,09 \\ 
+    CCMU2 & 85 521,00 & 81,60 \\ 
+    CCMU3 & 10 593,00 & 10,11 \\ 
+    CCMU4 & 147,00 & 0,14 \\ 
+    CCMU5 & 24,00 & 0,02 \\ 
+    CCMU PSY & 34,00 & 0,03 \\ 
+    CCMU DCD & 5,00 & 0,00 \\ 
+     \hline
+  \end{tabular}
+  \caption{ES avec SU non SMUR2014 - Gravité des RPU évaluée selon la classification CCMU} 
+  \end{table}
+\end{itemize}
+
+\subsubsection{Durée de passages}\label{duree-de-passages-3}
+
+La durée de passage aux urgences est la différence entre l'heure de
+sortie et l'heure d'entrée au SU. Dans les calculs qui suivent ne sont
+retenus que les RPU qui disposent d'une heure d'entrée et de sortie. Une
+durée de passage est considérée comme \textbf{conforme} si elle est
+positive et inférieure à 72 heures (FEDORU).
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  Nombre de durées de passage conformes: 106 689 (90.63 \%)
+\item
+  Durée moyenne de passage: 120 mn
+\item
+  Durée médiane de passage: 87 mn
+\item
+  Durée moyenne de passage en cas de retour à domicile: 114 mn
+\item
+  Durée médiane de passage en cas de retour à domicile: 84 mn
+\item
+  Durée moyenne de passage en cas d'hospitalisation: 174 mn
+\item
+  Durée médiane de passage en cas d'hospitalisation: 135 mn
+
+  \begin{table}[ht]
+  \centering
+  \begin{tabular}{rrr}
+    \hline
+   & n & \% \\ 
+    \hline
+  Nombre de modes de sortie renseignés & 95 563,00 & 89,57 \\ 
+    Nombre de modes d'orientation renseignés & 6 740,00 & 6,32 \\ 
+    Passages de moins de 4 heures & 96 529,00 & 90,48 \\ 
+    Passages $<$ 4h puis hospitalisation & 7 050,00 & 7,30 \\ 
+    Passages $<$ 4h puis retour à domicile & 89 478,00 & 92,70 \\ 
+    Nombre total de retours à domicile & 86 531,00 & 90,55 \\ 
+    Nombre total d'hospitalisations & 9 031,00 & 9,45 \\ 
+    nombre total de transferts & 2 575,00 & 2,69 \\ 
+    Nombre total de mutations & 6 456,00 & 6,76 \\ 
+    Nombre de déçès & 1,00 & 0,00 \\ 
+     \hline
+  \end{tabular}
+  \caption{ES avec SU non SMUR2014 - Durées de passage selon le devenir du patient} 
+  \end{table}
+\end{itemize}
+
+\section{Test de la routine et tableau
+compact}\label{test-de-la-routine-et-tableau-compact}
+
+En fonction du type de structures d'urgences disponibles, on peut
+distingur quatre catégories d'établissements:
+
+\begin{itemize}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  Catégorie 1: Les SU de CHU (SAMU, SMUR, Urgences adultes et enfants).
+\item
+  Catégorie 2: Les SU non CHU, sièges de SAMU.
+\item
+  Catégorie 3: Les SU non CHU, non SAMU, sièges de SMUR.
+\item
+  Catégorie 4: Les SU simples.
+\end{itemize}
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{rrrrr}
+  \hline
+ & Catégorie 1 & Catégorie 2 & Catégorie 3 & Catégorie 4 \\ 
+  \hline
+n.passages & 61793.00 & 59471.00 & 177747.00 & 117722.00 \\ 
+  n.age.ren & 61793.00 & 59471.00 & 177747.00 & 117718.00 \\ 
+  n.inf1an & 2888.00 & 4715.00 & 7110.00 & 663.00 \\ 
+  n.inf15ans & 14472.00 & 19015.00 & 48795.00 & 21131.00 \\ 
+  n.75ans & 12337.00 & 7480.00 & 25444.00 & 12010.00 \\ 
+  n.cp.rens & 61793.00 & 59471.00 & 177747.00 & 117722.00 \\ 
+  n.etrangers & 2505.00 & 1519.00 & 11071.00 & 3372.00 \\ 
+  n.lun & 9211.00 & 8868.00 & 27415.00 & 18645.00 \\ 
+  n.mar & 8980.00 & 7885.00 & 24007.00 & 15880.00 \\ 
+  n.mer & 8527.00 & 8130.00 & 24628.00 & 16232.00 \\ 
+  n.jeu & 8667.00 & 7931.00 & 24099.00 & 16002.00 \\ 
+  n.ven & 9170.00 & 8270.00 & 24688.00 & 16456.00 \\ 
+  n.sam & 8806.00 & 8854.00 & 25896.00 & 17567.00 \\ 
+  n.dim & 8432.00 & 9533.00 & 27014.00 & 16940.00 \\ 
+  n.nuit & 22681.00 & 18349.00 & 46677.00 & 27711.00 \\ 
+  n.pds & 31550.00 & 28941.00 & 78900.00 & 49063.00 \\ 
+  n.h.rens & 61793.00 & 59471.00 & 177747.00 & 117722.00 \\ 
+  n.trans.rens & 8317.00 & 55635.00 & 136534.00 & 88822.00 \\ 
+  n.fo & 47.00 & 478.00 & 760.00 & 264.00 \\ 
+  n.heli & 2.00 & 122.00 & 95.00 & 1.00 \\ 
+  n.perso & 1214.00 & 35973.00 & 97489.00 & 74095.00 \\ 
+  n.smur & 274.00 & 223.00 & 1603.00 & 602.00 \\ 
+  n.vsav & 2262.00 & 7051.00 & 14816.00 & 5825.00 \\ 
+  n.ambu & 4518.00 & 11788.00 & 21771.00 & 8035.00 \\ 
+  n.ccmu.rens & 33495.00 & 45428.00 & 156098.00 & 104806.00 \\ 
+  n.ccmu1 & 8743.00 & 7349.00 & 27108.00 & 8482.00 \\ 
+  n.ccmu2 & 17870.00 & 30451.00 & 101455.00 & 85521.00 \\ 
+  n.ccmu3 & 6178.00 & 6094.00 & 24309.00 & 10593.00 \\ 
+  n.ccmu4 & 503.00 & 1235.00 & 1547.00 & 147.00 \\ 
+  n.ccmu5 & 201.00 & 299.00 & 385.00 & 24.00 \\ 
+  n.ccmuP &  &  & 1273.00 & 34.00 \\ 
+  n.ccmuD &  &  & 21.00 & 5.00 \\ 
+  n.ccmu45 & 704.00 & 1534.00 & 1932.00 & 171.00 \\ 
+  n.sorties.conf & 26416.00 & 47518.00 & 158099.00 & 106689.00 \\ 
+  mean.passage & 254.03 & 184.40 & 163.53 & 119.78 \\ 
+  median.passage & 141.00 & 151.00 & 120.00 & 87.00 \\ 
+  n.passage4 & 17899.00 & 34593.00 & 126600.00 & 96529.00 \\ 
+  n.hosp.passage4 & 1225.00 & 4159.00 & 18044.00 & 7050.00 \\ 
+  n.dom.passage4 & 16674.00 & 30434.00 & 108555.00 & 89478.00 \\ 
+  n.dom & 2958.00 & 35746.00 & 125505.00 & 86531.00 \\ 
+  n.hosp & 3320.00 & 7543.00 & 30709.00 & 9031.00 \\ 
+  n.transfert & 115.00 & 135.00 & 2840.00 & 2575.00 \\ 
+  n.deces & 0.00 & 0.00 & 1.00 & 1.00 \\ 
+  n.mode.sortie & 26456.00 & 45214.00 & 167532.00 & 99676.00 \\ 
+  n.mutation2 & 23219.00 & 8347.00 & 37564.00 & 7869.00 \\ 
+   \hline
+\end{tabular}
+\caption{Chiffres clés des SU d'Alsace en 2014 - Synthèse des données en fonction de la catégorie d'établissement.} 
+\end{table}
+
+En pourcentages:
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{rrrrr}
+  \hline
+ & Catégorie 1 & Catégorie 2 & Catégorie 3 & Catégorie 4 \\ 
+  \hline
+p.age.ren & 100.00 & 100.00 & 100.00 & 100.00 \\ 
+  p.inf1an & 4.67 & 7.93 & 4.00 & 0.56 \\ 
+  p.inf15ans & 23.42 & 31.97 & 27.45 & 17.95 \\ 
+  p.75ans & 19.97 & 12.58 & 14.31 & 10.20 \\ 
+  p.cp.rens & 100.00 & 100.00 & 100.00 & 100.00 \\ 
+  p.etrangers &  &  &  &  \\ 
+  p.lun & 921100.00 & 886800.00 & 2741500.00 & 1864500.00 \\ 
+  p.mar & 898000.00 & 788500.00 & 2400700.00 & 1588000.00 \\ 
+  p.mer & 852700.00 & 813000.00 & 2462800.00 & 1623200.00 \\ 
+  p.jeu & 866700.00 & 793100.00 & 2409900.00 & 1600200.00 \\ 
+  p.ven & 917000.00 & 827000.00 & 2468800.00 & 1645600.00 \\ 
+  p.sam & 880600.00 & 885400.00 & 2589600.00 & 1756700.00 \\ 
+  p.dim & 843200.00 & 953300.00 & 2701400.00 & 1694000.00 \\ 
+  p.nuit & 2268100.00 & 1834900.00 & 4667700.00 & 2771100.00 \\ 
+  p.pds & 3155000.00 & 2894100.00 & 7890000.00 & 4906300.00 \\ 
+  p.h.rens & 100.00 & 100.00 & 100.00 & 100.00 \\ 
+  p.trans.rens & 13.46 & 93.55 & 76.81 & 75.45 \\ 
+  p.fo & 0.57 & 0.86 & 0.56 & 0.30 \\ 
+  p.heli & 0.02 & 0.22 & 0.07 & 0.00 \\ 
+  p.perso & 14.60 & 64.66 & 71.40 & 83.42 \\ 
+  p.smur & 3.29 & 0.40 & 1.17 & 0.68 \\ 
+  p.vsav & 27.20 & 12.67 & 10.85 & 6.56 \\ 
+  p.ambu & 54.32 & 21.19 & 15.95 & 9.05 \\ 
+  p.ccmu.rens & 54.21 & 76.39 & 87.82 & 89.03 \\ 
+  p.ccmu1 & 26.10 & 16.18 & 17.37 & 8.09 \\ 
+  p.ccmu2 & 53.35 & 67.03 & 64.99 & 81.60 \\ 
+  p.ccmu3 & 18.44 & 13.41 & 15.57 & 10.11 \\ 
+  p.ccmu4 & 1.50 & 2.72 & 0.99 & 0.14 \\ 
+  p.ccmu5 & 0.60 & 0.66 & 0.25 & 0.02 \\ 
+  p.ccmuP &  &  & 0.82 & 0.03 \\ 
+  p.ccmuD &  &  & 0.01 & 0.00 \\ 
+  p.ccmu45 & 2.10 & 3.38 & 1.24 & 0.16 \\ 
+  p.sorties.conf &  &  &  &  \\ 
+  p.passage4 & 67.76 & 72.80 & 80.08 & 90.48 \\ 
+  p.hosp.passage4 & 6.84 & 12.02 & 14.25 & 7.30 \\ 
+  p.dom.passage4 & 93.16 & 87.98 & 85.75 & 92.70 \\ 
+  p.dom & 47.12 & 82.58 & 80.34 & 90.55 \\ 
+  p.hosp & 52.88 & 17.42 & 19.66 & 9.45 \\ 
+  p.transfert & 1.83 & 0.31 & 1.82 & 2.69 \\ 
+  p.deces & 0.00 & 0.00 & 0.00 & 0.00 \\ 
+  p.mode.sortie & 42.81 & 76.03 & 94.25 & 84.67 \\ 
+  p.mutation2 & 87.76 & 18.46 & 22.42 & 7.89 \\ 
+   \hline
+\end{tabular}
+\caption{Chiffres clés des SU d'Alsace en 2014 - Synthèse des données, exprimées en pourcentage, en fonction de la catégorie d'établissement.} 
+\end{table}
+
+\section{Doublons ?}\label{doublons}
 
 \begin{itemize}
 \itemsep1pt\parskip0pt\parsep0pt
@@ -2077,7 +2196,7 @@ Test de la routine et tableau compact
   Répartition par tranche heure en pourcentage, année N
 \end{itemize}
 
-\subsection{Comparaison à hôpitaux
+\section{Comparaison à hôpitaux
 constants}\label{comparaison-a-hopitaux-constants}
 
 Introduit dans le rapoort 2014: pour évaluer le taux de progression
@@ -2167,7 +2286,7 @@ cite it when using it for data analysis. See also
 
 \begin{verbatim}
 ##    user  system elapsed 
-##    81.3     2.4    83.7
+##   119.9     2.8   122.8
 \end{verbatim}
 
 \end{document}

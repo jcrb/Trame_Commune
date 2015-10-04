@@ -101,16 +101,19 @@ n.rpu <- nrow(dx) # nb de passages dans l'année
 # sous forme de vecteur
 dx.corrigee2 <- dx[!(dx$ORIENTATION %in% c("FUGUE","PSA","REO")),1]
 n.rpu.corriges <- length(dx.corrigee2)
+
+# Le document de référence pour le rapport est: __V4 trame commune 2014 rapport inter région__ (xps: /home/jcb/Documents/Resural/FEDORU/Trame_Commune/DOC/Trame commune 2014 rapport inter région (V4).docx)
+# 
+# __NOTE__: certaines informations utiles sont dans __RPU_Doc__.
 ```
 
 Activité des structures d’urgences : panorama `r anc` de la région ALSACE
 =========================================================================
-Rapport `r anc` respectant les préconisations de la FEDORU. Source:
-[Trame commune](https://docs.google.com/document/d/101LYVqVLeHZnrujfMm3aqBYfbOwx3CPEB3Y-Lbud2Ls/edit)
+Chiffres clés `r anc` respectant les préconisations de la FEDORU. Source:
+[Trame commune](https://docs.google.com/document/d/101LYVqVLeHZnrujfMm3aqBYfbOwx3CPEB3Y-Lbud2Ls/edit).
+Ce document n'est pas validé et est à considérer comme un document de travail.
 
-Le document de référence pour le rapport est: __V4 trame commune 2014 rapport inter région__ (xps: /home/jcb/Documents/Resural/FEDORU/Trame_Commune/DOC/Trame commune 2014 rapport inter région (V4).docx)
 
-__NOTE__: certaines informations utiles sont dans __RPU_Doc__.
 
 LE MOT DU PRÉSIDENT DE LA FEDORU
 ================================
@@ -1776,7 +1779,9 @@ stargazer(s.avc, title = "Orientation des AVC", label = "orientation")
 Analyse par type d'étblissement
 ===============================
 
-Voir routine __analyse-type_etablissement__ (rapport_2014.R).
+```{r, echo=FALSE}
+# Voir routine __analyse-type_etablissement__ (rapport_2014.R).
+```
 
 SU de CHU
 ---------
@@ -1787,8 +1792,11 @@ Un seul établissement __HUS__ avec 3 SU:
 - HTP Adultes
 - HTP Pédiatrie
 
-```{r chu, echo=TRUE}
+__AVERTISSEMENT__: _Les chiffres des HUS sont très difficilement interprétables en 2014. Du fait d'une anomalie du logiciel récupérant les RPU avant de les transmettre au concentrateur régional, le nombreux RPU sont manquants ou incomplet. L'erreur a été corrigée au mois d'octobre 2014 et seul les deux derniers mois de 2014 sont fiables._
+
+```{r chu, echo=FALSE}
 es <- dx[dx$FINESS == "Hus",]
+es_nom <- "CHU Alsace "
 
 # à gerder ou supprimer mais redondant
  a <- analyse_type_etablissement(es)
@@ -1825,12 +1833,32 @@ es <- dx[dx$FINESS == "Hus",]
     
     # nombre avec CCMU renseigné
     s <- summary.ccmu(es$GRAVITE)
+    
+    sn <- c(s['n.na'], s['n.rens'], s['n.ccmu1'], s['n.ccmu2'], s['n.ccmu3'], s['n.ccmu4'], s['n.ccmu5'], s['n.ccmup'], s['n.ccmud'])
+    sp <- c(s['p.na'], s['p.rens'], s['p.ccmu1'], s['p.ccmu2'], s['p.ccmu3'], s['p.ccmu4'], s['p.ccmu5'], s['p.ccmup'], s['p.ccmud'])
+    r <- rbind(sn, round(sp*100,2))
+    r <- t(r)
+    colnames(r) <- c("n", "%")
+    rownames(r) <- c("Non Renseignés","Renseignés","CCMU1","CCMU2","CCMU3","CCMU4","CCMU5", "CCMU PSY", "CCMU DCD")
+    ccmu <- r
 
     # nombre de sorties conformes
-    summary.passages(duree.passage2(es))
+sdp <- summary.passages(duree.passage2(es))
+n.dp <- nrow(es)
 
-    # Nombre de RPU avec un mode de sortie renseigné
-    summary.mode.sortie(es$MODE_SORTIE)
+sn <- c(sdp['n.mode_sortie.rens'], sdp['n.orientation.rens'], sdp['n.passage4'], sdp['n.hosp.passage4'], sdp['n.dom.passage4'], sdp['n.dom'], sdp['n.hosp'], sdp['n.transfert'], sdp['n.mutation'], sdp['n.deces'])
+
+sp <- c(sdp['p.mode_sortie.rens'], sdp['p.orientation.rens'], sdp['p.passage4'], sdp['p.hosp.passage4'], sdp['p.dom.passage4'], sdp['p.dom'], sdp['p.hosp'], sdp['p.transfert'], sdp['p.mutation'], sdp['p.deces'])
+
+r <- rbind(sn, round(sp*100,2))
+    r <- t(r)
+    colnames(r) <- c("n", "%")
+    rownames(r) <- c("Nombre de modes de sortie renseignés", "Nombre de modes d'orientation renseignés", "Passages de moins de 4 heures","Passages < 4h puis hospitalisation","Passages < 4h puis retour à domicile","Nombre total de retours à domicile","Nombre total d'hospitalisations","nombre total de transferts","Nombre total de mutations", "Nombre de déçès")
+    passages <- r
+
+    # Nombre de RPU avec un mode de sortie renseigné (tous les RPU)
+    ms <- summary.mode.sortie(es$MODE_SORTIE)
+
 ```
 
 - Nombre de passages déclarés: `r format.n(n.passages)` en `r anc`.
@@ -1848,7 +1876,7 @@ es <- dx[dx$FINESS == "Hus",]
 ```{r, echo=FALSE, results='asis'}
     s <- summary.age(es$AGE)
     a <- s[c('n.inf1an', 'n.inf15ans', 'n.75ans')]
-    print.summary.rpu(a, cnames = c("Tranches d'âge","n", "%"), rnames = c("Moins de 1 an", "Moins de 15 ans", "75 ans et plus"), caption = "Nombre de RPU par tranches d'âge")
+    print.summary.rpu(a, cnames = c("Tranches d'âge","n", "%"), rnames = c("Moins de 1 an", "Moins de 15 ans", "75 ans et plus"), caption = paste0(es_nom, anc, " - Nombre de RPU par tranches d'âge"))
 ```
 
 - Nombre de passages la nuit: `r format.n(nuit[1])` (`r round(nuit[2]*100, 2)` %)
@@ -1864,9 +1892,28 @@ es <- dx[dx$FINESS == "Hus",]
 
 - Moyen de transport utilisé pour se rendre aux urgences:
 ```{r, echo=FALSE, results='asis'}
-print.table.rpu(transport, caption = "Moyens de transport")
+print.table.rpu(transport, caption = paste0(es_nom, anc, " - Moyens de transport"))
 ```
 
+- Gravité des RPU évaluée selon la classification CCMU:
+```{r, echo=FALSE, results='asis'}
+print.table.rpu(ccmu, caption = paste0(es_nom, anc, " - Gravité des RPU évaluée selon la classification CCMU"))
+```
+
+### Durée de passages
+
+La durée de passage aux urgences est la différence entre l'heure de sortie et l'heure d'entrée au SU. Dans les calculs qui suivent ne sont retenus que les RPU qui disposent d'une heure d'entrée et de sortie. Une durée de passage est considérée comme __conforme__ si elle est positive et inférieure à 72 heures (FEDORU).
+
+- Nombre de durées de passage conformes: `r format.n(sdp['n.conforme'])` (`r round(sdp['n.conforme']*100/n.dp, 2)` %)
+- Durée moyenne de passage: `r format.n(sdp['duree.moyenne.passage'])` mn
+- Durée médiane de passage: `r format.n(sdp['duree.mediane.passage'])` mn
+- Durée moyenne de passage en cas de retour à domicile: `r format.n(sdp['duree.moyenne.passage.dom'])` mn
+- Durée médiane de passage en cas de retour à domicile: `r format.n(sdp['duree.mediane.passage.dom'])` mn
+- Durée moyenne de passage en cas d'hospitalisation: `r format.n(sdp['duree.moyenne.passage.hosp'])` mn
+- Durée médiane de passage en cas d'hospitalisation: `r format.n(sdp['duree.mediane.passage.hosp'])` mn
+```{r, echo=FALSE, results='asis'}
+print.table.rpu(passages, caption = paste0(es_nom, anc, " - Durées de passage selon le devenir du patient"))
+```
 
 
 SU d'ES siège de SAMU, non CHU
@@ -1876,41 +1923,131 @@ Un seul établissement: CH de Mulhouse avec 2 implantations:
 
 - Emile Muller (Adultes + Pédiatrie traumatique)
 - Hasenrain (Pédiatrie médicale)
+```{r, echo=FALSE}
+es <- dx[dx$FINESS == "Hus",]
+es_nom <- "ES non CHU siège de SAMU "
 
-```{r mul, echo=TRUE, comment=""}
-es <- dx[dx$FINESS == "Mul",]
-# analyse_type_etablissement(es)
+# à gerder ou supprimer mais redondant
+ a <- analyse_type_etablissement(es)
 
     # nombre de passages déclarés
-    nrow(es)
+    n.passages <- nrow(es)
+
     # Nombre de RPU avec un âge renseigné
-    summary.age(es$AGE)
+    age <- summary.age(es$AGE)
+
     # Nombre de RPU avec un code postal renseigné
-    summary.cp(es$CODE_POSTAL)
+    cp <- summary.cp(es$CODE_POSTAL)
     
-    # par jour de semaine
-    summary.wday(es$ENTREE)
-    summary.age(es$AGE)
     # passages de nuit
-    passage(horaire(es$ENTREE), "nuit")
+    nuit <- passage(horaire(es$ENTREE), "nuit")
+
     # passage en PDS
-    table(pdsa(es$ENTREE))
+    pds <- table(pdsa(es$ENTREE))
+
     #Nombre de RPU avec une date et heure d'entrée renseignées
-    summary.dateheure(es$ENTREE)
+    entree <- summary.dateheure(es$ENTREE)
+    sortie <- summary.dateheure(es$SORTIE)
+
     # nombre avec moyen de transport renseigné
-    summary.transport(es$TRANSPORT)
+    s <- summary.transport(es$TRANSPORT)
+    sn <- c(s['n.na'], s['n.rens'], s['n.perso'], s['n.ambu'], s['n.vsav'], s['n.smur'], s['n.heli'], s['n.fo'])
+    sp <- c(s['p.na'], s['p.rens'], s['p.perso'], s['p.ambu'], s['p.vsav'], s['p.smur'], s['p.heli'], s['p.fo'])
+    r <- rbind(sn, round(sp*100,2))
+    r <- t(r)
+    colnames(r) <- c("n", "%")
+    rownames(r) <- c("Non Renseignés","Renseignés","Moyen personnel","Ambulance","VSAV","SMUR","Hélicoptère", "Forces de l'ordre")
+    transport <- r
+
+    
     # nombre avec CCMU renseigné
-    summary.ccmu(es$GRAVITE)
+    s <- summary.ccmu(es$GRAVITE)
+    
+    sn <- c(s['n.na'], s['n.rens'], s['n.ccmu1'], s['n.ccmu2'], s['n.ccmu3'], s['n.ccmu4'], s['n.ccmu5'], s['n.ccmup'], s['n.ccmud'])
+    sp <- c(s['p.na'], s['p.rens'], s['p.ccmu1'], s['p.ccmu2'], s['p.ccmu3'], s['p.ccmu4'], s['p.ccmu5'], s['p.ccmup'], s['p.ccmud'])
+    r <- rbind(sn, round(sp*100,2))
+    r <- t(r)
+    colnames(r) <- c("n", "%")
+    rownames(r) <- c("Non Renseignés","Renseignés","CCMU1","CCMU2","CCMU3","CCMU4","CCMU5", "CCMU PSY", "CCMU DCD")
+    ccmu <- r
+
     # nombre de sorties conformes
-    summary.passages(duree.passage2(es))
-    # Nombre de RPU avec un mode de sortie renseigné
-    summary.mode.sortie(es$MODE_SORTIE)
+sdp <- summary.passages(duree.passage2(es))
+n.dp <- nrow(es)
+
+sn <- c(sdp['n.mode_sortie.rens'], sdp['n.orientation.rens'], sdp['n.passage4'], sdp['n.hosp.passage4'], sdp['n.dom.passage4'], sdp['n.dom'], sdp['n.hosp'], sdp['n.transfert'], sdp['n.mutation'], sdp['n.deces'])
+
+sp <- c(sdp['p.mode_sortie.rens'], sdp['p.orientation.rens'], sdp['p.passage4'], sdp['p.hosp.passage4'], sdp['p.dom.passage4'], sdp['p.dom'], sdp['p.hosp'], sdp['p.transfert'], sdp['p.mutation'], sdp['p.deces'])
+
+r <- rbind(sn, round(sp*100,2))
+    r <- t(r)
+    colnames(r) <- c("n", "%")
+    rownames(r) <- c("Nombre de modes de sortie renseignés", "Nombre de modes d'orientation renseignés", "Passages de moins de 4 heures","Passages < 4h puis hospitalisation","Passages < 4h puis retour à domicile","Nombre total de retours à domicile","Nombre total d'hospitalisations","nombre total de transferts","Nombre total de mutations", "Nombre de déçès")
+    passages <- r
+
+    # Nombre de RPU avec un mode de sortie renseigné (tous les RPU)
+    ms <- summary.mode.sortie(es$MODE_SORTIE)
+
+```
+
+- Nombre de passages déclarés: `r format.n(n.passages)` en `r anc`.
+- Nombre de RPU avec un âge renseigné: `r format.n(age['n.rens'])`.
+- Nombre de RPU avec un code postal renseigné: `r format.n(cp['n.rens'])`.
+- Nombre de passages par jour de la semaine:
+
+```{r, echo=FALSE, results='asis'}
+# par jour de semaine
+    print.summary.rpu(summary.wday(es$ENTREE), cnames = c("Jour","n","%"), caption = "Nombre de RPU par jour de semaine")
+```
+        
+- Nombre d'âges renseignés: `r format.n(age['n.rens'])`
+        
+```{r, echo=FALSE, results='asis'}
+    s <- summary.age(es$AGE)
+    a <- s[c('n.inf1an', 'n.inf15ans', 'n.75ans')]
+    print.summary.rpu(a, cnames = c("Tranches d'âge","n", "%"), rnames = c("Moins de 1 an", "Moins de 15 ans", "75 ans et plus"), caption = paste0(es_nom, anc, " - Nombre de RPU par tranches d'âge"))
+```
+
+- Nombre de passages la nuit: `r format.n(nuit[1])` (`r round(nuit[2]*100, 2)` %)
+
+- Nombre de passages en horaire de PDS:
+```{r, echo=FALSE, results='asis'}
+# par jour de semaine
+    print.summary.rpu(pds, cnames = c("Jour","n","%"), caption = "Passages aux urgences aux horaires de permanence des soins: Passages totaux (NPDS), passages  en semaine (PDSS), passages le week-end (PDSWE)")
+```
+
+-  Nombre de RPU avec une date-heure d'entrée renseignés: `r format.n(entree["n.rens"])` (`r round(entree['p.rens']*100, 2)` %)
+-  Nombre de RPU avec une date-heure de sortie renseignés: `r format.n(sortie['n.rens'])` (`r round(sortie['p.rens']*100, 2)` %)
+
+- Moyen de transport utilisé pour se rendre aux urgences:
+```{r, echo=FALSE, results='asis'}
+print.table.rpu(transport, caption = paste0(es_nom, anc, " - Moyens de transport"))
+```
+
+- Gravité des RPU évaluée selon la classification CCMU:
+```{r, echo=FALSE, results='asis'}
+print.table.rpu(ccmu, caption = paste0(es_nom, anc, " - Gravité des RPU évaluée selon la classification CCMU"))
+```
+
+### Durée de passages
+
+La durée de passage aux urgences est la différence entre l'heure de sortie et l'heure d'entrée au SU. Dans les calculs qui suivent ne sont retenus que les RPU qui disposent d'une heure d'entrée et de sortie. Une durée de passage est considérée comme __conforme__ si elle est positive et inférieure à 72 heures (FEDORU).
+
+- Nombre de durées de passage conformes: `r format.n(sdp['n.conforme'])` (`r round(sdp['n.conforme']*100/n.dp, 2)` %)
+- Durée moyenne de passage: `r format.n(sdp['duree.moyenne.passage'])` mn
+- Durée médiane de passage: `r format.n(sdp['duree.mediane.passage'])` mn
+- Durée moyenne de passage en cas de retour à domicile: `r format.n(sdp['duree.moyenne.passage.dom'])` mn
+- Durée médiane de passage en cas de retour à domicile: `r format.n(sdp['duree.mediane.passage.dom'])` mn
+- Durée moyenne de passage en cas d'hospitalisation: `r format.n(sdp['duree.moyenne.passage.hosp'])` mn
+- Durée médiane de passage en cas d'hospitalisation: `r format.n(sdp['duree.mediane.passage.hosp'])` mn
+```{r, echo=FALSE, results='asis'}
+print.table.rpu(passages, caption = paste0(es_nom, anc, " - Durées de passage selon le devenir du patient"))
 ```
 
 SU avec SMUR non siège de SAMU
 ------------------------------
 
-SU abec SMUR sans SAMU, 5 établissements:
+Les SU non sièges de SAMU, avec SMUR représentent cinq établissements:
 
 - CH Wissembourg
 - CH haguenau
@@ -1918,34 +2055,151 @@ SU abec SMUR sans SAMU, 5 établissements:
 - CH Sélestat
 - CH Colmar
 
-```{r sus, echo=TRUE, comment=""}
+```{r sus, echo=FALSE, comment=""}
 es <- dx[dx$FINESS %in% c("Wis","Hag","Sav","Sel","Col"),]
+es_nom <- "ES non sièges de SAMU, avec SMUR "
 # analyse_type_etablissement(es)
 
 # nombre de passages déclarés
-    nrow(es)
+#     nrow(es)
+#     # Nombre de RPU avec un âge renseigné
+#     summary.age(es$AGE)
+#     # Nombre de RPU avec un code postal renseigné
+#     summary.cp(es$CODE_POSTAL)
+#     
+#     # par jour de semaine
+#     summary.wday(es$ENTREE)
+#     summary.age(es$AGE)
+#     # passages de nuit
+#     passage(horaire(es$ENTREE), "nuit")
+#     # passage en PDS
+#     table(pdsa(es$ENTREE))
+#     #Nombre de RPU avec une date et heure d'entrée renseignées
+#     summary.dateheure(es$ENTREE)
+#     # nombre avec moyen de transport renseigné
+#     summary.transport(es$TRANSPORT)
+#     # nombre avec CCMU renseigné
+#     summary.ccmu(es$GRAVITE)
+#     # nombre de sorties conformes
+#     summary.passages(duree.passage2(es))
+#     # Nombre de RPU avec un mode de sortie renseigné
+#     summary.mode.sortie(es$MODE_SORTIE)
+
+# à gerder ou supprimer mais redondant
+ a <- analyse_type_etablissement(es)
+
+    # nombre de passages déclarés
+    n.passages <- nrow(es)
+
     # Nombre de RPU avec un âge renseigné
-    summary.age(es$AGE)
+    age <- summary.age(es$AGE)
+
     # Nombre de RPU avec un code postal renseigné
-    summary.cp(es$CODE_POSTAL)
+    cp <- summary.cp(es$CODE_POSTAL)
     
-    # par jour de semaine
-    summary.wday(es$ENTREE)
-    summary.age(es$AGE)
     # passages de nuit
-    passage(horaire(es$ENTREE), "nuit")
+    nuit <- passage(horaire(es$ENTREE), "nuit")
+
     # passage en PDS
-    table(pdsa(es$ENTREE))
+    pds <- table(pdsa(es$ENTREE))
+
     #Nombre de RPU avec une date et heure d'entrée renseignées
-    summary.dateheure(es$ENTREE)
+    entree <- summary.dateheure(es$ENTREE)
+    sortie <- summary.dateheure(es$SORTIE)
+
     # nombre avec moyen de transport renseigné
-    summary.transport(es$TRANSPORT)
+    s <- summary.transport(es$TRANSPORT)
+    sn <- c(s['n.na'], s['n.rens'], s['n.perso'], s['n.ambu'], s['n.vsav'], s['n.smur'], s['n.heli'], s['n.fo'])
+    sp <- c(s['p.na'], s['p.rens'], s['p.perso'], s['p.ambu'], s['p.vsav'], s['p.smur'], s['p.heli'], s['p.fo'])
+    r <- rbind(sn, round(sp*100,2))
+    r <- t(r)
+    colnames(r) <- c("n", "%")
+    rownames(r) <- c("Non Renseignés","Renseignés","Moyen personnel","Ambulance","VSAV","SMUR","Hélicoptère", "Forces de l'ordre")
+    transport <- r
+
+    
     # nombre avec CCMU renseigné
-    summary.ccmu(es$GRAVITE)
+    s <- summary.ccmu(es$GRAVITE)
+    
+    sn <- c(s['n.na'], s['n.rens'], s['n.ccmu1'], s['n.ccmu2'], s['n.ccmu3'], s['n.ccmu4'], s['n.ccmu5'], s['n.ccmup'], s['n.ccmud'])
+    sp <- c(s['p.na'], s['p.rens'], s['p.ccmu1'], s['p.ccmu2'], s['p.ccmu3'], s['p.ccmu4'], s['p.ccmu5'], s['p.ccmup'], s['p.ccmud'])
+    r <- rbind(sn, round(sp*100,2))
+    r <- t(r)
+    colnames(r) <- c("n", "%")
+    rownames(r) <- c("Non Renseignés","Renseignés","CCMU1","CCMU2","CCMU3","CCMU4","CCMU5", "CCMU PSY", "CCMU DCD")
+    ccmu <- r
+
     # nombre de sorties conformes
-    summary.passages(duree.passage2(es))
-    # Nombre de RPU avec un mode de sortie renseigné
-    summary.mode.sortie(es$MODE_SORTIE)
+sdp <- summary.passages(duree.passage2(es))
+n.dp <- nrow(es)
+
+sn <- c(sdp['n.mode_sortie.rens'], sdp['n.orientation.rens'], sdp['n.passage4'], sdp['n.hosp.passage4'], sdp['n.dom.passage4'], sdp['n.dom'], sdp['n.hosp'], sdp['n.transfert'], sdp['n.mutation'], sdp['n.deces'])
+
+sp <- c(sdp['p.mode_sortie.rens'], sdp['p.orientation.rens'], sdp['p.passage4'], sdp['p.hosp.passage4'], sdp['p.dom.passage4'], sdp['p.dom'], sdp['p.hosp'], sdp['p.transfert'], sdp['p.mutation'], sdp['p.deces'])
+
+r <- rbind(sn, round(sp*100,2))
+    r <- t(r)
+    colnames(r) <- c("n", "%")
+    rownames(r) <- c("Nombre de modes de sortie renseignés", "Nombre de modes d'orientation renseignés", "Passages de moins de 4 heures","Passages < 4h puis hospitalisation","Passages < 4h puis retour à domicile","Nombre total de retours à domicile","Nombre total d'hospitalisations","nombre total de transferts","Nombre total de mutations", "Nombre de déçès")
+    passages <- r
+
+    # Nombre de RPU avec un mode de sortie renseigné (tous les RPU)
+    ms <- summary.mode.sortie(es$MODE_SORTIE)
+
+```
+
+- Nombre de passages déclarés: `r format.n(n.passages)` en `r anc`.
+- Nombre de RPU avec un âge renseigné: `r format.n(age['n.rens'])`.
+- Nombre de RPU avec un code postal renseigné: `r format.n(cp['n.rens'])`.
+- Nombre de passages par jour de la semaine:
+
+```{r, echo=FALSE, results='asis'}
+# par jour de semaine
+    print.summary.rpu(summary.wday(es$ENTREE), cnames = c("Jour","n","%"), caption = "Nombre de RPU par jour de semaine")
+```
+        
+- Nombre d'âges renseignés: `r format.n(age['n.rens'])`
+        
+```{r, echo=FALSE, results='asis'}
+    s <- summary.age(es$AGE)
+    a <- s[c('n.inf1an', 'n.inf15ans', 'n.75ans')]
+    print.summary.rpu(a, cnames = c("Tranches d'âge","n", "%"), rnames = c("Moins de 1 an", "Moins de 15 ans", "75 ans et plus"), caption = paste0(es_nom, anc, " - Nombre de RPU par tranches d'âge"))
+```
+
+- Nombre de passages la nuit: `r format.n(nuit[1])` (`r round(nuit[2]*100, 2)` %)
+
+- Nombre de passages en horaire de PDS:
+```{r, echo=FALSE, results='asis'}
+# par jour de semaine
+    print.summary.rpu(pds, cnames = c("Jour","n","%"), caption = "Passages aux urgences aux horaires de permanence des soins: Passages totaux (NPDS), passages  en semaine (PDSS), passages le week-end (PDSWE)")
+```
+
+-  Nombre de RPU avec une date-heure d'entrée renseignés: `r format.n(entree["n.rens"])` (`r round(entree['p.rens']*100, 2)` %)
+-  Nombre de RPU avec une date-heure de sortie renseignés: `r format.n(sortie['n.rens'])` (`r round(sortie['p.rens']*100, 2)` %)
+
+- Moyen de transport utilisé pour se rendre aux urgences:
+```{r, echo=FALSE, results='asis'}
+print.table.rpu(transport, caption = paste0(es_nom, anc, " - Moyens de transport"))
+```
+
+- Gravité des RPU évaluée selon la classification CCMU:
+```{r, echo=FALSE, results='asis'}
+print.table.rpu(ccmu, caption = paste0(es_nom, anc, " - Gravité des RPU évaluée selon la classification CCMU"))
+```
+
+### Durée de passages
+
+La durée de passage aux urgences est la différence entre l'heure de sortie et l'heure d'entrée au SU. Dans les calculs qui suivent ne sont retenus que les RPU qui disposent d'une heure d'entrée et de sortie. Une durée de passage est considérée comme __conforme__ si elle est positive et inférieure à 72 heures (FEDORU).
+
+- Nombre de durées de passage conformes: `r format.n(sdp['n.conforme'])` (`r round(sdp['n.conforme']*100/n.dp, 2)` %)
+- Durée moyenne de passage: `r format.n(sdp['duree.moyenne.passage'])` mn
+- Durée médiane de passage: `r format.n(sdp['duree.mediane.passage'])` mn
+- Durée moyenne de passage en cas de retour à domicile: `r format.n(sdp['duree.moyenne.passage.dom'])` mn
+- Durée médiane de passage en cas de retour à domicile: `r format.n(sdp['duree.mediane.passage.dom'])` mn
+- Durée moyenne de passage en cas d'hospitalisation: `r format.n(sdp['duree.moyenne.passage.hosp'])` mn
+- Durée médiane de passage en cas d'hospitalisation: `r format.n(sdp['duree.mediane.passage.hosp'])` mn
+```{r, echo=FALSE, results='asis'}
+print.table.rpu(passages, caption = paste0(es_nom, anc, " - Durées de passage selon le devenir du patient"))
 ```
 
 
@@ -1968,9 +2222,10 @@ ES avec SU isolé (pas de SMUR associé): 8 établissements
 
 es <- NULL
 es <- dx[dx$FINESS  %in% c("Ane","Odi","Dts","Geb","Alk","3Fr","Ros","Dia"),]
+es_nom <- "ES avec SU non SMUR"
 
-es.simple <- analyse_type_etablissement(es)
-es.simple
+#es.simple <- analyse_type_etablissement(es)
+# es.simple
 
 # # nombre de passages déclarés
 # nrow(es)
@@ -1997,11 +2252,134 @@ es.simple
 # # Nombre de RPU avec un mode de sortie renseigné
 # summary.mode.sortie(es$MODE_SORTIE)
 
+# à gerder ou supprimer mais redondant
+ a <- analyse_type_etablissement(es)
+
+    # nombre de passages déclarés
+    n.passages <- nrow(es)
+
+    # Nombre de RPU avec un âge renseigné
+    age <- summary.age(es$AGE)
+
+    # Nombre de RPU avec un code postal renseigné
+    cp <- summary.cp(es$CODE_POSTAL)
+    
+    # passages de nuit
+    nuit <- passage(horaire(es$ENTREE), "nuit")
+
+    # passage en PDS
+    pds <- table(pdsa(es$ENTREE))
+
+    #Nombre de RPU avec une date et heure d'entrée renseignées
+    entree <- summary.dateheure(es$ENTREE)
+    sortie <- summary.dateheure(es$SORTIE)
+
+    # nombre avec moyen de transport renseigné
+    s <- summary.transport(es$TRANSPORT)
+    sn <- c(s['n.na'], s['n.rens'], s['n.perso'], s['n.ambu'], s['n.vsav'], s['n.smur'], s['n.heli'], s['n.fo'])
+    sp <- c(s['p.na'], s['p.rens'], s['p.perso'], s['p.ambu'], s['p.vsav'], s['p.smur'], s['p.heli'], s['p.fo'])
+    r <- rbind(sn, round(sp*100,2))
+    r <- t(r)
+    colnames(r) <- c("n", "%")
+    rownames(r) <- c("Non Renseignés","Renseignés","Moyen personnel","Ambulance","VSAV","SMUR","Hélicoptère", "Forces de l'ordre")
+    transport <- r
+
+    
+    # nombre avec CCMU renseigné
+    s <- summary.ccmu(es$GRAVITE)
+    
+    sn <- c(s['n.na'], s['n.rens'], s['n.ccmu1'], s['n.ccmu2'], s['n.ccmu3'], s['n.ccmu4'], s['n.ccmu5'], s['n.ccmup'], s['n.ccmud'])
+    sp <- c(s['p.na'], s['p.rens'], s['p.ccmu1'], s['p.ccmu2'], s['p.ccmu3'], s['p.ccmu4'], s['p.ccmu5'], s['p.ccmup'], s['p.ccmud'])
+    r <- rbind(sn, round(sp*100,2))
+    r <- t(r)
+    colnames(r) <- c("n", "%")
+    rownames(r) <- c("Non Renseignés","Renseignés","CCMU1","CCMU2","CCMU3","CCMU4","CCMU5", "CCMU PSY", "CCMU DCD")
+    ccmu <- r
+
+    # nombre de sorties conformes
+sdp <- summary.passages(duree.passage2(es))
+n.dp <- nrow(es)
+
+sn <- c(sdp['n.mode_sortie.rens'], sdp['n.orientation.rens'], sdp['n.passage4'], sdp['n.hosp.passage4'], sdp['n.dom.passage4'], sdp['n.dom'], sdp['n.hosp'], sdp['n.transfert'], sdp['n.mutation'], sdp['n.deces'])
+
+sp <- c(sdp['p.mode_sortie.rens'], sdp['p.orientation.rens'], sdp['p.passage4'], sdp['p.hosp.passage4'], sdp['p.dom.passage4'], sdp['p.dom'], sdp['p.hosp'], sdp['p.transfert'], sdp['p.mutation'], sdp['p.deces'])
+
+r <- rbind(sn, round(sp*100,2))
+    r <- t(r)
+    colnames(r) <- c("n", "%")
+    rownames(r) <- c("Nombre de modes de sortie renseignés", "Nombre de modes d'orientation renseignés", "Passages de moins de 4 heures","Passages < 4h puis hospitalisation","Passages < 4h puis retour à domicile","Nombre total de retours à domicile","Nombre total d'hospitalisations","nombre total de transferts","Nombre total de mutations", "Nombre de déçès")
+    passages <- r
+
+    # Nombre de RPU avec un mode de sortie renseigné (tous les RPU)
+    ms <- summary.mode.sortie(es$MODE_SORTIE)
+
+```
+
+- Nombre de passages déclarés: `r format.n(n.passages)` en `r anc`.
+- Nombre de RPU avec un âge renseigné: `r format.n(age['n.rens'])`.
+- Nombre de RPU avec un code postal renseigné: `r format.n(cp['n.rens'])`.
+- Nombre de passages par jour de la semaine:
+
+```{r, echo=FALSE, results='asis'}
+# par jour de semaine
+    print.summary.rpu(summary.wday(es$ENTREE), cnames = c("Jour","n","%"), caption = "Nombre de RPU par jour de semaine")
+```
+        
+- Nombre d'âges renseignés: `r format.n(age['n.rens'])`
+        
+```{r, echo=FALSE, results='asis'}
+    s <- summary.age(es$AGE)
+    a <- s[c('n.inf1an', 'n.inf15ans', 'n.75ans')]
+    print.summary.rpu(a, cnames = c("Tranches d'âge","n", "%"), rnames = c("Moins de 1 an", "Moins de 15 ans", "75 ans et plus"), caption = paste0(es_nom, anc, " - Nombre de RPU par tranches d'âge"))
+```
+
+- Nombre de passages la nuit: `r format.n(nuit[1])` (`r round(nuit[2]*100, 2)` %)
+
+- Nombre de passages en horaire de PDS:
+```{r, echo=FALSE, results='asis'}
+# par jour de semaine
+    print.summary.rpu(pds, cnames = c("Jour","n","%"), caption = "Passages aux urgences aux horaires de permanence des soins: Passages totaux (NPDS), passages  en semaine (PDSS), passages le week-end (PDSWE)")
+```
+
+-  Nombre de RPU avec une date-heure d'entrée renseignés: `r format.n(entree["n.rens"])` (`r round(entree['p.rens']*100, 2)` %)
+-  Nombre de RPU avec une date-heure de sortie renseignés: `r format.n(sortie['n.rens'])` (`r round(sortie['p.rens']*100, 2)` %)
+
+- Moyen de transport utilisé pour se rendre aux urgences:
+```{r, echo=FALSE, results='asis'}
+print.table.rpu(transport, caption = paste0(es_nom, anc, " - Moyens de transport"))
+```
+
+- Gravité des RPU évaluée selon la classification CCMU:
+```{r, echo=FALSE, results='asis'}
+print.table.rpu(ccmu, caption = paste0(es_nom, anc, " - Gravité des RPU évaluée selon la classification CCMU"))
+```
+
+### Durée de passages
+
+La durée de passage aux urgences est la différence entre l'heure de sortie et l'heure d'entrée au SU. Dans les calculs qui suivent ne sont retenus que les RPU qui disposent d'une heure d'entrée et de sortie. Une durée de passage est considérée comme __conforme__ si elle est positive et inférieure à 72 heures (FEDORU).
+
+- Nombre de durées de passage conformes: `r format.n(sdp['n.conforme'])` (`r round(sdp['n.conforme']*100/n.dp, 2)` %)
+- Durée moyenne de passage: `r format.n(sdp['duree.moyenne.passage'])` mn
+- Durée médiane de passage: `r format.n(sdp['duree.mediane.passage'])` mn
+- Durée moyenne de passage en cas de retour à domicile: `r format.n(sdp['duree.moyenne.passage.dom'])` mn
+- Durée médiane de passage en cas de retour à domicile: `r format.n(sdp['duree.mediane.passage.dom'])` mn
+- Durée moyenne de passage en cas d'hospitalisation: `r format.n(sdp['duree.moyenne.passage.hosp'])` mn
+- Durée médiane de passage en cas d'hospitalisation: `r format.n(sdp['duree.mediane.passage.hosp'])` mn
+```{r, echo=FALSE, results='asis'}
+print.table.rpu(passages, caption = paste0(es_nom, anc, " - Durées de passage selon le devenir du patient"))
 ```
 
 Test de la routine et tableau compact
+=====================================
 
-```{r tableauSU, echo=FALSE}
+En fonction du type de structures d'urgences disponibles, on peut distingur quatre catégories d'établissements:
+
+- Catégorie 1: Les SU de CHU (SAMU, SMUR, Urgences adultes et enfants).
+- Catégorie 2: Les SU non CHU, sièges de SAMU.
+- Catégorie 3: Les SU non CHU, non SAMU, sièges de SMUR.
+- Catégorie 4: Les SU simples.
+
+```{r tableauSU, echo=FALSE, results='asis'}
 es <- dx[dx$FINESS %in% c("Wis","Hag","Sav","Sel","Col"),]
 es.smur <- analyse_type_etablissement(es)
 es <- dx[dx$FINESS == "Hus",]
@@ -2012,16 +2390,35 @@ es <- dx[dx$FINESS  %in% c("Ane","Odi","Dts","Geb","Alk","3Fr","Ros","Dia"),]
 es.simple <- analyse_type_etablissement(es)
 
 t <- cbind(es.chu, es.samu, es.smur, es.simple)
+colnames(t) <- c("Catégorie 1", "Catégorie 2", "Catégorie 3", "Catégorie 4")
 
-# colnames(t) <- c("CHU", "SU non CHU siège de SAMU","SU non SAMU siège de SMUR","Autre SU")
 # rownames(t) <- c("Nombre de RPU", "Nombre d'âges renseignés", "Nombre de moins de 1 an", "Nombre de moins de 15 ans", "Nombre de 75 ans et plus", "Nombre de RPU avec un code postal renseigné", "Nombre de Patients ne venant pas de la région (étranger compris)", "Nombre de passages les lundis", "Nombre de passages les mardis", "Nombre de passages les mercredis", "Nombre de passages les jeudis", "Nombre de passages les vendredis", "Nombre de passages les samedis", "Nombre de passages les dimanchess", "Nombre de RPU la nuit (20h-8h)", "Nombre de RPU en horaire de PDS", "Nombre de RPU avec une date et heure d'entrée renseignées", "Nombre de RPU avec un moyen de transport renseigné", "Amené par la police", "Arrivés par hélicoptère", "Nombre de moyen personnel", "Nombre de SMUR", "Nombre de VSAV", "Nombre d'ambulances", "Nombre de RPU avec une CCMU renseignée", "CCMU 1", "CCMU 2", "CCMU 3", "CCMU 4", "CCMU 5", "CCMU P", "CCMU D", "CCMU 4 et 5", "Nombre de RPU avec une heure de sortie conforme (]0-72h[", "Durée moyenne de passage (en min)", "Durée médiane de passage (en min)", "Nombre de RPU dont la durée de passage est inférieure à 4h", "Nombre de RPU dont la durée de passage est inférieure à 4h lors d'une hospitalisation post-urgences", "Nombre de RPU dont la durée de passage est inférieure à 4h lors d'une retour au domicile", "Nombre de RPU lors d'un retour au domicile", "Nombre de RPU lors d'une hospitalisation post-urgences",  "Nombre de RPU avec transfert", "Nombre de RPU avec décès", "Nombre de RPU avec un mode de sortie renseigné", "Nombre de RPU avec mutation")
 
-t
+print.xtable(xtable(t, caption = paste0("Chiffres clés des SU d'Alsace en ", anc, " - Synthèse des données en fonction de la catégorie d'établissement.")))
+
+```
+En pourcentages:
+
+```{r, echo=FALSE, results='asis'}
+es <- dx[dx$FINESS %in% c("Wis","Hag","Sav","Sel","Col"),]
+es.smur <- analyse_type_etablissement_p(es)
+es <- dx[dx$FINESS == "Hus",]
+es.chu <- analyse_type_etablissement_p(es)
+es <- dx[dx$FINESS == "Mul",]
+es.samu <- analyse_type_etablissement_p(es)
+es <- dx[dx$FINESS  %in% c("Ane","Odi","Dts","Geb","Alk","3Fr","Ros","Dia"),]
+es.simple <- analyse_type_etablissement_p(es)
+
+t <- cbind(es.chu, es.samu, es.smur, es.simple)
+t <- round(t * 100, 2)
+colnames(t) <- c("Catégorie 1", "Catégorie 2", "Catégorie 3", "Catégorie 4")
+
+print.xtable(xtable(t, caption = paste0("Chiffres clés des SU d'Alsace en ", anc, " - Synthèse des données, exprimées en pourcentage, en fonction de la catégorie d'établissement.")))
+
 ```
 
-
 Doublons ?
-----------
+==========
 
 - Age moyen, année N
 - Répartition par classe âge en pourcentage, année N
@@ -2035,7 +2432,7 @@ Doublons ?
 ```
 
 Comparaison à hôpitaux constants
---------------------------------
+================================
 Introduit dans le rapoort 2014: pour évaluer le taux de progression 2013-2014, on compare uniquement les hôpitaux de 2014 qui transmettaient déjà des données en 2013:
 ```{r}
 # données 2013 
