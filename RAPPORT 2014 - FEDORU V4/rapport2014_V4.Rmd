@@ -831,7 +831,7 @@ chiffres <- c(chiffres, val)
 - Nombre de dossiers de régulation médicale (DRM): `r drm`
 - Nombre de SMUR : `r format.n(smur_primaires + smur_secondaires + smur_neonat)`
     - dont primaires: `r format.n(smur_primaires)`
-- Nombre d’ambulances privées à la demande du SAMU: `format.n(r assu)`
+- Nombre d’ambulances privées à la demande du SAMU: `r format.n(assu)`
 
 Organisation
 ------------
