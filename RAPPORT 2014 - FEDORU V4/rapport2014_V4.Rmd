@@ -15,6 +15,7 @@ output:
     number_sections: yes
     theme: cerulean
     toc: yes
+graphics: yes
 ---
 
 Version mse à jour le: __`r format(Sys.Date(), "%d/%m/%Y")`__
@@ -35,6 +36,8 @@ library(xts)
 library(R.utils)
 library(epicalc)
 library(stargazer)
+library(sp)
+library(png)
 library(xtable)
 options(xtable.comment = FALSE)
 
@@ -121,46 +124,81 @@ LE MOT DU PRÉSIDENT DE LA FEDORU
 ```{r test, child = '../mot_du_president_2014.Rmd'}
 ```
 
+Le contexte régional
+====================
+
+```{r contexte, child = '3-Contexte/contexte.Rmd'}
+```
+
 Description de l’offre de soins
 ===============================
 
-Etablissements d'Alsace ayant une autorisation de structure d'urgence
----------------------------------------------------------------------
-Sites gégraphiques d'accueil des urgences:
+```{r samu_smur_su, fig.height=12, fig.align='center'}
 
-- Territoire de santé 1
+# Carte des SU d'Alsace
 
-        - CH de Wissembourg (SU polyvalent + SMUR)
-        - CH de Haguenau (SU polyvalent + SMUR)
-        - CH de Saverne  (SU polyvalent + SMUR)
-- Territoire de santé 2
+# library(sp)
+# library(png)
 
-        - CHU de Strasbourg
-                - NHC (SU adulte)
-                - Hôpital de Hautepierre (SU adulte + SU pédiatrique)
-                - Pôle logistique (SAMU + SMUR + Hélismur)
-        - Clinique Sainte Odile (SU polyvalent)
-        - Clinique Sainte Anne (SU polyvalent)
-        - Clinique du Diaconat (SU Mains)
-- Territoire de santé 3
+par(mar = c(0,0,2,0))
 
-        - CH de Sélestat (SU polyvalent + SMUR)
-        - CH de Colmar 
-                - Hôpital Pasteur (SU polyvalent + SMUR)
-                - Hôpital du parc (SU pédiatrique)
-        - CH de Guebwiller (SU polyvalent)
-- Territoire de santé 4
+# carte de l'Alsace avec les villes sièges de SU
+load("../../../Stat Resural/RPU_Doc/RPU_Carto-Pop-Alsace/Cartographie/Cartofile/als_ts.Rda") #ctss
+plot(ctss, main = "Structures d'urgences en Alsace")
+load("../../../Stat Resural/RPU_Doc/RPU_Carto-Pop-Alsace/Cartographie/Cartofile/tsvilles.Rda")
+points(tsvilles[,2]*100,tsvilles[,3]*100,pch=20,col="red", cex = 1.2)
+text(tsvilles[,2]*100,tsvilles[,3]*100,tsvilles[,1],cex=0.8,pos=4)
+box()
 
-        - CH de Thann (SU polyvalent)
-        - CH d'Altkirch (SU polyvalent)
-        - CH de Mulhouse
-                - Hôpital Emile Muller (SU polyvalent + SAMU + SMUR + Hélismur)
-                - Hôpital du Hasenrain (SU pédiatrique)
-        - Clinique des 3 frontières (SU polyvalent)
-        - Clinique du Diaconat-Fonderie (SU polyvalent)
-        - Clinique du Diaconat-Roosvelt (SU Mains)
+# SMUR
+smur <- tsvilles[tsvilles$NOM %in% c('WISSEMBOURG','HAGUENAU','SAVERNE','STRASBOURG','SELESTAT','COLMAR','MULHOUSE'),]
+a.smur <- as.raster(readPNG("../Logos/data/ambulance15(14).png"))
+cx <- 6000 # coefficient d'aggrandissement (n = 9000)
+x <- smur[,2]*100
+y <- smur[,3]*100
+dpy <- 600 # déplacement de y (une valeur positive déplace vers le haut)
+dpx <- 0 # déplacement horizontal
+rasterImage(a.smur, x, y + dpy, x + cx, y + dpy + cx) # img, x1, y1, x2, y2
 
-En `r anc` tous ces établissements ont fourni des RPU sauf le CH THANN.
+# SAMU
+samu <- tsvilles[tsvilles$NOM %in% c('STRASBOURG', 'MULHOUSE'),]
+a.samu <- as.raster(readPNG("../Logos/data/customer(3).png"))
+rasterImage(a.samu, samu[,2]*100 - 10000, samu[,3]*100, samu[,2]*100 - 10000 + 10000, samu[,3]*100 + 10000)
+
+# hélismur
+a.heli <- as.raster(readPNG("../Logos/data/chopper5(7).png"))
+x <- samu[,2]*100
+y <- samu[,3]*100
+cx <- 15000
+dpx <- 8000
+dpy <- 12000
+rasterImage(a.heli, x - dpx, y - dpy, x - dpx + cx, y + cx - dpy )
+
+# légende
+x <- 1037503 + 20000
+y <- 6810919 - 10000
+
+rasterImage(a.samu, x, y, x + 10000, y + 10000)
+text(x + 10000, y + 5000, "SAMU", pos=4)
+
+x <- x
+y <- y - 10000
+rasterImage(a.smur, x, y, x + 10000, y + 10000)
+text(x + 10000, y + 5000, "SMUR", pos=4)
+
+library(graphics) # cercle
+x <- x + 5000
+y <- y - 5000
+symbols(x, y, circles = 1500, bg = "red", add = TRUE, inches = FALSE)
+text(x + 8000, y , "SU", pos=4)
+
+x <- x - 5000
+y <- y - 12000
+rasterImage(a.heli, x, y, x + 10000, y + 10000)
+text(x + 10000, y + 5000, "HELISMUR", pos=4)
+```
+
+
 
 Qualité des données 
 -------------------
@@ -2474,6 +2512,8 @@ ANNEXES
 
 ANNEXE 1 : Définitions
 ----------------------
+```{r def, child = '2-Definitions/definitions.Rmd'}
+```
 
 ANNEXE 2 : Diagramme de complétude des RPU
 ------------------------------------------

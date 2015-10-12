@@ -2,7 +2,11 @@
 title: "Logos"
 author: "jcb"
 date: "12 septembre 2015"
-output: html_document
+output:
+  html_document:
+    keep_md: yes
+    number_sections: yes
+  pdf_document: default
 ---
 
 Logos pour la cartographie
@@ -89,4 +93,71 @@ smur <- as.raster(readPNG("data/ambulance15(14).png"))
 rasterImage(smur, 4, 2, 5, 3)
 rasterImage(smur, 6, 4, 8, 6)
 ```
+
+Essai de CArto
+==============
+
+```{r samu_smur_su, fig.height=12, fig.align='center'}
+library(sp)
+par(mar = c(0,0,2,0))
+
+# carte de l'Alsace avec les villes sièges de SU
+load("../../../Stat Resural/RPU_Doc/RPU_Carto-Pop-Alsace/Cartographie/Cartofile/als_ts.Rda") #ctss
+ plot(ctss, main = "SAMU et SMUR en Alsace")
+ load("../../../Stat Resural/RPU_Doc/RPU_Carto-Pop-Alsace/Cartographie/Cartofile/tsvilles.Rda")
+ points(tsvilles[,2]*100,tsvilles[,3]*100,pch=20,col="red", cex = 1.2)
+ text(tsvilles[,2]*100,tsvilles[,3]*100,tsvilles[,1],cex=0.8,pos=4)
+box()
+
+# SMUR
+smur <- tsvilles[tsvilles$NOM %in% c('WISSEMBOURG','HAGUENAU','SAVERNE','STRASBOURG','SELESTAT','COLMAR','MULHOUSE'),]
+a.smur <- as.raster(readPNG("data/ambulance15(14).png"))
+cx <- 6000 # coefficient d'aggrandissement (n = 9000)
+x <- smur[,2]*100
+y <- smur[,3]*100
+dy <- 600 # déplacement de y (une valeur positive déplace vers le haut)
+dx <- 0 # déplacement horizontal
+rasterImage(a.smur, x, y + dy, x + cx, y + dy + cx) # img, x1, y1, x2, y2
+
+# SAMU
+samu <- tsvilles[tsvilles$NOM %in% c('STRASBOURG', 'MULHOUSE'),]
+a.samu <- as.raster(readPNG("data/customer(3).png"))
+rasterImage(a.samu, samu[,2]*100 - 10000, samu[,3]*100, samu[,2]*100 - 10000 + 10000, samu[,3]*100 + 10000)
+
+# hélismur
+a.heli <- as.raster(readPNG("data/chopper5(7).png"))
+x <- samu[,2]*100
+y <- samu[,3]*100
+cx <- 15000
+dx <- 8000
+dy <- 12000
+rasterImage(a.heli, x - dx, y - dy, x - dx + cx, y + cx - dy )
+
+# légende
+x <- 1037503 + 20000
+y <- 6810919 - 10000
+
+rasterImage(a.samu, x, y, x + 10000, y + 10000)
+text(x + 10000, y + 5000, "SAMU", pos=4)
+
+x <- x
+y <- y - 10000
+rasterImage(a.smur, x, y, x + 10000, y + 10000)
+text(x + 10000, y + 5000, "SMUR", pos=4)
+
+library(graphics) # cercle
+x <- x + 5000
+y <- y - 5000
+symbols(x, y, circles = 1500, bg = "red", add = TRUE, inches = FALSE)
+text(x + 8000, y , "SU", pos=4)
+
+x <- x - 5000
+y <- y - 12000
+rasterImage(a.heli, x, y, x + 10000, y + 10000)
+text(x + 10000, y + 5000, "HELISMUR", pos=4)
+```
+
+
+
+
 

@@ -1,0 +1,135 @@
+---
+title: ""
+output: pdf_document
+# rem graphics: yes nécessaire pour éviter un plantage avec fig.align = 'center'
+# source: https://github.com/rstudio/rmarkdown/issues/325
+graphics: yes
+---
+
+```{r, echo=FALSE}
+# Le contexte régional
+anc <- 2014
+library(png)
+```
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(fig.width=12, fig.height=6, fig.path='Figs/', echo=FALSE, warning=FALSE, message=FALSE) # , fig.align='center'
+```
+
+Démographie régionale
+---------------------
+    Avec 8280 km², l'Alsace est la plus petite des régions de la France métropolitaine, mais elle fait partie des plus densément peuplée (225 hab./km²) derrière l'Ile de Fance et le Nord.
+
+Elle comprend deux départements, le Bas-Rhin (67) et le Haut-Rhin (68). Elle fait partie de la région du Rhin supérieur avec comme le land du Bade-Wurtemberg et le canton suisse de Bâle avec qui elle partage une frontière commune.
+
+Au 1er janvier 2012, l'Alsace compte 1 859 869 habitants.
+
+Sur la période 1982-2011, la population régionale a augmenté de 286 300 habitants, soit une croissance annuelle moyenne de quelque 10 000 personnes. Ce dynamisme démographique est avant tout lié à l'excédent des naissances sur les décès. En trente ans, ce solde naturel contribue à hauteur de 80 % à la hausse totale de la population.  
+
+Sources:
+    
+    - [INSEE Recensement](http://www.insee.fr/fr/ppp/bases-de-donnees/recensement/populations-legales/france-regions.asp?annee=2012)).
+- [INSEE Régions](http://www.insee.fr/fr/regions/alsace/default.asp?page=faitsetchiffres/presentation/presentation.htm)
+- [INSEE Thèmes](http://www.insee.fr/fr/themes/document.asp?ref_id=20665)
+
+
+Découpage de la région en territoires de santé 
+----------------------------------------------
+Découpage de la région en territoires de santé 
+----------------------------------------------
+    
+    La loi Hôpital Patients Santé et territoires (HPST) prévoit le découpage de chaque région en "territoires de santé" (article L1434-11 du code de la santé publique).
+
+L'Alsace est découpée, du nord au sud, en 4 territoires de santé:
+
+- Le territoire 1 (Haguenau)
+- Le territoire 2 (Strasbourg)
+- Le territoire 3 (Colmar)
+- Le territoire 4 (Mulhouse)
+
+```{r, echo=FALSE,message=FALSE}
+# fond de carte des territoires de santé + villes principales
+library("sp")
+par(mar = c(0,0,2,0))
+n_ts <- 4 # nombre de territoires de santé
+color <- heat.colors(n_ts + 1, alpha = 1)
+load("../../../../Stat Resural/RPU_Doc/RPU_Carto-Pop-Alsace/Cartographie/Cartofile/als_ts.Rda") #ctss
+plot(ctss, col = color)
+load("../../../../Stat Resural/RPU_Doc/RPU_Carto-Pop-Alsace/Cartographie/Cartofile/tsvilles.Rda")
+points(tsvilles[,2]*100,tsvilles[,3]*100,pch=20,col="blue")
+text(tsvilles[,2]*100,tsvilles[,3]*100,tsvilles[,1],cex=0.6,pos=4)
+
+for(i in 1:n_ts){
+# name<-ctss@polygons[[i]]@ID
+name<-as.character(i)
+x<-ctss@polygons[[i]]@labpt[1] # ccord.du centroïde
+y<-ctss@polygons[[i]]@labpt[2]
+symbols(x,y,circles=1,inches=.15,add=T,fg="blue")
+text(x,y,name,cex=0.9,col="blue",font=2)
+}
+
+title(main="Territoires de santé d'Alsace")
+```
+
+
+Population
+
+```{r, echo=FALSE, results='asis'}
+pop.ts.2012 <- read.csv("../../../../Stat Resural/RPU_Doc/RPU_Carto-Pop-Alsace/Demographie/data/pop_ts_2012.csv")
+names(pop.ts.2012) <- c("Territoire", "Population")
+pop.ts.2012$p <- round(pop.ts.2012$Population * 100 / sum(pop.ts.2012$Population), 2)
+names(pop.ts.2012) <- c("Territoire", "Population", "%")
+
+library(xtable)
+print.xtable(xtable(pop.ts.2012))
+
+```
+
+Offre de soins régionale
+========================
+
+La région Alsace dispose de 31 structures d'urgence (SU) qui se répartissent en:
+
+- 19 services d'urgence polyvalents
+- 1 structure d'urgence pédiatrique
+- 2 SAMU
+- 7 SMUR
+- 2 hélismur
+
+### Etablissements d'Alsace ayant une autorisation de structure d'urgence
+
+Sites gégraphiques d'accueil des urgences:
+
+- Territoire de santé 1
+
+- CH de Wissembourg (SU polyvalent + SMUR)
+- CH de Haguenau (SU polyvalent + SMUR)
+- CH de Saverne  (SU polyvalent + SMUR)
+- Territoire de santé 2
+
+- CHU de Strasbourg
+- NHC (SU adulte)
+- Hôpital de Hautepierre (SU adulte + SU pédiatrique)
+- Pôle logistique (SAMU + SMUR + Hélismur)
+- Clinique Sainte Odile (SU polyvalent)
+- Clinique Sainte Anne (SU polyvalent)
+- Clinique du Diaconat (SU Mains)
+- Territoire de santé 3
+
+- CH de Sélestat (SU polyvalent + SMUR)
+- CH de Colmar 
+- Hôpital Pasteur (SU polyvalent + SMUR)
+- Hôpital du parc (SU pédiatrique)
+- CH de Guebwiller (SU polyvalent)
+- Territoire de santé 4
+
+- CH de Thann (SU polyvalent)
+- CH d'Altkirch (SU polyvalent)
+- CH de Mulhouse
+- Hôpital Emile Muller (SU polyvalent + SAMU + SMUR + Hélismur)
+- Hôpital du Hasenrain (SU pédiatrique)
+- Clinique des 3 frontières (SU polyvalent)
+- Clinique du Diaconat-Fonderie (SU polyvalent)
+- Clinique du Diaconat-Roosvelt (SU Mains)
+
+En `r anc` tous ces établissements ont fourni des RPU sauf le CH THANN.
+

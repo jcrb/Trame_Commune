@@ -1,0 +1,43 @@
+
+
+Définitions et méthodes
+-----------------------
+
+### Durée de passage
+
+Délais en minutes ou en heures entre la date de sortie et la date d'entrée. Les passages dont la durée n'est pas calculable, négative, nulle ou supérieure à 72 heures, ne sont pas prises en compte.
+
+### Journée et nuit
+
+- Journée = [08h00 - 19h59]
+- Nuit = [20h00 - 07h59]
+- Soirée = [20h00 - 23h59]
+- Nuit profonde = [00h00 - 07h59]
+
+### Semaine et week-end
+
+- Semaine = [Lundi 00h00 - Vendredi 23h59]
+- Week-end = [Samedi 00h00 - Dimanche 23h59]
+
+### Permanence des soins (PDS)
+
+- Tous les jours de la semaine en horaire de nuit
+- le samedi de 12h à 19h59
+- le dimanche, les jours fériés et les ponts de 08h00 à 19h59
+
+### Sex-ratio
+
+- Sex-ratio: c'est le nombre d'hommes divisé par le nombre de femmes
+- Taux de masculinité: c'est le nombre d'hommes divisé par le nombre de personnes (hommes + femmes)
+
+### Âge
+
+Âge = date d'entrée - date de naissance. Les ages négatifs ou supérieurs à 120 ans ne sont pas pris en compte.
+
+### Pédiatrie
+
+Tous les patients dont l'âge est inférieur à 18 ans.
+
+### Gériatrie
+
+Tous les patients dont l'âge est égal ou supérieur à 75 ans.
