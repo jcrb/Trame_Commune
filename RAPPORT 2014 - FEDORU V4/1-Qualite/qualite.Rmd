@@ -1,0 +1,46 @@
+---
+title: ""
+output: pdf_document
+# rem graphics: yes nécessaire pour éviter un plantage avec fig.align = 'center'
+# source: https://github.com/rstudio/rmarkdown/issues/325
+graphics: yes
+---
+
+Qualité des données 
+-------------------
+
+La qualité des données se mesure par deux critères: l'exhaustivité et . Une exaustivité d'au moins 80% est souhaitable por l'ensemble des items du RPU.
+
+Mesure de l’exhaustivité des items RPU:
+
+```{r completude, echo = FALSE, fig.width=8}
+# calcul de la complétude. La complétude brute est corrigée pour les rubriques orientation et detination.
+# comp <- completude(dx[, -c(1,7)]) # on retire les colonnes sans intérêt: id, EXTRACT
+# on réordonne les colonnes (ordre FEDORU)
+dx2 <- dx[, c("FINESS","id","EXTRACT","CODE_POSTAL","COMMUNE","NAISSANCE","SEXE","ENTREE","MODE_ENTREE","PROVENANCE","TRANSPORT","TRANSPORT_PEC","SORTIE","MODE_SORTIE","DESTINATION","ORIENTATION","MOTIF","GRAVITE","DP")]
+
+comp <- completude(dx2, calcul = "percent")
+s.comp <- completude(dx2, calcul = "somme")
+
+rm(dx2)
+
+# barplot
+par(mar = c(4,8,3,1))
+barplot(sort(comp), horiz = TRUE, las = 1, cex.names = 0.8, xlab = "% de complétude", main = "Complétude des champs RPU", col = "light green")
+abline(v = 80, lty = 2, col = "red")
+```
+
+```{r radar, echo = FALSE, fig.width=8}
+# Tracé du diagrame en étoile
+par(mar =c (0,0,0,0))
+radar.completude(completude(dx))
+```
+
+Complétude en valeur absolue (voir table):
+```{r, echo=FALSE, comment="", results='asis'}
+t <- rbind(s.comp, comp)
+t <- t(t)
+colnames(t) <- c("Fréquence","% exhaustivité")
+print.xtable(xtable(t, caption = paste0("Exhaustivité des RPU alsaciens en ", anc)), format.args = list(big.mark = " ", decimal.mark = ","), comment = FALSE)
+
+```

@@ -17,7 +17,8 @@ knitr::opts_chunk$set(fig.width=12, fig.height=6, fig.path='Figs/', echo=FALSE, 
 
 Démographie régionale
 ---------------------
-    Avec 8280 km², l'Alsace est la plus petite des régions de la France métropolitaine, mais elle fait partie des plus densément peuplée (225 hab./km²) derrière l'Ile de Fance et le Nord.
+
+Avec 8280 km², l'Alsace est la plus petite des régions de la France métropolitaine, mais elle fait partie des plus densément peuplée (225 hab./km²) derrière l'Ile de Fance et le Nord.
 
 Elle comprend deux départements, le Bas-Rhin (67) et le Haut-Rhin (68). Elle fait partie de la région du Rhin supérieur avec comme le land du Bade-Wurtemberg et le canton suisse de Bâle avec qui elle partage une frontière commune.
 
@@ -27,17 +28,15 @@ Sur la période 1982-2011, la population régionale a augmenté de 286 300 habit
 
 Sources:
     
-    - [INSEE Recensement](http://www.insee.fr/fr/ppp/bases-de-donnees/recensement/populations-legales/france-regions.asp?annee=2012)).
+- [INSEE Recensement](http://www.insee.fr/fr/ppp/bases-de-donnees/recensement/populations-legales/france-regions.asp?annee=2012)).
 - [INSEE Régions](http://www.insee.fr/fr/regions/alsace/default.asp?page=faitsetchiffres/presentation/presentation.htm)
 - [INSEE Thèmes](http://www.insee.fr/fr/themes/document.asp?ref_id=20665)
 
 
 Découpage de la région en territoires de santé 
 ----------------------------------------------
-Découpage de la région en territoires de santé 
-----------------------------------------------
     
-    La loi Hôpital Patients Santé et territoires (HPST) prévoit le découpage de chaque région en "territoires de santé" (article L1434-11 du code de la santé publique).
+La loi Hôpital Patients Santé et territoires (HPST) prévoit le découpage de chaque région en "territoires de santé" (article L1434-11 du code de la santé publique).
 
 L'Alsace est découpée, du nord au sud, en 4 territoires de santé:
 
@@ -46,7 +45,7 @@ L'Alsace est découpée, du nord au sud, en 4 territoires de santé:
 - Le territoire 3 (Colmar)
 - Le territoire 4 (Mulhouse)
 
-```{r, echo=FALSE,message=FALSE}
+```{r, echo=FALSE,message=FALSE, fig.align='center'}
 # fond de carte des territoires de santé + villes principales
 library("sp")
 par(mar = c(0,0,2,0))
@@ -71,7 +70,7 @@ title(main="Territoires de santé d'Alsace")
 ```
 
 
-Population
+Population `r anc`:
 
 ```{r, echo=FALSE, results='asis'}
 pop.ts.2012 <- read.csv("../../../../Stat Resural/RPU_Doc/RPU_Carto-Pop-Alsace/Demographie/data/pop_ts_2012.csv")
@@ -80,12 +79,12 @@ pop.ts.2012$p <- round(pop.ts.2012$Population * 100 / sum(pop.ts.2012$Population
 names(pop.ts.2012) <- c("Territoire", "Population", "%")
 
 library(xtable)
-print.xtable(xtable(pop.ts.2012))
+print.xtable(xtable(pop.ts.2012), format.args = list(big.mark = " ", decimal.mark = ","), comment = FALSE)
 
 ```
 
 Offre de soins régionale
-========================
+------------------------
 
 La région Alsace dispose de 31 structures d'urgence (SU) qui se répartissent en:
 
@@ -101,35 +100,106 @@ Sites gégraphiques d'accueil des urgences:
 
 - Territoire de santé 1
 
-- CH de Wissembourg (SU polyvalent + SMUR)
-- CH de Haguenau (SU polyvalent + SMUR)
-- CH de Saverne  (SU polyvalent + SMUR)
+        - CH de Wissembourg (SU polyvalent + SMUR)
+        - CH de Haguenau (SU polyvalent + SMUR)
+        - CH de Saverne  (SU polyvalent + SMUR)
+
 - Territoire de santé 2
 
-- CHU de Strasbourg
-- NHC (SU adulte)
-- Hôpital de Hautepierre (SU adulte + SU pédiatrique)
-- Pôle logistique (SAMU + SMUR + Hélismur)
-- Clinique Sainte Odile (SU polyvalent)
-- Clinique Sainte Anne (SU polyvalent)
-- Clinique du Diaconat (SU Mains)
+        - CHU de Strasbourg
+        - NHC (SU adulte)
+        - Hôpital de Hautepierre (SU adulte + SU pédiatrique)
+        - Pôle logistique (SAMU + SMUR + Hélismur)
+        - Clinique Sainte Odile (SU polyvalent)
+        - Clinique Sainte Anne (SU polyvalent)
+        - Clinique du Diaconat (SU Mains)
+        
 - Territoire de santé 3
 
-- CH de Sélestat (SU polyvalent + SMUR)
-- CH de Colmar 
-- Hôpital Pasteur (SU polyvalent + SMUR)
-- Hôpital du parc (SU pédiatrique)
-- CH de Guebwiller (SU polyvalent)
+        - CH de Sélestat (SU polyvalent + SMUR)
+        - CH de Colmar 
+        - Hôpital Pasteur (SU polyvalent + SMUR)
+        - Hôpital du parc (SU pédiatrique)
+        - CH de Guebwiller (SU polyvalent)
+        
 - Territoire de santé 4
 
-- CH de Thann (SU polyvalent)
-- CH d'Altkirch (SU polyvalent)
-- CH de Mulhouse
-- Hôpital Emile Muller (SU polyvalent + SAMU + SMUR + Hélismur)
-- Hôpital du Hasenrain (SU pédiatrique)
-- Clinique des 3 frontières (SU polyvalent)
-- Clinique du Diaconat-Fonderie (SU polyvalent)
-- Clinique du Diaconat-Roosvelt (SU Mains)
+        - CH de Thann (SU polyvalent)
+        - CH d'Altkirch (SU polyvalent)
+        - CH de Mulhouse
+        - Hôpital Emile Muller (SU polyvalent + SAMU + SMUR + Hélismur)
+        - Hôpital du Hasenrain (SU pédiatrique)
+        - Clinique des 3 frontières (SU polyvalent)
+        - Clinique du Diaconat-Fonderie (SU polyvalent)
+        - Clinique du Diaconat-Roosvelt (SU Mains)
 
 En `r anc` tous ces établissements ont fourni des RPU sauf le CH THANN.
+
+Cartographie de l’offre de soins d'urgence
+---------------------------------------------
+
+```{r samu_smur_su, fig.height=12, fig.align='center'}
+
+# Carte des SU d'Alsace
+
+# library(sp)
+# library(png)
+
+par(mar = c(0,0,2,0))
+
+# carte de l'Alsace avec les villes sièges de SU
+load("../../../../Stat Resural/RPU_Doc/RPU_Carto-Pop-Alsace/Cartographie/Cartofile/als_ts.Rda") #ctss
+plot(ctss, main = "Structures d'urgences en Alsace")
+load("../../../../Stat Resural/RPU_Doc/RPU_Carto-Pop-Alsace/Cartographie/Cartofile/tsvilles.Rda")
+points(tsvilles[,2]*100,tsvilles[,3]*100,pch=20,col="red", cex = 1.2)
+text(tsvilles[,2]*100,tsvilles[,3]*100,tsvilles[,1],cex=0.8,pos=4)
+box()
+
+# SMUR
+smur <- tsvilles[tsvilles$NOM %in% c('WISSEMBOURG','HAGUENAU','SAVERNE','STRASBOURG','SELESTAT','COLMAR','MULHOUSE'),]
+a.smur <- as.raster(readPNG("../../Logos/data/ambulance15(14).png"))
+cx <- 6000 # coefficient d'aggrandissement (n = 9000)
+x <- smur[,2]*100
+y <- smur[,3]*100
+dpy <- 600 # déplacement de y (une valeur positive déplace vers le haut)
+dpx <- 0 # déplacement horizontal
+rasterImage(a.smur, x, y + dpy, x + cx, y + dpy + cx) # img, x1, y1, x2, y2
+
+# SAMU
+samu <- tsvilles[tsvilles$NOM %in% c('STRASBOURG', 'MULHOUSE'),]
+a.samu <- as.raster(readPNG("../../Logos/data/customer(3).png"))
+rasterImage(a.samu, samu[,2]*100 - 10000, samu[,3]*100, samu[,2]*100 - 10000 + 10000, samu[,3]*100 + 10000)
+
+# hélismur
+a.heli <- as.raster(readPNG("../../Logos/data/chopper5(7).png"))
+x <- samu[,2]*100
+y <- samu[,3]*100
+cx <- 15000
+dpx <- 8000
+dpy <- 12000
+rasterImage(a.heli, x - dpx, y - dpy, x - dpx + cx, y + cx - dpy )
+
+# légende
+x <- 1037503 + 20000
+y <- 6810919 - 10000
+
+rasterImage(a.samu, x, y, x + 10000, y + 10000)
+text(x + 10000, y + 5000, "SAMU", pos=4)
+
+x <- x
+y <- y - 10000
+rasterImage(a.smur, x, y, x + 10000, y + 10000)
+text(x + 10000, y + 5000, "SMUR", pos=4)
+
+library(graphics) # cercle
+x <- x + 5000
+y <- y - 5000
+symbols(x, y, circles = 1500, bg = "red", add = TRUE, inches = FALSE)
+text(x + 8000, y , "SU", pos=4)
+
+x <- x - 5000
+y <- y - 12000
+rasterImage(a.heli, x, y, x + 10000, y + 10000)
+text(x + 10000, y + 5000, "HELISMUR", pos=4)
+```
 

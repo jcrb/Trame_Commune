@@ -95,6 +95,9 @@ if(test == 0){
 
 #source(paste0(path, "RPU_Doc/mes_constantes.R"))
 
+anc <- 2014    # année courante
+anp <- anc - 1 # année précédente
+
 n.rpu <- nrow(dx) # nb de passages dans l'année
 
 # RPU corrigés: on retire les RPU où l'orientation est égale à "FUGUE","PSA","REO"
@@ -124,117 +127,26 @@ LE MOT DU PRÉSIDENT DE LA FEDORU
 ```{r test, child = '../mot_du_president_2014.Rmd'}
 ```
 
+Sources de données
+==================
+
+Sources d'information
+----------------------
+
+Qualité des données
+-------------------
+```{r contexte, child = '1-Qualite/qualite.Rmd'}
+```
+
 Le contexte régional
 ====================
 
 ```{r contexte, child = '3-Contexte/contexte.Rmd'}
 ```
 
-Description de l’offre de soins
-===============================
-
-```{r samu_smur_su, fig.height=12, fig.align='center'}
-
-# Carte des SU d'Alsace
-
-# library(sp)
-# library(png)
-
-par(mar = c(0,0,2,0))
-
-# carte de l'Alsace avec les villes sièges de SU
-load("../../../Stat Resural/RPU_Doc/RPU_Carto-Pop-Alsace/Cartographie/Cartofile/als_ts.Rda") #ctss
-plot(ctss, main = "Structures d'urgences en Alsace")
-load("../../../Stat Resural/RPU_Doc/RPU_Carto-Pop-Alsace/Cartographie/Cartofile/tsvilles.Rda")
-points(tsvilles[,2]*100,tsvilles[,3]*100,pch=20,col="red", cex = 1.2)
-text(tsvilles[,2]*100,tsvilles[,3]*100,tsvilles[,1],cex=0.8,pos=4)
-box()
-
-# SMUR
-smur <- tsvilles[tsvilles$NOM %in% c('WISSEMBOURG','HAGUENAU','SAVERNE','STRASBOURG','SELESTAT','COLMAR','MULHOUSE'),]
-a.smur <- as.raster(readPNG("../Logos/data/ambulance15(14).png"))
-cx <- 6000 # coefficient d'aggrandissement (n = 9000)
-x <- smur[,2]*100
-y <- smur[,3]*100
-dpy <- 600 # déplacement de y (une valeur positive déplace vers le haut)
-dpx <- 0 # déplacement horizontal
-rasterImage(a.smur, x, y + dpy, x + cx, y + dpy + cx) # img, x1, y1, x2, y2
-
-# SAMU
-samu <- tsvilles[tsvilles$NOM %in% c('STRASBOURG', 'MULHOUSE'),]
-a.samu <- as.raster(readPNG("../Logos/data/customer(3).png"))
-rasterImage(a.samu, samu[,2]*100 - 10000, samu[,3]*100, samu[,2]*100 - 10000 + 10000, samu[,3]*100 + 10000)
-
-# hélismur
-a.heli <- as.raster(readPNG("../Logos/data/chopper5(7).png"))
-x <- samu[,2]*100
-y <- samu[,3]*100
-cx <- 15000
-dpx <- 8000
-dpy <- 12000
-rasterImage(a.heli, x - dpx, y - dpy, x - dpx + cx, y + cx - dpy )
-
-# légende
-x <- 1037503 + 20000
-y <- 6810919 - 10000
-
-rasterImage(a.samu, x, y, x + 10000, y + 10000)
-text(x + 10000, y + 5000, "SAMU", pos=4)
-
-x <- x
-y <- y - 10000
-rasterImage(a.smur, x, y, x + 10000, y + 10000)
-text(x + 10000, y + 5000, "SMUR", pos=4)
-
-library(graphics) # cercle
-x <- x + 5000
-y <- y - 5000
-symbols(x, y, circles = 1500, bg = "red", add = TRUE, inches = FALSE)
-text(x + 8000, y , "SU", pos=4)
-
-x <- x - 5000
-y <- y - 12000
-rasterImage(a.heli, x, y, x + 10000, y + 10000)
-text(x + 10000, y + 5000, "HELISMUR", pos=4)
-```
+![graphe](3-Contexte/Figs/samu_smur_su.png)
 
 
-
-Qualité des données 
--------------------
-Réalisation d’un diagramme radar présentant l’exhaustivité des items RPU.
-
-```{r completude, echo = FALSE, fig.width=10}
-# calcul de la complétude. La complétude brute est corrigée pour les rubriques orientation et detination.
-# comp <- completude(dx[, -c(1,7)]) # on retire les colonnes sans intérêt: id, EXTRACT
-# on réordonne les colonnes (ordre FEDORU)
-dx2 <- dx[, c("FINESS","id","EXTRACT","CODE_POSTAL","COMMUNE","NAISSANCE","SEXE","ENTREE","MODE_ENTREE","PROVENANCE","TRANSPORT","TRANSPORT_PEC","SORTIE","MODE_SORTIE","DESTINATION","ORIENTATION","MOTIF","GRAVITE","DP")]
-
-comp <- completude(dx2, calcul = "percent")
-s.comp <- completude(dx2, calcul = "somme")
-
-rm(dx2)
-
-# barplot
-par(mar = c(4,6,3,1))
-barplot(sort(comp), horiz = TRUE, las = 1, cex.names = 0.8, xlab = "% de complétude", main = "Complétude des champs RPU", col = "light green")
-abline(v = 80, lty = 2, col = "red")
-```
-
-```{r radar, echo = FALSE, fig.width=10}
-# Tracé du diagrame en étoile
-par(mar =c (0,0,0,0))
-radar.completude(completude(dx))
-```
-
-Complétude en valeur absolue:
-```{r, echo=FALSE, comment=""}
-s.comp
-```
-Complétude en pourcentages:
-```{r, echo=FALSE, comment=""}
-comp
-```
 
 Les chiffres clés de l’activité des services d’urgences
 =======================================================
@@ -244,8 +156,7 @@ Le format des chiffres clés est celui défini par la FEDORU. Il est commun à t
 Recueil des données
 -------------------
 ```{r chiffres, echo=FALSE, comment=""}
-anc <- 2014    # année courante
-anp <- anc - 1 # année précédente
+
 n.rpu <- nrow(dx) # nb de passages dans l'année
 n.jours <- length(unique(as.Date(dx$ENTREE))) # nb de jours pour la période
 
@@ -521,7 +432,9 @@ Variation du nombre de RPU entre les mois d'été (juillet-août) et les autres 
 
 ```{r transpport, echo=FALSE, comment=""}
 s <- summary.transport(dx$TRANSPORT)
+
 n.transport <- s['n.rens'] # nb de moyens de transport renseignés
+p.transport <- s['p.rens'] 
 n.transport.perso <- s['n.perso']
 p.transport.perso <- n.transport.perso / n.transport
 n.transport.ambu <- s['n.ambu']
@@ -542,6 +455,7 @@ chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 ```
 
+- %(N) moyens de reansport renseignés:  __`r round(p.transport * 100, 2)` %__ (N = `r format.n(n.transport)`)
 - %(N) d'arrivée personnel: __`r round(n.transport.perso * 100 / n.transport, 2)` %__ (N = `r format.n(n.transport.perso)`)
 - %(N) d'arrivée SMUR: __`r round(n.transport.smur * 100 / n.transport, 2)` %__ (N = `r format.n(n.transport.smur)`)
 - %(N) d'arrivée VSAB: __`r round(n.transport.vsab * 100 / n.transport, 2)` %__ (N = `r format.n(n.transport.vsab)`)
@@ -613,13 +527,7 @@ Exhaustivité CCMU :
 
 ### Diagnostic principal 
 
-Remarque: les chiffres sont dans le document _Codes_regroupement_ORUMIP_ => à rajouter.
-
-- %  Médico-chirurgical: __`r round(136816*100/247196, 2)` %__ (`r format.n(136816)`)
-- %  Traumatologique: __`r round(91907*100/247196, 2)` %__ (`r format.n(91907)`)
-- %  Psychiatrique: __`r round(6185*100/247196, 2)` %__ (`r format.n(6185)`)
-- %  Toxicologique: __`r round(4847*100/247196, 2)` %__ (`r format.n(4847)`)
-- %  Autres recours: __`r round(7441*100/247196, 2)` %__ (`r format.n(7441)`)
+Les diagnostics principaux sont regroupés selon la méthode préconisée par la FEDORU.
 
 ```{r dp, echo=FALSE}
 # load("~/Documents/Stat Resural/Codes_regroupement_ORUMIP/d3.Rda") # d3 contient les données mergées
@@ -628,20 +536,18 @@ Remarque: les chiffres sont dans le document _Codes_regroupement_ORUMIP_ => à r
 # levels(d3$TYPE.URGENCES)
 # "Autre recours", "Médico-chirurgical", "Psychiatrique", "Toxicologique", "Traumatologique"
 s <- summary.type.urgence(d3$TYPE.URGENCES)
-
+mc <- summary.medico.chir(d3)
 ```
-- % Médico-chirurgical: `r round(s['p.medico.chir']*100, 2)` %
-
-        - dont :
+- % Médico-chirurgical: __`r round(s['p.medico.chir']*100, 2)` %__ dont :
         
-                - % cardio vasculaire:
-                - % neuro:
-                - % digestif:
-                - % respiratoire:
-- %  Traumatologique: `r round(s['p.traumato']*100, 2)` %
-- %  Psychiatrique: `r round(s['p.psy']*100, 2)` %
-- %  Toxicologique: `r round(s['p.tox']*100, 2)` %
-- %  Autres recours: `r round(s['p.autres.recours']*100, 2)` %
+    - % cardio vasculaire: __`r round(mc['p.cardio'] * 100, 2)` %__
+    - % neuro: __`r round(mc['p.neuro'] * 100, 2)` %__
+    - % digestif: __`r round(mc['p.abdo'] * 100, 2)` %__
+    - % respiratoire: __`r round(mc['p.pneumo'] * 100, 2)` %__
+- %  Traumatologique: __`r round(s['p.traumato']*100, 2)` %__
+- %  Psychiatrique: __`r round(s['p.psy']*100, 2)` %__
+- %  Toxicologique: __`r round(s['p.tox']*100, 2)` %__
+- %  Autres recours: __`r round(s['p.autres.recours']*100, 2)` %__
 
 
 ### Durées de passage
@@ -840,8 +746,8 @@ chiffres <- c(chiffres, val)
 - % (N) Hospitalisation: __`r round(n.hospitalises * 100 / n.mode.sortie, 2)` %__ (N = `r format.n(n.hospitalises)`)
 - % (N) Mutation: __`r round(n.mutations * 100 / n.mode.sortie, 2)` %__ (N = `r format.n(n.mutations)`)
 - % (N) Transfert: __`r round(n.transferts * 100 / n.mode.sortie, 2)` %__ (N = `r format.n(n.transferts)`)
-- Nb de RPU 2014  avec mode de sortie = 6 ou 7 (hospitalisation) avec un élément transmis pour la destination: __`r n.hosp.dest`__
-- Nb de RPU 2014 avec mode de sortie = 6 ou 7 avec un élement transmis pour l'orientation: __`r n.hosp.orient`__
+- Nb de RPU 2014  avec mode de sortie = 6 ou 7 (hospitalisation) __avec__ un élément transmis pour la destination: __`r format.n(n.hosp.dest)`__
+- Nb de RPU 2014 avec mode de sortie = 6 ou 7 __avec__ un élement transmis pour l'orientation: __`r format.n(n.hosp.orient)`__
 
 
 Les chiffres clés de l’activité des SAMU
@@ -866,7 +772,7 @@ chiffres <- c(chiffres, val)
 
 ```
 
-- Nombre de dossiers de régulation médicale (DRM): `r drm`
+- Nombre de dossiers de régulation médicale (DRM): `r format.n(drm)`
 - Nombre de SMUR : `r format.n(smur_primaires + smur_secondaires + smur_neonat)`
     - dont primaires: `r format.n(smur_primaires)`
 - Nombre d’ambulances privées à la demande du SAMU: `r format.n(assu)`
@@ -1059,14 +965,15 @@ print.table.rpu(t.ccmu.ped, caption, type = xtable.type)
 # levels(d3$TYPE.URGENCES)
 # "Autre recours", "Médico-chirurgical", "Psychiatrique", "Toxicologique", "Traumatologique"
 s <- summary.type.urgence(d3$TYPE.URGENCES[d3$AGE < 18])
-
+mc <- summary.medico.chir(d3[d3$AGE < 18,])
 ```
-- % Médico-chirurgical: `r round(s['p.medico.chir']*100, 2)` %
-        - dont :
-                - % cardio vasculaire:
-                - % neuro:
-                - % digestif:
-                - % respiratoire:
+- % Médico-chirurgical: `r round(s['p.medico.chir']*100, 2)` % dont :
+
+    - % cardio vasculaire: __`r round(mc['p.cardio'] * 100, 2)` %__
+    - % neuro: __`r round(mc['p.neuro'] * 100, 2)` %__
+    - % digestif: __`r round(mc['p.abdo'] * 100, 2)` %__
+    - % respiratoire: __`r round(mc['p.pneumo'] * 100, 2)` %__
+    - % infectieux: __`r round(mc['p.infectio'] * 100, 2)` %__
 - %  Traumatologique: `r round(s['p.traumato']*100, 2)` %
 - %  Psychiatrique: `r round(s['p.psy']*100, 2)` %
 - %  Toxicologique: `r round(s['p.tox']*100, 2)` %
@@ -1078,18 +985,18 @@ s <- summary.type.urgence(d3$TYPE.URGENCES[d3$AGE < 18])
 ```{r passages_ped, echo=FALSE}
 # nombre de passages de nuit 20h-8h
 n.passages.nuit <- passages2(pop18$ENTREE, "nuit")
-p.passages.nuit <- n.passages.nuit / n.pop18
+p.passages.nuit <- n.passages.nuit[1] / n.pop18
 
 n.passages.nuit.profonde <- passages2(pop18$ENTREE, "nuit_profonde")
-p.passages.nuit.profonde <- n.passages.nuit.profonde / n.pop18
+p.passages.nuit.profonde <- n.passages.nuit.profonde[1] / n.pop18
 #---------------------- Chiffres ---------------------------------------------------------------
 val <- c(NA)
 names(val) <- c("")
 chiffres <- c(chiffres, val)
 #---------------------- Chiffres ---------------------------------------------------------------
 ```
-- nombre de passages la nuit: `r format.n(n.passages.nuit)` (p = `r round(p.passages.nuit * 100, 2)` %)
-- nombre de passages en nuit profonde: `r format.n(n.passages.nuit.profonde)` (p = `r round(p.passages.nuit.profonde * 100, 2)` %)
+- nombre de passages la nuit: `r format.n(n.passages.nuit[1])` (p = `r round(p.passages.nuit * 100, 2)` %)
+- nombre de passages en nuit profonde: `r format.n(n.passages.nuit.profonde[1])` (p = `r round(p.passages.nuit.profonde * 100, 2)` %)
 
 ### Durée de passage
 
