@@ -1724,11 +1724,13 @@ print.summary.rpu <- function(x, sens = "colonne", cnames = NULL, rnames = NULL,
 # factor2table
 #
 #===============================================
-#' 
+#' @title crée une table à 2 colonnes
 #' @description crée un résumé sous forme de table à 2 colonnes: fréquence et pourcentage
+#' @usage factor2table(vx, pc = TRUE)
 #' @param vx un vecteur de facteurs ou d'entiers
 #' @param pc si TRUE crée une colonne de %
-#' @usage a <- c(1,2,3,4,5,5,5,5,1,1,2); factor2table(a); print.table.rpu(a)
+#' @return une table
+#' @examples a <- c(1,2,3,4,5,5,5,5,1,1,2); factor2table(a); print.table.rpu(a)
 #'              Fréq.     %
 #'            1     3 27.27
 #'            2     2 18.18
@@ -1737,6 +1739,7 @@ print.summary.rpu <- function(x, sens = "colonne", cnames = NULL, rnames = NULL,
 #'            5     4 36.36
 #'            
 #'            factor2table(pop18$GRAVITE, TRUE)
+#' @export
 #' 
 factor2table <- function(vx, pc = TRUE){
     if(class(vx) == "factor")
@@ -1762,7 +1765,10 @@ factor2table <- function(vx, pc = TRUE){
 #' @param dx un dataframe de type RPU
 #' @section Warning:
 #' Cette fonction n'est pas terminée.
-#'   
+#' @return n.so.conforme.dom, n.duree.passage.inf4h.dom, p.passages.en.moins.de.4h.dom, n.so.conforme.hosp,
+#' n.duree.passage.inf4h.hosp, p.duree.passage.inf4h.hosp
+#' @export
+#' 
 passages.en.moins.de.4h <- function(dx){
     so <- dx[!is.na(dx$SORTIE), c("ENTREE","SORTIE", "MODE_SORTIE")]
     e <- ymd_hms(so$ENTREE)
