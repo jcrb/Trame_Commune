@@ -66,7 +66,7 @@ if(host == "MacBook-Air-de-JCB.local" | host == "Air-de-JCB"){
     
 }else if(host == "XPS"){#XPS
     
-    path <- "../../../Stat Resural/RPU_2014/"
+    path <- "../../../Stat Resural/RPU_2014/" # console path <- "../../Stat Resural/RPU_2014/"
     sae <- read.csv("../../../Stat Resural/RPU_Doc/mes_constantes2_sae.csv")
     source("../../../Stat Resural/RPU_Doc/mes_constantes.R")
       load("../../Codes_regroupement_ORUMIP/Analyse_regroupements/d3.Rda") # d3 contient les données mergées
@@ -2151,17 +2151,7 @@ print.table.rpu(passages, caption = paste0(es_nom, anc, " - Durées de passage s
 SU non SMUR, non SAMU, non CHU
 ------------------------------
 
-ES avec SU isolé (pas de SMUR associé): 8 établissements
-
-- Ste Anne
-- Ste Odile
-- Diaconat Strasbourg
-- CH de Guebwiller
-- CH de Thann (pas de RPU)
-- CH d'Altkirch
-- Clinique des 3 frontières
-- Roosvelt
-- Fonderie
+ES avec SU isolé (pas de SMUR associé), 8 établissements: clinique Ste Anne (GHSV), clinique Ste Odile (RHENA), Diaconat Strasbourg (RHENA), CH de Guebwiller, CH de Thann (pas de RPU), CH d'Altkirch, Clinique des 3 frontières (GHMSA), Diaconat-Roosvelt, Siaconat-Fonderie.
 
 ```{r esnsns, echo= FALSE, comment=""}
 
@@ -2362,15 +2352,6 @@ print.xtable(xtable(t, caption = paste0("Chiffres clés des SU d'Alsace en ", an
 
 ```
 
-Doublons ?
-==========
-
-- Age moyen, année N
-- Répartition par classe âge en pourcentage, année N
-- Répartition par sexe en pourcentage, année N
-- TOP 5 pourcentage par code CIM 10, année N
-- Répartition we/semaine en pourcentage, année N
-- Répartition par tranche heure en pourcentage, année N
 
 ```{r enregistre_chiffres, echo=FALSE}
  write.csv(chiffres, row.names = names(chiffres), file = paste("chiffres_", anc, ".csv", sep = ""))
@@ -2425,8 +2406,12 @@ ANNEXE 1 : Définitions
 ANNEXE 2 : Diagramme de complétude des RPU
 ------------------------------------------
 
-ANNEXE 3 : Calcul du TARRU
+ANNEXE 3 : Méthodologie
 --------------------------
+
+### Calcul du TARRU
+taux de recours (de la région ou département) : nombre de passages dans les services d’urgences (de la région ou département) de patients résidant dans une zone donnée (code postal ou commune) divisé par la population estimée de cette zone sur la période donnée.
+
 
 Information de session
 ======================

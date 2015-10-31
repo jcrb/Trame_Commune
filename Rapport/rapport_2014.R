@@ -109,6 +109,8 @@ completude <- function(dx, calcul = "percent", tri = FALSE){
     completude['ORIENTATION'] <- completude.hosp['ORIENTATION']
     completude['DESTINATION'] <- completude.hosp['DESTINATION']
     
+    dom <- dx[dx$MODE_SORTIE == "DOMICILE", c("DESTINATION", "ORIENTATION")]
+    
     #' Correction pour DP. Cette rubrique ne peut pas être remplie dans le cas où ORIENTATION =
     #' FUGUE, PSA, SCAM, REO
     # exemple d'utilisation de NOT IN
@@ -1801,7 +1803,34 @@ passages.en.moins.de.4h <- function(dx){
            n.duree.passage.inf4h.hosp, p.duree.passage.inf4h.hosp)
     
     return(a)
-    
-    
 }
 
+#===============================================
+#
+# p.isna
+#
+#===============================================
+# pour mesurer le pourcentage de non réponses
+#
+#' @title Pourcentage de NA
+#' @description Pourcentage de NA dans un vecteur
+#' @usage p.isna(x)
+#' @param x un vecteur quelconque
+#' @return un pourcentage
+#' 
+p.isna <- function(x){return(mean(is.na(x)))}
+
+#===============================================
+#
+# n.isna
+#
+#===============================================
+# pour mesurer le pourcentage de non réponses
+#
+#' @title Nombre de NA
+#' @description Nombre de NA dans un vecteur
+#' @usage n.isna(x)
+#' @param x un vecteur quelconque
+#' @return en entier
+#' 
+n.isna <- function(x){return(sum(is.na(x)))}
