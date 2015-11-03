@@ -16,7 +16,8 @@ library(sp)
 
 # routine chalandise
 # source('~/Documents/RESURAL/Trame_Commune/Rapport/rapport_2014.R')
-source('~/Documents/RESURAL/Trame_Commune/Zone_chalandise/zone_chalandise.R')
+# source('~/Documents/RESURAL/Trame_Commune/Zone_chalandise/zone_chalandise.R')
+source('~/Documents/Resural/FEDORU/Trame_Commune/Zone_chalandise/zone_chalandise.R')
 
 # on supprime les marges pour les cartes
 par(mar = c(0,0,0,0))
@@ -40,7 +41,10 @@ La base de données attachée au fichier donne les indications suivantes:
 
 ```{r cp67, echo=FALSE}
 # cartographie des CP du bas-Rhin
-file <- "~/Documents/Stat Resural/carto&pop/cp67.Rda"
+# file <- "~/Documents/Stat Resural/carto&pop/cp67.Rda"
+# XPS
+file <- "~/Documents/Resural/Stat Resural/RPU_Doc/RPU_Carto-Pop-Alsace/Cartographie/Cartofile/cp67.Rda"
+
 load(file) # données = cp67
 # base de données associée
 data.cp <- cp67@data
@@ -74,7 +78,8 @@ Le nombre de RPU pour un CP peut être extrait de la base RPU.
 
 ```{r rpu, echo=FALSE}
 # on récupère les RPU de 2014 (d14)
-load("~/Documents/Stat Resural/RPU_2014/rpu2014d0112_c2.Rda")
+# load("~/Documents/Stat Resural/RPU_2014/rpu2014d0112_c2.Rda")
+load("~/Documents/Resural/Stat Resural/RPU_2014/rpu2014d0112_c2.Rda")
 ```
 
 Liste des CP et des RPU
