@@ -101,6 +101,7 @@ carte.recours <- function(sp, palette = "Oranges", titre = "", q = NULL, names =
     
     # palette de length(q) - 1 couleurs
     greypal <- brewer.pal(n = length(q) - 1, name = palette)
+    greypal[1] <- "#FFFFFF" # moins de 1% = blanc
     
     # nom.col.taux <- "TAUX"
     # taux <- paste("sp@data$", nom.col.taux, sep="") # à tester sp@data$TAUX
