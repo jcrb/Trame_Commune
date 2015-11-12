@@ -1,5 +1,5 @@
 ---
-title: "Chiffres clés - CH Mulhouse"
+title: "Chiffres clés - GHMSA"
 author: "RESURAL"
 date: "27 août 2015"
 output:
@@ -18,8 +18,8 @@ output:
 # - le TARRU (ligne 53)
 ```
 
-Chiffres Clés du CH Mulhouse en `r anc`
-================================
+Chiffres Clés du GHMSA - E.Muller en `r anc`
+====================================
 
 ```{r date, echo=FALSE}
 # à adapter:
@@ -27,9 +27,13 @@ hop <- "Emr"
 titre <- "GHMSA - SU Emile Muller"
 
 #-----------------------------------------------------
+
 n.rpu.anp <- rpu[hop, paste0("X",anp)] # nombre de RPU année précédente
 n.sae <- sae[hop, paste0("X",anc)] # données SAE année courante
 dx <- dx[dx$FINESS == hop,]
+# si période limitée
+dx <- dx[as.Date(dx$ENTREE) > "2015-08-31",]
+
 max.date <- max(as.Date(dx$ENTREE))
 min.date <- min(as.Date(dx$ENTREE))
 n.jour <- as.numeric(max.date - min(as.Date(dx$ENTREE)))
@@ -37,8 +41,8 @@ n.jour <- as.numeric(max.date - min(as.Date(dx$ENTREE)))
 
 ```
 
-Date de point: `r format(max.date, "%d/%m/%Y")`
-Date de début: `r format(min.date, "%d/%m/%Y")`
+- Date de point: `r format(max.date, "%d/%m/%Y")`
+- Date de début: `r format(min.date, "%d/%m/%Y")`
 
 Recueil des données
 -------------------

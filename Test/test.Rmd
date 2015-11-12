@@ -8,7 +8,7 @@ output: html_document
 Version mise à jour le: __`r format(Sys.Date(), "%d/%m/%Y")`__
 
 ```{r titre, echo=FALSE}
-anc <- 2014 # année courante
+anc <- 2015 # année courante
 anp <- anc - 1
 ```
 

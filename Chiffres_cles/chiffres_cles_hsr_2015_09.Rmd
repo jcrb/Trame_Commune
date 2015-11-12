@@ -1,5 +1,5 @@
 ---
-title: "Chiffres clés - CH Mulhouse"
+title: "Chiffres clés - GHMSA"
 author: "RESURAL"
 date: "27 août 2015"
 output:
@@ -18,18 +18,22 @@ output:
 # - le TARRU (ligne 53)
 ```
 
-Chiffres Clés du CH Mulhouse en `r anc`
-================================
+Chiffres Clés du GHMSA - Hasenrain en septembre `r anc`
+====================================
 
 ```{r date, echo=FALSE}
 # à adapter:
-hop <- "Emr"
-titre <- "GHMSA - SU Emile Muller"
+hop <- "Hsr"
+titre <- "GHMSA - SU Hasenrain"
 
 #-----------------------------------------------------
+
 n.rpu.anp <- rpu[hop, paste0("X",anp)] # nombre de RPU année précédente
 n.sae <- sae[hop, paste0("X",anc)] # données SAE année courante
 dx <- dx[dx$FINESS == hop,]
+# si période limitée
+dx <- dx[as.Date(dx$ENTREE) > "2015-08-31" & as.Date(dx$ENTREE) < "2015-10-01",]
+
 max.date <- max(as.Date(dx$ENTREE))
 min.date <- min(as.Date(dx$ENTREE))
 n.jour <- as.numeric(max.date - min(as.Date(dx$ENTREE)))
@@ -37,8 +41,8 @@ n.jour <- as.numeric(max.date - min(as.Date(dx$ENTREE)))
 
 ```
 
-Date de point: `r format(max.date, "%d/%m/%Y")`
-Date de début: `r format(min.date, "%d/%m/%Y")`
+- Date de point: `r format(max.date, "%d/%m/%Y")`
+- Date de début: `r format(min.date, "%d/%m/%Y")`
 
 Recueil des données
 -------------------
@@ -179,22 +183,7 @@ s <- summary.passages(duree.passage2(dx))
 |  lors d'une hospitalisation  |  `r round(s['n.hosp.passage4'])`  |  `r round(s['n.hosp.passage4']*100/s['n.conforme'], 2)` %  |
 |  lors d'un retour à domicile  |  `r round(s['n.dom.passage4'])`  |  `r round(s['n.dom.passage4']*100/s['n.conforme'], 2)` %  |
 
-### Pour les 75 ans ou plus
 
-```{r pop75, echo=FALSE}
-pop75 <- dx[!is.na(dx$AGE) & dx$AGE > 74,]
-s <- summary.passages(duree.passage2(pop75))
-```
-
-  Durée de passage  |  heures  |
-|-----|-----:|-----:|
-|  moyenne  |  `r mn2h(s['duree.moyenne.passage'])`  |
-|  médiane  |  `r mn2h(s['duree.mediane.passage'])`  |
-
-  Passages de moins de 4 heures  |  n  |  %  |
-|-----|-----:|-----:|-----:|
-|  lors d'une hospitalisation  |  `r round(s['n.hosp.passage4'])`  |  `r round(s['n.hosp.passage4']*100/s['n.conforme'], 2)` %  |
-|  lors d'un retour à domicile  |  `r round(s['n.dom.passage4'])`  |  `r round(s['n.dom.passage4']*100/s['n.conforme'], 2)` %  |
 
 Diagramme de complétude
 =======================
