@@ -9,7 +9,7 @@ graphics: yes
 Qualité des données 
 -------------------
 
-La qualité des données se mesure par deux critères: l'exhaustivité et . Une exaustivité d'au moins 80% est souhaitable por l'ensemble des items du RPU.
+La qualité des données se mesure par deux critères: l'exhaustivité et la conformité. Une exaustivité d'au moins 80% est souhaitable por l'ensemble des items du RPU.
 
 Mesure de l’exhaustivité des items RPU:
 

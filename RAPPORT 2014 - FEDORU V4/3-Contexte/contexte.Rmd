@@ -6,9 +6,11 @@ output: pdf_document
 graphics: yes
 ---
 
+```{r test, child = '../../00-Initialisation/init.Rmd'}
+```
+
 ```{r, echo=FALSE}
 # Le contexte régional
-anc <- 2014
 library(png)
 ```
 ```{r global_options, include=FALSE}

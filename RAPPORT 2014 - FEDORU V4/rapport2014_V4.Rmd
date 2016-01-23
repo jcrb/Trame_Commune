@@ -215,8 +215,8 @@ chiffres <- c(chiffres, val)
 #---------------------- Chiffres end -----------------------------------------------------------
 ```
 
-- %(N) Femme: `r round(p.femme, 2)` % (`r format.n(n.hommes)`)
-- %(N) Homme: `r round(p.homme, 2)` % (`r format.n(n.femmes)`)
+- %(N) Femme: `r round(p.femme, 2)` % (`r format.n(n.femmes)`)
+- %(N) Homme: `r round(p.homme, 2)` % (`r format.n(n.hommes)`)
 - Sex ratio: __`r sex.ratio`__
 - Taux de masculinité: `r tx.masculinite`
 

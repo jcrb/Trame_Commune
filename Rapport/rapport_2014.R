@@ -258,6 +258,38 @@ completude.time <- function(dx, finess,  time = "month"){
     return(t)
 }
 
+#======================================================
+#
+# Taux complétude d'un item pour l'ensemble des FINESS
+#
+#======================================================
+
+#' @title Taux de complétude d'un item pour l'ensemble des FINESS
+#' @description Pour une des rubriques du RPU calcule le taux de réponse (complétude)
+#'pour chacun des établissements de santé.
+#' @usage completude.par.item(dx, item, sum = FALSE)
+#' @param dx un dataframe comportant au minimum 2 colonnes
+#' @param item l'item à analyser
+#' @param sum boolean. Si FALSE (default) retourne les pourcentages correspondants. Sinon retourne la somme.
+#' @param isna boolean. Si FALSE (default) retourne le pourcentage de réponses renseignées
+#' @return un vecteur nommé (nom = FINESS)
+#' @examples completude <- completude.par.item(dx, "MODE_SORTIE")
+#' radial.plot(as.numeric(completude), rp.type="p", labels = names(completude), main = "Mode de sortie")
+#' 
+#' c <- completude.par.item(dx, "DP")
+#' radial.plot(as.numeric(c), rp.type="p", labels = names(completude), main = "DP")
+#' @export
+#' 
+completude.par.item <- function(dx, item, sum = FALSE, isna = FALSE){
+    vx <- dx[, item]
+    if(sum == FALSE)
+        completude <- tapply(vx, dx$FINESS, p.isna)
+    else
+        completude <- tapply(vx, dx$FINESS, n.isna)
+    if(isna == FALSE)
+        completude <- 1 - completude
+    return(completude)
+}
 #===============================================
 #
 # Ordonner les colonnes du dataframe
@@ -1834,3 +1866,33 @@ p.isna <- function(x){return(mean(is.na(x)))}
 #' @return en entier
 #' 
 n.isna <- function(x){return(sum(is.na(x)))}
+
+#------------------------------------------------------------------
+#
+#   attribJoin
+#
+#------------------------------------------------------------------
+#'@source R et espace p.196
+#'@author groupe ElementR
+#'@description cette fonction réalise une jonction entre une table attributaire (daframe 
+#'associé à un shapefile) et des données externes contenues dans un tableau. La procédure
+#'utilise match qui ne modifie pas l'ordre des lignes de la table attributaire (contrairement 
+#'à merge). L'ordre des lignes de la table attributaire doit impérativement correspondre à 
+#'l'ordre de la composante cartographique.
+#'@param df le tableau externe
+#'@param spdf objet spatial 
+#'@param df.field variable de jointure (tableau externe)
+#'@param spdf.field variable de jointure (objet spatial)
+#'@usage a <- attribJoin(df = cp.hus, spdf = cp67, df.field = "CP", spdf.field = "ID")
+#'       b <- a@data
+#'
+attribJoin <- function(df, spdf, df.field, spdf.field){
+    if(is.factor(spdf@data[, spdf.field]) == TRUE){
+        spdf@data[, spdf.field] <- as.character(spdf@data[, spdf.field])
+    }
+    if(is.factor(df[, df.field]) == TRUE){
+        df[, df.field] <- as.character(df[, df.field])
+    }
+    spdf@data <- data.frame(spdf@data, df[match(spdf@data[, spdf.field], df[, df.field]),])
+    return(spdf)
+}
