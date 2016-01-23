@@ -27,7 +27,7 @@ titre <- "Clinique Sainte Anne"
 n.rpu.anp <- rpu[hop, paste0("X",anp)] # n.rpu.2013.hag
 n.sae <- sae[hop, paste0("X",anc)] # passages.2014.SAE.hag
 
-dx <- dx[dx$FINESS == hop,]
+dx <- dx[dx$FINESS == hop & as.Date(dx$ENTREE) > as.Date("2015-11-30"),]
 max.date <- max(as.Date(dx$ENTREE))
 min.date <- min(as.Date(dx$ENTREE))
 n.jour <- as.numeric(max.date - min(as.Date(dx$ENTREE)))

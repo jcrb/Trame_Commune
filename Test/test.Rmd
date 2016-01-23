@@ -8,7 +8,7 @@ output: html_document
 Version mise à jour le: __`r format(Sys.Date(), "%d/%m/%Y")`__
 
 ```{r titre, echo=FALSE}
-anc <- 2015 # année courante
+anc <- 2016 # année courante
 anp <- anc - 1
 ```
 
@@ -50,7 +50,7 @@ if(host == "MacBook-Air-de-JCB.local" | host == "Air-de-JCB"){
     sae <- read.csv("../../../Stat Resural/RPU_Doc/mes_constantes2_sae.csv")
     rownames(sae) <- sae[, 1]
     #
-    load("/home/jcb/Documents/Resural/Stat Resural/RPU_Codes/merge2015.Rda") # xps
+    load("/home/jcb/Documents/Resural/Stat Resural/RPU_Codes/Analyse_regroupements/merge2015.Rda") # xps
     
     # load("../../Codes_regroupement_ORUMIP/Analyse_regroupements/d3.Rda") # d3 contient les données mergées
     source('../../Codes_regroupement_ORUMIP/Analyse_regroupements/regroupement.R')
@@ -69,6 +69,8 @@ if(anc == 2014)
     file <- "rpu2014d0112_c2.Rda" else # données de 2014
 if(anc == 2015)
     file <- "rpu2015d0112_provisoire.Rda" # données de 2015
+if(anc == 2016)
+    file <- "rpu2016d0112_provisoire.Rda" # données de 2016
 
 load(paste0(path, file))
 
@@ -79,4 +81,8 @@ if(anc == 2014){
 if(anc == 2015){
     dx <- d15 # si file actif
     rm(d15)
+    }
+if(anc == 2016){
+    dx <- d16 # si file actif
+    rm(d16)
     }
