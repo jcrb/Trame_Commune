@@ -64,12 +64,12 @@ La fonction __chalandise__ permet de créer ce dataframe.
 
 ```
      CP   RPU
-1 67100 10375
-2 67000  2812
-3 67200  2014
-4 67400  1659
-5 67380   703
-6 67300   597
+1 67100 10843
+2 67000  2945
+3 67200  2194
+4 67400  1650
+5 67380   640
+6 67540   574
 ```
 
 Jointure cp67 et FINESS
@@ -88,10 +88,10 @@ Le programme affiche en jaune les zones où au moins 1 patient à eu recours au 
 
 ```
     Min.  1st Qu.   Median     Mean  3rd Qu.     Max.     NA's 
-0.000299 0.001427 0.004744 0.013750 0.018000 0.130500        7 
+0.000264 0.001433 0.004810 0.014040 0.018190 0.136400        8 
 ```
 
-![](zone_chalandise_files/figure-html/taux-1.png) 
+![](zone_chalandise_files/figure-html/taux-1.png)
 
 
 Cartographie selon le taux de recours
@@ -108,7 +108,7 @@ Les taux de recours sont discrédités en 5 niveaux pour rester compatible avec 
 ## [1] 100
 ```
 
-![](zone_chalandise_files/figure-html/nuancier-1.png) 
+![](zone_chalandise_files/figure-html/nuancier-1.png)
 
 Utilisation des fonctions de zone_chalandise.R
 ----------------------------------------------
@@ -121,7 +121,8 @@ cp.rpu.hop <- attribJoin(df = cp.hop, spdf = cp67, df.field = "CP", spdf.field =
 carte.recours(cp.rpu.hop, titre = "Zone d'attractivité du SU Saverne")
 ```
 
-![](zone_chalandise_files/figure-html/unnamed-chunk-2-1.png) 
+![](zone_chalandise_files/figure-html/unnamed-chunk-2-1.png)
+
 
 ```r
 hop <- "Hag"
@@ -130,7 +131,8 @@ cp.rpu.hop <- attribJoin(df = cp.hop, spdf = cp67, df.field = "CP", spdf.field =
 carte.recours(cp.rpu.hop, titre = "Zone d'attractivité du SU Haguenau")
 ```
 
-![](zone_chalandise_files/figure-html/unnamed-chunk-2-2.png) 
+![](zone_chalandise_files/figure-html/unnamed-chunk-3-1.png)
+
 
 ```r
 hop <- "Wis"
@@ -139,7 +141,28 @@ cp.rpu.hop <- attribJoin(df = cp.hop, spdf = cp67, df.field = "CP", spdf.field =
 carte.recours(cp.rpu.hop, titre = "Zone d'attractivité du SU Wissembourg")
 ```
 
-![](zone_chalandise_files/figure-html/unnamed-chunk-2-3.png) 
+![](zone_chalandise_files/figure-html/unnamed-chunk-4-1.png)
+
+
+```r
+hop <- "HTP"
+cp.hop <- chalandise(d14, "CODE_POSTAL", hop)
+cp.rpu.hop <- attribJoin(df = cp.hop, spdf = cp67, df.field = "CP", spdf.field = "ID")
+carte.recours(cp.rpu.hop, titre = "Zone d'attractivité du SU des HUS\n SU Hautepierre")
+```
+
+![](zone_chalandise_files/figure-html/unnamed-chunk-5-1.png)
+
+
+```r
+hop <- "NHC"
+cp.hop <- chalandise(d14, "CODE_POSTAL", hop)
+cp.rpu.hop <- attribJoin(df = cp.hop, spdf = cp67, df.field = "CP", spdf.field = "ID")
+carte.recours(cp.rpu.hop, titre = "Zone d'attractivité du SU des HUS\n SU NHC")
+```
+
+![](zone_chalandise_files/figure-html/unnamed-chunk-6-1.png)
+
 
 ```r
 hop <- "Hus"
@@ -148,7 +171,6 @@ cp.rpu.hop <- attribJoin(df = cp.hop, spdf = cp67, df.field = "CP", spdf.field =
 carte.recours(cp.rpu.hop, titre = "Zone d'attractivité du SU des HUS")
 ```
 
-![](zone_chalandise_files/figure-html/unnamed-chunk-2-4.png) 
 
 ```r
 hop <- "Ane"
@@ -157,7 +179,8 @@ cp.rpu.hop <- attribJoin(df = cp.hop, spdf = cp67, df.field = "CP", spdf.field =
 carte.recours(cp.rpu.hop, titre = "Zone d'attractivité du SU Sainte Anne")
 ```
 
-![](zone_chalandise_files/figure-html/unnamed-chunk-2-5.png) 
+![](zone_chalandise_files/figure-html/unnamed-chunk-8-1.png)
+
 
 ```r
 hop <- "Odi"
@@ -166,7 +189,8 @@ cp.rpu.hop <- attribJoin(df = cp.hop, spdf = cp67, df.field = "CP", spdf.field =
 carte.recours(cp.rpu.hop, titre = "Zone d'attractivité du SU Ste Odile")
 ```
 
-![](zone_chalandise_files/figure-html/unnamed-chunk-2-6.png) 
+![](zone_chalandise_files/figure-html/unnamed-chunk-9-1.png)
+
 
 ```r
 hop <- "Dts"
@@ -175,7 +199,8 @@ cp.rpu.hop <- attribJoin(df = cp.hop, spdf = cp67, df.field = "CP", spdf.field =
 carte.recours(cp.rpu.hop, titre = "Zone d'attractivité SOS Mains Diaconat")
 ```
 
-![](zone_chalandise_files/figure-html/unnamed-chunk-2-7.png) 
+![](zone_chalandise_files/figure-html/unnamed-chunk-10-1.png)
+
 
 ```r
 hop <- "Sel"
@@ -184,7 +209,8 @@ cp.rpu.hop <- attribJoin(df = cp.hop, spdf = cp67, df.field = "CP", spdf.field =
 carte.recours(cp.rpu.hop, titre = "Zone d'attractivité du SU Sélestat")
 ```
 
-![](zone_chalandise_files/figure-html/unnamed-chunk-2-8.png) 
+![](zone_chalandise_files/figure-html/unnamed-chunk-11-1.png)
+
 
 ```r
 hop <- "Sel"
@@ -193,7 +219,8 @@ cp.rpu.hop <- attribJoin(df = cp.hop, spdf = cp68, df.field = "CP", spdf.field =
 carte.recours(cp.rpu.hop, titre = "Zone d'attractivité du SU Sélestat")
 ```
 
-![](zone_chalandise_files/figure-html/unnamed-chunk-2-9.png) 
+![](zone_chalandise_files/figure-html/unnamed-chunk-12-1.png)
+
 
 ```r
 hop <- "Col"
@@ -202,7 +229,8 @@ cp.rpu.hop <- attribJoin(df = cp.hop, spdf = cp68, df.field = "CP", spdf.field =
 carte.recours(cp.rpu.hop, titre = "Zone d'attractivité du SU Colmar")
 ```
 
-![](zone_chalandise_files/figure-html/unnamed-chunk-2-10.png) 
+![](zone_chalandise_files/figure-html/unnamed-chunk-13-1.png)
+
 
 ```r
 hop <- "Col"
@@ -211,7 +239,8 @@ cp.rpu.hop <- attribJoin(df = cp.hop, spdf = cp67, df.field = "CP", spdf.field =
 carte.recours(cp.rpu.hop, titre = "Zone d'attractivité du SU Colmar")
 ```
 
-![](zone_chalandise_files/figure-html/unnamed-chunk-2-11.png) 
+![](zone_chalandise_files/figure-html/unnamed-chunk-14-1.png)
+
 
 ```r
 hop <- "Geb"
@@ -220,7 +249,8 @@ cp.rpu.hop <- attribJoin(df = cp.hop, spdf = cp68, df.field = "CP", spdf.field =
 carte.recours(cp.rpu.hop, titre = "Zone d'attractivité du SU Guebwiller")
 ```
 
-![](zone_chalandise_files/figure-html/unnamed-chunk-2-12.png) 
+![](zone_chalandise_files/figure-html/unnamed-chunk-15-1.png)
+
 
 ```r
 hop <- "Alk"
@@ -229,7 +259,7 @@ cp.rpu.hop <- attribJoin(df = cp.hop, spdf = cp68, df.field = "CP", spdf.field =
 carte.recours(cp.rpu.hop, titre = "Zone d'attractivité du SU Altkirch")
 ```
 
-![](zone_chalandise_files/figure-html/unnamed-chunk-2-13.png) 
+![](zone_chalandise_files/figure-html/unnamed-chunk-16-1.png)
 
 ```r
 hop <- "3Fr"
@@ -238,7 +268,7 @@ cp.rpu.hop <- attribJoin(df = cp.hop, spdf = cp68, df.field = "CP", spdf.field =
 carte.recours(cp.rpu.hop, titre = "Zone d'attractivité du SU ST Louis")
 ```
 
-![](zone_chalandise_files/figure-html/unnamed-chunk-2-14.png) 
+![](zone_chalandise_files/figure-html/unnamed-chunk-16-2.png)
 
 ```r
 hop <- "Mul"
@@ -247,7 +277,7 @@ cp.rpu.hop <- attribJoin(df = cp.hop, spdf = cp68, df.field = "CP", spdf.field =
 carte.recours(cp.rpu.hop, titre = "Zone d'attractivité du SU Mulhouse")
 ```
 
-![](zone_chalandise_files/figure-html/unnamed-chunk-2-15.png) 
+![](zone_chalandise_files/figure-html/unnamed-chunk-16-3.png)
 
 ```r
 hop <- "Dia"
@@ -256,7 +286,7 @@ cp.rpu.hop <- attribJoin(df = cp.hop, spdf = cp68, df.field = "CP", spdf.field =
 carte.recours(cp.rpu.hop, titre = "Zone d'attractivité du SU Diaconat-Fonderie")
 ```
 
-![](zone_chalandise_files/figure-html/unnamed-chunk-2-16.png) 
+![](zone_chalandise_files/figure-html/unnamed-chunk-16-4.png)
 
 ```r
 hop <- "Ros"
@@ -265,7 +295,7 @@ cp.rpu.hop <- attribJoin(df = cp.hop, spdf = cp68, df.field = "CP", spdf.field =
 carte.recours(cp.rpu.hop, titre = "Zone d'attractivité du SU Diaconat-Roosvelt")
 ```
 
-![](zone_chalandise_files/figure-html/unnamed-chunk-2-17.png) 
+![](zone_chalandise_files/figure-html/unnamed-chunk-16-5.png)
 
 
 
@@ -274,7 +304,7 @@ carte.recours(cp.rpu.hop, titre = "Zone d'attractivité du SU Diaconat-Roosvelt"
 plot(cp67)
 ```
 
-![](zone_chalandise_files/figure-html/unnamed-chunk-3-1.png) 
+![](zone_chalandise_files/figure-html/unnamed-chunk-17-1.png)
 
 ```r
 a <- names(cp.hus)
@@ -283,7 +313,7 @@ a <- names(cp.hus)
 plot(cp67, col = ifelse(cp67$ID %in% a, "red", "white"))
 ```
 
-![](zone_chalandise_files/figure-html/unnamed-chunk-3-2.png) 
+![](zone_chalandise_files/figure-html/unnamed-chunk-17-2.png)
 
 Dessiner avec des nuances de couleur selon la fréquentation
 
@@ -306,7 +336,7 @@ Fusion des CP
 ## Checking rgeos availability: TRUE
 ```
 
-![](zone_chalandise_files/figure-html/fusion-1.png) ![](zone_chalandise_files/figure-html/fusion-2.png) 
+![](zone_chalandise_files/figure-html/fusion-1.png)![](zone_chalandise_files/figure-html/fusion-2.png)
 
 Récupérer les coordonnées des polygones
 =======================================

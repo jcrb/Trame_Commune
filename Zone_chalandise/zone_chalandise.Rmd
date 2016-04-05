@@ -96,8 +96,10 @@ Le nombre de RPU pour un CP peut être extrait de la base RPU.
 
 ```{r rpu, echo=FALSE}
 # on récupère les RPU de 2014 (d14)
-# load("~/Documents/Stat Resural/RPU_2014/rpu2014d0112_c2.Rda")
-load("~/Documents/Resural/Stat Resural/RPU_2014/rpu2014d0112_c2.Rda")
+#load("../../../Stat Resural/DATA/RPU_2014/rpu2014d0112_c2.Rda")
+
+load("../../../Stat Resural/DATA/RPU_2015/rpu2015d0112.Rda") # d15
+d14 <- d15
 ```
 
 Liste des CP et des RPU
@@ -245,62 +247,100 @@ hop <- "Sav"
 cp.hop <- chalandise(d14, "CODE_POSTAL", hop)
 cp.rpu.hop <- attribJoin(df = cp.hop, spdf = cp67, df.field = "CP", spdf.field = "ID")
 carte.recours(cp.rpu.hop, titre = "Zone d'attractivité du SU Saverne")
+```
 
+```{r, fig.height=8}
 hop <- "Hag"
 cp.hop <- chalandise(d14, "CODE_POSTAL", hop)
 cp.rpu.hop <- attribJoin(df = cp.hop, spdf = cp67, df.field = "CP", spdf.field = "ID")
 carte.recours(cp.rpu.hop, titre = "Zone d'attractivité du SU Haguenau")
+```
 
+```{r, fig.height=8}
 hop <- "Wis"
 cp.hop <- chalandise(d14, "CODE_POSTAL", hop)
 cp.rpu.hop <- attribJoin(df = cp.hop, spdf = cp67, df.field = "CP", spdf.field = "ID")
 carte.recours(cp.rpu.hop, titre = "Zone d'attractivité du SU Wissembourg")
+```
 
+```{r, fig.height=8, eval = TRUE}
+hop <- "HTP"
+cp.hop <- chalandise(d14, "CODE_POSTAL", hop)
+cp.rpu.hop <- attribJoin(df = cp.hop, spdf = cp67, df.field = "CP", spdf.field = "ID")
+carte.recours(cp.rpu.hop, titre = "Zone d'attractivité du SU des HUS\n SU Hautepierre")
+```
+
+```{r, fig.height=8, eval = TRUE}
+hop <- "NHC"
+cp.hop <- chalandise(d14, "CODE_POSTAL", hop)
+cp.rpu.hop <- attribJoin(df = cp.hop, spdf = cp67, df.field = "CP", spdf.field = "ID")
+carte.recours(cp.rpu.hop, titre = "Zone d'attractivité du SU des HUS\n SU NHC")
+```
+
+```{r, fig.height=8, eval = FALSE}
 hop <- "Hus"
 cp.hop <- chalandise(d14, "CODE_POSTAL", hop)
 cp.rpu.hop <- attribJoin(df = cp.hop, spdf = cp67, df.field = "CP", spdf.field = "ID")
 carte.recours(cp.rpu.hop, titre = "Zone d'attractivité du SU des HUS")
+```
 
+```{r, fig.height=8}
 hop <- "Ane"
 cp.hop <- chalandise(d14, "CODE_POSTAL", hop)
 cp.rpu.hop <- attribJoin(df = cp.hop, spdf = cp67, df.field = "CP", spdf.field = "ID")
 carte.recours(cp.rpu.hop, titre = "Zone d'attractivité du SU Sainte Anne")
+```
 
+```{r, fig.height=8}
 hop <- "Odi"
 cp.hop <- chalandise(d14, "CODE_POSTAL", hop)
 cp.rpu.hop <- attribJoin(df = cp.hop, spdf = cp67, df.field = "CP", spdf.field = "ID")
 carte.recours(cp.rpu.hop, titre = "Zone d'attractivité du SU Ste Odile")
+```
 
+```{r, fig.height=8}
 hop <- "Dts"
 cp.hop <- chalandise(d14, "CODE_POSTAL", hop)
 cp.rpu.hop <- attribJoin(df = cp.hop, spdf = cp67, df.field = "CP", spdf.field = "ID")
 carte.recours(cp.rpu.hop, titre = "Zone d'attractivité SOS Mains Diaconat")
+```
 
+```{r, fig.height=8}
 hop <- "Sel"
 cp.hop <- chalandise(d14, "CODE_POSTAL", hop)
 cp.rpu.hop <- attribJoin(df = cp.hop, spdf = cp67, df.field = "CP", spdf.field = "ID")
 carte.recours(cp.rpu.hop, titre = "Zone d'attractivité du SU Sélestat")
+```
 
+```{r, fig.height=8}
 hop <- "Sel"
 cp.hop <- chalandise(d14, "CODE_POSTAL", hop)
 cp.rpu.hop <- attribJoin(df = cp.hop, spdf = cp68, df.field = "CP", spdf.field = "ID")
 carte.recours(cp.rpu.hop, titre = "Zone d'attractivité du SU Sélestat")
+```
 
+```{r, fig.height=8}
 hop <- "Col"
 cp.hop <- chalandise(d14, "CODE_POSTAL", hop)
 cp.rpu.hop <- attribJoin(df = cp.hop, spdf = cp68, df.field = "CP", spdf.field = "ID")
 carte.recours(cp.rpu.hop, titre = "Zone d'attractivité du SU Colmar")
+```
 
+```{r, fig.height=8}
 hop <- "Col"
 cp.hop <- chalandise(d14, "CODE_POSTAL", hop)
 cp.rpu.hop <- attribJoin(df = cp.hop, spdf = cp67, df.field = "CP", spdf.field = "ID")
 carte.recours(cp.rpu.hop, titre = "Zone d'attractivité du SU Colmar")
+```
 
+```{r, fig.height=8}
 hop <- "Geb"
 cp.hop <- chalandise(d14, "CODE_POSTAL", hop)
 cp.rpu.hop <- attribJoin(df = cp.hop, spdf = cp68, df.field = "CP", spdf.field = "ID")
 carte.recours(cp.rpu.hop, titre = "Zone d'attractivité du SU Guebwiller")
+```
 
+```{r, fig.height=8}
 hop <- "Alk"
 cp.hop <- chalandise(d14, "CODE_POSTAL", hop)
 cp.rpu.hop <- attribJoin(df = cp.hop, spdf = cp68, df.field = "CP", spdf.field = "ID")
