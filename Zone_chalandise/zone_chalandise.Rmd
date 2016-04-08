@@ -17,8 +17,12 @@ library(sp)
 
 # routine chalandise
 # source('~/Documents/RESURAL/Trame_Commune/Rapport/rapport_2014.R')
-# source('~/Documents/RESURAL/Trame_Commune/Zone_chalandise/zone_chalandise.R')
-source('~/Documents/Resural/FEDORU/Trame_Commune/Zone_chalandise/zone_chalandise.R')
+
+# pour Macbook
+ source('~/Documents/RESURAL/Trame_Commune/Zone_chalandise/zone_chalandise.R')
+# pour IMac:
+
+# source('~/Documents/Resural/FEDORU/Trame_Commune/Zone_chalandise/zone_chalandise.R')
 
 # on supprime les marges pour les cartes
 par(mar = c(0,0,0,0))
@@ -45,9 +49,10 @@ La base de données attachée au fichier donne les indications suivantes:
 
 ```{r cp67, echo=FALSE}
 # cartographie des CP du bas-Rhin
-# file <- "~/Documents/Stat Resural/carto&pop/cp67.Rda"
-# XPS
-file <- "~/Documents/Resural/Stat Resural/RPU_Doc/RPU_Carto-Pop-Alsace/Cartographie/Cartofile/cp67.Rda"
+# pour Macbook
+file <- "~/Documents/Stat Resural/carto&pop/cp67.Rda"
+# XPS & IMac
+# file <- "~/Documents/Resural/Stat Resural/RPU_Doc/RPU_Carto-Pop-Alsace/Cartographie/Cartofile/cp67.Rda"
 
 load(file) # données = cp67
 # base de données associée
@@ -77,8 +82,10 @@ Ici la zone est l'aire couverte par le code postal (CP).
 Haut-Rhin
 ---------
 ```{r, echo=FALSE}
-# XPS
-file <- "~/Documents/Resural/Stat Resural/RPU_Doc/RPU_Carto-Pop-Alsace/Cartographie/Cartofile/cp68.Rda"
+# Macbook
+file <- "~/Documents/Stat Resural/carto&pop/cp68.Rda"
+# XPS @ IMac
+# file <- "~/Documents/Resural/Stat Resural/RPU_Doc/RPU_Carto-Pop-Alsace/Cartographie/Cartofile/cp68.Rda"
 load(file) # données = cp68
 b <- as.character(cp68@data$LIB)
 Encoding(b) <- "latin1"
@@ -98,6 +105,9 @@ Le nombre de RPU pour un CP peut être extrait de la base RPU.
 # on récupère les RPU de 2014 (d14)
 #load("../../../Stat Resural/DATA/RPU_2014/rpu2014d0112_c2.Rda")
 
+# IMac
+ #load("../../../Stat Resural/DATA/RPU_2015/rpu2015d0112.Rda") # d15
+# Macboook
 load("../../../Stat Resural/DATA/RPU_2015/rpu2015d0112.Rda") # d15
 d14 <- d15
 ```
@@ -153,7 +163,7 @@ par <- old
 Cartographie selon le taux de recours
 =====================================
 
-Le programme affiche une carte où les CP sont coliriés avec une échelle de couleur progressive en fonction du taux de recours.
+Le programme affiche une carte où les CP sont coloriés avec une échelle de couleur progressive en fonction du taux de recours.
 
 L'échelle de couleur est crée à partir de la librairie __RColorBrewer__ sur la base d'une palette de neuf nuances.
 
@@ -167,7 +177,11 @@ library(RColorBrewer)
 # ============ partie commune =====================
 
 # Récupère le fond de carte des CP
-file <- "~/Documents/Resural/Stat Resural/RPU_Doc/RPU_Carto-Pop-Alsace/Cartographie/Cartofile/cp67.Rda"
+# Imac
+# file <- "~/Documents/Resural/Stat Resural/RPU_Doc/RPU_Carto-Pop-Alsace/Cartographie/Cartofile/cp67.Rda"
+# Mcbook
+file <- "~/Documents/Stat Resural/RPU_Doc/RPU_Carto-Pop-Alsace/Cartographie/Cartofile/cp67.Rda"
+
 load(file) # données = cp67 = SpatialPolygonDataFrame
 data.cp <- cp67@data # partie attributaire
 # correction des caractères accentués (nom descommunes), les données provenant de windows...
@@ -238,6 +252,23 @@ text(par()$usr[1]+5050, par()$usr[3]+2700, "10 km", cex = 0.8)
 #              abline(h = seq(bbox["y","min"], bbox["y","max"], 10000), lty = 2, col = "black")
 
 ```
+
+Modifier le zoom de la carte
+----------------------------
+
+La carte d'un département est caractérisée par un rectangle englobant dont les dimensions sont stockées sous forme de _matrice_ dans le slot _bbox_. Par défaut le rectangle d'impression est limit par la bbox. Pour aggrandir une image, il suffit de réduire les dimensions du rectangle englobant.
+```{r}
+bbox <- cp67@bbox
+a <- cp67@bbox
+plot(cp67, axes = TRUE)
+a
+b <- matrix(c(988703, 1082671, 6840000, 6880000), nrow = 2, byrow = T)
+cp67@bbox <- b
+plot(cp67, axes = TRUE)
+
+cp67@bbox <- bbox
+```
+
 
 Utilisation des fonctions de zone_chalandise.R
 ----------------------------------------------
