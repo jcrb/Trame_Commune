@@ -39,9 +39,9 @@ if(host == "MacBook-Air-de-JCB.local" | host == "Air-de-JCB"){
     rownames(rpu) <- rpu[, 1]
     sae <- read.csv("../../../Stat Resural/RPU_Doc/mes_constantes2_sae.csv")
     rownames(sae) <- sae[, 1]
-    
+
     load("../../../Stat Resural/Rpu_Codes/merge2015.Rda")
-    
+
 }else if(host == "XPS"){#XPS
     path <- "../../../Stat Resural/RPU_2014/"
     source("../../../Stat Resural/RPU_Doc/mes_constantes.R")
@@ -51,16 +51,26 @@ if(host == "MacBook-Air-de-JCB.local" | host == "Air-de-JCB"){
     rownames(sae) <- sae[, 1]
     #
     load("/home/jcb/Documents/Resural/Stat Resural/RPU_Codes/Analyse_regroupements/merge2015.Rda") # xps
-    
+
     # load("../../Codes_regroupement_ORUMIP/Analyse_regroupements/d3.Rda") # d3 contient les données mergées
     source('../../Codes_regroupement_ORUMIP/Analyse_regroupements/regroupement.R')
-    
+
     #load("../../../Stat Resural/Codes_regroupement_ORUMIP/d3.Rda") # fichier mergé d3
     # ajout d'une colonne durée de passage. Nécessite la librairie passage.R
     source('../../../Stat Resural/RPU_2014/Analyse/Temps_passage/passage.R')# pour MAC
-    
+
 }else if(host == "P171I16"){# HUS
     path <- paste0("../RPU_", anc, "-master/")
+} else
+
+if(host == "iMac-de-Jean-Claude.local"){
+    path <- "../../../Stat Resural/DATA/RPU_2016/"
+    source("../../../Stat Resural/RPU_Doc/mes_constantes.R")
+    rpu <- read.csv("../../../Stat Resural/RPU_Doc/mes_constantes2_rpu.csv")
+    rownames(rpu) <- rpu[, 1]
+    sae <- read.csv("../../../Stat Resural/RPU_Doc/mes_constantes2_sae.csv")
+    rownames(sae) <- sae[, 1]
+    load("../../../Stat Resural/RPU_Codes/Analyse_regroupements/merge2015.Rda") 
 }
 
 source('../Rapport/rapport_2014.R') # routines pour le rapport d'activité
@@ -70,7 +80,7 @@ if(anc == 2014)
 if(anc == 2015)
     file <- "rpu2015d0112_provisoire.Rda" # données de 2015
 if(anc == 2016)
-    file <- "rpu2016d0112_provisoire.Rda" # données de 2016
+    file <- "rpu2016d0112.Rda" # données de 2016
 
 load(paste0(path, file))
 
